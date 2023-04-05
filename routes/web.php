@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -33,3 +34,11 @@ Route::middleware([
         return Inertia::render('Dashboard');
     })->name('dashboard');
 });
+
+//Publication
+
+// Route::get('/publier',[Controller::class,'publier'])->name('publier');
+Route::get('/publier', [Controller::class, 'publier'])->name('publier');
+// Route::get('/pp', function () {
+//     return Inertia('Publier');
+// })->name('publier');
