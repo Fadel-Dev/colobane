@@ -10,8 +10,8 @@ use Illuminate\Routing\Controller as BaseController;
 
 class PostController extends Controller
 {
-    // public function Section() 
-    // {
-    //     return Inertia::render('Section.Vehicule');
-    // }
+    public function Section($section) 
+    {
+        return Inertia::render('Section/'.$section);
+    }
 }

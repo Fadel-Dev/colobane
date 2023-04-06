@@ -16,8 +16,5 @@ class Controller extends BaseController
     return Inertia::render('Publier');
 }
 
-public function Section() 
-{
-    return Inertia::render('Vehicule');
-}
+
 }
