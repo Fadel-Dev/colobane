@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\PostController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -39,6 +40,7 @@ Route::middleware([
 
 // Route::get('/publier',[Controller::class,'publier'])->name('publier');
 Route::get('/publier', [Controller::class, 'publier'])->name('publier');
-// Route::get('/pp', function () {
-//     return Inertia('Publier');
-// })->name('publier');
+
+
+// ******************************************************FOR MAIN SECTION POST
+Route::get('/publier/vehicule', [Controller::class,'Section'])->name('vehicule');
