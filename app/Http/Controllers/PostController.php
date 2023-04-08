@@ -14,4 +14,9 @@ class PostController extends Controller
     {
         return Inertia::render('Section/'.$section);
     }
+
+    public function Article($article) 
+    {
+        return Inertia::render('Categories/'.$article);
+    }
 }

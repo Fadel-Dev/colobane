@@ -43,4 +43,8 @@ Route::get('/publier', [Controller::class, 'publier'])->name('publier');
 
 
 // ******************************************************FOR MAIN SECTION POST
-Route::get('/p/{section}', [PostController::class,'Section'])->name('vehicule');
+Route::get('/p/{section}', [PostController::class,'Section'])->name('section');
+
+// ******************************************************FOR MAIN ARTICLE
+Route::get('/publication/{article}',[PostController::class,'Article'])->name('article');
+
