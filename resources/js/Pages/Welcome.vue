@@ -19,28 +19,38 @@ defineProps({
             <Link v-if="$page.props.auth.user" :href="route('dashboard')" class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Dashboard</Link>
 
             <template v-else>
-                <Link :href="route('login')" class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Log in</Link>
+               <div class="grid grid-cols-3">
+                <div class="menu bg-red-600">
+                    <h2>Acceuill</h2>
+                    <h2>Multi</h2>
+                    <h2>Service</h2>
+                </div>
+                <div class="auth">
+                    <Link :href="route('login')" class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Log in</Link>
 
                 <Link v-if="canRegister" :href="route('register')" class="ml-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Register</Link>
-            </template>
+           
+                </div>
+               </div>
+             </template>
         </div>
 <!-- BEGINNING -->
         <div class="max-w-7xl mx-auto p-6 lg:p-8">
-            <div class="flex justify-center">
+            <!-- <div class="flex justify-center">
                  <a href="publier">publier</a>
-                <!-- <a href="{{ route('home') }}"> -->
+                <a href="{{ route('home') }}"> 
 
 
-            </div>
+            </div> -->
 
             <div class="mt-16">
                 <div class="grid grid-cols-1 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 xsm:grid-cols-1 gap-6 lg:gap-3">
-                    <div  v-for="produit in produits">
+                    <div  v-for="produit in produits" :key="produit.id">
                         <a href="https://laravel.com/docs" class="scale-100 p-1 bg-white dark:bg-gray-800/50 dark:bg-gradient-to-bl from-gray-700/50 via-transparent dark:ring-1 dark:ring-inset dark:ring-white/5 rounded-lg shadow-2xl shadow-gray-500/20 dark:shadow-none flex motion-safe:hover:scale-[1.01] transition-all duration-250 focus:outline focus:outline-2 focus:outline-red-500">
                             <div class="card w-5/5 mt-2 border-b-4 shadow-xl">
                 <div class="img">
                     <a href="#">
-                    <!-- <img  class="w-full"  src="https://www.notebookcheck.biz/fileadmin/Notebooks/News/_nc3/Samsung_Galaxy_S_Series_Hands_On_29_von_3339.jpg"  alt=""> -->
+                    <img  class="w-full"  src="https://www.notebookcheck.biz/fileadmin/Notebooks/News/_nc3/Samsung_Galaxy_S_Series_Hands_On_29_von_3339.jpg"  alt="">
 
                     </a>
                 </div>

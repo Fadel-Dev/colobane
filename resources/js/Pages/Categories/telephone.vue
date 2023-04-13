@@ -1,167 +1,131 @@
+<script setup>
+import { useForm } from "@inertiajs/vue3"
+  const lead = useForm({
+    nom: null,
+    stockage: null,
+            marque: null,
+            prix: null,
+            description: null,
+            region: null,
+            image: null,
+})
+
+function handleSubmit() {
+  lead.post('/telephone/save')
+}
+   </script>
 <template>
-    <Head title="ajout" />
+ <div class="p-6">
+    <form @submit.prevent="handleSubmit">       
+      <div class="mb-4">
+          <label class="block text-gray-700 font-bold mb-2" 
+          for="nom">
+              Nom
+          </label>
+          <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+             id="nom"
+             name="nom"
+             type="text"
+             placeholder="Entrez le nom"
+             v-model="lead.nom"
+             required>
+      </div>
 
-   
+      <div class="mb-4">
+      <select class="border border-gray-300 rounded-full text-gray-600 h-10 pl-5 pr-10 bg-white hover:border-gray-400 focus:outline-none appearance-none"
+      name="marque"
+      id="marque"
+      v-model="lead.marque"
+      required >
+      <option value="apple">Apple</option>
+  <option value="samsung">Samsung</option>
+  <option value="huawei">Huawei</option>
+  <option value="xiaomi">Xiaomi</option>
+  <option value="sony">Sony</option>
+  <option value="nokia">Nokia</option>
+  <option value="motorola">Motorola</option>
+  <option value="lg">LG</option>
+  <option value="autreTelephone">Autes</option>
+</select>
+  </div>
 
-        <form @submit.prevent="submit">
-            <div>
-                <InputLabel for="nom" value="Nom" />
-                <TextInput
-                    id="nom"
-                    v-model="form.name"
-                    type="text"
-                    class="mt-1 block w-full"
-                    required
-                    autofocus
-                    autocomplete="nom"
-                />
-            </div>
+  <div class="mb-4">
+          <label class="block text-gray-700 font-bold mb-2" 
+          for="stockage">
+              stockage
+          </label>
+          <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+             id="stockage"
+             name="stockage"
+             type="text"
+             placeholder="1999"
+             v-model="lead.stockage"
+             required>
+      </div>
 
-            <div class="mt-4">
-                <InputLabel for="marque" value="Marque" />
-                <TextInput
-                    id="marque"
-                    v-model="form.marque"
-                    type="text"
-                    class="mt-1 block w-full"
-                    required
-                    autocomplete="marque"
-                />
-            </div>
+      <div class="mb-4">
+          <label class="block text-gray-700 font-bold mb-2" for="price">
+              Prix
+          </label>
+          <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+             id="prix" 
+             type="text" 
+             placeholder="Entrez le prix"
+             name="prix"
+             v-model="lead.prix"
+             required>
+      </div>
+      <div class="mb-4">
+          <label class="block text-gray-700 font-bold mb-2" for="description">
+              Description
+          </label>
+          <textarea class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+             id="description" rows="5" 
+             name="description" 
+             v-model="lead.description" 
+             placeholder="Entrez la description"
+             required></textarea>
+      </div>
+      <div class="mb-4">
+          <label class="block text-gray-700 font-bold mb-2" 
+             for="image"
+             >
+              Image
+          </label>
+          <input type="file" @input="lead.image = $event.target.files[0]" />
+          <progress v-if="lead.progress" :value="lead.progress.percentage" max="100">
+   {{ lead.progress.percentage }}%
+ </progress>
+      </div>
 
-            <div class="mt-4">
-                <InputLabel for="description" value="Description" />
-                <TextInput
-                    id="description"
-                    v-model="form.description"
-                    type="text"
-                    class="mt-1 block w-full"
-                    required
-                    autocomplete="description"
-                />
-            </div>
+  <div class="mb-4">
+      <select class="border border-gray-300 rounded-full text-gray-600 h-10 pl-5 pr-10 bg-white hover:border-gray-400 focus:outline-none appearance-none"
+      name="region"
+      id="region"
+      v-model="lead.region"
+      required >
+      <option value="Dakar">Dakar</option>
+<option value="Diourbel">Diourbel</option>
+<option value="Fatick">Fatick</option>
+<option value="Kaffrine">Kaffrine</option>
+<option value="Kaolack">Kaolack</option>
+<option value="Kédougou">Kédougou</option>
+<option value="Kolda">Kolda</option>
+<option value="Louga">Louga</option>
+<option value="Matam">Matam</option>
+<option value="Saint-Louis">Saint-Louis</option>
+<option value="Sédhiou">Sédhiou</option>
+<option value="Tambacounda">Tambacounda</option>
+<option value="Thiès">Thiès</option>
+<option value="Ziguinchor">Ziguinchor</option>
+</select>
+  </div>
 
-            <div class="mt-4">
-                <InputLabel for="prix" value="Prix" />
-                <TextInput
-                    id="prix"
-                    v-model="form.prix"
-                    type="text"
-                    class="mt-1 block w-full"
-                    required
-                    autocomplete="prix"
-                />
-            </div>
-
-            <div class="mt-4">
-                <InputLabel for="stockage" value="Stockage" />
-                <TextInput
-                    id="stockage"
-                    v-model="form.stockage"
-                    type="text"
-                    class="mt-1 block w-full"
-                    required
-                    autocomplete="stockage"
-                />
-            </div>
-
-                <div class="mt-4">
-                <InputLabel for="region" value="Region" />
-                <TextInput
-                    id="region"
-                    v-model="form.region"
-                    type="text"
-                    class="mt-1 block w-full"
-                    required
-                    autocomplete="region"
-                />
-            </div>
-                
-            <div class="mt-4">
-                <InputLabel for="ville" value="Ville" />
-                <TextInput
-                    id="ville"
-                    v-model="form.ville"
-                    type="text"
-                    class="mt-1 block w-full"
-                    required
-                    autocomplete="ville"
-                />
-
-                
-            </div>
-
-            <div class="mt-4">
-                <InputLabel for="etat" value="Etat" />
-                <TextInput
-                    id="etat"
-                    v-model="form.etat"
-                    type="text"
-                    class="mt-1 block w-full"
-                    required
-                    autocomplete="etat"
-                />
-
-                
-            </div>
-
-            <div class="mt-4">
-                <InputLabel for="livraison" value="Livraison" />
-                <TextInput
-                    id="livraison"
-                    v-model="form.livraison"
-                    type="text"
-                    class="mt-1 block w-full"
-                    required
-                    autocomplete="livraison"
-                />
-
-                <div class="mt-4">
-                <InputLabel for="image" value="Image" />
-                <TextInput
-                    id="image"
-                    type="file"
-                    class="mt-1 block w-full"
-                    required
-                
-                />
-
-                
-            </div>
-
-                
-            </div>
-
-            <button type="submit">save</button>
-
-
-
-           
-        </form>
+         <button type="submit">save</button>
+  
+    </form>
+  </div>
+ 
+  
 </template>
 
-<script setup>
-import {Head, Link, useForm } from '@inertiajs/vue3';
-// import {Inertia } from "@inertiajs/inertia"
-
-import AuthenticationCard from '@/Components/AuthenticationCard.vue';
-import AuthenticationCardLogo from '@/Components/AuthenticationCardLogo.vue';
-import Checkbox from '@/Components/Checkbox.vue';
-import InputError from '@/Components/InputError.vue';
-import InputLabel from '@/Components/InputLabel.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
-import TextInput from '@/Components/TextInput.vue';
-import { reactive } from 'vue';
-
-const form = reactive({
-    nom: '',
-marque: '',
-decription: '',
-prix: '', stockage: '', region: '', ville: '', etat: ''
-, livraison: '', image: '',
-   
-});
-let submit=() => {
-    Inertia.post('telephone',form);
-}
-</script>

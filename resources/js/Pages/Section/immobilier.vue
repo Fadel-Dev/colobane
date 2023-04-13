@@ -3,12 +3,12 @@
       <div class="border-b-1 grid grid-cols-fluid gap-4 w-main pt-4 font-mainFont mx-auto  text-gray-800   sm:w-mainSm  md:w-mainMd   lg:w-mainLg xl:w-mainXl 2xl:w-main2Xl">
                <!--vente-->
          <div class="card bg-white p-5 shadow-lg" id="vente">
-             <h2 class="text-2xl font-bold"><a href="/p/immobilier/vente/">vente</a></h2>
+             <h2 class="text-2xl font-bold"><a href="/publication/vente/">vente</a></h2>
          
         </div>
            <!--location-->
       <div class="card bg-white p-5 shadow-lg" id="location">
-          <h2 class="text-2xl font-bold"><a href="/p/immobilier/location/">location</a></h2>
+          <h2 class="text-2xl font-bold"><a href="/publication/location/">location</a></h2>
           <!-- <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p> -->
      </div>
        

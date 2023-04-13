@@ -3,17 +3,17 @@
       <div class="border-b-1 grid grid-cols-fluid gap-4 w-main pt-4 font-mainFont mx-auto  text-gray-800   sm:w-mainSm  md:w-mainMd   lg:w-mainLg xl:w-mainXl 2xl:w-main2Xl">
                <!--Voiture-->
          <div class="card bg-white p-5 shadow-lg" id="voiture">
-             <h2 class="text-2xl font-bold"><a href="/p/vehicule/voiture/">Voiture</a></h2>
+             <h2 class="text-2xl font-bold"><a href="/publication/voiture/">Voiture</a></h2>
          
         </div>
            <!--motoScooter-->
       <div class="card bg-white p-5 shadow-lg" id="motoScooter">
-          <h2 class="text-2xl font-bold"><a href="/p/vehicule/motoScooter/">motoScooter</a></h2>
+          <h2 class="text-2xl font-bold"><a href="/publication/motoScooter/">motoScooter</a></h2>
           <!-- <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p> -->
      </div>
        <!--Velo-->
        <div class="card bg-white p-5 shadow-lg" id="velo">
-          <h2 class="text-2xl font-bold"><a href="/p/vehicule/equipement/">Velo</a></h2>
+          <h2 class="text-2xl font-bold"><a href="/publication/equipement/">Equipement</a></h2>
           <!-- <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p> -->
      </div>
        

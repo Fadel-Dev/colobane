@@ -21,12 +21,8 @@ return new class extends Migration
             $table->string('marque');
             $table->string('description');
             $table->bigInteger('prix');
-            $table->string('carburant');
-            $table->bigInteger('annee');
             $table->string('image');
             $table->string('region');
-            $table->string('ville');
-            $table->string('etat');
             $table->string('categorie');            
             $table->index('user_id');
         });
