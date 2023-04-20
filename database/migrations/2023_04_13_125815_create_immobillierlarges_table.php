@@ -11,23 +11,24 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('ordinateurs', function (Blueprint $table) {
+        Schema::create('immobillierlarges', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
             $table->unSignedBigInteger('user_id');
 
 
-            $table->string('marque');
+            $table->string('type');
             $table->string('nom');
             $table->string('description');
             $table->bigInteger('prix');
-            $table->bigInteger('stockage');
-
-            $table->string('image');
+            $table->string('surface');
+            $table->string('image1');
+            $table->string('image2');
+            $table->string('image3');
             $table->string('region');
             $table->string('categorie');
+            $table->string('affaire');
 
-            $table->index('user_id');
         });
     }
 
@@ -36,6 +37,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('ordinateurs');
+        Schema::dropIfExists('immobillierlarges');
     }
 };

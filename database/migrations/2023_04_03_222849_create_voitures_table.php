@@ -22,11 +22,16 @@ return new class extends Migration
             $table->string('description');
             $table->bigInteger('prix');
             $table->string('boiteVitesse');
+            $table->integer('kilometrage');
             $table->string('carburant');
-            $table->string('image');
+            $table->string('place');
+            $table->string('image1');
+            $table->string('image2');
+            $table->string('image3');
             $table->string('region');
             $table->integer('annee');
             $table->string('etat');
+            $table->string('affaire');
             $table->string('categorie');
 
             $table->timestamps();

@@ -28,6 +28,12 @@ Route::get('/ShowArticle',function(){
     return Inertia::render('ShowArticle');
 });
 
+Route::get('/test',function() {
+    return Inertia::render('teste');
+})
+;
+
+
 Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
@@ -66,38 +72,15 @@ Route::get('/publication/{article}',[PostController::class,'Article'])->name('ar
 
 
 // save VEHICULE
-Route::post('/voiture/save',[VehiculeController::class,'storeVoiture']);
-Route::post('/moto/save',[VehiculeController::class,'storeMoto']);
-Route::post('/equipement/save',[VehiculeController::class,'storeEquipement']);
+Route::post('/voitureVente/save',[VehiculeController::class,'storeVoitureVente']);
+Route::post('/voitureLocation/save',[VehiculeController::class,'storeVoitureLoc']);
 
 
-// save MULTIMEDIA
-Route::post('/telephone/save',[MultimediaController::class,'storeTelephone']);
-Route::post('/ordinateur/save',[MultimediaController::class,'storeOrdinateur']);
-Route::post('/imageSon/save',[MultimediaController::class,'storeImageSon']);
-
-
-
-// save Mode
-Route::post('/habillement/save',[ModeController::class,'storeHabillement']);
-Route::post('/enfant/save',[ModeController::class,'storeEnfant']);
-Route::post('/accessoire/save',[ModeController::class,'storeAccessoire']);
-
-
-// save Service
-Route::post('/batiment/save',[ServiceController::class,'storeBatiment']);
-Route::post('/domestique/save',[ServiceController::class,'storeDomestique']);
-Route::post('/covoiturage/save',[ServiceController::class,'storeCovoiturage']);
-
-
-// save Electromenager
-Route::post('/electromenager/save',[MaisonController::class,'storeElectromenager']);
-Route::post('/decoration/save',[MaisonController::class,'storeDecoration']);
-Route::post('/outilsPro/save',[MaisonController::class,'storeOutilsPro']);
 
 //Immobilier
-Route::post('/location/save',[ImmobilierController::class,'storeVente']);
-Route::post('/vente/save',[ImmobilierController::class,'storeLocation']);
+Route::post('/immobilier/save',[ImmobilierController::class,'storeVente']);
+Route::post('/immobilier2/save',[ImmobilierController::class,'storeVente2']);
+Route::post('/immobilier3/save',[ImmobilierController::class,'storeVente3']);
 
 
 

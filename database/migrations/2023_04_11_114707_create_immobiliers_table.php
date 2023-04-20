@@ -21,10 +21,14 @@ return new class extends Migration
             $table->string('nom');
             $table->string('description');
             $table->bigInteger('prix');
-            $table->string('image');
+            $table->string('npiece');
+            $table->string('image1');
+            $table->string('image2');
+            $table->string('image3');
             $table->string('region');
             $table->string('categorie');
             $table->string('affaire');
+            $table->string('surface');
 
             
 

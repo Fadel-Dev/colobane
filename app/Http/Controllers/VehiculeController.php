@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Equipements;
-use App\Models\MotoScooters;
+use App\Models\Voiturelocation;
 use Request;
 use Inertia\Inertia;
 use Illuminate\Routing\Controller as BaseController;
@@ -15,10 +15,12 @@ class VehiculeController extends Controller
 {
 // voiture
 
-      public function storeVoiture() 
+      public function storeVoitureVente() 
       {
          
-          $image=Request::file('image')->store('topics','public');
+          $image1=Request::file('image1')->store('topics','public');
+          $image2=Request::file('image2')->store('topics','public');
+          $image3=Request::file('image3')->store('topics','public');
   
           auth()->user()->Voitures()->create([
               'model' => Request::input('model'),
@@ -27,11 +29,16 @@ class VehiculeController extends Controller
               'prix' => Request::input('prix'),
               'description' => Request::input('description'),
               'carburant' => Request::input('carburant'),
-              'annee' => Request::input('annee'),
-              'boiteVitesse' => Request::input('boiteVitesse'),
-              'region' => Request::input('region'),
+               'region' => Request::input('region'),
               'etat' => Request::input('etat'),
-              'image' => $image,
+              'boiteVitesse' => Request::input('boiteVitesse'),
+              'kilometrage' => Request::input('kilometrage'),
+              'place' => Request::input('place'),
+              'annee' => Request::input('annee'),
+              'affaire' =>'vente',
+              'image1' => $image1,
+              'image2' => $image2,
+              'image3' => $image3,
               'categorie' =>'voiture',
   
           ])
@@ -41,19 +48,32 @@ class VehiculeController extends Controller
 
       // voiture
 
-      public function storeMoto() 
+      public function storeVoitureLoc() 
       {
          
-          $image=Request::file('image')->store('topics','public');
+          $image1=Request::file('image1')->store('topics','public');
+          $image2=Request::file('image2')->store('topics','public');
+          $image3=Request::file('image3')->store('topics','public');
   
-          auth()->user()->MotoScooters()->create([
+          auth()->user()->Voitures()->create([
               'marque' => Request::input('marque'),
               'nom' => Request::input('nom'),
+              'model' => 'N',
               'prix' => Request::input('prix'),
               'description' => Request::input('description'),
-              'region' => Request::input('region'),
-              'image' => $image,
-              'categorie' =>'moto',
+              'kilometrage' => 0,
+              'boiteVitesse' => Request::input('boiteVitesse'),
+              'carburant' => Request::input('carburant'),
+               'region' => Request::input('region'),
+              'place' => Request::input('place'),
+              'affaire' =>'location',
+              'annee' => 0,
+              'etat' => 0,
+              'image1' => $image1,
+              'image2' => $image2,
+              'image3' => $image3,
+              'categorie' =>'voiture',
+
   
           ])
           ;
@@ -62,24 +82,5 @@ class VehiculeController extends Controller
 
        // equipement
 
-       public function storeEquipement() 
-       {
-          
-           $image=Request::file('image')->store('topics','public');
-   
-           auth()->user()->Equipements()->create([
-               'nom' => Request::input('nom'),
-               'prix' => Request::input('prix'),
-               'description' => Request::input('description'),
-               'region' => Request::input('region'),
-               'image' => $image,
-               'categorie' =>'equipement',
-               'type' =>Request::input('type'),
-               'ville' =>'N',
-               'etat' =>'N',
-   
-           ])
-           ;
-           return redirect()->route('publier');
-       }
+     
 }

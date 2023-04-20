@@ -19,29 +19,25 @@ defineProps({
             <Link v-if="$page.props.auth.user" :href="route('dashboard')" class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Dashboard</Link>
 
             <template v-else>
-               <div class="grid grid-cols-3">
-                <div class="menu bg-red-600">
-                    <h2>Acceuill</h2>
-                    <h2>Multi</h2>
-                    <h2>Service</h2>
-                </div>
+               
+               
                 <div class="auth">
                     <Link :href="route('login')" class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Log in</Link>
 
                 <Link v-if="canRegister" :href="route('register')" class="ml-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Register</Link>
            
                 </div>
-               </div>
+               
              </template>
         </div>
 <!-- BEGINNING -->
         <div class="max-w-7xl mx-auto p-6 lg:p-8">
-            <!-- <div class="flex justify-center">
+            <div class="flex justify-center">
                  <a href="publier">publier</a>
-                <a href="{{ route('home') }}"> 
+                <!-- <a href="{{ route('home') }}">  -->
 
 
-            </div> -->
+            </div>
 
             <div class="mt-16">
                 <div class="grid grid-cols-1 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 xsm:grid-cols-1 gap-6 lg:gap-3">

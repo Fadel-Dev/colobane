@@ -69,76 +69,13 @@ class User extends Authenticatable
         return $this->hasMany(Voitures::class);
     }
 
-    public function MotoScooters()
+    public function Voiturelocation()
     {
-        return $this->hasMany(MotoScooters::class);
+        return $this->hasMany(Voiturelocation::class);
     }
 
-    public function Equipements()
-    {
-        return $this->hasMany(Equipements::class);
-    }
-//multimedia
-      public function Ordinateurs()
-    {
-        return $this->hasMany(Ordinateurs::class);
-    }
+  
 
-    public function ImagesSons()
-    {
-        return $this->hasMany(ImagesSons::class);
-    }
-
-    public function Telephones()
-    {
-        return $this->hasMany(Telephones::class);
-    }
-//Habillement
-      public function Habillements()
-    {
-        return $this->hasMany(Habillements::class);
-    }
-
-    public function Enfants()
-    {
-        return $this->hasMany(Enfants::class);
-    }
-
-    public function Accessoires()
-    {
-        return $this->hasMany(Accessoires::class);
-    }
-//Service
-    public function Batiments()
-    {
-        return $this->hasMany(Batiments::class);
-    }
-
-    public function Domestiques()
-    {
-        return $this->hasMany(Domestiques::class);
-    }
-
-    public function Covoiturages()
-    {
-        return $this->hasMany(Covoiturages::class);
-    }
-
-//Electromenager
-public function Electromenagers()
-{
-    return $this->hasMany(Electromenagers::class);
-}
-
-public function Decorations()
-{
-    return $this->hasMany(Decorations::class);
-}
-
-public function OutilsPros()
-{
-    return $this->hasMany(OutilsPros::class);
-}
 
 //Immobillier
 

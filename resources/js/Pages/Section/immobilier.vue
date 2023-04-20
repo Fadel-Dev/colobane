@@ -1,22 +1,51 @@
-<template>
+
+
+
+<template v-else="vente">
       <main class="container w-3/5 py-10 mx-auto">
-      <div class="border-b-1 grid grid-cols-fluid gap-4 w-main pt-4 font-mainFont mx-auto  text-gray-800   sm:w-mainSm  md:w-mainMd   lg:w-mainLg xl:w-mainXl 2xl:w-main2Xl">
-               <!--vente-->
-         <div class="card bg-white p-5 shadow-lg" id="vente">
-             <h2 class="text-2xl font-bold"><a href="/publication/vente/">vente</a></h2>
-         
-        </div>
-           <!--location-->
-      <div class="card bg-white p-5 shadow-lg" id="location">
-          <h2 class="text-2xl font-bold"><a href="/publication/location/">location</a></h2>
-          <!-- <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p> -->
-     </div>
-       
-       
+        <div class="container mx-auto py-8">
+  <h2 class="text-2xl font-bold mb-4">Propriétés Immobilières</h2>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+      <img src="maison.jpg" alt="Maison" class="w-full">
+      <div class="p-4">
+        <h3 class="font-bold text-xl mb-2">Maison villa appartement</h3>
+        <p class="text-gray-700 text-base">Magnifique maison de ville située dans le centre-ville. 4 chambres, 2 salles de bain, garage, jardin et terrasse.</p>
       </div>
+    </div>
+   
+    <a href="/publication/immobilier/"> <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+      <img src="chambre.jpg" alt="Chambre" class="w-full">
+      <div class="p-4">
+        <h3 class="font-bold text-xl mb-2">terrain</h3>
+        <p class="text-gray-700 text-base">Chambre spacieuse dans une colocation de 3 personnes. Cuisine équipée, salon confortable et salle de bain partagée.</p>
+      </div>
+    </div></a>
+
+
+    <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+      <img src="bureau.jpg" alt="Bureau" class="w-full">
+      <div class="p-4">
+        <h3 class="font-bold text-xl mb-2">Bureau en centre-ville</h3>
+        <p class="text-gray-700 text-base">Bureau spacieux et lumineux situé dans le centre-ville. Proche de toutes commodités et bien desservi par les transports en commun.</p>
+      </div>
+    </div>
+    <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+      <img src="#" alt="Terrain Agricole" class="w-full">
+      <div class="p-4">
+        <h3 class="font-bold text-xl mb-2">Terrain Agricole ferme verger</h3>
+        <p class="text-gray-700 text-base">Terrain agricole de 5 hectares avec une belle vue sur les montagnes. Eau et électricité disponibles sur place.</p>
+      </div>
+    </div>
+   
+  </div>
+</div>
+
     </main>
 </template>
 
 <script>
-export default {}
+export default {
+ 
+}
 </script>
