@@ -24,7 +24,15 @@ const submit = () => {
 </script>
 
 <template>
-    <Head title="Register" />
+    <div class="main grid grid-cols-2">
+        <!-- BACKGROUND -->
+        <div class="pict bg-slate-700">
+            <h1>here is the place of the picture background</h1>
+        </div>
+
+        <!-- AUTH-->
+        <div class="auth">
+            <Head title="Register" />
 
     <AuthenticationCard>
         <template #logo>
@@ -33,7 +41,7 @@ const submit = () => {
 
         <form @submit.prevent="submit">
             <div>
-                <InputLabel for="name" value="Name" />
+                <InputLabel for="name" value="Nom" />
                 <TextInput
                     id="name"
                     v-model="form.name"
@@ -60,7 +68,7 @@ const submit = () => {
             </div>
 
             <div class="mt-4">
-                <InputLabel for="password" value="Password" />
+                <InputLabel for="password" value="Mots de Passe" />
                 <TextInput
                     id="password"
                     v-model="form.password"
@@ -73,7 +81,7 @@ const submit = () => {
             </div>
 
             <div class="mt-4">
-                <InputLabel for="password_confirmation" value="Confirm Password" />
+                <InputLabel for="password_confirmation" value="Confirmation de Mots de passe" />
                 <TextInput
                     id="password_confirmation"
                     v-model="form.password_confirmation"
@@ -109,4 +117,6 @@ const submit = () => {
             </div>
         </form>
     </AuthenticationCard>
+        </div>
+    </div>
 </template>

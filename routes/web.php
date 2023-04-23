@@ -2,9 +2,7 @@
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ImmobilierController;
-use App\Http\Controllers\MaisonController;
-use App\Http\Controllers\ModeController; 
-use App\Http\Controllers\MultimediaController;
+
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\VehiculeController;
@@ -34,14 +32,7 @@ Route::get('/test',function() {
 ;
 
 
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-});
+Route::get('/',[Controller::class,'Home'])->name('home');
 
 Route::middleware([
     'auth:sanctum',
