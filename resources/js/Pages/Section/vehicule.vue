@@ -6,10 +6,8 @@
            <!--motoScooter-->
       <div class="card bg-white p-5 shadow-lg" id="motoScooter">
           <h2 class="text-2xl font-bold"><a href="/publication/voiture/">Location</a></h2>
-          <!-- <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p> -->
      
        
-      </div>
       </div>
     </main>
  </template>

@@ -6,6 +6,7 @@ use App\Models\Lead;
 use App\Models\User;
 use App\Models\Immobiliers;
 use App\Models\Services;
+use App\Models\Voitures;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
@@ -19,36 +20,36 @@ use Illuminate\Foundation\Application;
 class Controller extends BaseController
 {
     use AuthorizesRequests, ValidatesRequests;
-
-
-
     // HOME
 
     public function Home()
     {
+      $voitures = Voitures::orderBy('created_at', 'desc')->paginate(4);
+        
+      $maisons = Immobiliers::orderBy('created_at', 'desc')->paginate(4);
       return Inertia::render('Welcome',[
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
-        'topics' =>Immobiliers::all()->map(function($topic){
-          return [
-              'id'=> $topic->id,
-              'nom'=> $topic->nom,
-              'prix'=> $topic->prix,
-              'region'=> $topic->region,
-              'affaire'=> $topic->affaire,
-              'updated_at'=> $topic->updated_at,
-              'image1'=> asset('storage/'.$topic->image1),
-              'userid'=> $topic->user_id,
-              
-            
-          ];
 
-      })
+            'voitures' => $voitures,
+            'maisons' => $maisons,
+
       ]);
     }
 
+
+    // test
+    // public function index()
+    // {
+    //     $usersList = User::orderBy('id', 'desc')
+    //                     ->paginate(6);
+  
+    //     return Inertia::render('teste', [
+    //         'usersList' => $usersList
+    //     ]);
+    // }
 
     // DASH
 

@@ -33,8 +33,8 @@ const submit = () => {
    <div class="main grid grid-cols-2">
 
     <!-- BACKGROUND -->
-    <div class="pict bg-slate-700">
-        <h1>Teste</h1>
+    <div class="pict bg-[url('https://cdn.pixabay.com/photo/2019/09/30/16/00/house-4516175_960_720.jpg')] bg-cover flex h-full flex-center text-white ">
+        <h1>En Production</h1>
     </div>
     <!-- LOGIN -->
     <div class="log">
@@ -51,7 +51,7 @@ const submit = () => {
 
     <form @submit.prevent="submit">
         <div>
-            <InputLabel for="email" value="Email" />
+            <InputLabel for="email" value="Mail" />
             <TextInput
                 id="email"
                 v-model="form.email"
@@ -65,7 +65,7 @@ const submit = () => {
         </div>
 
         <div class="mt-4">
-            <InputLabel for="password" value="Password" />
+            <InputLabel for="password" value="Mots de passe" />
             <TextInput
                 id="password"
                 v-model="form.password"
@@ -80,17 +80,17 @@ const submit = () => {
         <div class="block mt-4">
             <label class="flex items-center">
                 <Checkbox v-model:checked="form.remember" name="remember" />
-                <span class="ml-2 text-sm text-gray-600">Remember me</span>
+                <span class="ml-2 text-sm text-gray-600">Se souvenir de moi</span>
             </label>
         </div>
 
         <div class="flex items-center justify-end mt-4">
             <Link v-if="canResetPassword" :href="route('password.request')" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                Forgot your password?
+                Mots de passe Oublie ?
             </Link>
 
             <PrimaryButton class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                Log in
+                Se connecter
             </PrimaryButton>
         </div>
     </form>

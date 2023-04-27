@@ -5,13 +5,13 @@
          
            <!--Vehicules-->
       <div class="card bg-white p-5 shadow-lg" id="vehicule">
-          <h2 class="text-2xl font-bold"><a href="/p/vehicule/">Vehicules</a></h2>
+          <h2 class="text-2xl font-bold"><a href="/publication/voiture/">Vehicules</a></h2>
           <!-- <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p> -->
      </div>
      
         <!--Immobillier-->
         <div class="card bg-white p-5 shadow-lg" id="immobilier">
-          <h2 class="text-2xl font-bold"><a href="/p/immobilier/">Immobillier</a></h2>
+          <h2 class="text-2xl font-bold"><a href="/publication/immobilier/">Immobillier</a></h2>
           <!-- <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p> -->
      </div>
       
