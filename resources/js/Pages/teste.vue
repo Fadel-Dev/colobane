@@ -1,109 +1,75 @@
 <template>
-    <div class="w-full max-w-md px-2 py-16 sm:px-0">
-      <TabGroup>
-        <TabList class="flex space-x-1 rounded-xl bg-blue-900/20 p-1">
-          <Tab
-            v-for="category in Object.keys(categories)"
-            as="template"
-            :key="category"
-            v-slot="{ selected }"
-          >
-            <button
-              :class="[
-                'w-full rounded-lg py-2.5 text-sm font-medium leading-5 text-blue-700',
-                'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2',
-                selected
-                  ? 'bg-white shadow'
-                  : 'text-blue-100 hover:bg-white/[0.12] hover:text-white',
-              ]"
-            >
-              {{ category }}
-            </button>
-          </Tab>
-        </TabList>
+ <div class="h-screen flex">
+  <div class="flex w-1/2 bg-gradient-to-tr from-blue-800 to-purple-700 i justify-around items-center">
+    <div>
+      <h1 class="text-white font-bold text-4xl font-sans">GoFinance</h1>
+      <p class="text-white mt-1">The most popular peer to peer lending at SEA</p>
+      <button type="submit" class="block w-28 bg-white text-indigo-800 mt-4 py-2 rounded-2xl font-bold mb-2">Read More</button>
+    </div>
+  </div>
+  <div class="flex w-1/2 justify-center items-center bg-white">
+    <form class="bg-white">
+      <h1 class="text-gray-800 font-bold text-2xl mb-1">Hello Again!</h1>
+      <p class="text-sm font-normal text-gray-600 mb-7">Welcome Back</p>
+      <div class="flex items-center border-2 py-2 px-3 rounded-2xl mb-4">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
+        </svg>
+        <input class="pl-2 outline-none border-none" type="text" name="" id="" placeholder="Email Address" />
+      </div>
+      <div class="flex items-center border-2 py-2 px-3 rounded-2xl">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
+        </svg>
+        <input class="pl-2 outline-none border-none" type="text" name="" id="" placeholder="Password" />
+      </div>
+      <button type="submit" class="block w-full bg-indigo-600 mt-4 py-2 rounded-2xl text-white font-semibold mb-2">Login</button>
+      <span class="text-sm ml-2 hover:text-blue-500 cursor-pointer">Forgot Password ?</span>
+    </form>
+  </div>
+</div>
+
+<!-- BUY ME A BEER AND HELP SUPPORT OPEN-SOURCE RESOURCES 
+ <div class="flex items-end justify-end fixed bottom-0 right-0 mb-4 mr-4 z-10">
+    <div>
+        <a title="Buy me a beer" href="https://www.buymeacoffee.com/scottwindon" target="_blank" class="block w-16 h-16 rounded-full transition-all shadow hover:shadow-lg transform hover:scale-110 hover:rotate-12">
+            <img class="object-cover object-center w-full h-full rounded-full" src="https://i.pinimg.com/originals/60/fd/e8/60fde811b6be57094e0abc69d9c2622a.jpg"/>
+        </a>
+    </div>
+</div> -->
+
+
+
+
+</template>
+<script>
+
   
-        <TabPanels class="mt-2">
-          <TabPanel
-            v-for="(posts, idx) in Object.values(categories)"
-            :key="idx"
-            :class="[
-              'rounded-xl bg-white p-3',
-              'ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2',
-            ]"
-          >
-            <ul>
-              <li
-                v-for="post in posts"
-                :key="post.id"
-                class="relative rounded-md p-3 hover:bg-gray-100"
-              >
-                <h3 class="text-sm font-medium leading-5">
-                  {{ post.title }}
-                </h3>
-  
-                <ul
-                  class="mt-1 flex space-x-1 text-xs font-normal leading-4 text-gray-500"
-                >
-                  <li>{{ post.date }}</li>
-                  <li>&middot;</li>
-                  <li>{{ post.commentCount }} comments</li>
-                  <li>&middot;</li>
-                  <li>{{ post.shareCount }} shares</li>
-                </ul>
-  
-                <a
-                  href="#"
-                  :class="[
-                    'absolute inset-0 rounded-md',
-                    'ring-blue-400 focus:z-10 focus:outline-none focus:ring-2',
-                  ]"
-                />
-              </li>
-            </ul>
-          </TabPanel>
-        </TabPanels>
-      </TabGroup>
+</script>
+
+
+
+<!-- 
+
+
+<template>
+    <div>
+      <img :src="maison.image" alt="Image de la maison">
+      <h1>{{ maison.nom }}</h1>
+      <p>{{ maison.description }}</p>
+    
     </div>
   </template>
   
-  <script setup>
-  import { ref } from 'vue'
-  import { TabGroup, TabList, Tab, TabPanels, TabPanel } from '@headlessui/vue'
-  
-  const categories = ref({
-    Recent: [
-      {
-        id: 1,
-        title: 'Does drinking coffee make you smarter?',
-        date: '5h ago',
-        commentCount: 5,
-        shareCount: 2,
-      },
-      {
-        id: 2,
-        title: "So you've bought coffee... now what?",
-        date: '2h ago',
-        commentCount: 3,
-        shareCount: 2,
-      },
-    ],
-    Popular: [
-      {
-        id: 1,
-        title: 'Is tech making coffee better or worse?',
-        date: 'Jan 7',
-        commentCount: 29,
-        shareCount: 16,
-      },
-      {
-        id: 2,
-        title: 'The most innovative things happening in coffee',
-        date: 'Mar 19',
-        commentCount: 24,
-        shareCount: 12,
-      },
-    ],
-
-  })
+  <script>
+  export default {
+    props: {
+      maison: Object
+    }
+  }
   </script>
   
+
+
+
+ -->

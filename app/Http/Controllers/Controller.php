@@ -78,4 +78,16 @@ class Controller extends BaseController
 }
 
 
+
+// details produits
+
+public function Details($id)
+{
+  $maison = Immobiliers::findOrFail($id);
+  return Inertia::render('Details', [
+    'maison' => $maison
+  ])
+  ;
+}
+
 }

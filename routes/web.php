@@ -83,4 +83,9 @@ Route::post('/immobilier3/save',[ImmobilierController::class,'storeVente3']);
 Route::post('/topics',[PostController::class,'store'])->name('topics.store');
 
 
+// DETAILS PRODUCTS
+
+Route::get('/detail/{id}',[Controller::class,'Details'])->name('go');
+
+
 

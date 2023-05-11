@@ -10,7 +10,7 @@ const  props = defineProps({
 
 <template>
     <AppLayout title="Dashboard">
-        <template #header>
+        <template>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 Dashboard
             </h2>

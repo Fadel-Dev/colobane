@@ -1,5 +1,7 @@
 <script setup>
 import { useForm } from "@inertiajs/vue3"
+import AppLayout from '@/Layouts/AppLayout.vue';
+
 
   const lead = useForm({
             nom: null,
@@ -55,9 +57,16 @@ function handleSubmit3() {
    </script>
    
 <template>
-    <div class="container mx-auto py-8">
+  <app-layout>
+    <template #header>
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight text-center">
+                Publication
+            </h2>
+        </template>
+
+    <div class="w-11/12 my-7 m-auto rounded-2xl  lg:w-2/5 border-2 shadow-lg border-slate-400">
     <h2 class="text-2xl font-bold mb-4">Sélectionnez une image</h2>
-    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+    <div class="grid grid-cols-3 md:grid-cols-3 lg:grid-cols-3 gap-4">
       <div v-for="image in images" :key="image.id">
         <label>
           <input type="radio" :value="image.titre" v-model="lead.type">
@@ -69,19 +78,22 @@ function handleSubmit3() {
   </div>
 
  <div v-if="lead.type =='Villa' || lead.type =='Appartement'|| lead.type =='Immeuble'|| lead.type =='Chambre' " class="p-6">
-    <form @submit.prevent="handleSubmit">       
+  <div class="w-full p-3 m-auto rounded-2xl border-2 shadow-lg border-slate-200  lg:w-2/5 ">
+  <h2 class="my-5 text-center bg-amber-300 rounded-full py-3">Ecrivez votre annonce immobilliere </h2>
+
+      <form @submit.prevent="handleSubmit">       
 <!-- NOM -->
 
       <div class="mb-4">
           <label class="block text-gray-700 font-bold mb-2" 
           for="nom">
-              Nom
+              Titre
           </label>
           <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
              id="nom"
              name="nom"
              type="text"
-             placeholder="Entrez le nom"
+             placeholder="Entrez le titre de votre annonce "
              v-model="lead.nom"
              required>
       </div>
@@ -116,13 +128,13 @@ function handleSubmit3() {
   <div class="mb-4">
           <label class="block text-gray-700 font-bold mb-2" 
           for="npiece">
-              npiece
+              nombre de piece 
           </label>
           <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
              id="npiece"
              name="npiece"
              type="text"
-             placeholder="Entrez le npiece"
+             placeholder="Entrez le nombre de piece"
              v-model="lead.npiece"
              required>
       </div>
@@ -141,6 +153,7 @@ function handleSubmit3() {
 
 <!-- IMAGES -->
 
+ <div class="images">
   <div class="mb-4">
              <label class="block text-gray-700 font-bold mb-2" 
                 for="image"
@@ -176,6 +189,7 @@ function handleSubmit3() {
       {{ lead.progress.percentage }}%
     </progress>
          </div> 
+ </div>
 <!-- REGION -->
   <div class="mb-4">
       <select class="border border-gray-300 rounded-full text-gray-600 h-10 pl-5 pr-10 bg-white hover:border-gray-400 focus:outline-none appearance-none"
@@ -200,25 +214,29 @@ function handleSubmit3() {
 </select>
   </div>
 
-         <button type="submit">save</button>
+         <button type="submit" class="bg-yellow-500 px-5 py-1 rounded-2xl">save</button>
   
     </form>
+    </div>
   </div>
 <!-- VERGER -->
   <div v-else-if="lead.type==='Verger'">
+    <div class="w-11/12 px-2 m-auto rounded-2xl border-2 shadow-lg border-slate-200  lg:w-2/5 ">
+  <h2 class="my-5 text-center bg-amber-300 rounded-full py-3">Ecrivez votre annonce de Verger</h2>
+
     <form @submit.prevent="handleSubmit2">       
 <!-- NOM -->
 
       <div class="mb-4">
           <label class="block text-gray-700 font-bold mb-2" 
           for="nom">
-              Nom
+              Titre
           </label>
           <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
              id="nom"
              name="nom"
              type="text"
-             placeholder="Entrez le nom"
+             placeholder="Entrez le titre de votre annonce "
              v-model="verger.nom"
              required>
       </div>
@@ -278,6 +296,7 @@ function handleSubmit3() {
 
 <!-- IMAGES -->
 
+ <div class="images">
   <div class="mb-4">
              <label class="block text-gray-700 font-bold mb-2" 
                 for="image"
@@ -313,6 +332,7 @@ function handleSubmit3() {
       {{ verger.progress.percentage }}%
     </progress>
          </div> 
+ </div>
 <!-- REGION -->
   <div class="mb-4">
       <select class="border border-gray-300 rounded-full text-gray-600 h-10 pl-5 pr-10 bg-white hover:border-gray-400 focus:outline-none appearance-none"
@@ -337,14 +357,18 @@ function handleSubmit3() {
 </select>
   </div>
 
-         <button type="submit">save</button>
+         <button type="submit" class="bg-yellow-500 px-5 py-1 rounded-2xl">save</button>
   
     </form>
+   </div>
   </div>
  
   <!-- FERME -->
   <div v-else-if="lead.type==='Ferme'">
-    <form @submit.prevent="handleSubmit3">       
+    <div class="w-11/12 px-2  m-auto rounded-2xl border-2 shadow-lg border-slate-200  lg:w-2/5 ">
+  <h2 class="my-5 text-center bg-amber-300 rounded-full py-3">Ecrivez votre annonce de Ferme</h2>
+
+      <form @submit.prevent="handleSubmit3">       
 <!-- NOM -->
 
       <div class="mb-4">
@@ -356,7 +380,7 @@ function handleSubmit3() {
              id="nom"
              name="nom"
              type="text"
-             placeholder="Entrez le nom"
+             placeholder="Entrez le titre de votre annonce"
              v-model="ferme.nom"
              required>
       </div>
@@ -415,8 +439,8 @@ function handleSubmit3() {
        </select>
 
 <!-- IMAGES -->
-
-  <div class="mb-4">
+       <div class="images">
+        <div class="mb-4">
              <label class="block text-gray-700 font-bold mb-2" 
                 for="image"
                 >
@@ -451,6 +475,8 @@ function handleSubmit3() {
       {{ ferme.progress.percentage }}%
     </progress>
          </div> 
+       </div>
+ 
 <!-- REGION -->
   <div class="mb-4">
       <select class="border border-gray-300 rounded-full text-gray-600 h-10 pl-5 pr-10 bg-white hover:border-gray-400 focus:outline-none appearance-none"
@@ -475,14 +501,25 @@ function handleSubmit3() {
 </select>
   </div>
 
-         <button type="submit">save</button>
+         <button type="submit" class="bg-yellow-500 px-5 py-1 rounded-2xl">save</button>
   
     </form>
+    </div>
   </div>
  
+  </app-layout>
   
 </template>
 
+
+<style>
+ 
+  .images {
+    display:grid;
+    grid-template-columns: 32% 32% 32%;
+    grid-gap:3% ;
+  }
+</style>
 
 <script>
 export default {

@@ -1,6 +1,9 @@
 <script setup>
 import { Head, Link } from '@inertiajs/vue3';
 import Footer from '../Components/Footer.vue';
+import AuthenticationCard from '@/Components/AuthenticationCard.vue';
+import AuthenticationCardLogo from '@/Components/AuthenticationCardLogo.vue';
+import AppLayout from '../Layouts/AppLayout.vue';
 
 
 const props = defineProps({
@@ -16,10 +19,12 @@ const props = defineProps({
 </script>
 
 <template>
-  <Head title="Welcome" />
+  <div>
+    <app-layout>
+      <Head title="Welcome" />
   <div>
     <div class="bg-white w-full m-0 p-0">
-      <nav
+      <!-- <nav
         class="
           px-9        
           py-2
@@ -52,7 +57,6 @@ const props = defineProps({
           </div>
         </div>
 
-          <!-- Mobile menu button -->
           <div @click="showMenu = !showMenu" class="flex md:hidden">
             <button
               type="button"
@@ -72,7 +76,7 @@ const props = defineProps({
           </div>
         </div>
 
-  <!-- Mobile Menu open: "block", Menu closed: "hidden" -->
+
   <div
           :class="showMenu ? 'flex' : 'hidden'"
           class="
@@ -111,7 +115,8 @@ const props = defineProps({
   </div>
         </div>
       
-      </nav>
+      </nav> -->
+    
     </div>
     <!-- Home -->
 
@@ -153,8 +158,7 @@ const props = defineProps({
                 <h3 class="text-sm text-gray-700">
                     <span aria-hidden="true" class="absolute inset-0" />
                     {{ maison.nom }}
-                    <a target="_blank" :href="test">testeman</a>
-                    
+                   
                 </h3>
               </div>
                <!-- AFFAIRE  -->
@@ -247,6 +251,8 @@ const props = defineProps({
    <div class="#">
               <Footer/>
             </div>
+    </app-layout>
+  </div>
 </template>
 <style>
 .bg-dots-darker {
