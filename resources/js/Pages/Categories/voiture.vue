@@ -454,7 +454,7 @@ const vente = useForm({
                 >
                  Image 1
              </label>
-             <input type="file" @input="vente.image1 = $event.target.files[0]" />
+             <input type="file" @input="vente.image1 = $event.target.files[0]" @change="vente.image1" />
              <progress v-if="vente.progress" :value="vente.progress.percentage" max="100">
       {{ vente.progress.percentage }}%
     </progress>

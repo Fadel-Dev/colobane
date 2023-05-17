@@ -83,9 +83,21 @@ class Controller extends BaseController
 
 public function Details($id)
 {
+  $user = User::findOrFail($id);
+  $nomUtilisateur = DB::table('users')
+  ->join('immobiliers', 'users.id', '=', 'immobiliers.user_id')
+  ->where('immobiliers.id', $id)
+  ->value('users.name');
+  $mailUtilisateur = DB::table('users')
+  ->join('immobiliers', 'users.id', '=', 'immobiliers.user_id')
+  ->where('immobiliers.id', $id)
+  ->value('users.email');
   $maison = Immobiliers::findOrFail($id);
   return Inertia::render('Details', [
-    'maison' => $maison
+    'maison' => $maison,
+     'nameSeler' => $nomUtilisateur,
+     'mailSeler' => $mailUtilisateur,
+    'user' => $user
   ])
   ;
 }

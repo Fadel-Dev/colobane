@@ -3,6 +3,8 @@ import { Head, Link } from '@inertiajs/vue3';
 import Footer from '../Components/Footer.vue';
 
 
+
+
 const props = defineProps({
 
   voitures:Object,
@@ -137,12 +139,14 @@ const props = defineProps({
 
         <div class="mt-16">
         <div class="w-4/5 mx-auto  grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-          <div v-for="maison in maisons.data" :key="maison.id" class="group relative bg-white shadow-[0px_20px_20px_10px_#00000024] rounded-lg">
+          <div v-for="maison in maisons.data" :key="maison.id" @click="navigateToDetail(maison.id)" class="group relative bg-white shadow-[0px_20px_20px_10px_#00000024] rounded-lg">
             <div
               class="  bg-gray-200">
               <img :src=" '/storage/' + maison.image1" :alt="maison.imageAlt"
                 class="h-full w-full object-cover object-center lg:h-full lg:w-full" />
             </div>
+<!-- <a href="https://www.leboncoin.fr">teest</a>      -->
+
              <!-- infos  -->
             <div class="infos px-3 pb-7 pt-2 ">
                 <div class="prix text-center">
@@ -153,10 +157,12 @@ const props = defineProps({
                 <h3 class="text-sm text-gray-700">
                     <span aria-hidden="true" class="absolute inset-0" />
                     {{ maison.nom }}
-                    <a target="_blank" :href="test">testeman</a>
+    
                     
                 </h3>
               </div>
+
+              
                <!-- AFFAIRE  -->
               <div class="affaire">
                 <h3 class="text-sm text-gray-700">
@@ -277,7 +283,11 @@ export default {
   props: {
     usersList: Object,
   },
-   
+  methods: {
+    navigateToDetail(id) {
+      this.$inertia.visit(`/detail/${id}`);
+    }
+  }
   
   }
   </script>
