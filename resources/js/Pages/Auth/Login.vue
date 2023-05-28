@@ -8,6 +8,8 @@ import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 
+
+
 defineProps({
     canResetPassword: Boolean,
     status: String,
@@ -30,6 +32,10 @@ const submit = () => {
 </script>
 
 <template>
+
+    <Head>
+        <title>Se connecter</title>
+    </Head>
 
  <div class="main max-h-1/4">
     <div class="min-w-screen min-h-screen bg-gray-900 flex items-center justify-center px-5 py-5">
@@ -103,6 +109,19 @@ const submit = () => {
 </div>
  </div>
 </template>
+
+
+<script>
+import {Head} from '@inertiajs/vue3';
+
+export default {
+    components: {
+    Head
+}
+
+}
+
+</script>
 
 <style>
 #main {

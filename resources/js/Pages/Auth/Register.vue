@@ -11,6 +11,7 @@ import TextInput from '@/Components/TextInput.vue';
 const form = useForm({
     name: '',
     email: '',
+    phone:'',
     password: '',
     password_confirmation: '',
     terms: false,
@@ -25,7 +26,7 @@ const submit = () => {
 
 <template>
     <!-- <div class="main grid grid-cols-2">
-       
+
         <div class="pict bg-slate-700">
             <h1>here is the place of the picture background</h1>
         </div>
@@ -38,10 +39,14 @@ const submit = () => {
             <AuthenticationCardLogo />
         </template>
 
-       
+
     </AuthenticationCard>
         </div>
     </div> -->
+    <Head>
+        <title>S inscrire</title>
+    </Head>
+
 
     <div class="main max-h-1/4">
     <div class="min-w-screen min-h-screen bg-gray-900 flex items-center justify-center px-5 py-5">
@@ -76,6 +81,20 @@ const submit = () => {
                     autocomplete="name"
                 />
                 <InputError class="mt-2" :message="form.errors.name" />
+            </div>
+<!-- TELEPHONE -->
+<div>
+                <InputLabel for="phone" value="Telephone" />
+                <TextInput
+                    id="phone"
+                    v-model="form.phone"
+                    type="number"
+                    class="mt-1 block w-full"
+                    required
+                    autofocus
+                    autocomplete="phone"
+                />
+                <InputError class="mt-2" :message="form.errors.phone" />
             </div>
 
             <div class="mt-4">
@@ -147,3 +166,16 @@ const submit = () => {
 </div>
  </div>
 </template>
+
+
+<script>
+import {Head} from '@inertiajs/vue3';
+
+export default {
+    components: {
+    Head
+}
+
+}
+
+</script>

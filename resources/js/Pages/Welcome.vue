@@ -1,6 +1,8 @@
 <script setup>
-import { Head, Link } from '@inertiajs/vue3';
+import { Head, Link, router  } from '@inertiajs/vue3';
 import Footer from '../Components/Footer.vue';
+import { Inertia } from '@inertiajs/inertia';
+
 
 
 
@@ -13,23 +15,22 @@ const props = defineProps({
   canRegister: Boolean,
   laravelVersion: String,
   phpVersion: String,
-})
-
+});
 </script>
 
 <template>
-  <Head title="Welcome" />
+  <Head title="Acceuil" />
   <div>
     <div class="bg-white w-full m-0 p-0">
       <nav
         class="
-          px-9        
+          px-9
           py-2
           mx-auto
           md:flex md:justify-between md:items-center
         "
       >
-        <div class="flex items-center justify-between">
+        <div class="flex items-center justify-between ">
           <router-link
             to="/"
             class="
@@ -43,16 +44,16 @@ const props = defineProps({
             >Logo
           </router-link>
 
-          <div class="hidden md:block">
+          <!-- <div class="hidden md:block">
           <div class="ml-4 flex items-center md:ml-6">
             <form>
-              <div class="flex">
+              <div class="flexz">
                 <input type="text" class="border-2 border-gray-300 bg-white h-10 px-5 pr-10 rounded-full text-sm focus:outline-none" placeholder="Recherche...">
                 <button type="submit" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full ml-2">Rechercher</button>
               </div>
             </form>
           </div>
-        </div>
+        </div> -->
 
           <!-- Mobile menu button -->
           <div @click="showMenu = !showMenu" class="flex md:hidden">
@@ -112,21 +113,21 @@ const props = defineProps({
     </div>
   </div>
         </div>
-      
+
       </nav>
     </div>
     <!-- Home -->
 
     <div>
         <div class="flex border-b w-full mt-1  ">
-        <button 
+        <button
           class="w-full  py-2 bg-white text-gray-800 font-semibold"
           :class="{ 'border-b-2 border-blue-500': activeTab === 'immobilier' }"
           @click="activeTab = 'immobilier'"
         >
           Annonces immobilières
         </button>
-        <button 
+        <button
           class="w-full px-4 py-2 bg-white text-gray-800 font-semibold"
           :class="{ 'border-b-2 border-blue-500': activeTab === 'vehicule' }"
           @click="activeTab = 'vehicule'"
@@ -157,12 +158,12 @@ const props = defineProps({
                 <h3 class="text-sm text-gray-700">
                     <span aria-hidden="true" class="absolute inset-0" />
                     {{ maison.nom }}
-    
-                    
+
+
                 </h3>
               </div>
 
-              
+
                <!-- AFFAIRE  -->
               <div class="affaire">
                 <h3 class="text-sm text-gray-700">
@@ -179,19 +180,23 @@ const props = defineProps({
                 </div>
                 <div class="date">
                   <p class="mt-1 text-sm text-gray-500">{{ maison.updated_at }}</p>
-  
+
                 </div>
               </div>
-              </div> 
-          
+              <button @click="destroy(maison.id)" type="button" class="bg-red-100 text-center">
+            delete
+           </button>
+              </div>
+
             </div> <a href="/detail/2">Teste</a>
             <inertia-link :href="maisons.prev_page_url" v-if="maisons.prev_page_url">Page précédente</inertia-link>
             <inertia-link :href="maisons.next_page_url" v-if="maisons.next_page_url">Page suivante</inertia-link>
-          
+
            <!-- <pagination class="mt-6" :links="maisons.links" /> -->
-        
+
+
           </div>
-         
+
         </div>
       </div>
       <div v-show="activeTab === 'vehicule'" >
@@ -233,13 +238,13 @@ const props = defineProps({
                 </div>
                 <div class="date">
                   <p class="mt-1 text-sm text-gray-500">{{ voiture.updated_at }}</p>
-  
+
                 </div>
               </div>
               </div>
               <inertia-link :href="voitures.prev_page_url" v-if="voitures.prev_page_url">Page précédente</inertia-link>
                <inertia-link :href="voitures.next_page_url" v-if="voitures.next_page_url">Page suivante</inertia-link>
-
+<button @click="">click me {{ first }} </button>
                <!-- <pagination class="mt-6" :links="voitures.links" /> -->
             </div>
           </div>
@@ -266,9 +271,18 @@ const props = defineProps({
 }
 </style>
 <script>
+import {InertiaProgress} from '@inertiajs/progress';
+import {Head} from '@inertiajs/vue3'
 
-// import Pagination from '@/Components/Pagination'
+InertiaProgress.init(
+ { delay: 250,
 
+color: '#29d',
+
+includeCSS: true,
+
+showSpinner: true,}
+    )
 
 export default {
     data() {
@@ -287,7 +301,20 @@ export default {
     navigateToDetail(id) {
       this.$inertia.visit(`/detail/${id}`);
     }
+  },
+  setup(){
+
+    const destroy =(id) => {
+        if(confirm("Are you sure") )
+        {
+            Inertia.delete(route('maisons.destroy',id))
+        }
+}
+return destroy()
+
   }
-  
+
+
+
   }
   </script>

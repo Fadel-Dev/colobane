@@ -26,7 +26,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password','phone'
     ];
 
     /**
@@ -74,7 +74,7 @@ class User extends Authenticatable
         return $this->hasMany(Voiturelocation::class);
     }
 
-  
+
 
 
 //Immobillier

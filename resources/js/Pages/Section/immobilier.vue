@@ -1,6 +1,3 @@
-
-
-
 <template v-else="vente">
       <main class="container w-3/5 py-10 mx-auto">
         <div class="container mx-auto py-8">
@@ -13,7 +10,7 @@
         <p class="text-gray-700 text-base">Magnifique maison de ville située dans le centre-ville. 4 chambres, 2 salles de bain, garage, jardin et terrasse.</p>
       </div>
     </div>
-   
+
     <a href="/publication/immobilier/"> <div class="bg-white rounded-lg shadow-lg overflow-hidden">
       <img src="chambre.jpg" alt="Chambre" class="w-full">
       <div class="p-4">
@@ -37,7 +34,7 @@
         <p class="text-gray-700 text-base">Terrain agricole de 5 hectares avec une belle vue sur les montagnes. Eau et électricité disponibles sur place.</p>
       </div>
     </div>
-   
+
   </div>
 </div>
 
@@ -46,6 +43,6 @@
 
 <script>
 export default {
- 
+
 }
 </script>

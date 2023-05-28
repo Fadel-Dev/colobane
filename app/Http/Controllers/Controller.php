@@ -25,8 +25,8 @@ class Controller extends BaseController
     public function Home()
     {
       $voitures = Voitures::orderBy('created_at', 'desc')->paginate(4);
-        
-      $maisons = Immobiliers::orderBy('created_at', 'desc')->paginate(4);
+
+      $maisons = Immobiliers::orderBy('created_at', 'desc')->paginate(8);
       return Inertia::render('Welcome',[
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
@@ -45,7 +45,7 @@ class Controller extends BaseController
     // {
     //     $usersList = User::orderBy('id', 'desc')
     //                     ->paginate(6);
-  
+
     //     return Inertia::render('teste', [
     //         'usersList' => $usersList
     //     ]);
@@ -55,6 +55,8 @@ class Controller extends BaseController
 
     public function Dash()
     {
+      $cc = Immobiliers::select('select * from users ');
+
 
       return Inertia::render('Dashboard', [
         'topics' =>Immobiliers::all()->map(function($topic){
@@ -64,7 +66,7 @@ class Controller extends BaseController
                 'prix'=> $topic->prix,
                 'image1'=> asset('storage/'.$topic->image1),
                 'userid'=> $topic->user_id,
-              
+
             ];
 
         })
@@ -83,20 +85,33 @@ class Controller extends BaseController
 
 public function Details($id)
 {
+sleep(1);
+
   $user = User::findOrFail($id);
+//   name user
   $nomUtilisateur = DB::table('users')
   ->join('immobiliers', 'users.id', '=', 'immobiliers.user_id')
   ->where('immobiliers.id', $id)
   ->value('users.name');
+
+//   mail user
   $mailUtilisateur = DB::table('users')
   ->join('immobiliers', 'users.id', '=', 'immobiliers.user_id')
   ->where('immobiliers.id', $id)
   ->value('users.email');
+
+//   phone user
+$phoneUtilisateur = DB::table('users')
+->join('immobiliers', 'users.id', '=', 'immobiliers.user_id')
+->where('immobiliers.id', $id)
+->value('users.phone');
+
   $maison = Immobiliers::findOrFail($id);
   return Inertia::render('Details', [
     'maison' => $maison,
      'nameSeler' => $nomUtilisateur,
      'mailSeler' => $mailUtilisateur,
+     'phoneSeler' => $phoneUtilisateur,
     'user' => $user
   ])
   ;

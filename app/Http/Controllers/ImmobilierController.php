@@ -29,7 +29,7 @@ class ImmobilierController extends Controller
             'surface' =>0,
         ]);
 
-        return redirect()->route('dashboard');
+        return redirect()->route('dashboard')->with('message', 'Annone publiee avec success');
     }
 
 // TERRAIN VERGER
@@ -55,8 +55,8 @@ public function storeVente2()
             'npiece' =>0,
         ]);
 
-        return redirect()->route('dashboard');
-    } 
+        return redirect()->route('dashboard')->with('message', 'Annonce publiee avec success');
+    }
 
     // TERRAIN FERME
 public function storeVente3()
@@ -81,8 +81,14 @@ public function storeVente3()
         'npiece' =>0,
     ]);
 
-    return redirect()->route('dashboard');
-} 
+    return redirect()->route('dashboard')->with('message', 'Annonce publiee avec success');
+}
 
-    
+public function destroy (Immobiliers $maison)
+{
+    $maison->delete();
+
+}
+
+
 }

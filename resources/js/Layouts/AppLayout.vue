@@ -136,6 +136,10 @@ const logout = () => {
                                                 </svg>
                                             </button>
                                         </span>
+
+                                        <div v-if="$page.props.flash.message" class="alert bg-green-500 text-white">
+                                               {{ $page.props.flash.message }}
+                                        </div>
                                     </template>
 
                                     <template #content>
