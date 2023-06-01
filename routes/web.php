@@ -44,7 +44,7 @@ Route::middleware([
 
 
 
-//Publication
+//Publication   
 
 // Route::get('/publier',[Controller::class,'publier'])->name('publier');
 Route::get('/publier', [Controller::class, 'publier'])->name('publier')->middleware('auth');

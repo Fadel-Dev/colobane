@@ -108,11 +108,16 @@ $phoneUtilisateur = DB::table('users')
 
   $maison = Immobiliers::findOrFail($id);
   return Inertia::render('Details', [
+    'canLogin' => Route::has('login'),
+    'canRegister' => Route::has('register'),
+    'laravelVersion' => Application::VERSION,
+    'phpVersion' => PHP_VERSION,
+
     'maison' => $maison,
      'nameSeler' => $nomUtilisateur,
      'mailSeler' => $mailUtilisateur,
      'phoneSeler' => $phoneUtilisateur,
-    'user' => $user
+    'user' => $user,
   ])
   ;
 }

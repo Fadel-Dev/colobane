@@ -21,7 +21,7 @@ const props = defineProps({
 <template>
   <Head title="Acceuil" />
   <div>
-    <div class="bg-white w-full m-0 p-0">
+    <div class="nav bg-white w-full m-0 p-0">
       <nav
         class="
           px-9
@@ -118,7 +118,7 @@ const props = defineProps({
     </div>
     <!-- Home -->
 
-    <div>
+    <div class="Home">
         <div class="flex border-b w-full mt-1  ">
         <button
           class="w-full  py-2 bg-white text-gray-800 font-semibold"
@@ -244,7 +244,7 @@ const props = defineProps({
               </div>
               <inertia-link :href="voitures.prev_page_url" v-if="voitures.prev_page_url">Page précédente</inertia-link>
                <inertia-link :href="voitures.next_page_url" v-if="voitures.next_page_url">Page suivante</inertia-link>
-<button @click="">click me {{ first }} </button>
+<!-- <button @click="">click me {{ first }} </button> -->
                <!-- <pagination class="mt-6" :links="voitures.links" /> -->
             </div>
           </div>

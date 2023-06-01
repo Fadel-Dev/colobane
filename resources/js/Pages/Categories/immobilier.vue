@@ -19,7 +19,7 @@ import AppLayout from '@/Layouts/AppLayout.vue';
 function handleSubmit() {
   lead.post('/immobilier/save')
 }
-// verger 
+// verger
 const verger = useForm({
             nom: null,
             description: null,
@@ -37,7 +37,7 @@ function handleSubmit2() {
   verger.post('/immobilier2/save')
 }
 
-// verger 
+// verger
 const ferme = useForm({
             nom: null,
             description: null,
@@ -55,7 +55,7 @@ function handleSubmit3() {
   ferme.post('/immobilier3/save')
 }
    </script>
-   
+
 <template>
   <app-layout>
     <template #header>
@@ -81,15 +81,15 @@ function handleSubmit3() {
   <div class="w-full p-3 m-auto rounded-2xl border-2 shadow-lg border-slate-200  lg:w-2/5 ">
   <h2 class="my-5 text-center bg-amber-300 rounded-full py-3">Ecrivez votre annonce immobilliere </h2>
 
-      <form @submit.prevent="handleSubmit">       
+      <form @submit.prevent="handleSubmit">
 <!-- NOM -->
 
       <div class="mb-4">
-          <label class="block text-gray-700 font-bold mb-2" 
+          <label class="block text-gray-700 font-bold mb-2"
           for="nom">
               Titre
           </label>
-          <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+          <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
              id="nom"
              name="nom"
              type="text"
@@ -103,9 +103,9 @@ function handleSubmit3() {
           <label class="block text-gray-700 font-bold mb-2" for="price">
               Prix
           </label>
-          <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
-             id="prix" 
-             type="text" 
+          <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+             id="prix"
+             type="text"
              placeholder="Entrez le prix"
              name="prix"
              v-model="lead.prix"
@@ -116,21 +116,21 @@ function handleSubmit3() {
           <label class="block text-gray-700 font-bold mb-2" for="description">
               Description
           </label>
-          <textarea class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
-             id="description" rows="5" 
-             name="description" 
-             v-model="lead.description" 
+          <textarea class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+             id="description" rows="5"
+             name="description"
+             v-model="lead.description"
              placeholder="Entrez la description"
              required></textarea>
       </div>
 <!-- <PIECE>-->
 
   <div class="mb-4">
-          <label class="block text-gray-700 font-bold mb-2" 
+          <label class="block text-gray-700 font-bold mb-2"
           for="npiece">
-              nombre de piece 
+              nombre de piece
           </label>
-          <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+          <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
              id="npiece"
              name="npiece"
              type="text"
@@ -143,7 +143,7 @@ function handleSubmit3() {
 <label class="block text-gray-700 font-bold mb-2" for="fuel">
          Location ou vente
        </label>
-       <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+       <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="affaire"
             name="affaire"
             v-model="lead.affaire">
@@ -155,7 +155,7 @@ function handleSubmit3() {
 
  <div class="images">
   <div class="mb-4">
-             <label class="block text-gray-700 font-bold mb-2" 
+             <label class="block text-gray-700 font-bold mb-2"
                 for="image"
                 >
                  Image 1
@@ -167,7 +167,7 @@ function handleSubmit3() {
          </div>
 
           <div class="mb-4">
-             <label class="block text-gray-700 font-bold mb-2" 
+             <label class="block text-gray-700 font-bold mb-2"
                 for="image"
                 >
                  Image 2
@@ -179,7 +179,7 @@ function handleSubmit3() {
          </div>
 
          <div class="mb-4">
-             <label class="block text-gray-700 font-bold mb-2" 
+             <label class="block text-gray-700 font-bold mb-2"
                 for="image"
                 >
                  Image 3
@@ -188,7 +188,7 @@ function handleSubmit3() {
              <progress v-if="lead.progress" :value="lead.progress.percentage" max="100">
       {{ lead.progress.percentage }}%
     </progress>
-         </div> 
+         </div>
  </div>
 <!-- REGION -->
   <div class="mb-4">
@@ -215,7 +215,7 @@ function handleSubmit3() {
   </div>
 
          <button type="submit" class="bg-yellow-500 px-5 py-1 rounded-2xl">save</button>
-  
+
     </form>
     </div>
   </div>
@@ -224,15 +224,15 @@ function handleSubmit3() {
     <div class="w-11/12 px-2 m-auto rounded-2xl border-2 shadow-lg border-slate-200  lg:w-2/5 ">
   <h2 class="my-5 text-center bg-amber-300 rounded-full py-3">Ecrivez votre annonce de Verger</h2>
 
-    <form @submit.prevent="handleSubmit2">       
+    <form @submit.prevent="handleSubmit2">
 <!-- NOM -->
 
       <div class="mb-4">
-          <label class="block text-gray-700 font-bold mb-2" 
+          <label class="block text-gray-700 font-bold mb-2"
           for="nom">
               Titre
           </label>
-          <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+          <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
              id="nom"
              name="nom"
              type="text"
@@ -246,9 +246,9 @@ function handleSubmit3() {
           <label class="block text-gray-700 font-bold mb-2" for="price">
               Prix
           </label>
-          <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
-             id="prix" 
-             type="text" 
+          <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+             id="prix"
+             type="text"
              placeholder="Entrez le prix"
              name="prix"
              v-model="verger.prix"
@@ -259,21 +259,21 @@ function handleSubmit3() {
           <label class="block text-gray-700 font-bold mb-2" for="description">
               Description
           </label>
-          <textarea class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
-             id="description" rows="5" 
-             name="description" 
-             v-model="verger.description" 
+          <textarea class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+             id="description" rows="5"
+             name="description"
+             v-model="verger.description"
              placeholder="Entrez la description"
              required></textarea>
       </div>
 <!-- <PIECE>-->
 
   <div class="mb-4">
-          <label class="block text-gray-700 font-bold mb-2" 
+          <label class="block text-gray-700 font-bold mb-2"
           for="npiece">
               Surface
           </label>
-          <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+          <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
              id="surface"
              name="surface"
              type="text"
@@ -286,7 +286,7 @@ function handleSubmit3() {
 <label class="block text-gray-700 font-bold mb-2" for="fuel">
          Location ou vente
        </label>
-       <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+       <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="affaire"
             name="affaire"
             v-model="verger.affaire">
@@ -298,7 +298,7 @@ function handleSubmit3() {
 
  <div class="images">
   <div class="mb-4">
-             <label class="block text-gray-700 font-bold mb-2" 
+             <label class="block text-gray-700 font-bold mb-2"
                 for="image"
                 >
                  Image 1
@@ -310,7 +310,7 @@ function handleSubmit3() {
          </div>
 
           <div class="mb-4">
-             <label class="block text-gray-700 font-bold mb-2" 
+             <label class="block text-gray-700 font-bold mb-2"
                 for="image"
                 >
                  Image 2
@@ -322,7 +322,7 @@ function handleSubmit3() {
          </div>
 
          <div class="mb-4">
-             <label class="block text-gray-700 font-bold mb-2" 
+             <label class="block text-gray-700 font-bold mb-2"
                 for="image"
                 >
                  Image 3
@@ -331,7 +331,7 @@ function handleSubmit3() {
              <progress v-if="verger.progress" :value="verger.progress.percentage" max="100">
       {{ verger.progress.percentage }}%
     </progress>
-         </div> 
+         </div>
  </div>
 <!-- REGION -->
   <div class="mb-4">
@@ -358,25 +358,25 @@ function handleSubmit3() {
   </div>
 
          <button type="submit" class="bg-yellow-500 px-5 py-1 rounded-2xl">save</button>
-  
+
     </form>
    </div>
   </div>
- 
+
   <!-- FERME -->
   <div v-else-if="lead.type==='Ferme'">
     <div class="w-11/12 px-2  m-auto rounded-2xl border-2 shadow-lg border-slate-200  lg:w-2/5 ">
   <h2 class="my-5 text-center bg-amber-300 rounded-full py-3">Ecrivez votre annonce de Ferme</h2>
 
-      <form @submit.prevent="handleSubmit3">       
+      <form @submit.prevent="handleSubmit3">
 <!-- NOM -->
 
       <div class="mb-4">
-          <label class="block text-gray-700 font-bold mb-2" 
+          <label class="block text-gray-700 font-bold mb-2"
           for="nom">
               Nom
           </label>
-          <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+          <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
              id="nom"
              name="nom"
              type="text"
@@ -390,9 +390,9 @@ function handleSubmit3() {
           <label class="block text-gray-700 font-bold mb-2" for="price">
               Prix
           </label>
-          <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
-             id="prix" 
-             type="text" 
+          <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+             id="prix"
+             type="text"
              placeholder="Entrez le prix"
              name="prix"
              v-model="ferme.prix"
@@ -403,21 +403,21 @@ function handleSubmit3() {
           <label class="block text-gray-700 font-bold mb-2" for="description">
               Description
           </label>
-          <textarea class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
-             id="description" rows="5" 
-             name="description" 
-             v-model="ferme.description" 
+          <textarea class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+             id="description" rows="5"
+             name="description"
+             v-model="ferme.description"
              placeholder="Entrez la description"
              required></textarea>
       </div>
 <!-- <PIECE>-->
 
   <div class="mb-4">
-          <label class="block text-gray-700 font-bold mb-2" 
+          <label class="block text-gray-700 font-bold mb-2"
           for="npiece">
               Surface
           </label>
-          <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+          <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
              id="surface"
              name="surface"
              type="text"
@@ -430,7 +430,7 @@ function handleSubmit3() {
 <label class="block text-gray-700 font-bold mb-2" for="fuel">
          Location ou vente
        </label>
-       <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+       <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="affaire"
             name="affaire"
             v-model="ferme.affaire">
@@ -441,7 +441,7 @@ function handleSubmit3() {
 <!-- IMAGES -->
        <div class="images">
         <div class="mb-4">
-             <label class="block text-gray-700 font-bold mb-2" 
+             <label class="block text-gray-700 font-bold mb-2"
                 for="image"
                 >
                  Image 1
@@ -453,7 +453,7 @@ function handleSubmit3() {
          </div>
 
           <div class="mb-4">
-             <label class="block text-gray-700 font-bold mb-2" 
+             <label class="block text-gray-700 font-bold mb-2"
                 for="image"
                 >
                  Image 2
@@ -465,7 +465,7 @@ function handleSubmit3() {
          </div>
 
          <div class="mb-4">
-             <label class="block text-gray-700 font-bold mb-2" 
+             <label class="block text-gray-700 font-bold mb-2"
                 for="image"
                 >
                  Image 3
@@ -474,9 +474,9 @@ function handleSubmit3() {
              <progress v-if="ferme.progress" :value="ferme.progress.percentage" max="100">
       {{ ferme.progress.percentage }}%
     </progress>
-         </div> 
+         </div>
        </div>
- 
+
 <!-- REGION -->
   <div class="mb-4">
       <select class="border border-gray-300 rounded-full text-gray-600 h-10 pl-5 pr-10 bg-white hover:border-gray-400 focus:outline-none appearance-none"
@@ -502,18 +502,18 @@ function handleSubmit3() {
   </div>
 
          <button type="submit" class="bg-yellow-500 px-5 py-1 rounded-2xl">save</button>
-  
+
     </form>
     </div>
   </div>
- 
+
   </app-layout>
-  
+
 </template>
 
 
 <style>
- 
+
   .images {
     display:grid;
     grid-template-columns: 32% 32% 32%;
