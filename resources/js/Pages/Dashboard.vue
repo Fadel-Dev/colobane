@@ -41,5 +41,5 @@ const  props = defineProps({
     </div>
   </div>
 
-    </AppLayout>                   
+    </AppLayout>
 </template>

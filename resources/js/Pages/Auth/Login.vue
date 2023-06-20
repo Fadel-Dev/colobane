@@ -57,7 +57,7 @@ const submit = () => {
         {{ status }}
     </div>
 
-    <form @submit.prevent="submit">
+    <form @submit.prevent="submit" class="py-5">
         <div class="bg-gray-100">
             <InputLabel for="email" value="Mail" />
             <TextInput
@@ -85,23 +85,45 @@ const submit = () => {
             <InputError class="mt-2" :message="form.errors.password" />
         </div>
 
-        <div class="block mt-4">
+        <!-- <div class="block mt-4">
             <label class="flex items-center">
                 <Checkbox v-model:checked="form.remember" name="remember" />
                 <span class="ml-2 text-sm text-gray-600">Se souvenir de moi</span>
             </label>
-        </div>
+        </div> -->
 
-        <div class="flex items-center justify-end mt-4">
+        <div class="flex items-center justify-between mt-4">
+           <div class="flex-start">
+            <label class="flex items-start">
+                <Checkbox v-model:checked="form.remember" name="remember" />
+                <span class="ml-2 text-sm text-gray-600">Se souvenir de moi</span>
+            </label>
+           </div>
+
+           <div class="flex-end">
             <Link v-if="canResetPassword" :href="route('password.request')" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                 Mots de passe Oublie ?
             </Link>
+           </div>
+        </div>
 
-            <PrimaryButton class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+        <!-- cccccccc -->
+
+        <div class="flex items-center justify-center mt-4">
+
+
+            <PrimaryButton class="ml-4 text-center" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                 Se connecter
             </PrimaryButton>
         </div>
+
+
     </form>
+    <div class="w-full bg-gray-300 p-2 b-gray-400 text-center rounded-lg my-9 text-white">
+
+<Link :href="route('register')">Cree Un Compte</Link>
+
+</div>
 </AuthenticationCard>
             </div>
         </div>

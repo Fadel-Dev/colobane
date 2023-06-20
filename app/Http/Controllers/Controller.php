@@ -81,9 +81,9 @@ class Controller extends BaseController
 
 
 
-// details produits
+// details produits immobillier
 
-public function Details($id)
+public function DetailsImmo($id)
 {
 sleep(1);
 
@@ -114,6 +114,47 @@ $phoneUtilisateur = DB::table('users')
     'phpVersion' => PHP_VERSION,
 
     'maison' => $maison,
+     'nameSeler' => $nomUtilisateur,
+     'mailSeler' => $mailUtilisateur,
+     'phoneSeler' => $phoneUtilisateur,
+    'user' => $user,
+  ])
+  ;
+}
+
+
+// VEHICULE
+public function DetailsVehi($id)
+{
+sleep(1);
+
+  $user = User::findOrFail($id);
+//   name user
+  $nomUtilisateur = DB::table('users')
+  ->join('voitures', 'users.id', '=', 'voitures.user_id')
+  ->where('voitures.id', $id)
+  ->value('users.name');
+
+//   mail user
+  $mailUtilisateur = DB::table('users')
+  ->join('voitures', 'users.id', '=', 'voitures.user_id')
+  ->where('voitures.id', $id)
+  ->value('users.email');
+
+//   phone user
+$phoneUtilisateur = DB::table('users')
+->join('voitures', 'users.id', '=', 'voitures.user_id')
+->where('voitures.id', $id)
+->value('users.phone');
+
+  $voiture = Voitures::findOrFail($id);
+  return Inertia::render('Details', [
+    'canLogin' => Route::has('login'),
+    'canRegister' => Route::has('register'),
+    'laravelVersion' => Application::VERSION,
+    'phpVersion' => PHP_VERSION,
+
+    'maison' => $voiture,
      'nameSeler' => $nomUtilisateur,
      'mailSeler' => $mailUtilisateur,
      'phoneSeler' => $phoneUtilisateur,

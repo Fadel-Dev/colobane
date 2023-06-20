@@ -21,7 +21,7 @@ const props = defineProps({
 <template>
   <Head title="Acceuil" />
   <div>
-    <div class="nav bg-white w-full m-0 p-0">
+    <div class="nav bg-white w-full  m-0 p-0 fixed top-0 left-0 z-10">
       <nav
         class="
           px-9
@@ -44,16 +44,7 @@ const props = defineProps({
             >Logo
           </router-link>
 
-          <!-- <div class="hidden md:block">
-          <div class="ml-4 flex items-center md:ml-6">
-            <form>
-              <div class="flexz">
-                <input type="text" class="border-2 border-gray-300 bg-white h-10 px-5 pr-10 rounded-full text-sm focus:outline-none" placeholder="Recherche...">
-                <button type="submit" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full ml-2">Rechercher</button>
-              </div>
-            </form>
-          </div>
-        </div> -->
+
 
           <!-- Mobile menu button -->
           <div @click="showMenu = !showMenu" class="flex md:hidden">
@@ -117,9 +108,9 @@ const props = defineProps({
       </nav>
     </div>
     <!-- Home -->
-
+<div class="cccc">
     <div class="Home">
-        <div class="flex border-b w-full mt-1  ">
+        <div class="flex border-b w-full  m-0 p-0 fixed top-11 left-0 z-10">
         <button
           class="w-full  py-2 bg-white text-gray-800 font-semibold"
           :class="{ 'border-b-2 border-blue-500': activeTab === 'immobilier' }"
@@ -138,119 +129,101 @@ const props = defineProps({
       <div v-show="activeTab === 'immobilier'">
         <!-- Contenu pour les annonces immobilières -->
 
-        <div class="mt-16">
-        <div class="w-4/5 mx-auto  grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-          <div v-for="maison in maisons.data" :key="maison.id" @click="navigateToDetail(maison.id)" class="group relative bg-white shadow-[0px_20px_20px_10px_#00000024] rounded-lg">
-            <div
-              class="  bg-gray-200">
+         <!-- <div class="mt-16 h-screen w-11/12 mx-auto">
+        <div class="w-5/5 mx-auto  grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+          <div v-for="maison in maisons.data" :key="maison.id" @click="navigateToDetail(maison.id)" class="group relative bg-white shadow-[0px_0px_0_0_#00000024] rounded-lg">
+            <div class="max-h-[13rem] aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md lg:aspect-none group-hover:opacity-75 lg:h-80"
+         >
               <img :src=" '/storage/' + maison.image1" :alt="maison.imageAlt"
                 class="h-full w-full object-cover object-center lg:h-full lg:w-full" />
             </div>
-<!-- <a href="https://www.leboncoin.fr">teest</a>      -->
 
-             <!-- infos  -->
             <div class="infos px-3 pb-7 pt-2 ">
-                <div class="prix text-center">
-                <p class="text-sm font-medium text-gray-900">{{ maison.prix }}</p>
-              </div>
+
               <div class="nomAffaire flex justify-between">
-                <div class="nom">
-                <h3 class="text-sm text-gray-700">
-                    <span aria-hidden="true" class="absolute inset-0" />
+                <div class="nom text-gray-900 text-lg">
+                <h3 class="text-md">
+                    <span aria-hidden="true" class="absolute inset-0
+                   " />
                     {{ maison.nom }}
 
 
                 </h3>
-              </div>
 
-
-               <!-- AFFAIRE  -->
-              <div class="affaire">
-                <h3 class="text-sm text-gray-700">
+                <p class="text-sm text-gray-700">
                   <a :href="maison.href">
                     <span aria-hidden="true" class="absolute inset-0" />
                     {{ maison.affaire }}
-                  </a>
-                </h3>
-              </div>
-              </div>
-              <div class="region flex justify-between">
-                <div class="re">
-                  <p class="mt-1 text-sm text-gray-500">{{ maison.region }}</p>
-                </div>
-                <div class="date">
-                  <p class="mt-1 text-sm text-gray-500">{{ maison.updated_at }}</p>
+                  </a> <br>
+                   <span class="text-sm font-medium text-gray-900">
+                  {{ maison.prix }} Fcfa
+                </span> <br>
 
-                </div>
+
+                </p>
+
+                <span class="text-sm text-gray-500">{{ maison.updated_at }}</span>
+
+
+
               </div>
-              <button @click="destroy(maison.id)" type="button" class="bg-red-100 text-center">
-            delete
-           </button>
+
+
+
+              </div>
+
               </div>
 
             </div> <a href="/detail/2">Teste</a>
             <inertia-link :href="maisons.prev_page_url" v-if="maisons.prev_page_url">Page précédente</inertia-link>
             <inertia-link :href="maisons.next_page_url" v-if="maisons.next_page_url">Page suivante</inertia-link>
 
-           <!-- <pagination class="mt-6" :links="maisons.links" /> -->
+
 
 
           </div>
 
+        </div> -->
+
+<div class="immo w-11/12 mx-auto">
+
+     <div class="flex flex-wrap justify-center mt-20">
+      <div v-for="maison  in maisons.data" :key="maison.id" @click="navigateToDetail(maison.id)"  class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 p-4">
+        <div class="bg-white shadow-lg">
+          <img :src=" '/storage/' + maison.image1" :alt="maison.imageAlt" class="w-full h-60 object-cover">
+          <div class="p-4">
+              <h3 class="text-gray-700 text-xl font-semibold">{{ maison.nom }}</h3>
+            <p class="text-gray-500">{{ maison.affaire }}</p>
+
+              <p class="text-gray-500"> Proposee par Fadel</p>
+            <p class="text-gray-600 text-lg font-semibold">{{ maison.prix }}<span></span></p>
+          </div>
         </div>
+      </div>
+    </div>
+</div>
+
       </div>
       <div v-show="activeTab === 'vehicule'" >
-        <div class="mt-16">
-        <div class="w-4/5 mx-auto  grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-          <div v-for="voiture in voitures.data" :key="voiture.id" class="group relative bg-white shadow-[0px_20px_20px_10px_#00000024] rounded-lg">
-            <div
-              class="  bg-gray-200">
-              <img :src=" '/storage/' + voiture.image1" :alt="voiture.imageAlt"
-                class="h-full w-full object-cover object-center lg:h-full lg:w-full" />
-            </div>
-             <!-- infos  -->
-            <div class="infos px-3 pb-7 pt-2 ">
-                <div class="prix text-center">
-                <p class="text-sm font-medium text-gray-900">{{ voiture.prix }}</p>
-              </div>
-              <div class="nomAffaire flex justify-between">
-                <div class="nom">
-                <h3 class="text-sm text-gray-700">
-                  <a :href="voiture.href">
-                    <span aria-hidden="true" class="absolute inset-0" />
-                    {{ voiture.nom }}
-                  </a>
-                </h3>
-              </div>
-               <!-- AFFAIRE  -->
-              <div class="affaire">
-                <h3 class="text-sm text-gray-700">
-                  <a :href="voiture.href">
-                    <span aria-hidden="true" class="absolute inset-0" />
-                    {{ voiture.affaire }}
-                  </a>
-                </h3>
-              </div>
-              </div>
-              <div class="region flex justify-between">
-                <div class="re">
-                  <p class="mt-1 text-sm text-gray-500">{{ voiture.region }}</p>
-                </div>
-                <div class="date">
-                  <p class="mt-1 text-sm text-gray-500">{{ voiture.updated_at }}</p>
+        <div class="flex flex-wrap justify-center mt-20">
+       <div v-for="voiture  in voitures.data" :key="voiture.id" @click="navigateToDetail(voiture.id)"  class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 p-4">
+        <div class="bg-white rounded-lg shadow-lg">
+          <img :src=" '/storage/' + voiture.image1" :alt="voiture.imageAlt" class="w-full h-60 object-cover">
+          <div class="p-4">
+              <h3 class="text-gray-700 text-xl font-semibold">{{ voiture.nom }}</h3>
+            <p class="text-gray-500">{{ voiture.affaire }}</p>
 
-                </div>
-              </div>
-              </div>
-              <inertia-link :href="voitures.prev_page_url" v-if="voitures.prev_page_url">Page précédente</inertia-link>
-               <inertia-link :href="voitures.next_page_url" v-if="voitures.next_page_url">Page suivante</inertia-link>
-<!-- <button @click="">click me {{ first }} </button> -->
-               <!-- <pagination class="mt-6" :links="voitures.links" /> -->
-            </div>
+              <p class="text-gray-500"> Proposee par Fadel</p>
+            <p class="text-gray-600 text-lg font-semibold">{{ voiture.prix }}<span></span></p>
           </div>
         </div>
       </div>
+
+    </div>
       </div>
+      </div>
+</div>
+
   </div>
 
    <!-- FOOTER -->

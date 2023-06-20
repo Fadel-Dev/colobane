@@ -7,7 +7,7 @@ import { Inertia } from '@inertiajs/inertia';
    import Navbar from '../Components/Navbar.vue'
 
 const props = defineProps({
-maison: Object,
+voiture: Object,
         user:Object,
         nameSeler:Object,
         mailSeler:Object,
@@ -23,7 +23,7 @@ phpVersion: String,
 <template>
 
  <Head>
-  <title>Detail {{ maison.nom }} </title>
+  <title>Detail {{ voiture.nom }} </title>
  </Head>
  <div>
     <div class="nav bg-white w-full m-0 p-0">
@@ -145,11 +145,11 @@ phpVersion: String,
 
     </div>
       <div class="w-2/12 flex mx-auto ">
-        <img :src=" '/storage/' + maison.image2" :alt="maison.imageAlt"
+        <img :src=" '/storage/' + voiture.image2" :alt="voiture.imageAlt"
                 class="h-1/6 p-1 w-1/12 object-cover object-center lg:h-2/4 lg:w-full" />
-                <img :src=" '/storage/' + maison.image2" :alt="maison.imageAlt"
+                <img :src=" '/storage/' + voiture.image2" :alt="voiture.imageAlt"
                 class="h-1/6 p-1 w-1/12 object-cover object-center lg:h-2/4 lg:w-full" />
-                <img :src=" '/storage/' + maison.image2" :alt="maison.imageAlt"
+                <img :src=" '/storage/' + voiture.image2" :alt="voiture.imageAlt"
                 class="h-1/6 p-1 w-1/12 object-cover object-center lg:h-2/4 lg:w-full" />
 
             </div>
@@ -162,13 +162,13 @@ phpVersion: String,
 
   <div class="w-full md:w-1/2 px-10">
                     <!-- <div class="mb-10">
-                        <h1 class="font-bold uppercase text-3xl mb-5">{{ maison.nom }} {{nameSeler}}</h1>
-                        <p class="text-lg">{{ maison.description }} <a href="#" class="opacity-50 text-gray-900 hover:opacity-100 inline-block text-xs leading-none border-b border-gray-900">MORE <i class="mdi mdi-arrow-right"></i></a></p>
+                        <h1 class="font-bold uppercase text-3xl mb-5">{{ voiture.nom }} {{nameSeler}}</h1>
+                        <p class="text-lg">{{ voiture.description }} <a href="#" class="opacity-50 text-gray-900 hover:opacity-100 inline-block text-xs leading-none border-b border-gray-900">MORE <i class="mdi mdi-arrow-right"></i></a></p>
                     </div>
                     <div>
                         <div class="inline-block align-bottom mr-5">
                             <span class="text-2xl leading-none align-baseline">prix</span>
-                            <span class="font-bold text-5xl leading-none align-baseline">{{ maison.prix }}</span>
+                            <span class="font-bold text-5xl leading-none align-baseline">{{ voiture.prix }}</span>
                             <span class="text-2xl leading-none align-baseline"> Fcfa</span>
                         </div>
                         <div class="flex flex-col ">
@@ -261,13 +261,13 @@ phpVersion: String,
     // export default {
     //  components: { Footer },
     //   props: {
-    //     maison: Object
+    //     voiture: Object
     //   }
     // }
     export default {
         components: { Footer },
     //     props: {
-    //     maison: Object,
+    //     voiture: Object,
     //     user:Object,
     //     nameSeler:Object,
     //     mailSeler:Object,
@@ -281,9 +281,9 @@ phpVersion: String,
     return {
       images: [
 
-       this.maison.image1,
-       this.maison.image2,
-       this.maison.image3,
+       this.voiture.image1,
+       this.voiture.image2,
+       this.voiture.image3,
 
 
 

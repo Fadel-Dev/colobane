@@ -44,7 +44,7 @@ Route::middleware([
 
 
 
-//Publication   
+//Publication
 
 // Route::get('/publier',[Controller::class,'publier'])->name('publier');
 Route::get('/publier', [Controller::class, 'publier'])->name('publier')->middleware('auth');
@@ -83,9 +83,13 @@ Route::post('/immobilier3/save',[ImmobilierController::class,'storeVente3']);
 Route::post('/topics',[PostController::class,'store'])->name('topics.store');
 
 
-// DETAILS PRODUCTS
+// DETAILS PRODUCTS IMMOBILLIER
 
-Route::get('/detail/{id}',[Controller::class,'Details'])->name('go');
+Route::get('/detail/{id}',[Controller::class,'DetailsImmo'])->name('go');
+
+// DETAILS PRODUCTS IMMOBILLIER
+
+Route::get('/detailVehi/{id}',[Controller::class,'DetailsVehi'])->name('go');
 
 
 
