@@ -189,14 +189,17 @@ const props = defineProps({
 
      <div class="flex flex-wrap justify-center mt-20">
       <div v-for="maison  in maisons.data" :key="maison.id" @click="navigateToDetail(maison.id)"  class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 p-4">
-        <div class="bg-white shadow-lg">
+        <div class="bg-white shadow-lg relative">
           <img :src=" '/storage/' + maison.image1" :alt="maison.imageAlt" class="w-full h-60 object-cover">
+			<img class="mb-3 w-[4rem] h-[4rem] rounded-full shadow-lg absolute bottom-1/3 right-0" src="https://flowbite.com/docs/images/people/profile-picture-3.jpg" alt="Bonnie image">
+
           <div class="p-4">
               <h3 class="text-gray-700 text-xl font-semibold">{{ maison.nom }}</h3>
             <p class="text-gray-500">{{ maison.affaire }}</p>
 
               <p class="text-gray-500"> Proposee par Fadel</p>
             <p class="text-gray-600 text-lg font-semibold">{{ maison.prix }}<span></span></p>
+
           </div>
         </div>
       </div>
@@ -206,9 +209,11 @@ const props = defineProps({
       </div>
       <div v-show="activeTab === 'vehicule'" >
         <div class="flex flex-wrap justify-center mt-20">
-       <div v-for="voiture  in voitures.data" :key="voiture.id" @click="navigateToDetail(voiture.id)"  class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 p-4">
-        <div class="bg-white rounded-lg shadow-lg">
+       <div v-for="voiture  in voitures.data" :key="voiture.id" @click="navigateToDetailVehi(voiture.id)"  class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 p-4">
+        <div class="bg-white rounded-lg shadow-lg relative">
           <img :src=" '/storage/' + voiture.image1" :alt="voiture.imageAlt" class="w-full h-60 object-cover">
+			<img class="mb-3 w-[4rem] h-[4rem] rounded-full shadow-lg absolute bottom-1/3 right-0" src="https://flowbite.com/docs/images/people/profile-picture-3.jpg" alt="Bonnie image">
+
           <div class="p-4">
               <h3 class="text-gray-700 text-xl font-semibold">{{ voiture.nom }}</h3>
             <p class="text-gray-500">{{ voiture.affaire }}</p>
@@ -265,14 +270,16 @@ export default {
       }
     },
   //   components: {
-  //   Pagination
-  // },
+
   props: {
     usersList: Object,
   },
   methods: {
     navigateToDetail(id) {
       this.$inertia.visit(`/detail/${id}`);
+    },
+    navigateToDetailVehi(id) {
+      this.$inertia.visit(`/detailVehi/${id}`);
     }
   },
   setup(){

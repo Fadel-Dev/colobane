@@ -40,18 +40,6 @@ class Controller extends BaseController
     }
 
 
-    // test
-    // public function index()
-    // {
-    //     $usersList = User::orderBy('id', 'desc')
-    //                     ->paginate(6);
-
-    //     return Inertia::render('teste', [
-    //         'usersList' => $usersList
-    //     ]);
-    // }
-
-    // DASH
 
     public function Dash()
     {
@@ -148,13 +136,13 @@ $phoneUtilisateur = DB::table('users')
 ->value('users.phone');
 
   $voiture = Voitures::findOrFail($id);
-  return Inertia::render('Details', [
+  return Inertia::render('DetailsVehicule', [
     'canLogin' => Route::has('login'),
     'canRegister' => Route::has('register'),
     'laravelVersion' => Application::VERSION,
     'phpVersion' => PHP_VERSION,
 
-    'maison' => $voiture,
+    'voiture' => $voiture,
      'nameSeler' => $nomUtilisateur,
      'mailSeler' => $mailUtilisateur,
      'phoneSeler' => $phoneUtilisateur,

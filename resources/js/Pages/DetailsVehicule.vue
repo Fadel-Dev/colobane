@@ -4,6 +4,8 @@ import { Head, Link, router  } from '@inertiajs/vue3';
 import Footer from '../Components/Footer.vue';
 import { Inertia } from '@inertiajs/inertia';
 
+
+
    import Navbar from '../Components/Navbar.vue'
 
 const props = defineProps({
@@ -48,17 +50,6 @@ phpVersion: String,
             "
             >Logo
           </router-link>
-
-          <!-- <div class="hidden md:block">
-          <div class="ml-4 flex items-center md:ml-6">
-            <form>
-              <div class="flexz">
-                <input type="text" class="border-2 border-gray-300 bg-white h-10 px-5 pr-10 rounded-full text-sm focus:outline-none" placeholder="Recherche...">
-                <button type="submit" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full ml-2">Rechercher</button>
-              </div>
-            </form>
-          </div>
-        </div> -->
 
           <!-- Mobile menu button -->
           <div @click="showMenu = !showMenu" class="flex md:hidden">
@@ -120,98 +111,114 @@ phpVersion: String,
         </div>
 
       </nav>
+      <hr>
     </div>
     <!-- Home -->
 
-    <div class="main w-11/12 mx-auto">
-        <div class="flex  md:flex-row">
-  <div class="w-3/4 max-w-full bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
-    <div class="flex flex-col ">
-      <div class="w-full p-1">
-        <i
-      class="p-2 bg-blue-500 -white rounded text-white bi bi-chevron-left absolute"
-      @click="previousImage"
-    >
+    <main class="my-8">
+        <div class="container mx-auto ">
+            <div class="md:flex md:items-center">
+                <div class=" sm:w-[30rem] sm:h-[22rem] sm:flex items-center sm:justify-center sm:bg-gray-200 relative my-0 sm:mx-0 bg-gray-300" >
+                    <!-- img main -->
 
-    </i>
-    <div class="w-4/4 h-auto">
+                    <i
+                    class="p-2 bg-transparent text-3xl rounded text-white bi bi-chevron-left absolute top-1/2 left-11"
+                    @click="previousImage"
+                    >
 
-    <img :src="'/storage/'+currentImage" class="w-full h-full object-cover " />
-    </div>
-<div class=" align-center justify-end item-center min-w-full">
-<i class="p-2 bg-blue-500 text-white rounded bi bi-chevron-right" @click="nextImage">
+                </i>
+
+                <img  class="max-w-full max-h-full" :src="'/storage/'+currentImage"  >
+
+
+
+<i class="p-2 text-4xl text-white rounded bi bi-chevron-right absolute top-1/2 right-11" @click="nextImage">
   </i>
-</div>
+
 
     </div>
-      <div class="w-2/12 flex mx-auto ">
-        <img :src=" '/storage/' + voiture.image2" :alt="voiture.imageAlt"
-                class="h-1/6 p-1 w-1/12 object-cover object-center lg:h-2/4 lg:w-full" />
-                <img :src=" '/storage/' + voiture.image2" :alt="voiture.imageAlt"
-                class="h-1/6 p-1 w-1/12 object-cover object-center lg:h-2/4 lg:w-full" />
-                <img :src=" '/storage/' + voiture.image2" :alt="voiture.imageAlt"
-                class="h-1/6 p-1 w-1/12 object-cover object-center lg:h-2/4 lg:w-full" />
 
-            </div>
+                <div class=" max-w-lg sm:mx-auto mt-5 md:ml-8 md:mt-0 md:w-1/2 mx-auto w-11/12 ">
 
-    </div>
-  </div>
-  <!-- <div v-for="">
+                    <h3 class="text-gray-600 uppercase text-lg sm:text-3xl">{{ voiture.nom }}</h3>
+                    <span class="text-gray-500 mt-3">Propose par <span class="text-gray-700 uppercase">{{nameSeler  }} {{  }} </span> </span> <br>
+                    <span class="text-gray-500 mt-3">Prix : <span class="text-gray-700 uppercase">{{voiture.prix  }} </span> Fcfa</span>
+                    <hr class="my-3">
+                    <p  class="text-gray-600 mt-3">
+                        {{ voiture.description }}
+                    </p>
+                    <div class="mt-2">
+                        <!-- <p  class="text-gray-600 mt-3">
+                            <span>coolman</span>
 
-  </div> -->
-
-  <div class="w-full md:w-1/2 px-10">
-                    <!-- <div class="mb-10">
-                        <h1 class="font-bold uppercase text-3xl mb-5">{{ voiture.nom }} {{nameSeler}}</h1>
-                        <p class="text-lg">{{ voiture.description }} <a href="#" class="opacity-50 text-gray-900 hover:opacity-100 inline-block text-xs leading-none border-b border-gray-900">MORE <i class="mdi mdi-arrow-right"></i></a></p>
+                        </p>   -->
                     </div>
-                    <div>
-                        <div class="inline-block align-bottom mr-5">
-                            <span class="text-2xl leading-none align-baseline">prix</span>
-                            <span class="font-bold text-5xl leading-none align-baseline">{{ voiture.prix }}</span>
-                            <span class="text-2xl leading-none align-baseline"> Fcfa</span>
-                        </div>
-                        <div class="flex flex-col ">
-                            <button class="bg-yellow-300 opacity-75 hover:opacity-100 text-yellow-900 hover:text-gray-900 rounded-full px-2 py-2 font-semibold m-1 w-2/4"><i class="mdi mdi-cart -ml-2 mr-2"></i> Me contacter sur whatshapp</button>
-                            <button class="bg-yellow-300 opacity-75 hover:opacity-100 text-yellow-900 hover:text-gray-900 rounded-full px-2 py-2 font-semibold w-2/4"><i class="mdi mdi-cart -ml-2 mr-2"></i>Afficher mon numero</button>
-                        </div>
-                    </div> -->
-                    <div class="max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
-		<div class="flex justify-end px-4 pt-4">
-			<!-- <button id="dropdownButton" data-dropdown-toggle="dropdown" class="hidden sm:inline-block text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-1.5" type="button">
-<svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"></path></svg>
-</button> -->
-
-		</div>
-		<div class="flex flex-col items-center pb-10">
+                    <div class="mt-3">
+                        <div class="flex items-center mt-1 relative">
 			<img class="mb-3 w-24 h-24 rounded-full shadow-lg" src="https://flowbite.com/docs/images/people/profile-picture-3.jpg" alt="Bonnie image">
-			<h3 class="mb-1 text-xl font-medium text-gray-900 dark:text-white">{{ nameSeler }}</h3>
-			<span class="text-sm text-gray-500 dark:text-gray-400">vendeur</span>
-			<div class="flex mt-4 space-x-3 lg:mt-6">
-				<a href="#"
-					class="inline-flex items-center py-2 px-4 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Contacter
-                </a>
+            <span class="absolute top-2 left-20 ml-6 text-gray-700 uppercase">{{ nameSeler }}</span>
 
-                <!-- phone seller -->
-                <button @click="toggleUserNumber">{{ showUserNumber ? ' Afficher' : 'Cacher' }}</button>
-                <div v-if="showUserNumber">
-                    <a href="#"
-					class="inline-flex items-center py-2 px-4 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">voir le numero
-                </a>
-                </div>
 
-                <div v-else>
-                    <a href="#"
-					class="inline-flex items-center py-2 px-4 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">{{ phoneSeler }}
-                </a>
-                </div>
+                        </div>
+                    </div>
+                    <div class="flex items-center mt-6">
+                        <button class="px-8 mx-1 py-2 bg-indigo-600 text-white text-sm font-medium rounded hover:bg-indigo-500 focus:outline-none focus:bg-indigo-500">Contacter</button>
+                        <button class="px-8 mx-1 py-2 bg-indigo-600 text-white text-sm font-medium rounded hover:bg-indigo-500 focus:outline-none focus:bg-indigo-500">Voir le num</button>
 
-			</div>
-		</div>
-	</div>
+                    </div>
                 </div>
-</div>
-    </div>
+            </div>
+            <div class="mt-16">
+                <h3 class="text-gray-600 text-2xl font-medium">Produits Similaire</h3>
+                <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-6">
+                    <div class="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden">
+                        <div class="flex items-end justify-end h-56 w-full bg-cover" style="background-image: url('https://images.unsplash.com/photo-1563170351-be82bc888aa4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=376&q=80')">
+                            <button class="p-2 rounded-full bg-blue-600 text-white mx-5 -mb-4 hover:bg-blue-500 focus:outline-none focus:bg-blue-500">
+                                <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                            </button>
+                        </div>
+                        <div class="px-5 py-3">
+                            <h3 class="text-gray-700 uppercase">Chanel</h3>
+                            <span class="text-gray-500 mt-2">$12</span>
+                        </div>
+                    </div>
+                    <div class="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden">
+                        <div class="flex items-end justify-end h-56 w-full bg-cover" style="background-image: url('https://images.unsplash.com/photo-1544441893-675973e31985?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80')">
+                            <button class="p-2 rounded-full bg-blue-600 text-white mx-5 -mb-4 hover:bg-blue-500 focus:outline-none focus:bg-blue-500">
+                                <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                            </button>
+                        </div>
+                        <div class="px-5 py-3">
+                            <h3 class="text-gray-700 uppercase">Man Mix</h3>
+                            <span class="text-gray-500 mt-2">$12</span>
+                        </div>
+                    </div>
+                    <div class="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden">
+                        <div class="flex items-end justify-end h-56 w-full bg-cover" style="background-image: url('https://images.unsplash.com/photo-1532667449560-72a95c8d381b?ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80')">
+                            <button class="p-2 rounded-full bg-blue-600 text-white mx-5 -mb-4 hover:bg-blue-500 focus:outline-none focus:bg-blue-500">
+                                <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                            </button>
+                        </div>
+                        <div class="px-5 py-3">
+                            <h3 class="text-gray-700 uppercase">Classic watch</h3>
+                            <span class="text-gray-500 mt-2">$12</span>
+                        </div>
+                    </div>
+                    <div class="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden">
+                        <div class="flex items-end justify-end h-56 w-full bg-cover" style="background-image: url('https://images.unsplash.com/photo-1590664863685-a99ef05e9f61?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=345&q=80')">
+                            <button class="p-2 rounded-full bg-blue-600 text-white mx-5 -mb-4 hover:bg-blue-500 focus:outline-none focus:bg-blue-500">
+                                <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                            </button>
+                        </div>
+                        <div class="px-5 py-3">
+                            <h3 class="text-gray-700 uppercase">woman mix</h3>
+                            <span class="text-gray-500 mt-2">$12</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
   </div>
 
    <!-- FOOTER -->
@@ -290,6 +297,7 @@ phpVersion: String,
               ],
       currentIndex: 0,
       showUserNumber: false,
+
     };
   },
   computed: {
