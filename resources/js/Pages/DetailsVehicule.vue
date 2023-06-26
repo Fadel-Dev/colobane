@@ -142,7 +142,25 @@ phpVersion: String,
 
                     <h3 class="text-gray-600 uppercase text-lg sm:text-3xl">{{ voiture.nom }}</h3>
                     <span class="text-gray-500 mt-3">Propose par <span class="text-gray-700 uppercase">{{nameSeler  }} {{  }} </span> </span> <br>
-                    <span class="text-gray-500 mt-3">Prix : <span class="text-gray-700 uppercase">{{voiture.prix  }} </span> Fcfa</span>
+                    <span class="text-gray-500 mt-3">Prix : <span class="text-gray-700 uppercase">{{voiture.prix  }} </span> Fcfa</span> <br>
+                    <!-- <span class="text-gray-500 mt-3">Compteur : <span class="text-gray-700 uppercase">{{voiture.kilometrage  }}? 'N/A'</span> Km</span> -->
+
+<div v-if="voiture.affaire=='vente'">
+  <span class="text-gray-500 mt-3">Marque : <span class="text-gray-700 uppercase">{{voiture.marque  }} </span> </span> <br>
+  <span class="text-gray-500 mt-3">Model : <span class="text-gray-700 uppercase">{{voiture.model  }} </span> </span> <br>
+  <span class="text-gray-500 mt-3">Kilimetrage : <span class="text-gray-700 uppercase">{{voiture.kilometrage  }} </span> Km</span> <br>
+  <span class="text-gray-500 mt-3">Boite V : <span class="text-gray-700 uppercase">{{voiture.boiteVitesse  }} </span> </span> <br>
+  <span class="text-gray-500 mt-3">Carburant : <span class="text-gray-700 uppercase">{{voiture.carburant  }} </span> </span> <br>
+</div>
+
+<div v-else>
+  <span class="text-gray-500 mt-3">Marque : <span class="text-gray-700 uppercase">{{voiture.marque  }} </span> </span> <br>
+  <!-- <span class="text-gray-500 mt-3">Model : <span class="text-gray-700 uppercase">{{voiture.model  }} </span> </span> <br> -->
+  <!-- <span class="text-gray-500 mt-3">Kilimetrage : <span class="text-gray-700 uppercase">{{voiture.kilometrage  }} </span> Km</span> <br> -->
+  <span class="text-gray-500 mt-3">Boite V : <span class="text-gray-700 uppercase">{{voiture.boiteVitesse  }} </span> </span> <br>
+  <span class="text-gray-500 mt-3">Carburant : <span class="text-gray-700 uppercase">{{voiture.carburant  }} </span> </span> <br>
+</div>
+
                     <hr class="my-3">
                     <p  class="text-gray-600 mt-3">
                         {{ voiture.description }}
@@ -154,12 +172,12 @@ phpVersion: String,
                         </p>   -->
                     </div>
                     <div class="mt-3">
-                        <div class="flex items-center mt-1 relative">
+                        <!-- <div class="flex items-center mt-1 relative">
 			<img class="mb-3 w-24 h-24 rounded-full shadow-lg" src="https://flowbite.com/docs/images/people/profile-picture-3.jpg" alt="Bonnie image">
             <span class="absolute top-2 left-20 ml-6 text-gray-700 uppercase">{{ nameSeler }}</span>
 
 
-                        </div>
+                        </div> -->
                     </div>
                     <div class="flex items-center mt-6">
                         <button class="px-8 mx-1 py-2 bg-indigo-600 text-white text-sm font-medium rounded hover:bg-indigo-500 focus:outline-none focus:bg-indigo-500">Contacter</button>

@@ -1,57 +1,55 @@
 <template>
-
-    <div>
-  <div v-for="image in images" :key="image.id">
-    <img :src="image.src" @click="afficherImageEnGrand(image)">
-  </div>
-</div>
-
-
-
-
-    <footer class="bg-gray-200">
-        <div class="container mx-auto px-6 py-3 flex justify-between items-center">
-            <a href="#" class="text-xl font-bold text-gray-500 hover:text-gray-400">Brand</a>
-            <p class="py-2 text-gray-500 sm:py-0">All rights reserved</p>
+    <div class="flex items-center justify-center w-1/3">
+      <div class="flex space-x-4  w-1/3">
+        <div class="flex items-center space-x-2">
+          <button @click="scrollLeft" class="p-2 rounded-md bg-gray-200">
+            <i class="bi bi-chevron-left"></i>
+          </button>
+          <div class="flex space-x-2 overflow-hidden">
+            <div v-for="item in items" :key="item" class="flex items-center justify-center w-32 h-12 rounded-md bg-gray-200">
+              <i class="bi bi-{{ item.icon }}"></i>
+              <span>{{ item.label }}</span>
+            </div>
+          </div>
+          <button @click="scrollRight" class="p-2 rounded-md bg-gray-200">
+            <i class="bi bi-chevron-right"></i>
+          </button>
         </div>
-        <div v-if="imageEnGrand" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-75">
-  <img :src="imageEnGrand.src" class="max-h-full max-w-full">
-</div>
-    </footer>
-
+      </div>
+    </div>
   </template>
 
   <script>
   export default {
     data() {
       return {
-        images: [
-          {
-            id: 1,
-            src: 'https://www.izo.net/media/cache/news_detail/35144-maison-contemporaine-haute-savoie.jpg',
-          },
-          {
-            id: 2,
-            src: 'https://www.maisons-pierre.com/wp-content/uploads/2020/08/Visuel5.jpg',
-          },
-          {
-            id: 3,
-            src: 'https://www.maisons-pierre.com/wp-content/uploads/2020/08/Visuel5.jpg',
-          },
+        items: [
+          { label: "Verger", icon: "tree" },
+          { label: "Ferme", icon: "house" },
+          { label: "Terrain", icon: "map" },
+          { label: "Chambre", icon: "bed" },
+          { label: "Appartement", icon: "building" },
+          { label: "Villa", icon: "house-fill" },
+          { label: "Immeuble", icon: "building-fill" },
         ],
-        imageEnGrand: null,
-        // Ajoutez d'autres données nécessaires ici
+        scrollPosition: 0,
       };
-
     },
     methods: {
-  afficherImageEnGrand(image) {
-    this.imageEnGrand = image;
-  },
-},
+      scrollLeft() {
+        if (this.scrollPosition > 0) {
+          this.scrollPosition -= 1;
+        }
+      },
+      scrollRight() {
+        if (this.scrollPosition < this.items.length - 1) {
+          this.scrollPosition += 1;
+        }
+      },
+    },
   };
   </script>
 
-  <style scoped>
-  /* Ajoutez vos styles personnalisés ici en utilisant Tailwind CSS */
+  <style>
+  /* Ajoutez les classes Tailwind CSS appropriées selon vos besoins */
   </style>

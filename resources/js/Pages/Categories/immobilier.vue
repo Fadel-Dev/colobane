@@ -77,7 +77,7 @@ function handleSubmit3() {
     </div>
   </div>
 
- <div v-if="lead.type =='Villa' || lead.type =='Appartement'|| lead.type =='Immeuble'|| lead.type =='Chambre' " class="p-6">
+ <div v-if="lead.type =='Villa' || lead.type =='Appartement'|| lead.type =='Immeuble'|| lead.type =='chambre' " class="p-6">
   <div class="w-full p-3 m-auto rounded-2xl border-2 shadow-lg border-slate-200  lg:w-2/5 ">
   <h2 class="my-5 text-center bg-amber-300 rounded-full py-3">Ecrivez votre annonce immobilliere </h2>
 

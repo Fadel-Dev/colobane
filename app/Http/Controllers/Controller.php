@@ -95,7 +95,7 @@ $phoneUtilisateur = DB::table('users')
 ->value('users.phone');
 
   $maison = Immobiliers::findOrFail($id);
-  return Inertia::render('Details', [
+  return Inertia::render('DetailsImmo', [
     'canLogin' => Route::has('login'),
     'canRegister' => Route::has('register'),
     'laravelVersion' => Application::VERSION,

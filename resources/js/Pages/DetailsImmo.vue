@@ -112,69 +112,7 @@ phpVersion: String,
     </div>
     <!-- Home -->
 
-    <!-- <div class="main w-11/12 mx-auto">
-        <div class="flex  md:flex-row">
-  <div class="w-3/4 max-w-full bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
-    <div class="flex flex-col ">
-       <div class="w-full p-1">
-        <i
-      class="p-2 bg-blue-500 -white rounded text-white bi bi-chevron-left absolute"
-      @click="previousImage"
-    >
 
-    </i>
-    <div class="w-48 h-auto">
-
-    <img :src="'/storage/'+currentImage" class="w-11/12 h-full object-cover " />
-    </div>
-<div class=" align-center justify-end item-center min-w-full">
-<i class="p-2 bg-blue-500 text-white rounded bi bi-chevron-right" @click="nextImage">
-  </i>
-</div>
-
-    </div>
-
-
-    </div>
-  </div>
-
-  <div class="w-full md:w-1/2 px-10">
-
-                    <div class="max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
-		<div class="flex justify-end px-4 pt-4">
-
-
-		</div>
-		<div class="flex flex-col items-center pb-10">
-			<img class="mb-3 w-24 h-24 rounded-full shadow-lg" src="https://flowbite.com/docs/images/people/profile-picture-3.jpg" alt="Bonnie image">
-			<h3 class="mb-1 text-xl font-medium text-gray-900 dark:text-white">{{ nameSeler }}</h3>
-			<span class="text-sm text-gray-500 dark:text-gray-400">vendeur</span>
-			<div class="flex mt-4 space-x-3 lg:mt-6">
-				<a href="#"
-					class="inline-flex items-center py-2 px-4 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Contacter
-                </a>
-
-
-                <button @click="toggleUserNumber">{{ showUserNumber ? ' Afficher' : 'Cacher' }}</button>
-
-                <div v-if="showUserNumber">
-                    <a href="#"
-					class="inline-flex items-center py-2 px-4 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">voir le numero
-                </a>
-                </div>
-
-                <div v-else>
-                    <a href="#"
-					class="inline-flex items-center py-2 px-4 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">{{ phoneSeler }}
-                </a>
-                </div>
-
-			</div>
-		</div>
-	</div>
-                </div>
-</div>
-    </div> -->
     <main class="my-8">
         <div class="container mx-auto ">
             <div class="md:flex md:items-center">
@@ -207,19 +145,59 @@ phpVersion: String,
                     <p  class="text-gray-600 mt-3">
                         {{ maison.description }}
                     </p>
-                    <div class="mt-2">
-                        <!-- <p  class="text-gray-600 mt-3">
-                            <span>coolman</span>
 
-                        </p>   -->
-                    </div>
-                    <div class="mt-3">
+                    <!-- <div class="mt-3">
                         <div class="flex items-center mt-1 relative">
 			<img class="mb-3 w-24 h-24 rounded-full shadow-lg" src="https://flowbite.com/docs/images/people/profile-picture-3.jpg" alt="Bonnie image">
             <span class="absolute top-2 left-20 ml-6 text-gray-700 uppercase">{{ nameSeler }}</span>
 
                         </div>
-                    </div>
+                    </div> -->
+<!-- FOR VILLA -->
+<div v-if="maison.type=='villa'">
+  <span class="text-gray-500 mt-3">Lieu : <span class="text-gray-700 uppercase">{{maison.region  }} </span> </span> <br>
+  <span class="text-gray-500 mt-3">Piece : <span class="text-gray-700 uppercase">{{maison.npiece  }} </span> </span> <br>
+  <span class="text-gray-500 mt-3">Type : <span class="text-gray-700 uppercase">{{maison.type  }} </span> </span> <br>
+</div>
+<!-- FOR APARTEMENT -->
+<div v-else-if="maison.type=='appartement'">
+  <span class="text-gray-500 mt-3">Lieu : <span class="text-gray-700 uppercase">{{maison.region  }} </span> </span> <br>
+  <span class="text-gray-500 mt-3">Piece : <span class="text-gray-700 uppercase">{{maison.npiece  }} </span> </span> <br>
+  <span class="text-gray-500 mt-3">Type : <span class="text-gray-700 uppercase">{{maison.type  }} </span> </span> <br>
+</div>
+<!-- FOR CHAMBRE -->
+<div v-else-if="maison.type=='chambre'">
+  <span class="text-gray-500 mt-3">Lieu : <span class="text-gray-700 uppercase">{{maison.region  }} </span> </span> <br>
+  <span class="text-gray-500 mt-3">Piece : <span class="text-gray-700 uppercase">{{maison.npiece  }} </span> </span> <br>
+  <span class="text-gray-500 mt-3">Type : <span class="text-gray-700 uppercase">{{maison.type  }} </span> </span> <br>
+</div>
+<!-- FOR FERME -->
+
+<div v-else-if="maison.type=='verger'">
+  <span class="text-gray-500 mt-3">Lieu : <span class="text-gray-700 ">{{maison.region  }} </span> </span> <br>
+  <span class="text-gray-500 mt-3">Surface : <span class="text-gray-700 ">{{maison.surface  }} </span> </span> <br>
+  <span class="text-gray-500 mt-3">Type : <span class="text-gray-700 ">{{maison.type  }} </span> </span> <br>
+</div>
+<!-- FOR FERME -->
+
+<div v-else-if="maison.type=='ferme'">
+  <span class="text-gray-500 mt-3">Lieu : <span class="text-gray-700 ">{{maison.region  }} </span> </span> <br>
+  <span class="text-gray-500 mt-3">Surface : <span class="text-gray-700 ">{{maison.surface  }} </span> </span> <br>
+  <span class="text-gray-500 mt-3">Type : <span class="text-gray-700 ">{{maison.type  }} </span> </span> <br>
+</div>
+
+<!-- FOR TERRAIN -->
+
+<div v-else-if="maison.type=='terrain'">
+  <span class="text-gray-500 mt-3">Lieu : <span class="text-gray-700 ">{{maison.region  }} </span> </span> <br>
+  <span class="text-gray-500 mt-3">Surface : <span class="text-gray-700 ">{{maison.surface  }} </span> </span> <br>
+  <span class="text-gray-500 mt-3">Type : <span class="text-gray-700 ">{{maison.type  }} </span> </span> <br>
+</div>
+
+
+
+
+
                     <div class="flex items-center mt-6">
                         <button class="px-8 mx-1 py-2 bg-indigo-600 text-white text-sm font-medium rounded hover:bg-indigo-500 focus:outline-none focus:bg-indigo-500">Contacter</button>
                         <button class="px-8 mx-1 py-2 bg-indigo-600 text-white text-sm font-medium rounded hover:bg-indigo-500 focus:outline-none focus:bg-indigo-500">Voir le num</button>
