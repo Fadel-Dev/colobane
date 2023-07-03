@@ -41,7 +41,7 @@ const props = defineProps({
               md:text-2xl
               hover:text-blue-400
             "
-            >Logo
+            >Noflay
           </router-link>
 
 
@@ -90,8 +90,11 @@ const props = defineProps({
       <div v-else>
 
 
-        <div class="auth">
-          <Link :href="route('login')"
+        <div class="auth flex">
+<div class="mx-2">
+<Link :href="route('publier')"  class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Publier une annonce</Link>
+
+</div>          <Link :href="route('login')"
             class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">
           Log in</Link>
 
@@ -100,17 +103,20 @@ const props = defineProps({
           Register</Link>
 
         </div>
-      </div>
     </div>
-  </div>
-        </div>
+</div>
+</div>
+</div>
 
       </nav>
+
     </div>
+    <hr>
     <!-- Home -->
 <div class="cccc">
-    <div class="Home">
-        <div class="flex border-b w-full  m-0 p-0 fixed top-11 left-0 z-10">
+    <div class="Home ">
+
+        <div class="flex border-b w-full border-t-[1px] border-gray-200 m-0 p-0 fixed top-11 left-0 z-10">
         <button
           class="w-full  py-2 bg-white text-gray-800 font-semibold"
           :class="{ 'border-b-2 border-blue-500': activeTab === 'immobilier' }"
@@ -191,7 +197,6 @@ const props = defineProps({
       <div v-for="maison  in maisons.data" :key="maison.id" @click="navigateToDetail(maison.id)"  class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 p-4">
         <div class="bg-white shadow-lg relative">
           <img :src=" '/storage/' + maison.image1" :alt="maison.imageAlt" class="w-full h-60 object-cover">
-			<img class="mb-3 w-[4rem] h-[4rem] rounded-full shadow-lg absolute bottom-1/3 right-0" src="https://flowbite.com/docs/images/people/profile-picture-3.jpg" alt="Bonnie image">
 
           <div class="p-4">
               <h3 class="text-gray-700 text-xl font-semibold">{{ maison.nom }}</h3>

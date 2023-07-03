@@ -15,7 +15,7 @@ const props = defineProps({
     <div class="bg-gray-100 ">
       <nav
         class="
-          container 
+          container
           px-6
           py-2
           mx-auto
@@ -23,13 +23,13 @@ const props = defineProps({
         "
       >
         <div class="flex items-center justify-between">
-         
+
           <!-- Mobile menu button -->
           <div @click="toggleNav" class="flex md:hidden">
             <button
               type="button"
               class="
-                text-gray-500 
+                text-gray-500
                 hover:text-gray-400
                 focus:outline-none focus:text-gray-400
               "
@@ -43,14 +43,13 @@ const props = defineProps({
             </button>
           </div>
         </div>
-  
-        <!-- Mobile Menu open: "block", Menu closed: "hidden" -->
 
+        <!-- Mobile Menu open: "block", Menu closed: "hidden" -->
         <!-- Social section -->
         <ul
           :class="showMenu ? 'flex' : 'hidden'"
           class="
-            flex-col 
+            flex-col
             mt-2
             space-y-2
             md:flex md:space-y-0 md:flex-row md:items-center md:space-x-10 md:mt-0
@@ -60,6 +59,7 @@ const props = defineProps({
                     <a href="javascript:void(0)" class="text-right text-white text-4xl"
                         onclick="toggleMenu()">&times;</a>
                 </li> -->
+
 
                 <li>
                     <a class="text-violet-900  hover:opacity-100 duration-300" href="#home"><i class="fa fa-home"></i>
@@ -73,7 +73,7 @@ const props = defineProps({
                     <a class="text-violet-900   hover:opacity-100 duration-300" href="#service"><i class="fa fa-refresh"
                             aria-hidden="true"></i> Service</a>
                 </li>
-                <!-- 
+                <!--
                 <li>
                     <a class="text-violet-900 hover:opacity-100 duration-300" href="#galery"><i
                             class='far fa-file-image'></i> Galerie</a>
@@ -93,8 +93,8 @@ const props = defineProps({
               md:text-2xl
               hover:text-indigo-400
 
-              
-              
+
+
             "
             id="humb"
             ><img class="w-9 mr-2 mt-2"  src="assets/images/logo7.png" alt="">
@@ -134,7 +134,7 @@ const props = defineProps({
     </div>
     </ul>
       </nav>
-      
+
     </div>
   </template>
 
