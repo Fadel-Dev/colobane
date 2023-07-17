@@ -114,41 +114,48 @@ $phoneUtilisateur = DB::table('users')
 // VEHICULE
 public function DetailsVehi($id)
 {
-sleep(1);
+    sleep(1);
 
-  $user = User::findOrFail($id);
-//   name user
-  $nomUtilisateur = DB::table('users')
-  ->join('voitures', 'users.id', '=', 'voitures.user_id')
-  ->where('voitures.id', $id)
-  ->value('users.name');
+    $user = User::findOrFail($id);
+    $voiture = Voitures::findOrFail($id);
 
-//   mail user
-  $mailUtilisateur = DB::table('users')
-  ->join('voitures', 'users.id', '=', 'voitures.user_id')
-  ->where('voitures.id', $id)
-  ->value('users.email');
+    // Récupérer la marque de la voiture actuelle
+    $marqueVoiture = $voiture->marque;
 
-//   phone user
-$phoneUtilisateur = DB::table('users')
-->join('voitures', 'users.id', '=', 'voitures.user_id')
-->where('voitures.id', $id)
-->value('users.phone');
+    // Requête pour obtenir d'autres produits avec la même marque
+    $suggestions = Voitures::where('marque', $marqueVoiture)
+                          ->where('id', '!=', $id) // Exclure le produit actuel
+                          ->limit(5) // Limiter le nombre de suggestions à 5
+                          ->get();
 
-  $voiture = Voitures::findOrFail($id);
-  return Inertia::render('DetailsVehicule', [
-    'canLogin' => Route::has('login'),
-    'canRegister' => Route::has('register'),
-    'laravelVersion' => Application::VERSION,
-    'phpVersion' => PHP_VERSION,
+    $nomUtilisateur = DB::table('users')
+                        ->join('voitures', 'users.id', '=', 'voitures.user_id')
+                        ->where('voitures.id', $id)
+                        ->value('users.name');
 
-    'voiture' => $voiture,
-     'nameSeler' => $nomUtilisateur,
-     'mailSeler' => $mailUtilisateur,
-     'phoneSeler' => $phoneUtilisateur,
-    'user' => $user,
-  ])
-  ;
+    $mailUtilisateur = DB::table('users')
+                        ->join('voitures', 'users.id', '=', 'voitures.user_id')
+                        ->where('voitures.id', $id)
+                        ->value('users.email');
+
+    $phoneUtilisateur = DB::table('users')
+                        ->join('voitures', 'users.id', '=', 'voitures.user_id')
+                        ->where('voitures.id', $id)
+                        ->value('users.phone');
+
+    return Inertia::render('DetailsVehicule', [
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
+        'laravelVersion' => Application::VERSION,
+        'phpVersion' => PHP_VERSION,
+        'voiture' => $voiture,
+        'nameSeler' => $nomUtilisateur,
+        'mailSeler' => $mailUtilisateur,
+        'phoneSeler' => $phoneUtilisateur,
+        'user' => $user,
+        'suggestions' => $suggestions,
+    ]);
 }
+
 
 }
