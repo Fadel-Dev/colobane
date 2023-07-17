@@ -123,95 +123,56 @@ phpVersion: String,
     </div>
     <!-- Home -->
 
-    <div class="main w-11/12 mx-auto">
-        <div class="flex  md:flex-row">
-  <div class="w-3/4 max-w-full bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
-    <div class="flex flex-col ">
-      <div class="w-full p-1">
-        <i
-      class="p-2 bg-blue-500 -white rounded text-white bi bi-chevron-left absolute"
-      @click="previousImage"
-    >
+    <footer class="bg-gray-800 text-white">
+    <div class="container mx-auto py-8 px-4">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <!-- À propos de nous -->
+        <div>
+          <h3 class="text-lg font-bold mb-4">À propos de nous</h3>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc eu velit velit.</p>
+        </div>
 
-    </i>
-    <div class="w-4/4 h-auto">
+        <!-- Contactez-nous -->
+        <div>
+          <h3 class="text-lg font-bold mb-4">Contactez-nous</h3>
+          <ul class="space-y-2">
+            <li>Adresse: 123 Rue de l'Exemple, Ville, Pays</li>
+            <li>Téléphone: +123 456 789</li>
+            <li>Email: info@example.com</li>
+          </ul>
+        </div>
 
-    <img :src="'/storage/'+currentImage" class="w-full h-full object-cover " />
+        <!-- Navigation -->
+        <div>
+          <h3 class="text-lg font-bold mb-4">Navigation</h3>
+          <ul class="space-y-2">
+            <li><a href="#">Accueil</a></li>
+            <li><a href="#">Ventes de voitures</a></li>
+            <li><a href="#">Locations de voitures</a></li>
+            <li><a href="#">Ventes immobilières</a></li>
+            <li><a href="#">Locations immobilières</a></li>
+          </ul>
+        </div>
+
+        <!-- Suivez-nous -->
+        <div>
+          <h3 class="text-lg font-bold mb-4">Suivez-nous</h3>
+          <div class="flex space-x-4">
+            <a href="#" class="text-white hover:text-gray-500">
+              <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24">
+                <path d="M12 0a12 12 0 100 24 12 12 0 000-24zm3.6 9.83l-4.57 1.63c-.1.04-.21.05-.32.02l-1.83-.47c-.32-.08-.65.04-.9.3l-2.33 2.34c-.16.16-.24.37-.23.59v1.64c0 .36.29.65.65.65h.01l1.53-.01c.38 0 .7.31.7.7v.03l.01 1.67c0 .38.29.68.66.68h1.67c.39 0 .7-.32.7-.7v-.03v-1.67c0-.17.14-.3.3-.3l1.53-.01c.37 0 .66-.29.66-.65v-1.64c.01-.23-.08-.43-.24-.59l-2.32-2.33c-.25-.25-.59-.38-.91-.3l-1.82.47c-.11.03-.22.02-.32-.02l-4.57-1.63c-.46-.16-.97.09-1.14.56L3.06 11.5c-.17.47.1.99.56 1.16l4.56 1.63c.1.04.21.05.32.02l1.82-.47c.32-.08.65.04.91.3l2.33 2.34c.16.16.24.37.23.59v1.64c0 .38-.29.68-.65.68h-.01l-1.53.01c-.38 0-.69.29-.69.65v.03v1.67c0 .38-.29.68-.66.68H9.5c-.39 0-.7-.32-.7-.7v-.03l-.01-1.67c0-.17-.14-.3-.3-.3l-1.52.01c-.38 0-.68-.3-.68-.68v-1.64c-.01-.23.08-.43.24-.59l2.33-2.34c.25-.25.58-.38.9-.3l1.83.47c.11.03.22.02.32-.02l4.56-1.63c.46-.17.73-.69.56-1.16l-1.62-4.56c-.17-.47-.68-.73-1.14-.56z"/>
+              </svg>
+            </a>
+            <a href="#" class="text-white hover:text-gray-500">
+              <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24">
+                <path d="M22.64 4.66c-.8.35-1.66.59-2.55.7.92-.55 1.63-1.42 1.96-2.46-.86.51-1.81.88-2.83 1.08-.81-.86-1.96-1.4-3.24-1.4-2.45 0-4.43 1.98-4.43 4.42 0 .35.04.7.11 1.04-3.67-.18-6.92-1.95-9.1-4.63-.38.65-.59 1.41-.59 2.23 0 1.53.78 2.88 1.96 3.67-.72-.02-1.4-.22-1.99-.55v.05c0 2.14 1.51 3.93 3.51 4.34-.37.1-.76.16-1.17.16-.28 0-.55-.03-.82-.08.56 1.75 2.19 3.02 4.12 3.06-1.51 1.18-3.42 1.88-5.5 1.88-.35 0-.69-.02-1.03-.07 1.96 1.26 4.28 2 6.78 2 8.13 0 12.58-6.74 12.58-12.59 0-.19 0-.38-.01-.57.86-.63 1.61-1.43 2.2-2.34z"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
-<div class=" align-center justify-end item-center min-w-full">
-<i class="p-2 bg-blue-500 text-white rounded bi bi-chevron-right" @click="nextImage">
-  </i>
-</div>
-
-    </div>
-      <div class="w-2/12 flex mx-auto ">
-        <img :src=" '/storage/' + voiture.image2" :alt="voiture.imageAlt"
-                class="h-1/6 p-1 w-1/12 object-cover object-center lg:h-2/4 lg:w-full" />
-                <img :src=" '/storage/' + voiture.image2" :alt="voiture.imageAlt"
-                class="h-1/6 p-1 w-1/12 object-cover object-center lg:h-2/4 lg:w-full" />
-                <img :src=" '/storage/' + voiture.image2" :alt="voiture.imageAlt"
-                class="h-1/6 p-1 w-1/12 object-cover object-center lg:h-2/4 lg:w-full" />
-
-            </div>
-
-    </div>
-  </div>
-  <!-- <div v-for="">
-
-  </div> -->
-
-  <div class="w-full md:w-1/2 px-10">
-                    <!-- <div class="mb-10">
-                        <h1 class="font-bold uppercase text-3xl mb-5">{{ voiture.nom }} {{nameSeler}}</h1>
-                        <p class="text-lg">{{ voiture.description }} <a href="#" class="opacity-50 text-gray-900 hover:opacity-100 inline-block text-xs leading-none border-b border-gray-900">MORE <i class="mdi mdi-arrow-right"></i></a></p>
-                    </div>
-                    <div>
-                        <div class="inline-block align-bottom mr-5">
-                            <span class="text-2xl leading-none align-baseline">prix</span>
-                            <span class="font-bold text-5xl leading-none align-baseline">{{ voiture.prix }}</span>
-                            <span class="text-2xl leading-none align-baseline"> Fcfa</span>
-                        </div>
-                        <div class="flex flex-col ">
-                            <button class="bg-yellow-300 opacity-75 hover:opacity-100 text-yellow-900 hover:text-gray-900 rounded-full px-2 py-2 font-semibold m-1 w-2/4"><i class="mdi mdi-cart -ml-2 mr-2"></i> Me contacter sur whatshapp</button>
-                            <button class="bg-yellow-300 opacity-75 hover:opacity-100 text-yellow-900 hover:text-gray-900 rounded-full px-2 py-2 font-semibold w-2/4"><i class="mdi mdi-cart -ml-2 mr-2"></i>Afficher mon numero</button>
-                        </div>
-                    </div> -->
-                    <div class="max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
-		<div class="flex justify-end px-4 pt-4">
-			<!-- <button id="dropdownButton" data-dropdown-toggle="dropdown" class="hidden sm:inline-block text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-1.5" type="button">
-<svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"></path></svg>
-</button> -->
-
-		</div>
-		<div class="flex flex-col items-center pb-10">
-			<img class="mb-3 w-24 h-24 rounded-full shadow-lg" src="https://flowbite.com/docs/images/people/profile-picture-3.jpg" alt="Bonnie image">
-			<h3 class="mb-1 text-xl font-medium text-gray-900 dark:text-white">{{ nameSeler }}</h3>
-			<span class="text-sm text-gray-500 dark:text-gray-400">vendeur</span>
-			<div class="flex mt-4 space-x-3 lg:mt-6">
-				<a href="#"
-					class="inline-flex items-center py-2 px-4 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Contacter
-                </a>
-
-                <!-- phone seller -->
-                <button @click="toggleUserNumber">{{ showUserNumber ? ' Afficher' : 'Cacher' }}</button>
-                <div v-if="showUserNumber">
-                    <a href="#"
-					class="inline-flex items-center py-2 px-4 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">voir le numero
-                </a>
-                </div>
-
-                <div v-else>
-                    <a href="#"
-					class="inline-flex items-center py-2 px-4 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">{{ phoneSeler }}
-                </a>
-                </div>
-
-			</div>
-		</div>
-	</div>
-                </div>
-</div>
-    </div>
+  </footer>
   </div>
 
    <!-- FOOTER -->

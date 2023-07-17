@@ -13,23 +13,41 @@ const props = defineProps({
 
 <template>
     <div class="bg-gray-100 ">
-      <nav
+        <nav
         class="
-          container
-          px-6
+          px-9
           py-2
           mx-auto
           md:flex md:justify-between md:items-center
+          shadow-xl
+          relative
+          bg-black
+          text-white
         "
       >
-        <div class="flex items-center justify-between">
+        <div class="flex items-center justify-between ">
+          <router-link
+            to="/"
+            class="
+            w-full
+              text-xl
+              text-
+              font-bold
+              md:text-2xl
+              hover:text-red-600
+
+            "
+            >Noflay
+          </router-link>
+
+
 
           <!-- Mobile menu button -->
-          <div @click="toggleNav" class="flex md:hidden">
+          <div @click="showMenu = !showMenu" class="flex md:hidden">
             <button
               type="button"
               class="
-                text-gray-500
+                text-gray-800
                 hover:text-gray-400
                 focus:outline-none focus:text-gray-400
               "
@@ -44,75 +62,23 @@ const props = defineProps({
           </div>
         </div>
 
-        <!-- Mobile Menu open: "block", Menu closed: "hidden" -->
-        <!-- Social section -->
-        <ul
-          :class="showMenu ? 'flex' : 'hidden'"
-          class="
-            flex-col
-            mt-2
-            space-y-2
-            md:flex md:space-y-0 md:flex-row md:items-center md:space-x-10 md:mt-0
-          "
-        >
-        <!-- <li class="md:hidden z-90 fixed top-4 right-6">
-                    <a href="javascript:void(0)" class="text-right text-white text-4xl"
-                        onclick="toggleMenu()">&times;</a>
-                </li> -->
-
-
-                <li>
-                    <a class="text-violet-900  hover:opacity-100 duration-300" href="#home"><i class="fa fa-home"></i>
-                        Acceuil</a>
-                </li>
-                <li>
-                    <a class="text-violet-900   hover:opacity-100 duration-300" href="#presentation"><i
-                            class="fa fa-person"></i> Presentation</a>
-                </li>
-                <li>
-                    <a class="text-violet-900   hover:opacity-100 duration-300" href="#service"><i class="fa fa-refresh"
-                            aria-hidden="true"></i> Service</a>
-                </li>
-                <!--
-                <li>
-                    <a class="text-violet-900 hover:opacity-100 duration-300" href="#galery"><i
-                            class='far fa-file-image'></i> Galerie</a>
-                </li> -->
-                <li>
-                    <a class="text-violet-900   hover:opacity-100 duration-300" href="#contact"><i
-                            class="fa fa-envelope" aria-hidden="true"></i> Contact</a>
-                </li>
-    </ul>
-    <!-- Sectio of the website -->
-    <router-link
-            to="/"
-            class="
-              text-xl
-              font-bold
-              text-gray-100
-              md:text-2xl
-              hover:text-indigo-400
-
-
-
-            "
-            id="humb"
-            ><img class="w-9 mr-2 mt-2"  src="assets/images/logo7.png" alt="">
-          </router-link>
-    <ul
+  <!-- Mobile Menu open: "block", Menu closed: "hidden" -->
+  <div
           :class="showMenu ? 'flex' : 'hidden'"
           class="
             flex-col
             mt-8
             space-y-4
-            md:flex md:space-y-0 md:flex-row md:items-center md:space-x-10 md:mt-0
+            md:flex
+            md:space-y-0
+            md:flex-row
+            md:items-center
+            md:space-x-10
+            md:mt-0
           "
         >
-        <!-- <li class="md:hidden z-90 fixed top-4 right-6">
-                    <a href="javascript:void(0)" class="text-right text-white text-4xl"
-                        onclick="toggleMenu()">&times;</a>
-                </li> -->
-                <div v-if="canLogin" >
+        <div class="auth">
+   <div v-if="canLogin" >
       <Link v-if="$page.props.auth.user" :href="route('dashboard')"
         class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">
       Dashboard</Link>
@@ -120,8 +86,19 @@ const props = defineProps({
       <div v-else>
 
 
-        <div class="auth">
-          <Link :href="route('login')"
+        <div class="auth flex">
+            <div class="text-2xl">
+                <i class="bi bi-node-plus"></i>
+                <!-- <svg xmlns="http://www.w3.org/2000/svg" width="28" height="26" fill="currentColor" class="bi bi-node-plus" viewBox="0 0 16 16">
+  <path d="M11 13a5 5 0 1 0-4.975-5.5H4A1.5 1.5 0 0 0 2.5 6h-1A1.5 1.5 0 0 0 0 7.5v1A1.5 1.5 0 0 0 1.5 10h1A1.5 1.5 0 0 0 4 8.5h2.025A5 5 0 0 0 11 13zm.5-7.5v2h2a.5.5 0 0 1 0 1h-2v2a.5.5 0 0 1-1 0v-2h-2a.5.5 0 0 1 0-1h2v-2a.5.5 0 0 1 1 0z"/>
+</svg> -->
+            </div>
+<div class="mx-2">
+<Link :href="route('publier')"  class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"> Publier une annonce</Link>
+
+
+</div>         <i class="bi bi-person-circle mx-1"></i>
+<Link :href="route('login')"
             class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">
           Log in</Link>
 
@@ -130,9 +107,11 @@ const props = defineProps({
           Register</Link>
 
         </div>
-      </div>
     </div>
-    </ul>
+</div>
+</div>
+</div>
+
       </nav>
 
     </div>

@@ -16,7 +16,7 @@ const  props = defineProps({
             </h2>
         </template>
   <div class="bg-white text-slate-900">
-    <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+    <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-4 lg:max-w-7xl lg:px-8">
       <h2 class="text-2xl font-bold tracking-tight text-gray-900"> {{ $page.props.auth.user.name}} Vos Publications  </h2>
 
       <div class="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
@@ -28,7 +28,7 @@ const  props = defineProps({
             <div>
               <h3 class="text-sm text-gray-700">
                 <a :href="topic.href">
-                  <span aria-hidden="true" class="absolute inset-0" />
+                  <span aria-hidden="true" class="absolute inset-0 uppercase   " />
                   {{ topic.name }}
                 </a>
               </h3>

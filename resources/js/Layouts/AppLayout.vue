@@ -34,27 +34,27 @@ const logout = () => {
         <Banner />
 
         <div class="min-h-screen bg-gray-100">
-            <nav class="bg-white border-b border-gray-100">
+            <nav class="bg-black border-b border-gray-100">
                 <!-- Primary Navigation Menu -->
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="flex justify-between h-16">
                         <div class="flex">
                             <!-- Logo -->
-                            <div class="shrink-0 flex items-center">
+                            <div class="shrink-0 flex items-center text-principal">
                                 <Link :href="route('home')">
                                     <ApplicationMark class="block h-9 w-auto" />
                                 </Link>
                             </div>
 
                             <!-- Navigation Links -->
-                            <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                                <NavLink :href="route('home')" :active="route().current('dashboard')">
+                            <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex ">
+                                <NavLink class="text-white" :href="route('home')" :active="route().current('dashboard')">
                                     Dashboard
                                 </NavLink>
                             </div>
                             <!-- section acceuille -->
-                            <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                                <NavLink class=" border-slate-200" :href="route('home')" :active="route().current('dashboard')">
+                            <div class="hidden space-x-4 sm:-my-px sm:ml-10 sm:flex">
+                                <NavLink class=" text-white border-slate-200" :href="route('home')" :active="route().current('dashboard')">
                                     Acceuil
                                 </NavLink>
                             </div>

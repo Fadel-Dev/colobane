@@ -29,27 +29,34 @@ phpVersion: String,
  </Head>
  <div>
     <div class="nav bg-white w-full m-0 p-0">
-      <nav
+        <nav
         class="
           px-9
           py-2
           mx-auto
           md:flex md:justify-between md:items-center
+          shadow-xl
+          relative
+          bg-gray-900
+          text-white
         "
       >
         <div class="flex items-center justify-between ">
-          <router-link
-            to="/"
+          <Link
+            :href="route('home')"
             class="
             w-full
               text-xl
+              text-
               font-bold
-              text-gray-800
               md:text-2xl
-              hover:text-blue-400
+            text-principal
+
             "
-            >Logo
-          </router-link>
+            >Noflay
+          </Link>
+
+
 
           <!-- Mobile menu button -->
           <div @click="showMenu = !showMenu" class="flex md:hidden">
@@ -95,8 +102,15 @@ phpVersion: String,
       <div v-else>
 
 
-        <div class="auth">
-          <Link :href="route('login')"
+        <div class="auth flex">
+
+<div class="mx-2 bg-principal rounded-xl">
+    <i class="bi bi-node-plus pl-1"></i>
+<Link :href="route('publier')"  class=" px-2 py-0 text-white hover:text-gray-900  dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"> Publier une annonce</Link>
+
+
+</div>         <i class="bi bi-person-circle mx-1"></i>
+<Link :href="route('login')"
             class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">
           Log in</Link>
 
@@ -105,10 +119,10 @@ phpVersion: String,
           Register</Link>
 
         </div>
-      </div>
     </div>
-  </div>
-        </div>
+</div>
+</div>
+</div>
 
       </nav>
       <hr>
@@ -122,17 +136,17 @@ phpVersion: String,
                     <!-- img main -->
 
                     <i
-                    class="p-2 bg-transparent text-3xl rounded text-white bi bi-chevron-left absolute top-1/2 left-11"
+                    class="p-2 bg-gray-400 text-3xl rounded text-gray-900 bi bi-chevron-left absolute top-1/2 left-11"
                     @click="previousImage"
                     >
 
                 </i>
 
-                <img  class="max-w-full max-h-full" :src="'/storage/'+currentImage"  >
+                <img  class="max-w-full max-h-full " :src="'/storage/'+currentImage"  >
 
 
 
-<i class="p-2 text-4xl text-white rounded bi bi-chevron-right absolute top-1/2 right-11" @click="nextImage">
+<i class="p-2 text-4xl bg-gray-400 text-gray-900 rounded bi bi-chevron-right absolute top-1/2 right-11" @click="nextImage">
   </i>
 
 
@@ -166,22 +180,14 @@ phpVersion: String,
                         {{ voiture.description }}
                     </p>
                     <div class="mt-2">
-                        <!-- <p  class="text-gray-600 mt-3">
-                            <span>coolman</span>
 
-                        </p>   -->
                     </div>
                     <div class="mt-3">
-                        <!-- <div class="flex items-center mt-1 relative">
-			<img class="mb-3 w-24 h-24 rounded-full shadow-lg" src="https://flowbite.com/docs/images/people/profile-picture-3.jpg" alt="Bonnie image">
-            <span class="absolute top-2 left-20 ml-6 text-gray-700 uppercase">{{ nameSeler }}</span>
 
-
-                        </div> -->
                     </div>
                     <div class="flex items-center mt-6">
-                        <button class="px-8 mx-1 py-2 bg-indigo-600 text-white text-sm font-medium rounded hover:bg-indigo-500 focus:outline-none focus:bg-indigo-500">Contacter</button>
-                        <button class="px-8 mx-1 py-2 bg-indigo-600 text-white text-sm font-medium rounded hover:bg-indigo-500 focus:outline-none focus:bg-indigo-500">Voir le num</button>
+                        <button class="px-8 mx-1 py-2 bg-principal text-white text-sm font-medium rounded hover:bg-gray-900 focus:outline-none focus:bg-principal">Contacter</button>
+                        <button class="px-8 mx-1 py-2 bg-principal text-white text-sm font-medium rounded hover:bg-gray-900 focus:outline-none focus:bg-principal">Voir le num</button>
 
                     </div>
                 </div>

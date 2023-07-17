@@ -27,27 +27,34 @@ phpVersion: String,
  </Head>
  <div>
     <div class="nav bg-white w-full m-0 p-0">
-      <nav
+        <nav
         class="
           px-9
           py-2
           mx-auto
           md:flex md:justify-between md:items-center
+          shadow-xl
+          relative
+          bg-black
+          text-white
         "
       >
         <div class="flex items-center justify-between ">
-          <router-link
-            to="/"
+          <Link
+            :href="route('home')"
             class="
             w-full
               text-xl
+              text-
               font-bold
-              text-gray-800
               md:text-2xl
-              hover:text-blue-400
+            text-principal
+
             "
-            >Logo
-          </router-link>
+            >Noflay
+          </Link>
+
+
 
           <!-- Mobile menu button -->
           <div @click="showMenu = !showMenu" class="flex md:hidden">
@@ -93,8 +100,15 @@ phpVersion: String,
       <div v-else>
 
 
-        <div class="auth">
-          <Link :href="route('login')"
+        <div class="auth flex">
+
+<div class="mx-2 bg-principal rounded-xl">
+    <i class="bi bi-node-plus pl-1"></i>
+<Link :href="route('publier')"  class=" px-2 py-0 text-white hover:text-gray-900  dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"> Publier une annonce</Link>
+
+
+</div>         <i class="bi bi-person-circle mx-1"></i>
+<Link :href="route('login')"
             class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">
           Log in</Link>
 
@@ -103,10 +117,10 @@ phpVersion: String,
           Register</Link>
 
         </div>
-      </div>
     </div>
-  </div>
-        </div>
+</div>
+</div>
+</div>
 
       </nav>
     </div>
@@ -199,9 +213,8 @@ phpVersion: String,
 
 
                     <div class="flex items-center mt-6">
-                        <button class="px-8 mx-1 py-2 bg-indigo-600 text-white text-sm font-medium rounded hover:bg-indigo-500 focus:outline-none focus:bg-indigo-500">Contacter</button>
-                        <button class="px-8 mx-1 py-2 bg-indigo-600 text-white text-sm font-medium rounded hover:bg-indigo-500 focus:outline-none focus:bg-indigo-500">Voir le num</button>
-
+                        <button class="px-8 mx-1 py-2 bg-principal text-white text-sm font-medium rounded hover:bg-gray-900 focus:outline-none focus:bg-gray-900">Contacter</button>
+                        <button class="px-8 mx-1 py-2 bg-principal text-white text-sm font-medium rounded hover:bg-gray-900 focus:outline-none focus:bg-black">Voir le num</button>
                     </div>
                 </div>
             </div>
