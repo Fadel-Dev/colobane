@@ -73,7 +73,18 @@ class Controller extends BaseController
 
 public function DetailsImmo($id)
 {
-sleep(1);
+    $immo = Immobiliers::findOrFail($id);
+    sleep(1);
+
+
+ // Récupérer la marque de la voiture actuelle
+ $typeImmo = $immo->type;
+
+ // Requête pour obtenir d'autres produits avec la même marque
+ $suggestions = Immobiliers::where('type', $typeImmo)
+                       ->where('id', '!=', $id) // Exclure le produit actuel
+                       ->limit(5) // Limiter le nombre de suggestions à 5
+                       ->get();
 
   $user = User::findOrFail($id);
 //   name user
@@ -106,6 +117,8 @@ $phoneUtilisateur = DB::table('users')
      'mailSeler' => $mailUtilisateur,
      'phoneSeler' => $phoneUtilisateur,
     'user' => $user,
+    'suggestions' => $suggestions,
+
   ])
   ;
 }
