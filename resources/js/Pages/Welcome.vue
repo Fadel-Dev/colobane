@@ -88,10 +88,35 @@ const props = defineProps({
           "
         >
         <div class="auth">
-   <div v-if="canLogin" >
-      <Link v-if="$page.props.auth.user" :href="route('dashboard')"
-        class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">
+   <div v-if="canLogin" class="flex">
+
+    <div v-if="$page.props.auth.user" :href="route('publier')" class="mx-2 bg-principal rounded-xl px-2">
+
+<i class="bi bi-node-plus pl-1"></i>
+<Link v-if="$page.props.auth.user" :href="route('publier')"
+class="font-semibold text-white hover:text-white dark:text-white  dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm ">
+Publier une annonce</Link>
+
+</div>
+
+
+
+
+
+
+    <div v-if="$page.props.auth.user" :href="route('publier')">
+  <Link v-if="$page.props.auth.user" :href="route('dashboard')"
+        class="font-semibold text-gray-400 hover:text-white dark:text-gray-400 dark:hover:text-principal focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">
       Dashboard</Link>
+
+
+    </div>
+
+
+
+
+
+
 
       <div v-else>
 
@@ -105,11 +130,11 @@ const props = defineProps({
 
 </div>         <i class="bi bi-person-circle mx-1"></i>
 <Link :href="route('login')"
-            class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">
+            class="font-semibold text-gray-300 hover:text-white dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm ">
           Log in</Link>
 
           <Link v-if="canRegister" :href="route('register')"
-            class="ml-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">
+            class="ml-4 font-semibold text-gray-300 hover:text-white dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm">
           Register</Link>
 
         </div>

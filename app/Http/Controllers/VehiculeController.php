@@ -15,13 +15,13 @@ class VehiculeController extends Controller
 {
 // voiture
 
-      public function storeVoitureVente() 
+      public function storeVoitureVente()
       {
-         
+
           $image1=Request::file('image1')->store('topics','public');
           $image2=Request::file('image2')->store('topics','public');
           $image3=Request::file('image3')->store('topics','public');
-  
+
           auth()->user()->Voitures()->create([
               'model' => Request::input('model'),
               'marque' => Request::input('marque'),
@@ -40,7 +40,7 @@ class VehiculeController extends Controller
               'image2' => $image2,
               'image3' => $image3,
               'categorie' =>'voiture',
-  
+
           ])
           ;
           return redirect()->route('publier');
@@ -48,13 +48,13 @@ class VehiculeController extends Controller
 
       // voiture
 
-      public function storeVoitureLoc() 
+      public function storeVoitureLoc()
       {
-         
+
           $image1=Request::file('image1')->store('topics','public');
           $image2=Request::file('image2')->store('topics','public');
           $image3=Request::file('image3')->store('topics','public');
-  
+
           auth()->user()->Voitures()->create([
               'marque' => Request::input('marque'),
               'nom' => Request::input('nom'),
@@ -74,13 +74,13 @@ class VehiculeController extends Controller
               'image3' => $image3,
               'categorie' =>'voiture',
 
-  
+
           ])
           ;
           return redirect()->route('publier');
       }
 
-       // equipement
+       // equipementt
 
-     
+
 }

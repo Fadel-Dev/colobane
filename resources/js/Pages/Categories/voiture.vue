@@ -40,7 +40,7 @@ const vente = useForm({
             image2: null,
             image3: null,
    })
-   
+
    function handleSubmitVente() {
      vente.post('/voitureVente/save')
    }
@@ -56,10 +56,10 @@ const vente = useForm({
 <div class="w-5/6 my-7 m-auto rounded-2xl  lg:w-2/5 border-2 shadow-lg border-slate-400   ">
     <h2 class="text-2xl  font-bold mb-4 text-center">Sélectionnez une image</h2>
     <div class=" " id="menu">
-      <div v-for="image in images" :key="image.id" id="titre">
+      <div v-for="image in images" :key="image.id" id="titre" class="text-principal focus:border-white focus:ring-white">
         <label>
           <input type="radio" :value="image.titre" v-model="lead.type" class="w-4/6 hidden mx-auto">
-          <h3>{{ image.titre }}</h3>
+          <h3 class="text-center">{{ image.titre }}</h3>
           <img :src="image.src" :alt="image.alt" class=" rounded-lg shadow-lg">
         </label>
       </div>
@@ -70,16 +70,16 @@ const vente = useForm({
 
 <div v-if="lead.type=='location'">
   <div class="p-6  w-5/6 m-auto rounded-2xl border-2 shadow-lg border-slate-200  lg:w-2/5 ">
-  <h2 class="my-5 text-center bg-amber-300 rounded-full py-3">Ecrivez votre annonce de location</h2>
+  <h2 class="my-5 text-white text-center bg-principal rounded-full py-3">Ecrivez votre annonce de location</h2>
 
-    <form @submit.prevent="handleSubmitLocation">       
+    <form @submit.prevent="handleSubmitLocation">
       <div class="titre">
         <div class="mb-4">
-          <label class="block text-gray-700 font-bold mb-2" 
+          <label class="block text-gray-700 font-bold mb-2"
           for="nom">
               Entrez le titre
           </label>
-          <input class="shadow appearance-none border rounded  w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+          <input class="shadow appearance-none focus:border-gray-500 focus:ring-gray-500 border rounded  w-full py-2 px-3 text-gray-700 leading-tight focus:outline-white focus:shadow-outline-black"
              id="nom"
              name="nom"
              type="text"
@@ -89,11 +89,11 @@ const vente = useForm({
       </div>
 
       <div class="mb-4">
-        <label class="block text-gray-700 font-bold mb-2" 
+        <label class="block text-gray-700 font-bold mb-2"
              for="marque">
                  Marque
              </label>
-      <select class="shadow appearance-none border rounded  w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outlineshadow appearance-none border rounded  w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" for="marque"
+      <select class="shadow appearance-none focus:border-gray-500 focus:ring-gray-500 border rounded  w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outlineshadow appearance-none focus:border-gray-500 focus:ring-gray-500 border rounded  w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" for="marque"
       name="marque"
       id="marque"
       v-model="lead.marque"
@@ -112,11 +112,11 @@ const vente = useForm({
 
       <div class="placePrix">
         <div class="mb-4">
-          <label class="block text-gray-700 font-bold mb-2" 
+          <label class="block text-gray-700 font-bold mb-2"
           for="place">
               place
           </label>
-          <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+          <input class="shadow appearance-none focus:border-gray-500 focus:ring-gray-500 border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
              id="place"
              name="place"
              type="text"
@@ -129,9 +129,9 @@ const vente = useForm({
           <label class="block text-gray-700 font-bold mb-2" for="price">
               Prix
           </label>
-          <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
-             id="prix" 
-             type="text" 
+          <input class="shadow appearance-none focus:border-gray-500 focus:ring-gray-500 border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+             id="prix"
+             type="text"
              placeholder="Entrez le prix"
              name="prix"
              v-model="lead.prix"
@@ -143,7 +143,7 @@ const vente = useForm({
        <label class="block text-gray-700 font-bold mb-2" for="fuel">
          Boite de vitesse
        </label>
-       <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 venteing-tight focus:outline-none focus:shadow-outline" 
+       <select class="shadow appearance-none focus:border-gray-500 focus:ring-gray-500 border rounded w-full py-2 px-3 text-gray-700 venteing-tight focus:outline-none focus:shadow-outline"
             id="boiteVitesse"
             name="boiteVitesse"
             v-model="lead.boiteVitesse">
@@ -154,21 +154,21 @@ const vente = useForm({
 
 
 
-      
+
       <div class="mb-4">
           <label class="block text-gray-700 font-bold mb-2" for="description">
               Description
           </label>
-          <textarea class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
-             id="description" rows="5" 
-             name="description" 
-             v-model="lead.description" 
+          <textarea class="shadow appearance-none focus:border-gray-500 focus:ring-gray-500 border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+             id="description" rows="5"
+             name="description"
+             v-model="lead.description"
              placeholder="Entrez la description"
              required></textarea>
       </div>
    <div class="img grid grid-cols-3">
     <div class="mb-4">
-             <label class="block text-gray-700 font-bold mb-2" 
+             <label class="block text-gray-700 font-bold mb-2"
                 for="image"
                 >
                  Image 1
@@ -180,7 +180,7 @@ const vente = useForm({
          </div>
 
           <div class="mb-4">
-             <label class="block text-gray-700 font-bold mb-2" 
+             <label class="block text-gray-700 font-bold mb-2"
                 for="image"
                 >
                  Image 2
@@ -192,7 +192,7 @@ const vente = useForm({
          </div>
 
          <div class="mb-4">
-             <label class="block text-gray-700 font-bold mb-2" 
+             <label class="block text-gray-700 font-bold mb-2"
                 for="image"
                 >
                  Image 3
@@ -202,15 +202,15 @@ const vente = useForm({
       {{ lead.progress.percentage }}%
     </progress>
          </div>
-   </div> 
-   
+   </div>
+
       <div class="titre">
         <div class="carbRegion grid grid-cols-2">
           <div class="mb-4">
     <label class="block text-gray-700 font-bold mb-2" for="fuel">
       Carburant
     </label>
-    <select class="shadow appearance-none border rounded  w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+    <select class="shadow appearance-none focus:border-gray-500 focus:ring-gray-500 border rounded  w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
          id="carburant"
          name="carburant"
          v-model="lead.carburant">
@@ -226,7 +226,7 @@ const vente = useForm({
     <label class="block text-gray-700 font-bold mb-2" for="region">
       Region
     </label>
-      <select class="shadow appearance-none  border rounded  w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+      <select class="shadow appearance-none focus:border-gray-500 focus:ring-gray-500  border rounded  w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
       name="region"
       id="region"
       v-model="lead.region"
@@ -250,22 +250,22 @@ const vente = useForm({
         </div>
       </div>
 
-         <button type="submit" class="bg-yellow-500 px-5 py-1 rounded-2xl">save</button>
-  
+         <button type="submit" class="bg-principal text-white px-5 py-1 rounded-2xl">save</button>
+
     </form>
   </div>
 </div>
 <div v-if="lead.type=='vente'">
   <div class="p-6  w-5/6 m-auto rounded-2xl border-2 shadow-lg border-slate-200  lg:w-2/5 ">
-       <form @submit.prevent="handleSubmitVente">       
+       <form @submit.prevent="handleSubmitVente">
          <div class="mb-4">
-  <h2 class="my-5 text-center bg-amber-300 rounded-full py-3">Ecrivez votre annonce de voiture</h2>
+  <h2 class="my-5 text-center text-white bg-principal rounded-full py-3">Ecrivez votre annonce de voiture</h2>
 
-             <label class="block text-gray-700 font-bold mb-2" 
+             <label class="block text-gray-700 font-bold mb-2"
              for="nom">
                  Titre
              </label>
-             <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 venteing-tight focus:outline-none focus:shadow-outline" 
+             <input class="shadow appearance-none focus:border-gray-500 focus:ring-gray-500 border rounded w-full py-2 px-3 text-gray-700 venteing-tight focus:outline-none focus:shadow-outline"
                 id="nom"
                 name="nom"
                 type="text"
@@ -273,11 +273,11 @@ const vente = useForm({
                 v-model="vente.nom"
                 required>
          </div>
- 
+
         <div class="flex">
           <div class="mb-4 flex flex-col">
             <label class="block text-gray-700 font-bold mb-2" for="text">Marque</label>
-         <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 venteing-tight focus:outline-none focus:shadow-outline"
+         <select class="shadow appearance-none focus:border-gray-500 focus:ring-gray-500 border rounded w-full py-2 px-3 text-gray-700 venteing-tight "
          name="marque"
          id="marque"
          v-model="vente.marque"
@@ -299,9 +299,9 @@ const vente = useForm({
               <label class="block text-gray-700 font-bold mb-2 w-24 mx-auto" for="model">
                  Modèle
              </label>
-              <input class="shadow appearance-none border rounded py-2 px-auto text-gray-700 venteing-tight focus:outline-none focus:shadow-outline w-full" 
-                id="model" 
-                type="text" 
+              <input class="shadow appearance-none focus:border-gray-500 focus:ring-gray-500 border rounded py-2 px-auto text-gray-700 venteing-tight focus:outline-none focus:shadow-outline w-full"
+                id="model"
+                type="text"
                 name="model"
                 placeholder="Entrez le modèle"
                 v-model="vente.model"
@@ -311,11 +311,11 @@ const vente = useForm({
         </div>
       <div class="prixAnnee grid grid-cols-2 gap-2 ">
         <div class="mb-4 ">
-             <label class="block text-gray-700 font-bold mb-2" 
+             <label class="block text-gray-700 font-bold mb-2"
              for="annee">
                  Annee
              </label>
-             <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 venteing-tight focus:outline-none focus:shadow-outline" 
+             <input class="shadow appearance-none focus:border-gray-500 focus:ring-gray-500 border rounded w-full py-2 px-3 text-gray-700 venteing-tight focus:outline-none focus:shadow-outline"
                 id="annee"
                 name="annee"
                 type="text"
@@ -323,15 +323,15 @@ const vente = useForm({
                 v-model="vente.annee"
                 required>
          </div>
-        
- 
+
+
          <div class="mb-4">
              <label class="block text-gray-700 font-bold mb-2" for="price">
                  Prix
              </label>
-             <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 venteing-tight focus:outline-none focus:shadow-outline" 
-                id="prix" 
-                type="text" 
+             <input class="shadow appearance-none focus:border-gray-500 focus:ring-gray-500 border rounded w-full py-2 px-3 text-gray-700 venteing-tight focus:outline-none focus:shadow-outline"
+                id="prix"
+                type="text"
                 placeholder="Entrez le prix"
                 name="prix"
                 v-model="vente.prix"
@@ -343,9 +343,9 @@ const vente = useForm({
              <label class="block text-gray-700 font-bold mb-2" for="price">
                  kilometrage
              </label>
-             <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 venteing-tight focus:outline-none focus:shadow-outline" 
-                id="kilometrage" 
-                type="text" 
+             <input class="shadow appearance-none focus:border-gray-500 focus:ring-gray-500 border rounded w-full py-2 px-3 text-gray-700 venteing-tight focus:outline-none focus:shadow-outline"
+                id="kilometrage"
+                type="text"
                 placeholder="Entrez le kilometrage"
                 name="kilometrage"
                 v-model="vente.kilometrage"
@@ -356,9 +356,9 @@ const vente = useForm({
              <label class="block text-gray-700 font-bold mb-2" for="price">
                  place
              </label>
-             <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 venteing-tight focus:outline-none focus:shadow-outline" 
-                id="place" 
-                type="text" 
+             <input class="shadow appearance-none focus:border-gray-500 focus:ring-gray-500 border rounded w-full py-2 px-3 text-gray-700 venteing-tight focus:outline-none focus:shadow-outline"
+                id="place"
+                type="text"
                 placeholder="Entrez le place"
                 name="place"
                 v-model="vente.place"
@@ -370,21 +370,21 @@ const vente = useForm({
              <label class="block text-gray-700 font-bold mb-2" for="description">
                  Description
              </label>
-             <textarea class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 venteing-tight focus:outline-none focus:shadow-outline" 
-                id="description" rows="5" 
-                name="description" 
-                v-model="vente.description" 
+             <textarea class="shadow appearance-none focus:border-gray-500 focus:ring-gray-500 border rounded w-full py-2 px-3 text-gray-700 venteing-tight focus:outline-none focus:shadow-outline"
+                id="description" rows="5"
+                name="description"
+                v-model="vente.description"
                 placeholder="Entrez la description"
                 required></textarea>
          </div>
-        
-      
+
+
             <div class="carb">
               <div class="mb-4">
        <label class="block text-gray-700 font-bold mb-2" for="fuel">
          Carburant
        </label>
-       <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 venteing-tight focus:outline-none focus:shadow-outline" 
+       <select class="shadow appearance-none focus:border-gray-500 focus:ring-gray-500 border rounded w-full py-2 px-3 text-gray-700 venteing-tight focus:outline-none focus:shadow-outline"
             id="carburant"
             name="carburant"
             v-model="vente.carburant">
@@ -392,12 +392,12 @@ const vente = useForm({
          <option value="diesel">Diesel</option>
        </select>
      </div>
- 
+
      <div class="mb-4">
        <label class="block text-gray-700 font-bold mb-2" for="fuel">
          Boite de vitesse
        </label>
-       <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 venteing-tight focus:outline-none focus:shadow-outline" 
+       <select class="shadow appearance-none focus:border-gray-500 focus:ring-gray-500 border rounded w-full py-2 px-3 text-gray-700 venteing-tight focus:outline-none focus:shadow-outline"
             id="boiteVitesse"
             name="boiteVitesse"
             v-model="vente.boiteVitesse">
@@ -412,7 +412,7 @@ const vente = useForm({
        <label class="block text-gray-700 font-bold mb-2" for="fuel">
          Etat
        </label>
-       <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 venteing-tight focus:outline-none focus:shadow-outline" 
+       <select class="shadow appearance-none focus:border-gray-500 focus:ring-gray-500 border rounded w-full py-2 px-3 text-gray-700 venteing-tight focus:outline-none focus:shadow-outline"
             id="etat"
             name="etat"
             v-model="vente.etat">
@@ -425,7 +425,7 @@ const vente = useForm({
       <label class="block text-gray-700 font-bold mb-2" for="region">
          Region
        </label>
-         <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 venteing-tight focus:outline-none focus:shadow-outline"
+         <select class="shadow appearance-none focus:border-gray-500 focus:ring-gray-500 border rounded w-full py-2 px-3 text-gray-700 venteing-tight focus:outline-none focus:shadow-outline"
          name="region"
          id="region"
          v-model="vente.region"
@@ -449,7 +449,7 @@ const vente = useForm({
      </div>
      <div class="img grid grid-cols-3">
       <div class="mb-4">
-             <label class="block text-gray-700 font-bold mb-2" 
+             <label class="block text-gray-700 font-bold mb-2"
                 for="image"
                 >
                  Image 1
@@ -461,7 +461,7 @@ const vente = useForm({
          </div>
 
           <div class="mb-4">
-             <label class="block text-gray-700 font-bold mb-2" 
+             <label class="block text-gray-700 font-bold mb-2"
                 for="image"
                 >
                  Image 2
@@ -473,7 +473,7 @@ const vente = useForm({
          </div>
 
          <div class="mb-4">
-             <label class="block text-gray-700 font-bold mb-2" 
+             <label class="block text-gray-700 font-bold mb-2"
                 for="image"
                 >
                  Image 3
@@ -482,18 +482,18 @@ const vente = useForm({
              <progress v-if="vente.progress" :value="vente.progress.percentage" max="100">
       {{ vente.progress.percentage }}%
     </progress>
-         </div> 
+         </div>
      </div>
 
-            <button type="submit" class="bg-yellow-500 px-5 py-1 rounded-2xl">save</button>
-     
+            <button type="submit" class="bg-principal text-white px-5 py-1 rounded-2xl">save</button>
+
        </form>
      </div>
 </div>
 </AppLayout>
 
- 
- 
+
+
 
 </template>
 

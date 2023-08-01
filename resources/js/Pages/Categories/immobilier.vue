@@ -69,7 +69,7 @@ function handleSubmit3() {
     <div class="grid grid-cols-3 md:grid-cols-3 lg:grid-cols-3 gap-4">
       <div v-for="image in images" :key="image.id">
         <label>
-          <input type="radio" :value="image.titre" v-model="lead.type">
+          <input type="radio" class=" text-principal focus:border-white focus:ring-white" :value="image.titre" v-model="lead.type">
           <h3>{{ image.titre }}</h3>
           <img :src="image.src" :alt="image.alt" class="w-full rounded-lg shadow-lg">
         </label>
@@ -77,9 +77,9 @@ function handleSubmit3() {
     </div>
   </div>
 
- <div v-if="lead.type =='Villa' || lead.type =='Appartement'|| lead.type =='Immeuble'|| lead.type =='chambre' " class="p-6">
+ <div v-if="lead.type =='Villa' || lead.type =='Appartement'|| lead.type =='Immeuble'|| lead.type =='Chambre' " class="p-6">
   <div class="w-full p-3 m-auto rounded-2xl border-2 shadow-lg border-slate-200  lg:w-2/5 ">
-  <h2 class="my-5 text-center bg-amber-300 rounded-full py-3">Ecrivez votre annonce immobilliere </h2>
+  <h2 class="my-5 text-center bg-principal text-white rounded-full py-3">Ecrivez votre annonce immobilliere </h2>
 
       <form @submit.prevent="handleSubmit">
 <!-- NOM -->
@@ -89,7 +89,7 @@ function handleSubmit3() {
           for="nom">
               Titre
           </label>
-          <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          <input class="shadow appearance-none focus:border-gray-500 focus:ring-gray-500 border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
              id="nom"
              name="nom"
              type="text"
@@ -103,7 +103,7 @@ function handleSubmit3() {
           <label class="block text-gray-700 font-bold mb-2" for="price">
               Prix
           </label>
-          <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          <input class="shadow appearance-none focus:border-gray-500 focus:ring-gray-500 border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
              id="prix"
              type="text"
              placeholder="Entrez le prix"
@@ -116,7 +116,7 @@ function handleSubmit3() {
           <label class="block text-gray-700 font-bold mb-2" for="description">
               Description
           </label>
-          <textarea class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          <textarea class="shadow appearance-none focus:border-gray-500 focus:ring-gray-500 border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
              id="description" rows="5"
              name="description"
              v-model="lead.description"
@@ -130,7 +130,7 @@ function handleSubmit3() {
           for="npiece">
               nombre de piece
           </label>
-          <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          <input class="shadow appearance-none focus:border-gray-500 focus:ring-gray-500 border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
              id="npiece"
              name="npiece"
              type="text"
@@ -143,7 +143,7 @@ function handleSubmit3() {
 <label class="block text-gray-700 font-bold mb-2" for="fuel">
          Location ou vente
        </label>
-       <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+       <select class="shadow appearance-none focus:border-gray-500 focus:ring-gray-500 border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="affaire"
             name="affaire"
             v-model="lead.affaire">
@@ -192,7 +192,7 @@ function handleSubmit3() {
  </div>
 <!-- REGION -->
   <div class="mb-4">
-      <select class="border border-gray-300 rounded-full text-gray-600 h-10 pl-5 pr-10 bg-white hover:border-gray-400 focus:outline-none appearance-none"
+      <select class="border border-gray-300 rounded-full text-gray-600 h-10 pl-5 pr-10 bg-white hover:border-gray-400 focus:outline-none appearance-none focus:border-gray-500 focus:ring-gray-500"
       name="region"
       id="region"
       v-model="lead.region"
@@ -214,7 +214,7 @@ function handleSubmit3() {
 </select>
   </div>
 
-         <button type="submit" class="bg-yellow-500 px-5 py-1 rounded-2xl">save</button>
+         <button type="submit" class="bg-principal text-white px-5 py-1 rounded-2xl">save</button>
 
     </form>
     </div>
@@ -222,7 +222,7 @@ function handleSubmit3() {
 <!-- VERGER -->
   <div v-else-if="lead.type==='Verger'">
     <div class="w-11/12 px-2 m-auto rounded-2xl border-2 shadow-lg border-slate-200  lg:w-2/5 ">
-  <h2 class="my-5 text-center bg-amber-300 rounded-full py-3">Ecrivez votre annonce de Verger</h2>
+  <h2 class="my-5 text-center bg-principal text-white rounded-full py-3">Ecrivez votre annonce de Verger</h2>
 
     <form @submit.prevent="handleSubmit2">
 <!-- NOM -->
@@ -232,7 +232,7 @@ function handleSubmit3() {
           for="nom">
               Titre
           </label>
-          <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          <input class="shadow appearance-none focus:border-gray-500 focus:ring-gray-500 border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
              id="nom"
              name="nom"
              type="text"
@@ -246,7 +246,7 @@ function handleSubmit3() {
           <label class="block text-gray-700 font-bold mb-2" for="price">
               Prix
           </label>
-          <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          <input class="shadow appearance-none focus:border-gray-500 focus:ring-gray-500 border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
              id="prix"
              type="text"
              placeholder="Entrez le prix"
@@ -259,7 +259,7 @@ function handleSubmit3() {
           <label class="block text-gray-700 font-bold mb-2" for="description">
               Description
           </label>
-          <textarea class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          <textarea class="shadow appearance-none focus:border-gray-500 focus:ring-gray-500 border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
              id="description" rows="5"
              name="description"
              v-model="verger.description"
@@ -273,7 +273,7 @@ function handleSubmit3() {
           for="npiece">
               Surface
           </label>
-          <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          <input class="shadow appearance-none focus:border-gray-500 focus:ring-gray-500 border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
              id="surface"
              name="surface"
              type="text"
@@ -286,7 +286,7 @@ function handleSubmit3() {
 <label class="block text-gray-700 font-bold mb-2" for="fuel">
          Location ou vente
        </label>
-       <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+       <select class="shadow appearance-none focus:border-gray-500 focus:ring-gray-500 border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="affaire"
             name="affaire"
             v-model="verger.affaire">
@@ -335,7 +335,7 @@ function handleSubmit3() {
  </div>
 <!-- REGION -->
   <div class="mb-4">
-      <select class="border border-gray-300 rounded-full text-gray-600 h-10 pl-5 pr-10 bg-white hover:border-gray-400 focus:outline-none appearance-none"
+      <select class="border border-gray-300 rounded-full text-gray-600 h-10 pl-5 pr-10 bg-white hover:border-gray-400 focus:outline-none appearance-none focus:border-gray-500 focus:ring-gray-500"
       name="region"
       id="region"
       v-model="verger.region"
@@ -357,7 +357,7 @@ function handleSubmit3() {
 </select>
   </div>
 
-         <button type="submit" class="bg-yellow-500 px-5 py-1 rounded-2xl">save</button>
+         <button type="submit" class="bg-principal text-white px-5 py-1 rounded-2xl">save</button>
 
     </form>
    </div>
@@ -366,7 +366,7 @@ function handleSubmit3() {
   <!-- FERME -->
   <div v-else-if="lead.type==='Ferme'">
     <div class="w-11/12 px-2  m-auto rounded-2xl border-2 shadow-lg border-slate-200  lg:w-2/5 ">
-  <h2 class="my-5 text-center bg-amber-300 rounded-full py-3">Ecrivez votre annonce de Ferme</h2>
+  <h2 class="my-5 text-center bg-principal text-white rounded-full py-3">Ecrivez votre annonce de Ferme</h2>
 
       <form @submit.prevent="handleSubmit3">
 <!-- NOM -->
@@ -376,7 +376,7 @@ function handleSubmit3() {
           for="nom">
               Nom
           </label>
-          <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          <input class="shadow appearance-none focus:border-gray-500 focus:ring-gray-500 border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
              id="nom"
              name="nom"
              type="text"
@@ -390,7 +390,7 @@ function handleSubmit3() {
           <label class="block text-gray-700 font-bold mb-2" for="price">
               Prix
           </label>
-          <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          <input class="shadow appearance-none focus:border-gray-500 focus:ring-gray-500 border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
              id="prix"
              type="text"
              placeholder="Entrez le prix"
@@ -403,7 +403,7 @@ function handleSubmit3() {
           <label class="block text-gray-700 font-bold mb-2" for="description">
               Description
           </label>
-          <textarea class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          <textarea class="shadow appearance-none focus:border-gray-500 focus:ring-gray-500 border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
              id="description" rows="5"
              name="description"
              v-model="ferme.description"
@@ -417,7 +417,7 @@ function handleSubmit3() {
           for="npiece">
               Surface
           </label>
-          <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          <input class="shadow appearance-none focus:border-gray-500 focus:ring-gray-500 border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
              id="surface"
              name="surface"
              type="text"
@@ -430,7 +430,7 @@ function handleSubmit3() {
 <label class="block text-gray-700 font-bold mb-2" for="fuel">
          Location ou vente
        </label>
-       <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+       <select class="shadow appearance-none focus:border-gray-500 focus:ring-gray-500 border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="affaire"
             name="affaire"
             v-model="ferme.affaire">
@@ -479,7 +479,7 @@ function handleSubmit3() {
 
 <!-- REGION -->
   <div class="mb-4">
-      <select class="border border-gray-300 rounded-full text-gray-600 h-10 pl-5 pr-10 bg-white hover:border-gray-400 focus:outline-none appearance-none"
+      <select class="border border-gray-300 rounded-full text-gray-600 h-10 pl-5 pr-10 bg-white hover:border-gray-400 focus:outline-none appearance-none focus:border-gray-500 focus:ring-gray-500"
       name="region"
       id="region"
       v-model="ferme.region"
@@ -501,7 +501,7 @@ function handleSubmit3() {
 </select>
   </div>
 
-         <button type="submit" class="bg-yellow-500 px-5 py-1 rounded-2xl">save</button>
+         <button type="submit" class="bg-principal text-white px-5 py-1 rounded-2xl">save</button>
 
     </form>
     </div>
