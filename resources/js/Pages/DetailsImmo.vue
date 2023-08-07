@@ -111,12 +111,12 @@ phpVersion: String,
 
 </div>         <i class="bi bi-person-circle mx-1"></i>
 <Link :href="route('login')"
-            class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">
-          Log in</Link>
+            class="font-semibold  text-gray-300 hover:text-white dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">
+          Se connecter</Link>
 
           <Link v-if="canRegister" :href="route('register')"
-            class="ml-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">
-          Register</Link>
+            class="ml-4 font-semibold  text-gray-300 hover:text-white dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">
+          S inscrire</Link>
 
         </div>
     </div>
@@ -216,7 +216,29 @@ phpVersion: String,
 
                     <div class="flex items-center mt-6">
                         <button class="px-8 mx-1 py-2 bg-principal text-white text-sm font-medium rounded hover:bg-gray-900 focus:outline-none focus:bg-gray-900">Contacter</button>
-                        <button class="px-8 mx-1 py-2 bg-principal text-white text-sm font-medium rounded hover:bg-gray-900 focus:outline-none focus:bg-black">Voir le num</button>
+
+                        <div>
+    <button @click="afficherNumero" class="px-8 mx-1 py-2 bg-principal text-white text-sm font-medium rounded hover:bg-gray-900 focus:outline-none focus:bg-black">
+      Voir le numéro
+    </button>
+
+    <div v-if="afficherPopup" class="w-2/4   mx-auto fixed inset-0 flex  justify-center bg-gray-800 bg-opacity-75">
+      <div class="bg-white rounded-lg p-8">
+        <span class="text-3xl text-principal">
+            NB
+        </span> <br>
+        <span class="text-xl font-medium">Évitez les demandes de paiement anticipé : Soyez prudents face aux demandes de paiement anticipé avant d'avoir reçu le produit ou visité la propriété. Les vendeurs légitimes seront compréhensifs envers vos préoccupations</span>
+    <br>    <span class="text-xl font-medium"><span class="text-principal">Numero du Vendeur</span> :{{ phoneSeler }}</span>
+        <button @click="fermerPopup" class="absolute top-0 right-0 mt-2 mr-2 text-4xl text-principal hover:text-gray-800 focus:outline-none">
+          X
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+
+
                     </div>
                 </div>
             </div>
@@ -312,14 +334,19 @@ phpVersion: String,
 
 
 
+
               ],
       currentIndex: 0,
       showUserNumber: false,
+    //   nnnum
+    afficherPopup: false,
+          numero: "123456789" // Remplacez cela par votre numéro réel
     };
   },
   computed: {
     currentImage() {
       return this.images[this.currentIndex];
+
     }
   },
   methods: {
@@ -333,8 +360,11 @@ phpVersion: String,
         this.currentIndex++;
       }
     },
-    toggleUserNumber() {
-      this.showUserNumber = !this.showUserNumber;
+    afficherNumero() {
+      this.afficherPopup = true;
+    },
+    fermerPopup() {
+      this.afficherPopup = false;
     }
     // envoie
   }

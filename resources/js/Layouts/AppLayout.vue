@@ -145,7 +145,7 @@ const logout = () => {
                                     <template #content>
                                         <!-- Account Management -->
                                         <div class="block px-4 py-2 text-xs text-gray-400">
-                                            Manage Account
+                                            Management Profile
                                         </div>
 
                                         <DropdownLink :href="route('profile.show')">
@@ -161,7 +161,7 @@ const logout = () => {
                                         <!-- Authentication -->
                                         <form @submit.prevent="logout">
                                             <DropdownLink as="button">
-                                                Log Out
+                                                Se deconnecter
                                             </DropdownLink>
                                         </form>
                                     </template>

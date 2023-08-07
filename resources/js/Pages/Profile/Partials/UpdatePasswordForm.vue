@@ -40,16 +40,16 @@ const updatePassword = () => {
 <template>
     <FormSection @submitted="updatePassword">
         <template #title>
-            Update Password
-        </template>
+            Mettre à jour le mot de passe
+                </template>
 
         <template #description>
-            Ensure your account is using a long, random password to stay secure.
-        </template>
+            Assurez-vous que votre compte utilise un mot de passe long et aléatoire pour rester en sécurité.
+                </template>
 
         <template #form>
             <div class="col-span-6 sm:col-span-4">
-                <InputLabel for="current_password" value="Current Password" />
+                <InputLabel for="current_password" value="Mot de passe actuel" />
                 <TextInput
                     id="current_password"
                     ref="currentPasswordInput"
@@ -62,7 +62,7 @@ const updatePassword = () => {
             </div>
 
             <div class="col-span-6 sm:col-span-4">
-                <InputLabel for="password" value="New Password" />
+                <InputLabel for="password" value="Nouveau mot de Pass" />
                 <TextInput
                     id="password"
                     ref="passwordInput"
@@ -75,7 +75,7 @@ const updatePassword = () => {
             </div>
 
             <div class="col-span-6 sm:col-span-4">
-                <InputLabel for="password_confirmation" value="Confirm Password" />
+                <InputLabel for="password_confirmation" value="Confirmez le mot de Pass" />
                 <TextInput
                     id="password_confirmation"
                     v-model="form.password_confirmation"
@@ -93,7 +93,7 @@ const updatePassword = () => {
             </ActionMessage>
 
             <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                Save
+                Sauvegarder
             </PrimaryButton>
         </template>
     </FormSection>
