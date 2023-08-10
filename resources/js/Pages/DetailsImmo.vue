@@ -215,8 +215,14 @@ phpVersion: String,
 
 
                     <div class="flex items-center mt-6">
-                        <button class="px-8 mx-1 py-2 bg-principal text-white text-sm font-medium rounded hover:bg-gray-900 focus:outline-none focus:bg-gray-900">Contacter</button>
-
+                        <div>
+    <button
+      class="px-8 mx-1 py-2 bg-principal text-white text-sm font-medium rounded hover:bg-gray-900 focus:outline-none focus:bg-black"
+      @click="ouvrirWhatsApp"
+    >
+     contacter
+    </button>
+  </div>
                         <div>
     <button @click="afficherNumero" class="px-8 mx-1 py-2 bg-principal text-white text-sm font-medium rounded hover:bg-gray-900 focus:outline-none focus:bg-black">
       Voir le numéro
@@ -365,7 +371,15 @@ phpVersion: String,
     },
     fermerPopup() {
       this.afficherPopup = false;
-    }
+    }, ouvrirWhatsApp() {
+      const numeroContact = +221769275309; // Remplacez par le vrai numéro de contact
+
+      // Générer le lien WhatsApp
+      const lienWhatsApp = `https://api.whatsapp.com/send?phone=${this.numeroContact}`;
+
+      // Ouvrir le lien dans une nouvelle fenêtre/onglet
+      window.open(lienWhatsApp, "_blank");
+    },
     // envoie
   }
 };
