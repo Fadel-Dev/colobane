@@ -24,9 +24,9 @@ class Controller extends BaseController
 
     public function Home()
     {
-        $voitures = Voitures::orderBy('created_at', 'desc')->paginate(4);
+        $voitures = Voitures::orderBy('created_at', 'desc')->paginate(99999999);
 
-        $maisons = Immobiliers::orderBy('created_at', 'desc')->paginate(8);
+        $maisons = Immobiliers::orderBy('created_at', 'desc')->paginate(9999999);
         return Inertia::render('Welcome', [
             'canLogin' => Route::has('login'),
             'canRegister' => Route::has('register'),

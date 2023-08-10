@@ -21,7 +21,7 @@ const props = defineProps({
 <template>
   <Head title="Acceuil" />
   <div>
-    <div class="nav bg-white w-full  m-0 p-0 fixed top-0 left-0 z-10">
+    <div class="nav bg-gray-800 w-full  m-0 p-0 fixed top-0 left-0 z-10">
       <nav
         class="
           px-9
@@ -167,22 +167,22 @@ Publier une annonce</Link>
           Annonces de véhicules
         </button>
       </div>
-      <div v-show="activeTab === 'immobilier'">
+      <div v-show="activeTab === 'immobilier'" class="bg-gray-100">
 
 
-<div class="immo w-11/12 mx-auto text-gray-800">
+<div class="immo lg:w-9/12  mx-auto text-gray-800">
 
      <div class="flex flex-wrap justify-center mt-20">
-      <div v-for="maison  in maisons.data" :key="maison.id" @click="navigateToDetail(maison.id)"  class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 p-4">
-        <div class="bg-white shadow-lg relative">
-          <img :src=" '/storage/' + maison.image1" :alt="maison.imageAlt" class="w-full h-60 object-cover">
+      <div v-for="maison  in maisons.data" :key="maison.id" @click="navigateToDetail(maison.id)"  class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 p-2">
+        <div class="bg-secondaire rounded-2xl shadow-2xl relative mt-4">
+          <img :src=" '/storage/' + maison.image1" :alt="maison.imageAlt" class="w-full h-full object-fill rounded-2xl shadow-lg">
 
           <div class="p-4">
-              <h3 class=" text-xl font-semibold">{{ maison.nom }}</h3>
-            <p class="text-gray-500">{{ maison.affaire }}</p>
+              <h3 class="text-lg font-semibold text-white">{{ maison.nom }}</h3>
+            <p class="text-gray-300">{{ maison.affaire }}</p>
 
-            <p class="text-gray-500"> Proposee par <span class="text-gray-600">Fadel</span> </p>
-            <p class="text-gray-800 text-lg">{{ maison.prix }}<span class="text-gray-500"> Fcfa</span></p>
+            <p class="text-gray-400"> Proposee par <span class="text-gray-600">Fadel</span> </p>
+            <p class="text-principal text-lg">{{ maison.prix }}<span class="text-principal text-opacity-60"> Fcfa</span></p>
 
           </div>
         </div>
@@ -191,24 +191,31 @@ Publier une annonce</Link>
 </div>
 
       </div>
-      <div v-show="activeTab === 'vehicule'" >
-        <div class="flex flex-wrap justify-center mt-20 text-gray-800">
-       <div v-for="voiture  in voitures.data" :key="voiture.id" @click="navigateToDetailVehi(voiture.id)"  class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 p-4">
-        <div class="bg-white rounded-lg shadow-lg relative">
-          <img :src=" '/storage/' + voiture.image1" :alt="voiture.imageAlt" class="w-full h-60 object-cover">
-			<img class="mb-3 w-[4rem] h-[4rem] rounded-full shadow-lg absolute bottom-1/3 right-0" src="https://flowbite.com/docs/images/people/profile-picture-3.jpg" alt="Bonnie image">
+      <div v-show="activeTab === 'vehicule'" class="bg-gray-100">
 
-          <div class="p-4">
-              <h3 class=" text-xl font-semibold">{{ voiture.nom }}</h3>
-            <p class="text-gray-500">{{ voiture.affaire }}</p>
+        <div class="immo lg:w-8/12 mx-auto text-gray-800  ">
+  <div class="flex flex-wrap justify-center mt-20 text-gray-800">
+    <div v-for="voiture in voitures.data" :key="voiture.id" @click="navigateToDetailVehi(voiture.id)" class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 p-2">
+      <div class="bg-secondaire rounded-2xl shadow-2xl relative mt-4">
+<div class="w-full h-full">
+<img :src="'/storage/' + voiture.image1" :alt="voiture.imageAlt"  class="w-full h-full object-fill rounded-2xl shadow-lg">
 
-              <p class="text-gray-500"> Proposee par <span class="text-gray-600">Fadel</span> </p>
-              <p class="text-gray-800 text-lg">{{ voiture.prix }}<span class="text-gray-500"> Fcfa</span></p>
-          </div>
+</div>
+        <img class="mb-3 w-[4rem] h-[4rem] rounded-full shadow-2xl absolute bottom-1/3 right-0" src="https://flowbite.com/docs/images/people/profile-picture-3.jpg" alt="Bonnie image">
+
+        <div class="p-4">
+          <h3 class="text-lg font-semibold text-white">{{ voiture.nom }}</h3>
+          <p class="text-gray-300">{{ voiture.affaire }}</p>
+
+          <p class="text-gray-400"> Proposée par <span class="text-gray-600">Fadel</span> </p>
+          <p class="text-principal text-lg">{{ voiture.prix }}<span class="text-principal text-opacity-60"> Fcfa</span></p>
         </div>
       </div>
-
     </div>
+  </div>
+</div>
+
+
       </div>
       </div>
 </div>
