@@ -1,71 +1,20 @@
 <template>
-    <div class="fixed bottom-0 w-full bg-gray-900 text-white">
+    <div class="bg-gray-900 text-white">
 
-      <button @click="toggleFooter" class="flex   focus:outline-none my-0 py-0">
-        <i v-if="isFooterExpanded" class="bi bi-caret-down-fill"></i>
-        <i v-else class="bi bi-caret-up-fill"></i>
-      </button>
-      <div class="container mx-auto px-4">
-   <div class="grid grid-cols-1 md:grid-cols-4 gap-2 text-principal">
-      <div class="w-full md:w-4/4 mb-4 md:mb-0  ">
-        <h2 class="text-xl  font-semibold mb-4 hover:text-white">À propos de nous</h2>
-      </div>
-      <div class="w-full md:w-4/4 mb-4 md:mb-0">
-        <h2 class="text-xl  font-semibold mb-4 hover:text-white">Navigations</h2>
-
-      </div>
-      <div class="w-full md:w-4/4 mb-4 md:mb-0">
-        <h2 class="text-xl font-semibold mb-4 hover:text-white">Contactez-nous</h2>
-
-      </div>
-      <div class="w-full md:w-4/4 mb-4 md:mb-0">
-        <h2 class="text-xl  font-semibold mb-4 hover:text-white">Suivez-nous</h2>
-        <!-- <ul class="list-none flex">
-          <li class="mr-4"><a href="#" class="text-gray-400 text-sm hover:text-white"><i class="fab fa-facebook-f"></i></a></li>
-          <li class="mr-4"><a href="#" class="text-gray-400 text-sm hover:text-white"><i class="fab fa-twitter"></i></a></li>
-          <li class="mr-4"><a href="#" class="text-gray-400 text-sm hover:text-white"><i class="fab fa-instagram"></i></a></li>
-          <li class="mr-4"><a href="#" class="text-gray-400 text-sm hover:text-white"><i class="fab fa-linkedin-in"></i></a></li>
-        </ul> -->
-    </div>
-</div>
+      <div class="container mx-auto px-4 md:flex md:justify-between">
+        <div v-for="(section, index) in footerSections" :key="index" class="md:w-1/4 md:px-4">
+          <button @click="toggleSection(index)" class="flex items-center justify-between p-2 focus:outline-none">
+            <h2 class="text-xl font-semibold">{{ section.title }}</h2>
+            <i :class="section.isExpanded ? 'bi bi-caret-up-fill' : 'bi bi-caret-down-fill'"></i>
+          </button>
+          <div v-if="section.isExpanded" class="p-4">
+            <p class="text-gray-400 text-sm">{{ section.content }}</p>
+          </div>
+        </div>
       </div>
 
-      <div v-if="isFooterExpanded">
-
-        <div class="container mx-auto py-1 px-4">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-      <div class="w-full md:w-4/4 mb-4 md:mb-0">
-        <p class="text-gray-400 text-sm">Nous sommes une plateforme dédiée à la vente et à la location de voitures ainsi qu'à la vente et à la location immobilière.</p>
-      </div>
-      <div class="w-full md:w-4/4 mb-4 md:mb-0 ">
-        <ul class="list-none ">
-          <li><a href="#" class="text-gray-400 text-sm hover:text-white">Accueil</a></li>
-          <li><a href="#" class="text-gray-400 text-sm hover:text-white">Véhicules à vendre</a></li>
-          <li><a href="#" class="text-gray-400 text-sm hover:text-white">Véhicules à louer</a></li>
-          <li><a href="#" class="text-gray-400 text-sm hover:text-white">Propriétés à vendre</a></li>
-          <li><a href="#" class="text-gray-400 text-sm hover:text-white">Propriétés à louer</a></li>
-        </ul>
-      </div>
-      <div class="w-full md:w-4/4 mb-4 md:mb-0">
-        <ul class="list-none">
-          <li><a href="#" class="text-gray-400 text-sm hover:text-white">Email : en prod</a></li>
-          <li><a href="#" class="text-gray-400 text-sm hover:text-white">Téléphone : +en prod</a></li>
-          <li><a href="#" class="text-gray-400 text-sm hover:text-white">Adresse : Keur Mbaye Fall, Pikine Dakar</a></li>
-        </ul>
-      </div>
-      <div class="w-full md:w-4/4 mb-4 md:mb-0">
-        <ul class="list-none flex">
-          <li class="mr-4"><a href="#" class="text-gray-400 text-sm hover:text-white"><i class="fab fa-facebook-f"></i></a></li>
-          <li class="mr-4"><a href="#" class="text-gray-400 text-sm hover:text-white"><i class="fab fa-twitter"></i></a></li>
-          <li class="mr-4"><a href="#" class="text-gray-400 text-sm hover:text-white"><i class="fab fa-instagram"></i></a></li>
-          <li class="mr-4"><a href="#" class="text-gray-400 text-sm hover:text-white"><i class="fab fa-linkedin-in"></i></a></li>
-        </ul>
-    </div>
-</div>
-</div>
-<div class="w-full bg-gray-800 m-0 p-0">
-    <p class="text-center text-gray-400 text-sm m-0">&copy; 2023 en prod - Tous droits réservés</p>
-</div>
+      <div class="bg-gray-800 p-2 text-center">
+        <p class="text-gray-400 text-sm">&copy; 2023 en prod - Tous droits réservés</p>
       </div>
     </div>
   </template>
@@ -74,14 +23,40 @@
   export default {
     data() {
       return {
-        isFooterExpanded: false,
+        footerSections: [
+          {
+            title: "À propos de nous",
+            content: "Nous sommes une plateforme dédiée à la vente et à la location de voitures ainsi qu'à la vente et à la location immobilière.",
+            isExpanded: false,
+          },
+          {
+            title: "Navigations",
+            content: "Accueil\nVéhicules à vendre\nVéhicules à louer\nPropriétés à vendre\nPropriétés à louer",
+            isExpanded: false,
+          },
+          {
+            title: "Contactez-nous",
+            content: "Email : en prod\nTéléphone : +en prod\nAdresse : Keur Mbaye Fall, Pikine Dakar",
+            isExpanded: false,
+          },
+          {
+            title: "Suivez-nous",
+            content: "Liens vers les réseaux sociaux",
+            isExpanded: false,
+          },
+        ],
       };
     },
     methods: {
-      toggleFooter() {
-        this.isFooterExpanded = !this.isFooterExpanded;
+      toggleSection(index) {
+        this.footerSections.forEach((section, i) => {
+          if (i === index) {
+            section.isExpanded = !section.isExpanded;
+          } else {
+            section.isExpanded = false;
+          }
+        });
       },
     },
   };
   </script>
-

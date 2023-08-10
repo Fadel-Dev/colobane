@@ -132,7 +132,7 @@ phpVersion: String,
     <main class="my-8">
         <div class="container mx-auto ">
             <div class="md:flex md:items-center">
-                <div class=" sm:w-[30rem] sm:h-[22rem] sm:flex items-center sm:justify-center sm:bg-gray-200 relative my-0 sm:mx-0 bg-gray-300" >
+                <div class=" rounded-sm sm:w-[30rem] sm:h-[22rem] sm:flex items-center sm:justify-center sm:bg-gray-200 relative my-0 sm:mx-0 bg-gray-300" >
                     <!-- img main -->
 
                     <i
@@ -142,7 +142,7 @@ phpVersion: String,
 
                 </i>
 
-                <img  class="max-w-full max-h-full" :src="'/storage/'+currentImage"  >
+                <img  class="w-full h-full " :src="'/storage/'+currentImage"  >
 
 
 
@@ -254,8 +254,8 @@ phpVersion: String,
     <h2 class="text-lg font-semibold mb-4">Autres produits de la même marque</h2>
     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
       <!-- Afficher les suggestions -->
-      <div v-for="suggestion in suggestions" :key="suggestion.id" class="border rounded-lg p-4">
-        <img :src="'/storage/'+ suggestion.image1" alt="Produit" class="w-full mb-2 rounded-lg">
+      <div v-for="suggestion in suggestions" :key="suggestion.id" class=" w-full h-full object-cover border rounded-lg p-4">
+        <img :src="'/storage/'+ suggestion.image1" alt="Produit" class="w-full h-3/5 mb-2 rounded-lg">
         <h3 class="text-lg font-semibold">{{ suggestion.nom }}</h3>
         <!-- <p class="text-gray-700">{{ suggestion.description }}</p> -->
       </div>
@@ -266,6 +266,18 @@ phpVersion: String,
     </main>
 
 </div>
+<div class="fixed bottom-0 w-full bg-transparent text-white p-4 flex mx-auto justify-around ">
+  <button @click="afficherNumero" class="flex items-center bg-principal text-white text-sm font-medium rounded hover:bg-gray-900 focus:outline-none focus:bg-black px-4 py-2">
+    <i class="bi bi-telephone-fill text-xl mr-2"></i>
+    Voir le numéro
+  </button>
+
+  <button @click="ouvrirWhatsApp" class="flex items-center bg-principal text-white text-sm font-medium rounded hover:bg-gray-900 focus:outline-none focus:bg-black px-4 py-2">
+    <i class="bi bi-whatsapp text-xl mr-2"></i>
+    WhatsApp
+  </button>
+</div>
+
 
    <!-- FOOTER -->
 

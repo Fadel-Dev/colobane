@@ -8,6 +8,8 @@ use Request;
 use Inertia\Inertia;
 use Illuminate\Routing\Controller as BaseController;
 use App\Models\Voitures;
+use Intervention\Image\Facades\Image;
+
 
 
 
@@ -21,6 +23,14 @@ class VehiculeController extends Controller
           $image1=Request::file('image1')->store('topics','public');
           $image2=Request::file('image2')->store('topics','public');
           $image3=Request::file('image3')->store('topics','public');
+
+          $img1=Image::make(public_path("storage/{$image1}"))->resize(1200,1200);
+          $img2=Image::make(public_path("storage/{$image2}"))->resize(1200,1200);
+          $img3=Image::make(public_path("storage/{$image3}"))->resize(1200,1200);
+          $img1->save();
+          $img2->save();
+          $img3->save();
+
 
           auth()->user()->Voitures()->create([
               'model' => Request::input('model'),
@@ -54,6 +64,14 @@ class VehiculeController extends Controller
           $image1=Request::file('image1')->store('topics','public');
           $image2=Request::file('image2')->store('topics','public');
           $image3=Request::file('image3')->store('topics','public');
+
+          $img1=Image::make(public_path("storage/{$image1}"))->resize(1200,1200);
+          $img2=Image::make(public_path("storage/{$image2}"))->resize(1200,1200);
+          $img3=Image::make(public_path("storage/{$image3}"))->resize(1200,1200);
+          $img1->save();
+          $img2->save();
+          $img3->save();
+
 
           auth()->user()->Voitures()->create([
               'marque' => Request::input('marque'),

@@ -132,9 +132,11 @@ const props = defineProps({
 
                         </i>
 
-                        <img class="max-w-full max-h-full " :src="'/storage/' + currentImage">
+                        <div class="w-full h-full border">
 
+                        <img class="w-full h-[100%]" :src="'/storage/' + currentImage">
 
+</div>
 
                         <i class="p-2 text-4xl bg-gray-400 text-gray-900 rounded bi bi-chevron-right absolute top-1/2 right-11"
                             @click="nextImage">
