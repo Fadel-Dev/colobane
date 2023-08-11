@@ -13,6 +13,7 @@ maison: Object,
         mailSeler:Object,
         phoneSeler:Object,
        suggestions:Object,
+       nPiece:Object,
 
 
         canLogin: Boolean,
@@ -46,8 +47,8 @@ phpVersion: String,
             :href="route('home')"
             class="
             w-full
-              text-xl
-              text-
+              text-3xl
+        8   text-
               font-bold
               md:text-2xl
             text-principal
@@ -129,10 +130,10 @@ phpVersion: String,
     <!-- Home -->
 
 
-    <main class="my-8">
+    <main class=" my-6 lg:pl-[10%] flex justify-center">
         <div class="container mx-auto ">
             <div class="md:flex md:items-center">
-                <div class=" rounded-sm sm:w-[30rem] sm:h-[22rem] sm:flex items-center sm:justify-center sm:bg-gray-200 relative my-0 sm:mx-0 bg-gray-300" >
+                <div class=" rounded-sm sm:w-[40rem] sm:h-[22rem] sm:flex items-center sm:justify-center sm:bg-gray-200 relative my-0 sm:mx-0 bg-gray-300" >
                     <!-- img main -->
 
                     <i
@@ -152,23 +153,17 @@ phpVersion: String,
 
     </div>
 
-                <div class=" max-w-lg sm:mx-auto mt-5 md:ml-8 md:mt-0 md:w-1/2 mx-auto w-11/12 ">
+                <div class=" max-w-lg sm:mx-auto mt-5 md:ml-8 md:mt-0 md:w-1/2 mx-auto w-11/12 rounded-2xl md:bg-secondaire p-8 mx-0">
 
-                    <h3 class="text-gray-600 uppercase text-lg sm:text-3xl">{{ maison.nom }}</h3>
-                    <span class="text-gray-500 mt-3">Propose par <span class="text-gray-700 uppercase">{{nameSeler  }} {{  }} </span> </span> <br>
-                    <span class="text-gray-500 mt-3">Prix : <span class="text-gray-700 uppercase">{{maison.prix  }} </span> Fcfa</span>
+<div class="head flex">
+    <img class="mb-3 w-[4rem] h-[4rem] rounded-full shadow-2xl  bottom-1/3 right-0" src="https://flowbite.com/docs/images/people/profile-picture-3.jpg" alt="Bonnie image">
+    <!-- Nom -->
+    <span class="text-gray-400 mt-3 px-3">Propose par <span class="text-gray-300 uppercase">{{nameSeler  }} {{  }} </span> </span> <br>
+
+
+</div>
                     <hr class="my-3">
-                    <p  class="text-gray-600 mt-3">
-                        {{ maison.description }}
-                    </p>
 
-                    <!-- <div class="mt-3">
-                        <div class="flex items-center mt-1 relative">
-			<img class="mb-3 w-24 h-24 rounded-full shadow-lg" src="https://flowbite.com/docs/images/people/profile-picture-3.jpg" alt="Bonnie image">
-            <span class="absolute top-2 left-20 ml-6 text-gray-700 uppercase">{{ nameSeler }}</span>
-
-                        </div>
-                    </div> -->
 <!-- FOR VILLA -->
 <div v-if="maison.type=='villa'">
   <span class="text-gray-500 mt-3">Lieu : <span class="text-gray-700 uppercase">{{maison.region  }} </span> </span> <br>
@@ -211,47 +206,85 @@ phpVersion: String,
 </div>
 
 
-
-
-
-                    <div class="flex items-center mt-6">
-                        <div>
-    <button
-      class="px-8 mx-1 py-2 bg-principal text-white text-sm font-medium rounded hover:bg-gray-900 focus:outline-none focus:bg-black"
-      @click="ouvrirWhatsApp"
+<div class="flex flex-col   hidden md:flex">
+  <button class="w-full h-12 bg-principal text-white font-medium rounded-md mb-2" @click="ouvrirWhatsApp"
     >
-     contacter
-    </button>
-  </div>
-                        <div>
-    <button @click="afficherNumero" class="px-8 mx-1 py-2 bg-principal text-white text-sm font-medium rounded hover:bg-gray-900 focus:outline-none focus:bg-black">
-      Voir le numéro
+      Contacter
     </button>
 
-    <div v-if="afficherPopup" class="w-2/4   mx-auto fixed inset-0 flex  justify-center bg-gray-800 bg-opacity-75">
+    <div>
+        <button class="w-full h-12 border-2 border-principal hover:bg-principal hover:border-1 hover:border-white text-white font-medium rounded-md" @click="afficherNumero" >
+    Voir le numero
+  </button>
+        <div v-if="afficherPopup" class="w-2/4 mx-auto fixed inset-0 flex justify-center bg-gray-800 bg-opacity-75">
       <div class="bg-white rounded-lg p-8">
         <span class="text-3xl text-principal">
             NB
-        </span> <br>
-        <span class="text-xl font-medium">Évitez les demandes de paiement anticipé : Soyez prudents face aux demandes de paiement anticipé avant d'avoir reçu le produit ou visité la propriété. Les vendeurs légitimes seront compréhensifs envers vos préoccupations</span>
-    <br>    <span class="text-xl font-medium"><span class="text-principal">Numero du Vendeur</span> :{{ phoneSeler }}</span>
-        <button @click="fermerPopup" class="absolute top-0 right-0 mt-2 mr-2 text-4xl text-principal hover:text-gray-800 focus:outline-none">
+        </span>
+        <br>
+        <span class="text-3xl font-mediu8">Évitez les demandes de paiement anticipé : Soyez prudents face aux demandes de paiement anticipé avant d'avoir reçu le produit ou visité la propriété. Les vendeurs légitimes seront compréhensifs envers vos préoccupations</span>
+        <br>
+        <span class="text-3xl font-mediu8"><span class="text-principal">Numero du Vendeur</span> :{{ phoneSeler }}</span>
+        <button @click="fermerPopup" class="absolute top-0 right-0 mt-2 mr-2 text-1xl text-gray-600 hover:text-gray-800 focus:outline-none">
           X
         </button>
       </div>
     </div>
-  </div>
+    </div>
+
+
+</div>
 
 
 
 
-                    </div>
+
+
                 </div>
             </div>
-            <div class="mt-16">
-              <!--  -->
+            <!-- sous la photo -->
+            <div class="px-4 mt-4 rounded-sm sm:w-[40rem] sm:h-[22rem]  items-center sm:justify-center  relative my-0 sm:mx-0 ">
+                <span class="text-secondaire uppercase text-2xl ">{{ maison.nom }}</span> <br>
+                    <span class="text-gray-500 mt-3">Prix : <span class="text-principal uppercase">{{maison.prix  }} </span> Fcfa</span> <br>
+                    <!-- <span class="text-gray-500 mt-3">Pieces : <span class="text-principal uppercase">{{ maison.npiece }} </span>. </span> -->
+                    <hr>
+                    <div class="flex items-center mt-4">
+ <div class="w-full grid grid-cols-2 ">
+    <div class="flex items-center mr-4">
+    <i class="bi bi-bag-fill text-3xl text-gray-800 mr-2"></i>
+    <span class="text-1xl text-gray-600">{{ maison.affaire }}</span>
+  </div>
+
+  <div class="flex items-center mr-4">
+    <i class="bi bi-border-width text-3xl text-gray-800 mr-2"></i>
+    <span class="text-1xl text-gray-600">{{ maison.type }}</span>
+  </div>
+
+  <div class="flex items-center mr-4">
+    <i class="bi bi-geo-alt-fill text-3xl text-gray-800 mr-2"></i>
+    <span class="text-1xl text-gray-600">{{ maison.region }}</span>
+  </div>
+
+  <div class="flex items-center mr-4">
+    <i class="bi bi-grid-3x3-gap-fill text-3xl text-gray-800 mr-2"></i>
+    <span class="text-1xl text-gray-600">{{ maison.npiece }} pieces</span>
+  </div>
+
+  <div class="flex items-center mr-4">
+    <i class="bi bi-card-text text-3xl text-gray-800 mr-2"></i>
+    <span class="text-1xl text-gray-600">{{ maison.surface }} M2</span>
+  </div>
+ </div>
+</div>
+<hr>
+
+                    <p  class="text-gray-600 mt-3">{{ maison.description }} </p> <br>
+
+
+
+
               <div>
-    <h2 class="text-lg font-semibold mb-4">Autres produits de la même marque</h2>
+    <h2 class="text-2xl font-semibold mb-4 text-secondaire">Autres produits de la même marque</h2> <br>
     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
       <!-- Afficher les suggestions -->
       <div v-for="suggestion in suggestions" :key="suggestion.id" class=" w-full h-full object-cover border rounded-lg p-4">
@@ -266,15 +299,14 @@ phpVersion: String,
     </main>
 
 </div>
-<div class="fixed bottom-0 w-full bg-transparent text-white p-4 flex mx-auto justify-around ">
+
+<div class="fixed bottom-0 w-full bg-transparent text-white p-4 flex mx-auto justify-around md:hidden">
   <button @click="afficherNumero" class="flex items-center bg-principal text-white text-sm font-medium rounded hover:bg-gray-900 focus:outline-none focus:bg-black px-4 py-2">
-    <i class="bi bi-telephone-fill text-xl mr-2"></i>
-    Voir le numéro
+    <i class="bi bi-telephone-fill text-3xl mr-2"></i>8    Voir le numéro
   </button>
 
   <button @click="ouvrirWhatsApp" class="flex items-center bg-principal text-white text-sm font-medium rounded hover:bg-gray-900 focus:outline-none focus:bg-black px-4 py-2">
-    <i class="bi bi-whatsapp text-xl mr-2"></i>
-    WhatsApp
+    <i class="bi bi-whatsapp text-3xl mr-2"></i>8    WhatsApp
   </button>
 </div>
 
@@ -358,7 +390,6 @@ phpVersion: String,
       showUserNumber: false,
     //   nnnum
     afficherPopup: false,
-          numero: "123456789" // Remplacez cela par votre numéro réel
     };
   },
   computed: {
@@ -384,7 +415,7 @@ phpVersion: String,
     fermerPopup() {
       this.afficherPopup = false;
     }, ouvrirWhatsApp() {
-      const numeroContact = +221769275309; // Remplacez par le vrai numéro de contact
+      const numeroContact = phoneSeler; // Remplacez par le vrai numéro de contact
 
       // Générer le lien WhatsApp
       const lienWhatsApp = `https://api.whatsapp.com/send?phone=${this.numeroContact}`;
