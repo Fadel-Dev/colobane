@@ -13,8 +13,12 @@ module.exports = {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+                sans: ['Alkatra', 'cursive'],
             },
+            colors: {
+                'principal': '#eb2d53',
+               'secondaire': '#101634'
+              },
         },
     },
 

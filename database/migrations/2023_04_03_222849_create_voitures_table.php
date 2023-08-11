@@ -21,16 +21,20 @@ return new class extends Migration
             $table->string('model');
             $table->string('description');
             $table->bigInteger('prix');
-            $table->bigInteger('kilometrage');
-            $table->bigInteger('nombrePlace');
             $table->string('boiteVitesse');
+            $table->integer('kilometrage');
             $table->string('carburant');
-            $table->string('image');
+            $table->string('place');
+            $table->string('image1');
+            $table->string('image2');
+            $table->string('image3');
             $table->string('region');
-            $table->string('ville');
+            $table->integer('annee');
             $table->string('etat');
-            $table->string('livraison');
+            $table->string('affaire');
             $table->string('categorie');
+
+            $table->timestamps();
         });
     }
 

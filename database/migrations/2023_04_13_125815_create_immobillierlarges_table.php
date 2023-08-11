@@ -11,24 +11,24 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('moto_scooters', function (Blueprint $table) {
+        Schema::create('immobillierlarges', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-
             $table->unSignedBigInteger('user_id');
-    
+
+
+            $table->string('type');
             $table->string('nom');
-            $table->string('marque');
             $table->string('description');
             $table->bigInteger('prix');
-            $table->string('carburant');
-            $table->bigInteger('annee');
-            $table->string('image');
+            $table->string('surface');
+            $table->string('image1');
+            $table->string('image2');
+            $table->string('image3');
             $table->string('region');
-            $table->string('ville');
-            $table->string('etat');
-            $table->string('categorie');            
-            $table->index('user_id');
+            $table->string('categorie');
+            $table->string('affaire');
+
         });
     }
 
@@ -37,6 +37,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('moto_scooters');
+        Schema::dropIfExists('immobillierlarges');
     }
 };

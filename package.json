@@ -6,7 +6,7 @@
         "watch": "vite build --watch"
     },
     "devDependencies": {
-        "@inertiajs/vue3": "^1.0.0",
+        "@inertiajs/vue3": "^1.0.2",
         "@tailwindcss/forms": "^0.5.2",
         "@tailwindcss/typography": "^0.5.2",
         "@vitejs/plugin-vue": "^4.0.0",
@@ -17,5 +17,12 @@
         "tailwindcss": "^3.1.0",
         "vite": "^4.0.0",
         "vue": "^3.2.31"
+    },
+    "dependencies": {
+        "@headlessui/vue": "^1.7.13",
+        "@inertiajs/progress": "^0.2.7",
+        "vue-colorful-slider": "^1.0.1",
+        "vue-router": "^4.2.0",
+        "vue-ssr-carousel": "^2.2.0"
     }
 }

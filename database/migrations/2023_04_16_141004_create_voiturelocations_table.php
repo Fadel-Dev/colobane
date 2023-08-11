@@ -11,25 +11,26 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('equipements', function (Blueprint $table) {
+        Schema::create('voiturelocations', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
 
             $table->unSignedBigInteger('user_id');
 
-
             $table->string('nom');
+            $table->string('marque');
             $table->string('description');
-            $table->bigInteger('prix');           
-            
-            $table->string('image');
+            $table->bigInteger('prix');
+            $table->string('carburant');
+            $table->string('place');
+            $table->string('image1');
+            $table->string('image2');
+            $table->string('image3');
             $table->string('region');
-            $table->string('ville');
-            $table->string('etat');
+            $table->string('affaire');
+            $table->string('boiteVitesse');
             $table->string('categorie');
-            $table->string('type');
 
-            $table->index('user_id');
         });
     }
 
@@ -38,6 +39,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('equipements');
+        Schema::dropIfExists('voiturelocations');
     }
 };

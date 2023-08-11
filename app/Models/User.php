@@ -26,7 +26,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password','phone'
     ];
 
     /**
@@ -58,4 +58,29 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+//Vehicule
+    public function Lead()
+    {
+        return $this->hasMany(Lead::class);
+    }
+
+    public function Voitures()
+    {
+        return $this->hasMany(Voitures::class);
+    }
+
+    public function Voiturelocation()
+    {
+        return $this->hasMany(Voiturelocation::class);
+    }
+
+
+
+
+//Immobillier
+
+public function Immobiliers()
+{
+    return $this->hasMany(Immobiliers::class);
+}
 }
