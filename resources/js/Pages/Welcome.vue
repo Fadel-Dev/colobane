@@ -20,7 +20,7 @@ const props = defineProps({
 
 <template>
   <Head title="Acceuil" />
-  <div>
+  <div class="sm:h-[90vh]">
     <div class="nav bg-gray-800 w-full  m-0 p-0 fixed top-0 left-0 z-10">
       <nav
         class="

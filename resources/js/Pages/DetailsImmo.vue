@@ -313,7 +313,7 @@ phpVersion: String,
 
    <!-- FOOTER -->
 
-   <div class="#">
+   <div class="footer">
               <Footer/>
             </div>
 
@@ -330,6 +330,7 @@ phpVersion: String,
         grid-auto-columns: 55% 26%;
         /* height: 75vh; */
     }
+
 
     /* @media only screen and (max-width: 800px) {
   #photoContact {
