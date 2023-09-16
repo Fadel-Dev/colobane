@@ -189,7 +189,76 @@ function handleSubmit3() {
       {{ lead.progress.percentage }}%
     </progress>
          </div>
- </div>
+ </div><script>
+</script>
+<script setup>
+
+import { useForm } from "@inertiajs/vue3"
+<script>
+</script>
+<script setup>
+
+import { useForm } from "@inertiajs/vue3"
+
+const lead = useForm({
+    nom: null,
+      service: null,
+      mail: null,
+      message: null,
+const lead = useForm({
+    nom: null,
+      service: null,
+      mail: null,
+      message: null,
+})
+
+function handleSubmit() {
+  lead.post('/client/save')
+}
+</script>
+<script setup>
+
+import { useForm } from "@inertiajs/vue3"
+
+const lead = useForm({
+    nom: null,
+      service: null,
+      mail: null,
+      message: null,
+})
+
+function handleSubmit() {
+  lead.post('/client/save')
+}
+</script>
+
+const lead = useForm({
+    nom: null,
+      service: null,
+      mail: null,
+      message: null,
+})
+
+function handleSubmit() {
+  lead.post('/client/save')
+}
+</script>
+<script setup>
+
+import { useForm } from "@inertiajs/vue3"
+
+const lead = useForm({
+    nom: null,
+      service: null,
+      mail: null,
+      message: null,
+})
+
+function handleSubmit() {
+  lead.post('/client/save')
+}
+</script>
+
 <!-- REGION -->
   <div class="mb-4">
       <select class="border border-gray-300 rounded-full text-gray-600 h-10 pl-5 pr-10 bg-white hover:border-gray-400 focus:outline-none appearance-none focus:border-gray-500 focus:ring-gray-500"
@@ -518,7 +587,39 @@ function handleSubmit3() {
     display:grid;
     grid-template-columns: 32% 32% 32%;
     grid-gap:3% ;
-  }
+  }<script>
+</script>
+<script setup>
+
+import { useForm } from "@inertiajs/vue3"
+
+const lead = useForm({
+    nom: null,
+      service: null,
+      mail: null,
+      message: null,
+})
+
+function handleSubmit() {
+  lead.post('/client/save')
+}
+</script>
+<script setup>
+
+import { useForm } from "@inertiajs/vue3"
+
+const lead = useForm({
+    nom: null,
+      service: null,
+      mail: null,
+      message: null,
+})
+
+function handleSubmit() {
+  lead.post('/client/save')
+}
+</script>
+
 </style>
 
 <script>
