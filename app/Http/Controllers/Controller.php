@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\URL;
 
 
 
@@ -115,6 +116,9 @@ class Controller extends BaseController
             ->where('immobiliers.id', $id)
             ->value('users.phone');
 
+            $urlActuelle = URL::current();
+
+
         $maison = Immobiliers::findOrFail($id);
         return Inertia::render('DetailsImmo', [
             'canLogin' => Route::has('login'),
@@ -128,6 +132,7 @@ class Controller extends BaseController
             'phoneSeler' => $phoneUtilisateur,
             'user' => $user,
             'suggestions' => $suggestions,
+            'urlActuelle' =>$urlActuelle,
 
         ]);
     }
@@ -165,6 +170,9 @@ class Controller extends BaseController
             ->where('voitures.id', $id)
             ->value('users.phone');
 
+            $urlActuelle = URL::current();
+
+
         return Inertia::render('DetailsVehicule', [
             'canLogin' => Route::has('login'),
             'canRegister' => Route::has('register'),
@@ -176,6 +184,7 @@ class Controller extends BaseController
             'phoneSeler' => $phoneUtilisateur,
             'user' => $user,
             'suggestions' => $suggestions,
+            'urlActuelle' =>$urlActuelle,
         ]);
     }
 }

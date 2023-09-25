@@ -15,6 +15,7 @@ const props = defineProps({
     mailSeler: Object,
     phoneSeler: Object,
     suggestions: Object,
+    urlActuelle:Object,
 
 
     canLogin: Boolean,
@@ -372,18 +373,22 @@ const props = defineProps({
     </div>
 
     <div class="fixed bottom-0 w-full bg-transparent text-white p-4 flex mx-auto justify-around md:hidden">
-        <button @click="afficherNumero"
-            class="flex items-center bg-principal text-white text-sm font-medium rounded-2xl hover:bg-gray-900 focus:outline-none focus:bg-black px-4 py-2">
-            <i class="bi bi-telephone-fill text-2xl mr-2"></i>
-            Voir le numéro
-        </button>
+   <div class="first">
+    <button class="flex items-center bg-principal text-white text-sm font-medium rounded hover:bg-gray-900 focus:outline-none focus:bg-black px-4 py-2" @click="afficherNumero" >
+        <i class="bi bi-telephone text-3xl mr-2"></i>Telephone
+  </button>
+   </div>
 
-        <button @click="ouvrirWhatsApp"
-            class="flex items-center bg-principal text-white text-sm font-medium rounded-2xl hover:bg-gray-900 focus:outline-none focus:bg-black px-4 ">
-            <i class="bi bi-whatsapp text-2xl mr-2"></i>
-            WhatsApp
-        </button>
-    </div>
+  <div class="second">
+    <button @click="ouvrirWhatsApp" class="flex items-center bg-principal text-white text-sm font-medium rounded hover:bg-gray-900 focus:outline-none focus:bg-black px-4 py-2">
+    <i class="bi bi-whatsapp text-3xl mr-2"></i> WhatsApp
+  </button>
+  </div>
+</div>
+
+
+
+
 
     <!-- FOOTER -->
 
@@ -480,10 +485,11 @@ export default {
     fermerPopup() {
       this.afficherPopup = false;
     }, ouvrirWhatsApp() {
-      const numeroContact = phoneSeler; // Remplacez par le vrai numéro de contact
+        const numeroContact = `${this.phoneSeler}`; // Remplacez par le numéro de téléphone que vous souhaitez utiliser
+        const messageText = `Bonjour, je suis intéressé par vos produits.${this.urlActuelle}`; // Message texte par défaut
 
-      // Générer le lien WhatsApp
-      const lienWhatsApp = `https://api.whatsapp.com/send?phone=${this.numeroContact}`;
+        const lienWhatsApp = `https://wa.me/${numeroContact}?text=${encodeURIComponent(messageText)}`;
+
 
       // Ouvrir le lien dans une nouvelle fenêtre/onglet
       window.open(lienWhatsApp, "_blank");
