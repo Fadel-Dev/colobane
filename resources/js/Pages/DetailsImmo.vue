@@ -14,6 +14,7 @@ maison: Object,
         phoneSeler:Object,
        suggestions:Object,
        nPiece:Object,
+       urlActuelle:Object,
 
 
         canLogin: Boolean,
@@ -169,6 +170,7 @@ phpVersion: String,
   <span class="text-gray-500 mt-3">Lieu : <span class="text-gray-700 uppercase">{{maison.region  }} </span> </span> <br>
   <span class="text-gray-500 mt-3">Piece : <span class="text-gray-700 uppercase">{{maison.npiece  }} </span> </span> <br>
   <span class="text-gray-500 mt-3">Type : <span class="text-gray-700 uppercase">{{maison.type  }} </span> </span> <br>
+
 </div>
 <!-- FOR APARTEMENT -->
 <div v-else-if="maison.type=='appartement'">
@@ -301,13 +303,38 @@ phpVersion: String,
 </div>
 
 <div class="fixed bottom-0 w-full bg-transparent text-white p-4 flex mx-auto justify-around md:hidden">
-  <button @click="afficherNumero" class="flex items-center bg-principal text-white text-sm font-medium rounded hover:bg-gray-900 focus:outline-none focus:bg-black px-4 py-2">
-    <i class="bi bi-telephone-fill text-3xl mr-2"></i>8    Voir le numéro
+   <div class="first">
+    <button class="flex items-center bg-principal text-white text-sm font-medium rounded hover:bg-gray-900 focus:outline-none focus:bg-black px-4 py-2" @click="afficherNumero" >
+        <i class="bi bi-telephone text-3xl mr-2"></i>Telephone
   </button>
 
-  <button @click="ouvrirWhatsApp" class="flex items-center bg-principal text-white text-sm font-medium rounded hover:bg-gray-900 focus:outline-none focus:bg-black px-4 py-2">
-    <i class="bi bi-whatsapp text-3xl mr-2"></i>8    WhatsApp
+  <!-- Nb -->
+
+  <div v-if="afficherPopup" class="w-2/4 mx-auto fixed inset-0 flex justify-center bg-gray-800 bg-opacity-75">
+      <div class="bg-white rounded-lg p-8">
+        <span class="text-3xl text-principal">
+            NB
+        </span>
+        <br>
+        <span class="text-3xl font-mediu8">Évitez les demandes de paiement anticipé : Soyez prudents face aux demandes de paiement anticipé avant d'avoir reçu le produit ou visité la propriété. Les vendeurs légitimes seront compréhensifs envers vos préoccupations</span>
+        <br>
+        <span class="text-3xl font-mediu8"><span class="text-principal">Numero du Vendeur</span> :{{ phoneSeler }}</span>
+        <button @click="fermerPopup" class="absolute top-0 right-0 mt-2 mr-2 text-1xl text-gray-600 hover:text-gray-800 focus:outline-none">
+          X
+        </button>
+      </div>
+    </div>
+
+   </div>
+
+  <div class="second">
+    <button @click="ouvrirWhatsApp" class="flex items-center bg-principal text-white text-sm font-medium rounded hover:bg-gray-900 focus:outline-none focus:bg-black px-4 py-2">
+    <i class="bi bi-whatsapp text-3xl mr-2"></i> WhatsApp
   </button>
+  </div>
+
+
+
 </div>
 
 
@@ -410,21 +437,27 @@ phpVersion: String,
         this.currentIndex++;
       }
     },
-    afficherNumero() {
+    afficherNumero() {b
       this.afficherPopup = true;
     },
     fermerPopup() {
       this.afficherPopup = false;
     }, ouvrirWhatsApp() {
-      const numeroContact = phoneSeler; // Remplacez par le vrai numéro de contact
+        const numeroContact = `${this.phoneSeler}`; // Remplacez par le numéro de téléphone que vous souhaitez utiliser
+        const messageText = `Bonjour, je suis intéressé par vos produits.${this.urlActuelle}`; // Message texte par défaut
 
-      // Générer le lien WhatsApp
-      const lienWhatsApp = `https://api.whatsapp.com/send?phone=${this.numeroContact}`;
+        const lienWhatsApp = `https://wa.me/${numeroContact}?text=${encodeURIComponent(messageText)}`;
+
+
+
+
+
 
       // Ouvrir le lien dans une nouvelle fenêtre/onglet
       window.open(lienWhatsApp, "_blank");
     },
     // envoie
+
   }
 };
 
