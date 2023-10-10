@@ -189,75 +189,9 @@ function handleSubmit3() {
       {{ lead.progress.percentage }}%
     </progress>
          </div>
- </div><script>
-</script>
-<script setup>
+ </div>
 
-import { useForm } from "@inertiajs/vue3"
-<script>
-</script>
-<script setup>
 
-import { useForm } from "@inertiajs/vue3"
-
-const lead = useForm({
-    nom: null,
-      service: null,
-      mail: null,
-      message: null,
-const lead = useForm({
-    nom: null,
-      service: null,
-      mail: null,
-      message: null,
-})
-
-function handleSubmit() {
-  lead.post('/client/save')
-}
-</script>
-<script setup>
-
-import { useForm } from "@inertiajs/vue3"
-
-const lead = useForm({
-    nom: null,
-      service: null,
-      mail: null,
-      message: null,
-})
-
-function handleSubmit() {
-  lead.post('/client/save')
-}
-</script>
-
-const lead = useForm({
-    nom: null,
-      service: null,
-      mail: null,
-      message: null,
-})
-
-function handleSubmit() {
-  lead.post('/client/save')
-}
-</script>
-<script setup>
-
-import { useForm } from "@inertiajs/vue3"
-
-const lead = useForm({
-    nom: null,
-      service: null,
-      mail: null,
-      message: null,
-})
-
-function handleSubmit() {
-  lead.post('/client/save')
-}
-</script>
 
 <!-- REGION -->
   <div class="mb-4">
@@ -587,40 +521,9 @@ function handleSubmit() {
     display:grid;
     grid-template-columns: 32% 32% 32%;
     grid-gap:3% ;
-  }<script>
-</script>
-<script setup>
-
-import { useForm } from "@inertiajs/vue3"
-
-const lead = useForm({
-    nom: null,
-      service: null,
-      mail: null,
-      message: null,
-})
-
-function handleSubmit() {
-  lead.post('/client/save')
-}
-</script>
-<script setup>
-
-import { useForm } from "@inertiajs/vue3"
-
-const lead = useForm({
-    nom: null,
-      service: null,
-      mail: null,
-      message: null,
-})
-
-function handleSubmit() {
-  lead.post('/client/save')
-}
-</script>
-
+  }
 </style>
+
 
 <script>
 export default {
