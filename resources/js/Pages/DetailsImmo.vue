@@ -29,7 +29,7 @@ phpVersion: String,
  <Head>
   <title>Detail {{ maison.nom }} </title>
  </Head>
- <div>
+ <div >
     <div class="nav bg-white w-full m-0 p-0">
         <nav
         class="
@@ -209,33 +209,41 @@ phpVersion: String,
 
 
 <div class="flex flex-col   hidden md:flex">
-  <button class="w-full h-12 bg-principal text-white font-medium rounded-md mb-2" @click="ouvrirWhatsApp"
-    >
-      Contacter
-    </button>
+                            <button class="w-full h-12 bg-principal text-white font-medium rounded-md mb-2"
+                                @click="ouvrirWhatsApp">
+                                Contacter
+                            </button>
 
-    <div>
-        <button class="w-full h-12 border-2 border-principal hover:bg-principal hover:border-1 hover:border-white text-white font-medium rounded-md" @click="afficherNumero" >
-    Voir le numero
-  </button>
-        <div v-if="afficherPopup" class="w-2/4 mx-auto fixed inset-0 flex justify-center bg-gray-800 bg-opacity-75">
-      <div class="bg-white rounded-lg p-8">
-        <span class="text-3xl text-principal">
-            NB
-        </span>
-        <br>
-        <span class="text-3xl font-mediu8">Évitez les demandes de paiement anticipé : Soyez prudents face aux demandes de paiement anticipé avant d'avoir reçu le produit ou visité la propriété. Les vendeurs légitimes seront compréhensifs envers vos préoccupations</span>
-        <br>
-        <span class="text-3xl font-mediu8"><span class="text-principal">Numero du Vendeur</span> :{{ phoneSeler }}</span>
-        <button @click="fermerPopup" class="absolute top-0 right-0 mt-2 mr-2 text-1xl text-gray-600 hover:text-gray-800 focus:outline-none">
-          X
-        </button>
-      </div>
-    </div>
-    </div>
+                            <div>
+                                <button
+                                    class="w-full h-12 border-2 border-principal hover:bg-principal hover:border-1 hover:border-white text-white font-medium rounded-md"
+                                    @click="afficherNumero">
+                                    Voir le numero
+                                </button>
+                                <div v-if="afficherPopup"
+                                    class="w-2/4 mx-auto fixed inset-0 flex justify-center bg-gray-800 bg-opacity-75">
+                                    <div class="bg-white rounded-lg p-8">
+                                        <span class="text-3xl text-principal">
+                                            NB
+                                        </span>
+                                        <br>
+                                        <span class="text-3xl font-mediu8">Évitez les demandes de paiement anticipé : Soyez
+                                            prudents face aux demandes de paiement anticipé avant d'avoir reçu le produit ou
+                                            visité la propriété. Les vendeurs légitimes seront compréhensifs envers vos
+                                            préoccupations</span>
+                                        <br>
+                                        <span class="text-3xl font-mediu8"><span class="text-principal">Numero du
+                                                Vendeur</span> :{{ phoneSeler }}</span>
+                                        <button @click="fermerPopup"
+                                            class="absolute top-0 right-0 mt-2 mr-2 text-3xl text-principal hover:text-gray-800 focus:outline-none">
+                                            X
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
 
 
-</div>
+                        </div>
 
 
 
@@ -287,11 +295,11 @@ phpVersion: String,
 
               <div>
     <h2 class="text-2xl font-semibold mb-4 text-secondaire">Autres produits de la même marque</h2> <br>
-    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 ">
       <!-- Afficher les suggestions -->
-      <div v-for="suggestion in suggestions" :key="suggestion.id" class=" w-full h-full object-cover border rounded-lg p-4">
-        <img :src="'/storage/'+ suggestion.image1" alt="Produit" class="w-full h-3/5 mb-2 rounded-lg">
-        <h3 class="text-lg font-semibold">{{ suggestion.nom }}</h3>
+      <div v-for="suggestion in suggestions" :key="suggestion.id" class=" w-full h-full object-cover border rounded-lg p-1">
+        <img :src="'/storage/'+ suggestion.image1" alt="Produit" class="w-full h-auto mb-2 rounded-lg">
+        <span class="text-md font-semibold text-principal text-center ">{{ suggestion.nom }}</span>
         <!-- <p class="text-gray-700">{{ suggestion.description }}</p> -->
       </div>
     </div>
@@ -340,7 +348,7 @@ phpVersion: String,
 
    <!-- FOOTER -->
 
-   <div class="footer">
+   <div class="footer relative top-12 mt-40 ">
               <Footer/>
             </div>
 
@@ -356,6 +364,11 @@ phpVersion: String,
         display: grid;
         grid-auto-columns: 55% 26%;
         /* height: 75vh; */
+    }
+
+
+    #home{
+        height: 100vh;
     }
 
 
@@ -437,7 +450,7 @@ phpVersion: String,
         this.currentIndex++;
       }
     },
-    afficherNumero() {b
+    afficherNumero() {
       this.afficherPopup = true;
     },
     fermerPopup() {

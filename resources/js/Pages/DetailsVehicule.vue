@@ -15,7 +15,7 @@ const props = defineProps({
     mailSeler: Object,
     phoneSeler: Object,
     suggestions: Object,
-    urlActuelle:Object,
+    urlActuelle: Object,
 
 
     canLogin: Boolean,
@@ -60,7 +60,7 @@ const props = defineProps({
                         <button type="button" class="
                 text-gray-800
                 hover:text-gray-400
-                focus:outline-none focus:text-gray-400
+                foctheme hacker s:outline-none focus:text-gray-400
               ">
                             <svg viewBox="0 0 24 24" class="w-6 h-6 fill-current">
                                 <path fill-rule="evenodd"
@@ -78,8 +78,7 @@ const props = defineProps({
             space-y-4
             md:flex
             md:space-y-0
-            md:flex-row
-            md:items-center
+            md:flex-rtheme hacker -center
             md:space-x-10
             md:mt-0
           ">
@@ -98,7 +97,7 @@ const props = defineProps({
                                         <i class="bi bi-node-plus pl-1"></i>
                                         <Link :href="route('publier')"
                                             class=" px-2 py-0 text-white hover:text-gray-900  dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">
-                                        Publier une annonce</Link>
+                                        theme hacker Publier une annonce</Link>
 
 
                                     </div> <i class="bi bi-person-circle mx-1"></i>
@@ -135,7 +134,7 @@ const props = defineProps({
                         </i>
 
                         <div class="w-full h-full border">
-
+                            theme hacker
                             <img class="w-full h-full " :src="'/storage/' + currentImage">
 
                         </div>
@@ -154,9 +153,9 @@ const props = defineProps({
                             <img class="mb-3 w-[4rem] h-[4rem] rounded-full shadow-2xl  bottom-1/3 right-0"
                                 src="https://flowbite.com/docs/images/people/profile-picture-3.jpg" alt="Bonnie image">
 
-                            <span class="text-gray-400 mt-3 px-3">Propose par <span
-                                    class="text-gray-300 uppercase">{{ nameSeler }} {{ }} </span> </span> <br>
-
+                            <span class="text-gray-400 mt-3 px-3">Propose par <span class="text-gray-300 uppercase">{{
+                                nameSeler }} {{ }} </span> </span> <br>
+                            theme hacker
 
                         </div>
                         <hr class="my-3">
@@ -171,33 +170,40 @@ const props = defineProps({
                         </div>
 
                         <div class="flex flex-col   hidden md:flex">
-  <button class="w-full h-12 bg-principal text-white font-medium rounded-md mb-2" @click="ouvrirWhatsApp"
-    >
-      Contacter
-    </button>
+                            <button class="w-full h-12 bg-principal text-white font-medium rounded-md mb-2"
+                                @click="ouvrirWhatsApp">
+                                Contacter
+                            </button>
 
-    <div>
-        <button class="w-full h-12 border-2 border-principal hover:bg-principal hover:border-1 hover:border-white text-white font-medium rounded-md" @click="afficherNumero" >
-    Voir le numero
-  </button>
-        <div v-if="afficherPopup" class="w-2/4 mx-auto fixed inset-0 flex justify-center bg-gray-800 bg-opacity-75">
-      <div class="bg-white rounded-lg p-8">
-        <span class="text-3xl text-principal">
-            NB
-        </span>
-        <br>
-        <span class="text-3xl font-mediu8">Évitez les demandes de paiement anticipé : Soyez prudents face aux demandes de paiement anticipé avant d'avoir reçu le produit ou visité la propriété. Les vendeurs légitimes seront compréhensifs envers vos préoccupations</span>
-        <br>
-        <span class="text-3xl font-mediu8"><span class="text-principal">Numero du Vendeur</span> :{{ phoneSeler }}</span>
-        <button @click="fermerPopup" class="absolute top-0 right-0 mt-2 mr-2 text-1xl text-gray-600 hover:text-gray-800 focus:outline-none">
-          X
-        </button>
-      </div>
-    </div>
-    </div>
-
-
-</div>
+                            <div>
+                                <button
+                                    class="w-full h-12 border-2 border-principal hover:bg-principal hover:border-1 hover:border-white text-white font-medium rounded-md"
+                                    @click="afficherNumero">
+                                    Voir le numero
+                                </button>
+                                <div v-if="afficherPopup"
+                                    class="w-2/4 mx-auto fixed inset-0 flex justify-center bg-gray-800 bg-opacity-75">
+                                    <div class="bg-white rounded-lg p-8">
+                                        <span class="text-3xl text-principal">
+                                            NB
+                                        </span>
+                                        <br>
+                                        <span class="text-3xl font-mediu8">Évitez les demandes de paiement anticipé : Soyez
+                                            prudents face aux demandes de paiement anticipé avant d'avoir reçu le produit ou
+                                            visité la propriété. Les vendeurs légitimes seront compréhensifs envers vos
+                                            préoccupations</span>
+                                        <br>
+                                        <span class="text-3xl font-mediu8"><span class="text-principal">Numero du
+                                                Vendeur</span> :{{ phoneSeler }}</span>
+                                        <button @click="fermerPopup"
+                                            class="absolute top-0 right-0 mt-2 mr-2 text-3xl text-principal hover:text-gray-800 focus:outline-none">
+                                            X
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                         
+                        </div>
                     </div>
 
 
@@ -208,8 +214,8 @@ const props = defineProps({
                     }} </span> </span> <br>
                     <span class="text-gray-500 mt-3">Model : <span class="text-gray-700 uppercase">{{ voiture.model
                     }} </span> </span> <br>
-                    <span class="text-gray-500 mt-3">Kilimetrage : <span class="text-gray-700 uppercase">{{
-                        voiture.kilometrage }} </span> Km</span> <br>
+                    <theme hacker span class="text-gray-500 mt-3">Kilimetrage : <span class="text-gray-700 uppercase">{{
+                        voiture.kilometrage }} </span> Km</theme> <br>
                     <span class="text-gray-500 mt-3">Boite V : <span class="text-gray-700 uppercase">{{ voiture.boiteVitesse
                     }} </span> </span> <br>
                     <span class="text-gray-500 mt-3">Carburant : <span class="text-gray-700 uppercase">{{ voiture.carburant
@@ -218,7 +224,8 @@ const props = defineProps({
 
                 <div v-else>
                     <span class="text-secondaire uppercase text-2xl ">{{ voiture.nom }}</span> <br>
-                    <span class="text-gray-500 mt-3">Prix : <span class="text-principal uppercase">{{ voiture.prix }} </span>
+                    <span class="text-gray-500 mt-3">Prix : <span class="text-principal uppercase">{{ voiture.prix }}
+                        </span>
                         Fcfa</span> <br>
                     <hr>
                 </div>
@@ -321,37 +328,9 @@ const props = defineProps({
                     </div>
                     <hr>
 
-                    <p  class="text-gray-600 mt-1">{{ voiture.description }} </p> <br>
+                    <p class="text-gray-600 mt-1">{{ voiture.description }} </p> <br>
 
                 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
                 <div class="mt-1">
                     <!--  -->
@@ -373,18 +352,21 @@ const props = defineProps({
     </div>
 
     <div class="fixed bottom-0 w-full bg-transparent text-white p-4 flex mx-auto justify-around md:hidden">
-   <div class="first">
-    <button class="flex items-center bg-principal text-white text-sm font-medium rounded hover:bg-gray-900 focus:outline-none focus:bg-black px-4 py-2" @click="afficherNumero" >
-        <i class="bi bi-telephone text-3xl mr-2"></i>Telephone
-  </button>
-   </div>
+        <div class="first">
+            <button
+                class="flex items-center bg-principal text-white text-sm font-medium rounded hover:bg-gray-900 focus:outline-none focus:bg-black px-4 py-2"
+                @click="afficherNumero">
+                <i class="bi bi-telephone text-3xl mr-2"></i>Telephone
+            </button>
+        </div>
 
-  <div class="second">
-    <button @click="ouvrirWhatsApp" class="flex items-center bg-principal text-white text-sm font-medium rounded hover:bg-gray-900 focus:outline-none focus:bg-black px-4 py-2">
-    <i class="bi bi-whatsapp text-3xl mr-2"></i> WhatsApp
-  </button>
-  </div>
-</div>
+        <div class="second">
+            <button @click="ouvrirWhatsApp"
+                class="flex items-center bg-principal text-white text-sm font-medium rounded hover:bg-gray-900 focus:outline-none focus:bg-black px-4 py-2">
+                <i class="bi bi-whatsapp text-3xl mr-2"></i> WhatsApp
+            </button>
+        </div>
+    </div>
 
 
 
@@ -460,7 +442,7 @@ export default {
             currentIndex: 0,
             showUserNumber: false,
             afficherPopup: false,
-          numero: "123456789" // Remp
+            numero: "123456789" // Remp
         };
     },
     computed: {
@@ -472,7 +454,7 @@ export default {
         previousImage() {
             if (this.currentIndex > 0) {
                 this.currentIndex--;
-            }
+            }afficherPopup
         },
         nextImage() {
             if (this.currentIndex < this.images.length - 1) {
@@ -480,20 +462,20 @@ export default {
             }
         },
         afficherNumero() {
-      this.afficherPopup = true;
-    },
-    fermerPopup() {
-      this.afficherPopup = false;
-    }, ouvrirWhatsApp() {
-        const numeroContact = `${this.phoneSeler}`; // Remplacez par le numéro de téléphone que vous souhaitez utiliser
-        const messageText = `Bonjour, je suis intéressé par vos produits.${this.urlActuelle}`; // Message texte par défaut
+            this.afficherPopup = true;
+        },
+        fermerPopup() {
+            this.afficherPopup = false;
+        }, ouvrirWhatsApp() {
+            const numeroContact = `${this.phoneSeler}`; // Remplacez par le numéro de téléphone que vous souhaitez utiliser
+            const messageText = `Bonjour, je suis intéressé par vos produits.${this.urlActuelle}`; // Message texte par défaut
 
-        const lienWhatsApp = `https://wa.me/${numeroContact}?text=${encodeURIComponent(messageText)}`;
+            const lienWhatsApp = `https://wa.me/${numeroContact}?text=${encodeURIComponent(messageText)}`;
 
 
-      // Ouvrir le lien dans une nouvelle fenêtre/onglet
-      window.open(lienWhatsApp, "_blank");
-    },
+            // Ouvrir le lien dans une nouvelle fenêtre/onglet
+            window.open(lienWhatsApp, "_blank");
+        },
         // envoie
     }
 };
