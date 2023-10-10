@@ -219,14 +219,14 @@ Publier une annonce</Link>
       </div>
       </div>
 </div>
-
+ <div class="#">
+              <Footer/>
+            </div>
   </div>
 
    <!-- FOOTER -->
 
-   <div class="#">
-              <Footer/>
-            </div>
+
 </template>
 <style>
 .bg-dots-darker {

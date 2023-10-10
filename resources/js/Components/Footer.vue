@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-secondaire text-white">
+    <div class="bg-secondaire text-white  ">
 
       <div class="container mx-auto px-4 md:flex md:justify-between">
         <div v-for="(section, index) in footerSections" :key="index" class="md:w-1/4 md:px-4">

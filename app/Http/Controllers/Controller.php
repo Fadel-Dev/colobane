@@ -94,7 +94,7 @@ class Controller extends BaseController
         // Requête pour obtenir d'autres produits avec la même marque
         $suggestions = Immobiliers::where('type', $typeImmo)
             ->where('id', '!=', $id) // Exclure le produit actuel
-            ->limit(5) // Limiter le nombre de suggestions à 5
+            ->limit(4) // Limiter le nombre de suggestions à 5
             ->get();
 
         $user = User::findOrFail($id);
@@ -152,7 +152,7 @@ class Controller extends BaseController
         // Requête pour obtenir d'autres produits avec la même marque
         $suggestions = Voitures::where('marque', $marqueVoiture)
             ->where('id', '!=', $id) // Exclure le produit actuel
-            ->limit(5) // Limiter le nombre de suggestions à 5
+            ->limit(4) // Limiter le nombre de suggestions à 5
             ->get();
 
         $nomUtilisateur = DB::table('users')
