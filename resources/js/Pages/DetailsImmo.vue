@@ -227,12 +227,12 @@ phpVersion: String,
                                             NB
                                         </span>
                                         <br>
-                                        <span class="text-3xl font-mediu8">Évitez les demandes de paiement anticipé : Soyez
+                                        <span class="text-3xl ">Évitez les demandes de paiement anticipé : Soyez
                                             prudents face aux demandes de paiement anticipé avant d'avoir reçu le produit ou
                                             visité la propriété. Les vendeurs légitimes seront compréhensifs envers vos
                                             préoccupations</span>
                                         <br>
-                                        <span class="text-3xl font-mediu8"><span class="text-principal">Numero du
+                                        <span class="text-3xl"><span class="text-principal">Numero du
                                                 Vendeur</span> :{{ phoneSeler }}</span>
                                         <button @click="fermerPopup"
                                             class="absolute top-0 right-0 mt-2 mr-2 text-3xl text-principal hover:text-gray-800 focus:outline-none">
@@ -318,15 +318,17 @@ phpVersion: String,
 
   <!-- Nb -->
 
-  <div v-if="afficherPopup" class="w-2/4 mx-auto fixed inset-0 flex justify-center bg-gray-800 bg-opacity-75">
+  <div v-if="afficherPopup" class="w-11/12 mx-auto fixed inset-0 flex justify-center bg-gray-800 bg-opacity-75">
       <div class="bg-white rounded-lg p-8">
         <span class="text-3xl text-principal">
-            NB
+            NBx
         </span>
         <br>
-        <span class="text-3xl font-mediu8">Évitez les demandes de paiement anticipé : Soyez prudents face aux demandes de paiement anticipé avant d'avoir reçu le produit ou visité la propriété. Les vendeurs légitimes seront compréhensifs envers vos préoccupations</span>
+        <span class="text-1xl text-black">Évitez les demandes de paiement anticipé : Soyez prudents face aux demandes de paiement anticipé avant d'avoir reçu le produit ou visité la propriété. Les vendeurs légitimes seront compréhensifs envers vos préoccupations</span>
         <br>
-        <span class="text-3xl font-mediu8"><span class="text-principal">Numero du Vendeur</span> :{{ phoneSeler }}</span>
+        <br>
+        <hr>
+        <span class="text-1xl text-black">Numero du Vendeur</span><span class="text-principal">:{{ phoneSeler }}</span>
         <button @click="fermerPopup" class="absolute top-0 right-0 mt-2 mr-2 text-1xl text-gray-600 hover:text-gray-800 focus:outline-none">
           X
         </button>
