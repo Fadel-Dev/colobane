@@ -44,7 +44,7 @@ const props = defineProps({
                 <div class="flex items-center justify-between ">
                     <Link :href="route('home')" class="
             w-full
-              text-xl
+              text-xlcenter
               text-
               font-bold
               md:text-2xl
@@ -60,7 +60,7 @@ const props = defineProps({
                         <button type="button" class="
                 text-gray-800
                 hover:text-gray-400
-                foctheme hacker s:outline-none focus:text-gray-400
+                focus:outline-none focus:text-gray-400
               ">
                             <svg viewBox="0 0 24 24" class="w-6 h-6 fill-current">
                                 <path fill-rule="evenodd"
@@ -78,7 +78,7 @@ const props = defineProps({
             space-y-4
             md:flex
             md:space-y-0
-            md:flex-rtheme hacker -center
+            md:flex
             md:space-x-10
             md:mt-0
           ">
@@ -97,7 +97,7 @@ const props = defineProps({
                                         <i class="bi bi-node-plus pl-1"></i>
                                         <Link :href="route('publier')"
                                             class=" px-2 py-0 text-white hover:text-gray-900  dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">
-                                        theme hacker Publier une annonce</Link>
+                                         Publier une annonce</Link>
 
 
                                     </div> <i class="bi bi-person-circle mx-1"></i>
@@ -134,7 +134,6 @@ const props = defineProps({
                         </i>
 
                         <div class="w-full h-full border">
-                            theme hacker
                             <img class="w-full h-full " :src="'/storage/' + currentImage">
 
                         </div>
@@ -155,7 +154,6 @@ const props = defineProps({
 
                             <span class="text-gray-400 mt-3 px-3">Propose par <span class="text-gray-300 uppercase">{{
                                 nameSeler }} {{ }} </span> </span> <br>
-                            theme hacker
 
                         </div>
                         <hr class="my-3">
@@ -202,24 +200,111 @@ const props = defineProps({
                                     </div>
                                 </div>
                             </div>
-                         
+
                         </div>
                     </div>
 
 
                 </div>
 
-                <div v-if="voiture.affaire == 'vente'">
-                    <span class="text-gray-500 mt-3">Marque : <span class="text-gray-700 uppercase">{{ voiture.marque
+                <div v-if="voiture.affaire == 'location'" class="h-auto">
+                    <!-- <span class="text-gray-500 mt-3">Marque : <span class="text-gray-700 uppercase">{{ voiture.marque
                     }} </span> </span> <br>
                     <span class="text-gray-500 mt-3">Model : <span class="text-gray-700 uppercase">{{ voiture.model
                     }} </span> </span> <br>
-                    <theme hacker span class="text-gray-500 mt-3">Kilimetrage : <span class="text-gray-700 uppercase">{{
-                        voiture.kilometrage }} </span> Km</theme> <br>
+                    <span class="text-gray-500 mt-3">Kilimetrage : <span class="text-gray-700 uppercase">{{
+                        voiture.kilometrage }} </span> Km</span> <br>
                     <span class="text-gray-500 mt-3">Boite V : <span class="text-gray-700 uppercase">{{ voiture.boiteVitesse
                     }} </span> </span> <br>
                     <span class="text-gray-500 mt-3">Carburant : <span class="text-gray-700 uppercase">{{ voiture.carburant
-                    }} </span> </span> <br>
+                    }} </span> </span> <br> -->
+
+                    <span class="text-secondaire uppercase text-2xl ">{{ voiture.nom }}</span> <br>
+                    <span class="text-gray-500 mt-3">Prix : <span class="text-principal uppercase">{{ voiture.prix }}
+                        </span>
+                        Fcfa</span> <br>
+                    <hr>   <div
+                    class="px-4 mt-4 rounded-sm sm:w-[40rem] sm:h-auto items-center sm:justify-center  relative my-0 sm:mx-0 ">
+
+
+
+                    <div class="flex items-center ">
+
+                        <div class="w-full grid grid-cols-3 ">
+                            <!-- Marque -->
+                            <div class="flex items-center mb-3">
+                                <i class="bi bi-bag-check text-2xl mr-2"></i>
+                                <div>
+                                    <span class="font-semibold">Marque :</span>
+                                    <span class="text-gray-600">{{ voiture.marque }}</span>
+                                </div>
+                            </div>
+
+
+
+                            <!-- Boîte de vitesse -->
+                            <div class="flex items-center mb-3">
+                                <i class="bi bi-gear text-2xl mr-2"></i>
+                                <div>
+                                    <span class="font-semibold">Boîte de vitesse :</span>
+                                    <span class="text-gray-600">{{ voiture.boiteVitesse }}</span>
+                                </div>
+                            </div>
+
+
+
+                            <!-- Carburant -->
+                            <div class="flex items-center mb-3">
+                                <i class="bi bi-droplet text-2xl mr-2"></i>
+                                <div>
+                                    <span class="font-semibold">Carburant :</span>
+                                    <span class="text-gray-600"> {{ voiture.carburant }}</span>
+                                </div>
+                            </div>
+
+                            <!-- Place -->
+                            <div class="flex items-center mb-3">
+                                <i class="bi bi-person text-2xl mr-2"></i>
+                                <div>
+                                    <span class="font-semibold">Place :</span>
+                                    <span class="text-gray-600"> {{ voiture.place }}</span>
+                                </div>
+                            </div>
+
+                            <!-- Année -->
+
+
+                            <!-- État -->
+                            <div class="flex items-center mb-3">
+                                <i class="bi bi-check-circle text-2xl mr-2"></i>
+                                <div>
+                                    <span class="font-semibold">État :</span>
+                                    <span class="text-gray-600"> {{ voiture.etat }}</span>
+                                </div>
+                            </div>
+
+                            <!-- Vente -->
+                            <div class="flex items-center mb-3">
+                                <i class="bi bi-cash text-2xl mr-2"></i>
+                                <div>
+                                    <span class="font-semibold">Vente :</span>
+                                    <span class="text-gray-600"> {{ voiture.affaire }}</span>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+                    </div>
+                    <hr>
+
+                    <p class="text-gray-600 mt-1">{{ voiture.description }} </p> <br>
+
+                </div>
+
+
+
                 </div>
 
                 <div v-else>
@@ -227,12 +312,7 @@ const props = defineProps({
                     <span class="text-gray-500 mt-3">Prix : <span class="text-principal uppercase">{{ voiture.prix }}
                         </span>
                         Fcfa</span> <br>
-                    <hr>
-                </div>
-
-
-
-                <div
+                    <hr>   <div
                     class="px-4 mt-4 rounded-sm sm:w-[40rem] sm:h-[22rem]  items-center sm:justify-center  relative my-0 sm:mx-0 ">
 
 
@@ -331,6 +411,11 @@ const props = defineProps({
                     <p class="text-gray-600 mt-1">{{ voiture.description }} </p> <br>
 
                 </div>
+                </div>
+
+
+
+
 
                 <div class="mt-1">
                     <!--  -->
@@ -351,31 +436,50 @@ const props = defineProps({
         </main>
     </div>
 
-    <div class="fixed bottom-0 w-full bg-transparent text-white p-4 flex mx-auto justify-around md:hidden">
-        <div class="first">
-            <button
-                class="flex items-center bg-principal text-white text-sm font-medium rounded hover:bg-gray-900 focus:outline-none focus:bg-black px-4 py-2"
-                @click="afficherNumero">
-                <i class="bi bi-telephone text-3xl mr-2"></i>Telephone
-            </button>
-        </div>
 
-        <div class="second">
-            <button @click="ouvrirWhatsApp"
-                class="flex items-center bg-principal text-white text-sm font-medium rounded hover:bg-gray-900 focus:outline-none focus:bg-black px-4 py-2">
-                <i class="bi bi-whatsapp text-3xl mr-2"></i> WhatsApp
-            </button>
-        </div>
+    <div class="fixed bottom-0 w-full bg-transparent text-white p-4 flex mx-auto justify-around md:hidden">
+   <div class="first">
+    <button class="flex items-center bg-principal text-white text-sm font-medium rounded hover:bg-gray-900 focus:outline-none focus:bg-black px-4 py-2" @click="afficherNumero" >
+        <i class="bi bi-telephone text-3xl mr-2"></i>Telephone
+  </button>
+
+  <!-- Nb -->
+
+  <div v-if="afficherPopup" class="w-11/12 mx-auto fixed inset-0 flex justify-center bg-gray-800 bg-opacity-75">
+      <div class="bg-white rounded-lg p-8">
+        <span class="text-3xl text-principal">
+            NBx
+        </span>
+        <br>
+        <span class="text-1xl text-black">Évitez les demandes de paiement anticipé : Soyez prudents face aux demandes de paiement anticipé avant d'avoir reçu le produit ou visité la propriété. Les vendeurs légitimes seront compréhensifs envers vos préoccupations</span>
+        <br>
+        <br>
+        <hr>
+        <span class="text-1xl text-black">Numero du Vendeur</span><span class="text-principal">:{{ phoneSeler }}</span>
+        <button @click="fermerPopup" class="absolute top-0 right-0 mt-2 mr-2 text-1xl text-gray-600 hover:text-gray-800 focus:outline-none">
+          X
+        </button>
+      </div>
     </div>
 
+   </div>
 
+  <div class="second">
+    <button @click="ouvrirWhatsApp" class="flex items-center bg-principal text-white text-sm font-medium rounded hover:bg-gray-900 focus:outline-none focus:bg-black px-4 py-2">
+    <i class="bi bi-whatsapp text-3xl mr-2"></i> WhatsApp
+  </button>
+  </div>
+
+
+
+</div>
 
 
 
     <!-- FOOTER -->
 
     <div class="#">
-        <Footer />
+        <!-- <Footer /> -->
     </div>
 </template>
 

@@ -100,6 +100,13 @@ Publier une annonce</Link>
 </div>
 
 
+<!-- bar de recherche -->
+
+<!-- <label for="search">chearch</label> -->
+
+<!-- <input type="search" name="" id="" class="bg-red-300 focus:rounded-sm"> -->
+
+
 
 
 
@@ -108,15 +115,7 @@ Publier une annonce</Link>
   <Link v-if="$page.props.auth.user" :href="route('dashboard')"
         class="font-semibold text-gray-400 hover:text-white dark:text-gray-400 dark:hover:text-principal focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">
       Dashboard</Link>
-
-
     </div>
-
-
-
-
-
-
 
       <div v-else>
 
@@ -132,10 +131,6 @@ Publier une annonce</Link>
 <Link :href="route('login')"
             class="font-semibold text-gray-300 hover:text-white dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm ">
           Se connecter</Link>
-
-          <Link v-if="canRegister" :href="route('register')"
-            class="ml-4 font-semibold text-gray-300 hover:text-white dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm">
-          S inscrire</Link>
 
         </div>
     </div>
@@ -233,10 +228,6 @@ Publier une annonce</Link>
   background-image: url("data:image/svg+xml,%3Csvg width='30' height='30' viewBox='0 0 30 30' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.22676 0C1.91374 0 2.45351 0.539773 2.45351 1.22676C2.45351 1.91374 1.91374 2.45351 1.22676 2.45351C0.539773 2.45351 0 1.91374 0 1.22676C0 0.539773 0.539773 0 1.22676 0Z' fill='rgba(0,0,0,0.07)'/%3E%3C/svg%3E");
 }
 
-nav{
-  /* background: red;
-  box-shadow: 12px 12px 2px 1px rgba(0, 0, 255, .2); */
-}
 
 @media (prefers-color-scheme: dark) {
   .dark\:bg-dots-lighter {

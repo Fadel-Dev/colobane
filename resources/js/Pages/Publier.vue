@@ -102,14 +102,14 @@ import { Inertia } from '@inertiajs/inertia';
          <div class="card w-full text-principal text-center p-5 shadow-lg" id="vehicule">
              <span class="text-2xl w-full p-2 rounded-md   font-bold"><a href="/publication/voiture/">Vehicules</a></span>
 
-             <a href="/publication/voiture/">             <img src="https://img.freepik.com/vecteurs-libre/achat-location-voiture-sport-rapide-nouvelle_3446-651.jpg?w=2000" :alt="image" class=" rounded-lg shadow-lg" alt="">
+             <a href="/publication/voiture/">             <img src="https://img.freepik.com/free-photo/stylish-black-woman-car-salon_1157-21402.jpg?w=740&t=st=1701121371~exp=1701121971~hmac=c7423bc1f745be6fc710777ac02ac0a32d7bb860117b5dfdc0fd7e29846c9e00" :alt="image" class=" rounded-lg shadow-lg" alt="">
 </a>
 
         </div>
 
            <div class="card w-full p-5 shadow-lg text-principal text-center" id="immobilier">
              <h2 class="text-2xl font-bold"><a href="/publication/immobilier/">Immobillier</a></h2>
-             <a href="/publication/immobilier/">             <img src="https://img.freepik.com/vecteurs-libre/achat-location-voiture-sport-rapide-nouvelle_3446-651.jpg?w=2000" :alt="image" class=" rounded-lg shadow-lg" alt="">
+             <a href="/publication/immobilier/">             <img src="https://img.freepik.com/free-photo/closeup-shot-person-thinking-buying-selling-house_181624-24928.jpg?w=740&t=st=1701121196~exp=1701121796~hmac=55a2bcd198307e4a2bb9bb46cb896c4f64910a6eb0382d605252279fa191b5eb" :alt="image" class=" rounded-lg shadow-lg" alt="">
 </a>
 
         </div>
