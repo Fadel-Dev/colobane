@@ -17,7 +17,6 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\URL;
 
 
-
 class Controller extends BaseController
 {
     use AuthorizesRequests, ValidatesRequests;
@@ -42,36 +41,6 @@ class Controller extends BaseController
 
 
 
-    public function Dash()
-    {
-        $user_id = auth()->id();
-        $dashNom = Immobiliers::where('user_id',$user_id)
-        ->value('immobiliers.nom');
-        // prix
-        $dashPrix = Immobiliers::where('user_id',$user_id)
-        ->value('immobiliers.prix');
-        // image1
-        $dashImage = Immobiliers::where('user_id',$user_id)
-        ->value('immobiliers.image1');
-
-
-
-
-        return Inertia::render('Dashboard',[
-                    // 'id' => $topic->id,
-                    // 'name' => $topic->name,
-                    // 'prix' => $topic->prix,
-                    // 'image1' => asset('storage/' . $topic->image1),
-                    // 'userid' => $topic->user_id,
-                    // 'AA' => $topic->user_id,
-                    'dashNom'=>$dashNom,
-                    'dashPrix'=>$dashPrix,
-                    'dashImage'=>$dashImage,
-
-
-
-        ]);
-    }
 
     public function publier()
     {

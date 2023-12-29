@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ImmobilierController;
 
 use App\Http\Controllers\PostController;
@@ -21,7 +22,6 @@ use Inertia\Inertia;
 |
 */
 
-
 Route::get('/ShowArticle', function () {
     return Inertia::render('ShowArticle');
 });
@@ -38,8 +38,18 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    Route::get('/dashboard', [Controller::class, 'Dash'])->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'Dash'])->name('dashboard');
 });
+
+// delete product
+
+// Route::middleware([
+//     'auth:sanctum',
+//     config('jetstream.auth_session'),
+//     'verified',
+// ])->group(function () {
+//     Route::get('/dashboard', [DashboardController::class, 'Dash'])->name('dashboard');
+// });
 
 
 
@@ -55,26 +65,16 @@ Route::get('/p/{section}', [PostController::class, 'Section'])->name('section');
 // ******************************************************FOR MAIN ARTICLE
 Route::get('/publication/{article}', [PostController::class, 'Article'])->name('article');
 
-
-
-
-
-
-
 // save VEHICULE
 Route::post('/voitureVente/save', [VehiculeController::class, 'storeVoitureVente']);
 Route::post('/voitureLocation/save', [VehiculeController::class, 'storeVoitureLoc']);
-
-
 
 //Immobilier
 Route::post('/immobilier/save', [ImmobilierController::class, 'storeVente']);
 Route::post('/immobilier2/save', [ImmobilierController::class, 'storeVente2']);
 Route::post('/immobilier3/save', [ImmobilierController::class, 'storeVente3']);
 
-
 Route::post('/topics', [PostController::class, 'store'])->name('topics.store');
-
 
 // DETAILS PRODUCTS IMMOBILLIER
 
@@ -83,3 +83,6 @@ Route::get('/detail/{id}', [Controller::class, 'DetailsImmo'])->name('go');
 // DETAILS PRODUCTS IMMOBILLIER
 
 Route::get('/detailVehi/{id}', [Controller::class, 'DetailsVehi'])->name('go');
+
+//-for modify and delete products
+    //Route::get('/detailVehi/{id}', [Controller::class, 'DetailsVehi'])->name('go');
