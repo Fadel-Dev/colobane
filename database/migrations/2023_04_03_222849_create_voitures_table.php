@@ -12,11 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('voitures', function (Blueprint $table) {
-             
+
             $table->id();
             $table->unSignedBigInteger('user_id');
 
             $table->string('nom');
+            $table->date('date_fin_booster')->nullable();
+            $table->boolean('booster')->default(false); // Colonne pour marquer si l'article est boosté ou non
+            $table->boolean('vendu')->default(false); // Colonne pour marquer si l'article est boosté ou non
             $table->string('marque');
             $table->string('model');
             $table->string('description');

@@ -78,7 +78,7 @@ Route::post('/topics', [PostController::class, 'store'])->name('topics.store');
 
 // DETAILS PRODUCTS IMMOBILLIER
 
-Route::get('/detail/{id}', [Controller::class, 'DetailsImmo'])->name('go');
+Route::get('/detail/{id}', [Controller::class, 'DetailsImmo']);
 
 // DETAILS PRODUCTS IMMOBILLIER
 

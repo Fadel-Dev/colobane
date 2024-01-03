@@ -3,13 +3,10 @@ import { Head, Link, router  } from '@inertiajs/vue3';
 import Footer from '../Components/Footer.vue';
 import { Inertia } from '@inertiajs/inertia';
 
-
-
-
-
 const props = defineProps({
 
   voitures:Object,
+  voituresBoost:Object,
   maisons:Object,
   canLogin: Boolean,
   canRegister: Boolean,
@@ -165,31 +162,58 @@ Publier une annonce</Link>
       <div v-show="activeTab === 'immobilier'" class="bg-gray-100">
 
 
-<div class="immo lg:w-9/12  mx-auto text-gray-800">
+        <div class="immo lg:w-9/12  mx-auto text-gray-800">
 
-     <div class="flex flex-wrap justify-center mt-20">
-      <div v-for="maison  in maisons.data" :key="maison.id" @click="navigateToDetail(maison.id)"  class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 p-2">
-        <div class="bg-secondaire rounded-2xl shadow-2xl relative mt-4">
-          <img :src=" '/storage/' + maison.image1" :alt="maison.imageAlt" class="w-full h-full object-fill rounded-2xl shadow-lg">
+<div class="flex flex-wrap justify-center mt-20">
+ <div v-for="maison  in maisons.data" :key="maison.id" @click="navigateToDetail(maison.id)"  class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 p-2">
+   <div class="bg-secondaire rounded-2xl shadow-2xl relative mt-4">
+     <img :src=" '/storage/' + maison.image1" :alt="maison.imageAlt" class="w-full h-full object-fill rounded-2xl shadow-lg">
 
-          <div class="p-4">
-              <h3 class="text-lg font-semibold text-white">{{ maison.nom }}</h3>
-            <p class="text-gray-300">{{ maison.affaire }}</p>
+     <div class="p-4">
+         <h3 class="text-lg font-semibold text-white">{{ maison.nom }}</h3>
+       <p class="text-gray-300">{{ maison.affaire }}</p>
 
-            <p class="text-gray-400"> Proposee par <span class="text-gray-600">Fadel</span> </p>
-            <p class="text-principal text-lg">{{ maison.prix }}<span class="text-principal text-opacity-60"> Fcfa</span></p>
+       <p class="text-gray-400"> Proposee par <span class="text-gray-600">Fadel</span> </p>
+       <p class="text-principal text-lg">{{ maison.prix }}<span class="text-principal text-opacity-60"> Fcfa</span></p>
 
-          </div>
-        </div>
-      </div>
-    </div>
+     </div>
+   </div>
+ </div>
+</div>
 </div>
 
       </div>
       <div v-show="activeTab === 'vehicule'" class="bg-gray-100">
 
-        <div class="immo lg:w-8/12 mx-auto text-gray-800  ">
-  <div class="flex flex-wrap justify-center mt-20 text-gray-800">
+        <div class="immo lg:w-8/12 mx-auto text-gray-800">
+ <!-- article booster -->
+
+ <div class="flex flex-wrap justify-center mt-20 text-gray-800">
+                <div v-for="voitureBoost in voituresBoost.data" :key="voitureBoost.id" class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 p-2">
+                <div class="bg-principal rounded-2xl shadow-2xl relative mt-4" id="voiture">
+            <div class="w-full h-full">
+            <img :src="'/storage/' + voitureBoost.image1" :alt="voitureBoost.imageAlt"  class="w-full h-full object-fill rounded-2xl shadow-lg">
+
+            </div>
+                    <img class="mb-3 w-[4rem] h-[4rem] rounded-full shadow-2xl absolute bottom-1/3 right-0" src="https://flowbite.com/docs/images/people/profile-picture-3.jpg" alt="Bonnie image">
+
+                    <div class="p-4 ">
+                    <h3 class="text-lg font-semibold text-white">{{ voitureBoost.nom }}</h3>
+                    <p class="text-gray-300">{{ voitureBoost.affaire }}</p>
+
+                    <p class="text-gray-400"> Proposée par <span class="text-gray-600">Fadel</span> </p>
+                    <p class="text-principal text-lg">{{ voitureBoost.prix }}<span class="text-principal text-opacity-60"> Fcfa</span></p>
+                    </div>
+                    <div class="bg-secondaire object-fill rounded-2xl shadow-lg text-white">
+                    <span class="mx-auto w-full">Contactez</span>
+                </div>
+                </div>
+
+                </div>
+
+            </div>
+
+   <div class="flex flex-wrap justify-center mt-20 text-gray-800">
     <div v-for="voiture in voitures.data" :key="voiture.id" @click="navigateToDetailVehi(voiture.id)" class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 p-2">
       <div class="bg-secondaire rounded-2xl shadow-2xl relative mt-4">
 <div class="w-full h-full">
@@ -208,6 +232,8 @@ Publier une annonce</Link>
       </div>
     </div>
   </div>
+
+
 </div>
 
 
@@ -224,6 +250,16 @@ Publier une annonce</Link>
 
 </template>
 <style>
+
+/* #voiture::after {
+content: "Contacter";
+background: blue;
+width:  100%;
+margin-left: auto;
+margin-right: auto;
+} */
+
+
 .bg-dots-darker {
   background-image: url("data:image/svg+xml,%3Csvg width='30' height='30' viewBox='0 0 30 30' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.22676 0C1.91374 0 2.45351 0.539773 2.45351 1.22676C2.45351 1.91374 1.91374 2.45351 1.22676 2.45351C0.539773 2.45351 0 1.91374 0 1.22676C0 0.539773 0.539773 0 1.22676 0Z' fill='rgba(0,0,0,0.07)'/%3E%3C/svg%3E");
 }

@@ -15,7 +15,9 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->unSignedBigInteger('user_id');
-
+            $table->date('date_fin_booster')->nullable();
+            $table->boolean('booster')->default(false); // Colonne pour marquer si l'article est boosté ou non
+            $table->boolean('vendu')->default(false); // Colonne pour marquer si l'article est boosté ou non
 
             $table->string('type');
             $table->string('nom');
@@ -30,7 +32,7 @@ return new class extends Migration
             $table->string('affaire');
             $table->string('surface');
 
-            
+
 
             $table->index('user_id');
         });

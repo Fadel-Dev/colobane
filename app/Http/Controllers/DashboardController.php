@@ -70,9 +70,6 @@ class DashboardController extends Controller
                     // 'dashDateV'=>$dashDateV,
                     // 'dashIdV'=>$dashIdV,
 
-
-
-
         // ]);
         $user_id = auth()->id();
 

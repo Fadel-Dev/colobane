@@ -25,6 +25,8 @@ class Controller extends BaseController
     public function Home()
     {
         $voitures = Voitures::orderBy('created_at', 'desc')->paginate(99999999);
+        $voituresBoost = Voitures::where('booster', 1)->paginate(99999999);
+
 
         $maisons = Immobiliers::orderBy('created_at', 'desc')->paginate(9999999);
         return Inertia::render('Welcome', [
@@ -35,6 +37,7 @@ class Controller extends BaseController
 
             'voitures' => $voitures,
             'maisons' => $maisons,
+            'voituresBoost'=>$voituresBoost
 
         ]);
     }
@@ -99,7 +102,7 @@ class Controller extends BaseController
             'nameSeler' => $nomUtilisateur,
             'mailSeler' => $mailUtilisateur,
             'phoneSeler' => $phoneUtilisateur,
-            'user' => $user,
+            // 'user' => $user,
             'suggestions' => $suggestions,
             'urlActuelle' =>$urlActuelle,
 
@@ -112,7 +115,7 @@ class Controller extends BaseController
     {
         sleep(1);
 
-        $user = User::findOrFail($id);
+        // $user = User::findOrFail($id);
         $voiture = Voitures::findOrFail($id);
 
         // Récupérer la marque de la voiture actuelle
@@ -151,7 +154,7 @@ class Controller extends BaseController
             'nameSeler' => $nomUtilisateur,
             'mailSeler' => $mailUtilisateur,
             'phoneSeler' => $phoneUtilisateur,
-            'user' => $user,
+            // 'user' => $user,
             'suggestions' => $suggestions,
             'urlActuelle' =>$urlActuelle,
         ]);

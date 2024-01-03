@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('team_user', function (Blueprint $table) {
             $table->id();
+
+            $table->boolean('is_privilege')->default(false); // Colonne pour marquer si l'article est boosté ou non
+
             $table->foreignId('team_id');
             $table->foreignId('user_id');
             $table->string('role')->nullable();
