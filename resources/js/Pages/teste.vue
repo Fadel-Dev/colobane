@@ -1,36 +1,26 @@
 <script setup>
-
-import { Head, Link, router } from '@inertiajs/vue3';
+import { Head, Link, router  } from '@inertiajs/vue3';
 import Footer from '../Components/Footer.vue';
 import { Inertia } from '@inertiajs/inertia';
 
-
-
-import Navbar from '../Components/Navbar.vue'
-
 const props = defineProps({
-    voiture: Object,
-    user: Object,
-    nameSeler: Object,
-    mailSeler: Object,
-    phoneSeler: Object,
-    suggestions: Object,
 
-
-    canLogin: Boolean,
-    canRegister: Boolean,
-    laravelVersion: String,
-    phpVersion: String,
+  voitures:Object,
+  voituresBoost:Object,
+  maisons:Object,
+  canLogin: Boolean,
+  canRegister: Boolean,
+  laravelVersion: String,
+  phpVersion: String,
 });
 </script>
 
 <template>
-    <Head>
-        <title>Detail {{ voiture.nom }} </title>
-    </Head>
-    <div>
-        <div class="nav bg-white w-full m-0 p-0">
-            <nav class="
+  <Head title="Acceuil" />
+  <div class="sm:h-[90vh]">
+    <div class="nav bg-gray-800 w-full  m-0 p-0 fixed top-0 left-0 z-10">
+      <nav
+        class="
           px-9
           py-2
           mx-auto
@@ -39,39 +29,50 @@ const props = defineProps({
           relative
           bg-gray-900
           text-white
-        ">
-                <div class="flex items-center justify-between ">
-                    <Link :href="route('home')" class="
+        "
+      >
+        <div class="flex items-center justify-between ">
+          <Link
+            :href="route('home')"
+            class="
             w-full
               text-xl
               text-
               font-bold
               md:text-2xl
             text-principal
+            font-sans
 
-            ">Noflay
-                    </Link>
+            "
+            >Noflay
+          </Link>
 
 
 
-                    <!-- Mobile menu button -->
-                    <div @click="showMenu = !showMenu" class="flex md:hidden">
-                        <button type="button" class="
+          <!-- Mobile menu button -->
+          <div @click="showMenu = !showMenu" class="flex md:hidden">
+            <button
+              type="button"
+              class="
                 text-gray-800
                 hover:text-gray-400
                 focus:outline-none focus:text-gray-400
-              ">
-                            <svg viewBox="0 0 24 24" class="w-6 h-6 fill-current">
-                                <path fill-rule="evenodd"
-                                    d="M4 5h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2z">
-                                </path>
-                            </svg>
-                        </button>
-                    </div>
-                </div>
+              "
+            >
+              <svg viewBox="0 0 24 24" class="w-6 h-6 fill-current">
+                <path
+                  fill-rule="evenodd"
+                  d="M4 5h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2z"
+                ></path>
+              </svg>
+            </button>
+          </div>
+        </div>
 
-                <!-- Mobile Menu open: "block", Menu closed: "hidden" -->
-                <div :class="showMenu ? 'flex' : 'hidden'" class="
+  <!-- Mobile Menu open: "block", Menu closed: "hidden" -->
+  <div
+          :class="showMenu ? 'flex' : 'hidden'"
+          class="
             flex-col
             mt-8
             space-y-4
@@ -81,250 +82,247 @@ const props = defineProps({
             md:items-center
             md:space-x-10
             md:mt-0
-          ">
-                    <div class="auth">
-                        <div v-if="canLogin">
-                            <Link v-if="$page.props.auth.user" :href="route('dashboard')"
-                                class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">
-                            Dashboard</Link>
+          "
+        >
+        <div class="auth">
+   <div v-if="canLogin" class="flex">
 
-                            <div v-else>
+    <div v-if="$page.props.auth.user" :href="route('publier')" class="mx-2 bg-principal rounded-xl px-2">
 
+<i class="bi bi-node-plus pl-1"></i>
+<Link v-if="$page.props.auth.user" :href="route('publier')"
+class="font-semibold text-white hover:text-white dark:text-white  dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm ">
+Publier une annonce</Link>
 
-                                <div class="auth flex">
-
-                                    <div class="mx-2 bg-principal rounded-xl">
-                                        <i class="bi bi-node-plus pl-1"></i>
-                                        <Link :href="route('publier')"
-                                            class=" px-2 py-0 text-white hover:text-gray-900  dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">
-                                        Publier une annonce</Link>
+</div>
 
 
-                                    </div> <i class="bi bi-person-circle mx-1"></i>
-                                    <Link :href="route('login')"
-                                        class="font-semibold  text-gray-300 hover:text-white dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">
-                                    Log in</Link>
+<!-- bar de recherche -->
 
-                                    <Link v-if="canRegister" :href="route('register')"
-                                        class="ml-4 font-semibold  text-gray-300 hover:text-white dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">
-                                    Register</Link>
+<!-- <label for="search">chearch</label> -->
 
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+<!-- <input type="search" name="" id="" class="bg-red-300 focus:rounded-sm"> -->
 
-            </nav>
-            <hr>
+
+
+
+
+
+    <div v-if="$page.props.auth.user" :href="route('publier')">
+  <Link v-if="$page.props.auth.user" :href="route('dashboard')"
+        class="font-semibold text-gray-400 hover:text-white dark:text-gray-400 dark:hover:text-principal focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">
+      Dashboard</Link>
+    </div>
+
+      <div v-else>
+
+
+        <div class="auth flex">
+
+<div class="mx-2 bg-principal rounded-xl">
+    <i class="bi bi-node-plus pl-1"></i>
+<Link :href="route('publier')"  class=" px-2 py-0 text-white hover:text-gray-900  dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"> Publier une annonce</Link>
+
+
+</div>         <i class="bi bi-person-circle mx-1"></i>
+<Link :href="route('login')"
+            class="font-semibold text-gray-300 hover:text-white dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm ">
+          Se connecter</Link>
+
         </div>
-        <!-- Home -->
-
-        <main class=" my-6 lg:pl-[10%] flex justify-center">
-            <div class="container mx-auto ">
-                <div class="md:flex md:items-center">
-                <div class=" rounded-sm sm:w-[40rem] sm:h-[22rem] sm:flex items-center sm:justify-center sm:bg-gray-200 relative my-0 sm:mx-0 bg-gray-300" >
-
-                        <!-- img main -->
-
-                        <i class="p-2 bg-gray-400 text-3xl rounded text-gray-900 bi bi-chevron-left absolute top-1/2 left-11"
-                            @click="previousImage">
-
-                        </i>
-
-                        <div class="w-full h-full border">
-
-                        <img  class="w-full h-full " :src="'/storage/' + currentImage">
-
+    </div>
+</div>
+</div>
 </div>
 
-                        <i class="p-2 text-4xl bg-gray-400 text-gray-900 rounded bi bi-chevron-right absolute top-1/2 right-11"
-                            @click="nextImage">
-                        </i>
+      </nav>
+
+    </div>
+    <hr>
+    <!-- Home -->
+<div class="cccc">
+    <div class="Home ">
+
+        <div class="flex border-b w-full border-t-[1px] border-gray-200 m-0 p-0 fixed top-11 left-0 z-10">
+        <button
+          class="w-full  py-2 bg-white text-gray-800 font-semibold"
+          :class="{ 'border-b-2 border-principal': activeTab === 'immobilier' }"
+          @click="activeTab = 'immobilier'"
+        >
+          Annonces immobilières
+        </button>
+        <button
+          class="w-full px-4 py-2 bg-white text-gray-800 font-semibold"
+          :class="{ 'border-b-2 border-principal': activeTab === 'vehicule' }"
+          @click="activeTab = 'vehicule'"
+        >
+          Annonces de véhicules
+        </button>
+      </div>
+      <div v-show="activeTab === 'immobilier'" class="bg-gray-100">
 
 
-                    </div>
+        <div class="immo lg:w-9/12  mx-auto text-gray-800">
 
-                    <div class=" max-w-lg sm:mx-auto mt-5 md:ml-8 md:mt-0 md:w-1/2 mx-auto w-11/12 ">
+<div class="flex flex-wrap justify-center mt-20">
+ <div v-for="maison  in maisons.data" :key="maison.id" @click="navigateToDetail(maison.id)"  class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 p-2">
+   <div class="bg-secondaire rounded-2xl shadow-2xl relative mt-4">
+     <img :src=" '/storage/' + maison.image1" :alt="maison.imageAlt" class="w-full h-full object-fill rounded-2xl shadow-lg">
 
-                        <h3 class="text-gray-600 uppercase text-lg sm:text-3xl">{{ voiture.nom }}</h3>
-                        <span class="text-gray-500 mt-3">Propose par <span class="text-gray-700 uppercase">{{ nameSeler }} {{
-}} </span> </span> <br>
-                        <span class="text-gray-500 mt-3">Prix : <span class="text-gray-700 uppercase">{{ voiture.prix }}
-                            </span> Fcfa</span> <br>
-                        <!-- <span class="text-gray-500 mt-3">Compteur : <span class="text-gray-700 uppercase">{{voiture.kilometrage  }}? 'N/A'</span> Km</span> -->
+     <div class="p-4">
+         <h3 class="text-lg font-semibold text-white">{{ maison.nom }}</h3>
+       <p class="text-gray-300">{{ maison.affaire }}</p>
 
-                        <div v-if="voiture.affaire == 'vente'">
-                            <span class="text-gray-500 mt-3">Marque : <span class="text-gray-700 uppercase">{{ voiture.marque
-                            }} </span> </span> <br>
-                            <span class="text-gray-500 mt-3">Model : <span class="text-gray-700 uppercase">{{ voiture.model
-                            }} </span> </span> <br>
-                            <span class="text-gray-500 mt-3">Kilimetrage : <span
-                                    class="text-gray-700 uppercase">{{ voiture.kilometrage }} </span> Km</span> <br>
-                            <span class="text-gray-500 mt-3">Boite V : <span
-                                    class="text-gray-700 uppercase">{{ voiture.boiteVitesse }} </span> </span> <br>
-                            <span class="text-gray-500 mt-3">Carburant : <span
-                                    class="text-gray-700 uppercase">{{ voiture.carburant }} </span> </span> <br>
-                        </div>
+       <p class="text-gray-400"> Proposee par <span class="text-gray-600">Fadel</span> </p>
+       <p class="text-principal text-lg">{{ maison.prix }}<span class="text-principal text-opacity-60"> Fcfa</span></p>
 
-                        <div v-else>
-                            <span class="text-gray-500 mt-3">Marque : <span class="text-gray-700 uppercase">{{ voiture.marque
-                            }} </span> </span> <br>
-                            <!-- <span class="text-gray-500 mt-3">Model : <span class="text-gray-700 uppercase">{{voiture.model  }} </span> </span> <br> -->
-                            <!-- <span class="text-gray-500 mt-3">Kilimetrage : <span class="text-gray-700 uppercase">{{voiture.kilometrage  }} </span> Km</span> <br> -->
-                            <span class="text-gray-500 mt-3">Boite V : <span
-                                    class="text-gray-700 uppercase">{{ voiture.boiteVitesse }} </span> </span> <br>
-                            <span class="text-gray-500 mt-3">Carburant : <span
-                                    class="text-gray-700 uppercase">{{ voiture.carburant }} </span> </span> <br>
-                        </div>
+     </div>
+   </div>
+ </div>
+</div>
+</div>
 
-                        <hr class="my-3">
-                        <p class="text-gray-600 mt-3">
-                            {{ voiture.description }}
-                        </p>
-                        <div class="mt-2">
+      </div>
+      <div v-show="activeTab === 'vehicule'" class="bg-gray-100">
 
-                        </div>
-                        <div class="mt-3">
+        <div class="immo lg:w-8/12 mx-auto text-gray-800">
+ <!-- ********************************article booster *****************************************************-->
 
-                        </div>
-                        <div class="flex items-center mt-6">
-                            <button
-                                class="px-8 mx-1 py-2 bg-principal text-white text-sm font-medium rounded hover:bg-gray-900 focus:outline-none focus:bg-principal">Contacter</button>
-                            <button
-                                class="px-8 mx-1 py-2 bg-principal text-white text-sm font-medium rounded hover:bg-gray-900 focus:outline-none focus:bg-principal">Voir
-                                le num</button>
+ <div class="flex flex-wrap justify-center mt-20 text-gray-800">
+                <div v-for="voitureBoost in voituresBoost.data" :key="voitureBoost.id" class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 p-2">
+                <div class="bg-principal rounded-2xl shadow-2xl relative mt-4" id="voiture">
+            <div class="w-full h-full">
+            <img :src="'/storage/' + voitureBoost.image1" :alt="voitureBoost.imageAlt"  class="w-full h-full object-fill rounded-2xl shadow-lg">
 
-                        </div>
-                    </div>
-
-                </div>
-                <div class="mt-16">
-                    <!--  -->
-                    <div>
-                        <h2 class="text-lg font-semibold mb-4">Autres produits de la même marque</h2>
-                        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                            <!-- Afficher les suggestions -->
-                            <div v-for="suggestion in suggestions" :key="suggestion.id" class="border rounded-lg p-4">
-                                <img :src="'/storage/' + suggestion.image1" alt="Produit" class="w-full mb-2 rounded-lg">
-                                <h3 class="text-lg font-semibold">{{ suggestion.nom }}</h3>
-                                <!-- <p class="text-gray-700">{{ suggestion.description }}</p> -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
-        </main>
+                    <img class="mb-3 w-[4rem] h-[4rem] rounded-full shadow-2xl absolute bottom-1/3 right-0" src="https://flowbite.com/docs/images/people/profile-picture-3.jpg" alt="Bonnie image">
+
+                    <div class="p-4 ">
+                    <h3 class="text-lg font-semibold text-white">{{ voitureBoost.nom }}</h3>
+                    <p class="text-gray-300">{{ voitureBoost.affaire }}</p>
+
+                    <p class="text-gray-400"> Proposée par <span class="text-gray-600">Fadel</span> </p>
+                    <p class="text-principal text-lg">{{ voitureBoost.prix }}<span class="text-principal text-opacity-60"> Fcfa</span></p>
+                    </div>
+                    <div class="bg-secondaire object-fill rounded-2xl shadow-lg text-white">
+                    <span class="mx-auto w-full">Contactez</span>
+                </div>
+                </div>
+
+                </div>
+
+            </div>
+
+   <div class="flex flex-wrap justify-center mt-20 text-gray-800">
+    <div v-for="voiture in voitures.data" :key="voiture.id" @click="navigateToDetailVehi(voiture.id)" class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 p-2">
+      <div class="bg-secondaire rounded-2xl shadow-2xl relative mt-4">
+<div class="w-full h-full">
+<img :src="'/storage/' + voiture.image1" :alt="voiture.imageAlt"  class="w-full h-full object-fill rounded-2xl shadow-lg">
+
+</div>
+        <img class="mb-3 w-[4rem] h-[4rem] rounded-full shadow-2xl absolute bottom-1/3 right-0" src="https://flowbite.com/docs/images/people/profile-picture-3.jpg" alt="Bonnie image">
+
+        <div class="p-4">
+          <h3 class="text-lg font-semibold text-white">{{ voiture.nom }}</h3>
+          <p class="text-gray-300">{{ voiture.affaire }}</p>
+
+          <p class="text-gray-400"> Proposée par <span class="text-gray-600">Fadel</span> </p>
+          <p class="text-principal text-lg">{{ voiture.prix }}<span class="text-principal text-opacity-60"> Fcfa</span></p>
+        </div>
+      </div>
     </div>
+  </div>
 
-    <div class="fixed bottom-0 w-full bg-transparent text-white p-4 flex mx-auto justify-around md:hidden">
-  <button @click="afficherNumero" class="flex items-center bg-principal text-white text-sm font-medium rounded hover:bg-gray-900 focus:outline-none focus:bg-black px-4 py-2">
-    <i class="bi bi-telephone-fill text-5xl mr-2"></i>
-    Voir le numéro
-  </button>
 
-  <button @click="ouvrirWhatsApp" class="flex items-center bg-principal text-white text-sm font-medium rounded hover:bg-gray-900 focus:outline-none focus:bg-black px-4 py-2">
-    <i class="bi bi-whatsapp text-5xl mr-2"></i>
-    WhatsApp
-  </button>
 </div>
 
-    <!-- FOOTER -->
 
-    <div class="#">
-        <Footer />
-    </div>
+      </div>
+      </div>
+</div>
+ <div class="#">
+              <Footer/>
+            </div>
+  </div>
+
+   <!-- FOOTER -->
+
+
 </template>
+<style>
 
-<style lang="css">
-#photoContact {
-    display: grid;
-    grid-auto-columns: 55% 26%;
-    /* height: 75vh; */
+/* #voiture::after {
+content: "Contacter";
+background: blue;
+width:  100%;
+margin-left: auto;
+margin-right: auto;
+} */
+
+
+.bg-dots-darker {
+  background-image: url("data:image/svg+xml,%3Csvg width='30' height='30' viewBox='0 0 30 30' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.22676 0C1.91374 0 2.45351 0.539773 2.45351 1.22676C2.45351 1.91374 1.91374 2.45351 1.22676 2.45351C0.539773 2.45351 0 1.91374 0 1.22676C0 0.539773 0.539773 0 1.22676 0Z' fill='rgba(0,0,0,0.07)'/%3E%3C/svg%3E");
 }
 
-/* @media only screen and (max-width: 800px) {
-  #photoContact {
-    width: 79vw;
-    margin: auto;
-    background-color: lightblue;
-    display: block;
+
+@media (prefers-color-scheme: dark) {
+  .dark\:bg-dots-lighter {
+    background-image: url("data:image/svg+xml,%3Csvg width='30' height='30' viewBox='0 0 30 30' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.22676 0C1.91374 0 2.45351 0.539773 2.45351 1.22676C2.45351 1.91374 1.91374 2.45351 1.22676 2.45351C0.539773 2.45351 0 1.91374 0 1.22676C0 0.539773 0.539773 0 1.22676 0Z' fill='rgba(255,255,255,0.07)'/%3E%3C/svg%3E");
   }
-} */
-/* telephone */
-/* @media only screen and (max-width: 428px) {
-  #photoContact {
-    width: 100vw;
-    padding: 0;
-    margin: 0;
-    display: block;
-  }
-} */
+}
 </style>
-
-
 <script>
+import {InertiaProgress} from '@inertiajs/progress';
+import {Head} from '@inertiajs/vue3'
 
+InertiaProgress.init(
+ { delay: 200,
 
-// export default {
-//  components: { Footer },
-//   props: {
-//     voiture: Object
-//   }
-// }
+color: '#eb2d53',
+
+includeCSS: true,
+
+showSpinner: true,}
+    )
+
 export default {
-    components: { Footer },
-    //     props: {
-    //     voiture: Object,
-    //     user:Object,
-    //     nameSeler:Object,
-    //     mailSeler:Object,
-    //     phoneSeler:Object,
-    //   },
-
-    components: {
-        Head
-    },
     data() {
-        return {
-            images: [
-
-                this.voiture.image1,
-                this.voiture.image2,
-                this.voiture.image3,
-
-
-
-            ],
-            currentIndex: 0,
-            showUserNumber: false,
-
-        };
+      return {
+        activeTab: 'immobilier',
+        showMenu: false,
+      }
     },
-    computed: {
-        currentImage() {
-            return this.images[this.currentIndex];
-        }
+  //   components: {
+
+  props: {
+    usersList: Object,
+  },
+  methods: {
+    navigateToDetail(id) {
+      this.$inertia.visit(`/detail/${id}`);
     },
-    methods: {
-        previousImage() {
-            if (this.currentIndex > 0) {
-                this.currentIndex--;
-            }
-        },
-        nextImage() {
-            if (this.currentIndex < this.images.length - 1) {
-                this.currentIndex++;
-            }
-        },
-        toggleUserNumber() {
-            this.showUserNumber = !this.showUserNumber;
-        }
-        // envoie
+    navigateToDetailVehi(id) {
+      this.$inertia.visit(`/detailVehi/${id}`);
     }
-};
+  },
+  mounted() {
+  // Initialisation du carrousel avec Swiper.js
+  const mySwiper = new Swiper('.swiper-container', {
+    slidesPerView: 2, // Nombre de colonnes à afficher
+    spaceBetween: 20, // Espace entre les slides
+    pagination: {
+      el: '.swiper-pagination',
+      clickable: true,
+    },
+    autoplay: {
+      delay: 3000, // Délai entre chaque transition (en millisecondes)
+      disableOnInteraction: false, // Autoriser le défilement automatique même si l'utilisateur interagit avec le carrousel
+    },
+  });
+}
 
-</script>
 
 
 
+  }
+  </script>

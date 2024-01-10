@@ -159,7 +159,10 @@ Publier une annonce</Link>
           Annonces de véhicules
         </button>
       </div>
-      <div v-show="activeTab === 'immobilier'" class="bg-gray-100">
+
+      <div id="main" class=" max-w-[70vw] mx-auto">
+
+        <div v-show="activeTab === 'immobilier'" class="bg-gray-100">
 
 
         <div class="immo lg:w-9/12  mx-auto text-gray-800">
@@ -183,37 +186,38 @@ Publier une annonce</Link>
 </div>
 
       </div>
-      <div v-show="activeTab === 'vehicule'" class="bg-gray-100">
+      <div v-show="activeTab === 'vehicule'" class="bg-gray-100 ">
 
-        <div class="immo lg:w-8/12 mx-auto text-gray-800">
- <!-- article booster -->
-
- <div class="flex flex-wrap justify-center mt-20 text-gray-800">
-                <div v-for="voitureBoost in voituresBoost.data" :key="voitureBoost.id" class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 p-2">
-                <div class="bg-principal rounded-2xl shadow-2xl relative mt-4" id="voiture">
+        <div class="swiper ">
+    <div class="swiper-wrapper">
+      <div v-for="voitureBoost in voituresBoost.data" :key="voitureBoost.id" class=" swiper-slide w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 p-2">
+                <div class="bg-principal rounded-2xl shadow-2xl relative " id="voiture">
             <div class="w-full h-full">
             <img :src="'/storage/' + voitureBoost.image1" :alt="voitureBoost.imageAlt"  class="w-full h-full object-fill rounded-2xl shadow-lg">
 
             </div>
-                    <img class="mb-3 w-[4rem] h-[4rem] rounded-full shadow-2xl absolute bottom-1/3 right-0" src="https://flowbite.com/docs/images/people/profile-picture-3.jpg" alt="Bonnie image">
+                    <img class="mb-3 w-[2rem] h-[2rem] rounded-full shadow-2xl absolute bottom-1/3 right-0" src="https://flowbite.com/docs/images/people/profile-picture-3.jpg" alt="Bonnie image">
 
-                    <div class="p-4 ">
-                    <h3 class="text-lg font-semibold text-white">{{ voitureBoost.nom }}</h3>
-                    <p class="text-gray-300">{{ voitureBoost.affaire }}</p>
+                    <div class="">
+                    <h3 class="text-lg font-semibold text-white text-center">{{ voitureBoost.nom }}</h3>
+                    <p class="text-gray-300 text-center">{{ voitureBoost.affaire }}</p>
 
-                    <p class="text-gray-400"> Proposée par <span class="text-gray-600">Fadel</span> </p>
+                    <!-- <p class="text-gray-400"> Proposée par <span class="text-gray-600">Fadel</span> </p> -->
                     <p class="text-principal text-lg">{{ voitureBoost.prix }}<span class="text-principal text-opacity-60"> Fcfa</span></p>
                     </div>
                     <div class="bg-secondaire object-fill rounded-2xl shadow-lg text-white">
-                    <span class="mx-auto w-full">Contactez</span>
+                    <span class="text-center">Contactez</span>
                 </div>
                 </div>
 
                 </div>
+    </div>
+    <div class="swiper-pagination"></div>
+  </div>
 
-            </div>
 
-   <div class="flex flex-wrap justify-center mt-20 text-gray-800">
+  <!-- all articles -->
+  <div class="flex flex-wrap justify-center mt-20 text-gray-800">
     <div v-for="voiture in voitures.data" :key="voiture.id" @click="navigateToDetailVehi(voiture.id)" class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 p-2">
       <div class="bg-secondaire rounded-2xl shadow-2xl relative mt-4">
 <div class="w-full h-full">
@@ -233,12 +237,10 @@ Publier une annonce</Link>
     </div>
   </div>
 
-
-</div>
-
-
       </div>
       </div>
+
+      </div>"
 </div>
  <div class="#">
               <Footer/>
@@ -290,6 +292,12 @@ export default {
       return {
         activeTab: 'immobilier',
         showMenu: false,
+        voituresBoost: {
+        data: [
+          // Vos données de voitures
+          // ...
+        ],
+      },
       }
     },
   //   components: {
@@ -305,17 +313,22 @@ export default {
       this.$inertia.visit(`/detailVehi/${id}`);
     }
   },
-  setup(){
-
-    const destroy =(id) => {
-        if(confirm("Are you sure") )
-        {
-            Inertia.delete(route('maisons.destroy',id))
-        }
+  mounted() {
+  // Initialisation du carrousel avec Swiper.js
+  const mySwiper = new Swiper('.swiper-container', {
+    slidesPerView: 4, // Nombre de colonnes à afficher
+    spaceBetween: 20, // Espace entre les slides
+    pagination: {
+      el: '.swiper-pagination',
+      clickable: true,
+    },
+    autoplay: {
+      delay: 3000, // Délai entre chaque transition (en millisecondes)
+      disableOnInteraction: false, // Autoriser le défilement automatique même si l'utilisateur interagit avec le carrousel
+    },
+  });
 }
-return destroy()
 
-  }
 
 
 
