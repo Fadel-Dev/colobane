@@ -189,7 +189,7 @@ Publier une annonce</Link>
       <div v-show="activeTab === 'vehicule'" class="bg-gray-100 ">
 
         <div class="swiper ">
-    <div class="swiper-wrapper">
+    <div class="swiper-wrapper mt-[10%]">
       <div v-for="voitureBoost in voituresBoost.data" :key="voitureBoost.id" class=" swiper-slide w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 p-2">
                 <div class="bg-principal rounded-2xl shadow-2xl relative " id="voiture">
             <div class="w-full h-full">

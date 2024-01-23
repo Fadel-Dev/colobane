@@ -37,7 +37,7 @@ class Controller extends BaseController
 
             'voitures' => $voitures,
             'maisons' => $maisons,
-            'voituresBoost'=>$voituresBoost
+            'voituresBoost' => $voituresBoost
 
         ]);
     }
@@ -88,7 +88,7 @@ class Controller extends BaseController
             ->where('immobiliers.id', $id)
             ->value('users.phone');
 
-            $urlActuelle = URL::current();
+        $urlActuelle = URL::current();
 
 
         $maison = Immobiliers::findOrFail($id);
@@ -104,7 +104,7 @@ class Controller extends BaseController
             'phoneSeler' => $phoneUtilisateur,
             // 'user' => $user,
             'suggestions' => $suggestions,
-            'urlActuelle' =>$urlActuelle,
+            'urlActuelle' => $urlActuelle,
 
         ]);
     }
@@ -142,7 +142,7 @@ class Controller extends BaseController
             ->where('voitures.id', $id)
             ->value('users.phone');
 
-            $urlActuelle = URL::current();
+        $urlActuelle = URL::current();
 
 
         return Inertia::render('DetailsVehicule', [
@@ -156,7 +156,7 @@ class Controller extends BaseController
             'phoneSeler' => $phoneUtilisateur,
             // 'user' => $user,
             'suggestions' => $suggestions,
-            'urlActuelle' =>$urlActuelle,
+            'urlActuelle' => $urlActuelle,
         ]);
     }
 }
