@@ -268,7 +268,7 @@ Publier une annonce</Link>
       </div>
       </div>
 
-      </div>"
+      </div>
 </div>
  <div class="#">
               <Footer/>

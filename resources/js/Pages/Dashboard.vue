@@ -4,7 +4,7 @@ import AppLayout from '@/Layouts/AppLayout.vue';
 
 
 const  props = defineProps({
-     voitures:Object,
+     results:Object,
     });
 </script>
 
@@ -20,35 +20,35 @@ const  props = defineProps({
       <h2 class="text-2xl font-bold tracking-tight text-gray-900"> {{ $page.props.auth.user.name}} Vos Publications  </h2>
 
       <div class="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-        <div v-for="voiture in voitures" :key="voiture.id" class="group relative">
+        <div v-for="result in results" :key="result.id" class="group relative">
           <div class="min-h-80 aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
-            <img :src=" '/storage/' +  voiture.image1" :alt="voiture.imageAlt" class="h-full w-full object-cover object-center lg:h-full lg:w-full" />
+            <img :src=" '/storage/' +  result.image1" :alt="result.imageAlt" class="h-full w-full object-cover object-center lg:h-full lg:w-full" />
           </div>
           <div class="mt-4 flex justify-between">
             <!-- <div>
               <h3 class="text-sm text-gray-700">
-                <a :href="voiture.href">
+                <a :href="result.href">
                   <span aria-hidden="true" class="absolute inset-0 uppercase   " />
-                  {{ voiture.nom }}
+                  {{ result.nom }}
                 </a>
               </h3>
-              <p class="mt-1 text-sm text-gray-500">{{ voiture.color }}</p>
+              <p class="mt-1 text-sm text-gray-500">{{ result.color }}</p>
             </div>
-            <p class="text-sm font-medium text-gray-900">{{ voiture.prix }}</p> -->
+            <p class="text-sm font-medium text-gray-900">{{ result.prix }}</p> -->
 
             <div class="space-y-2">
 				<div class="space-y-4">
                     <div class="prix flex justify-between">
  <h4 class="text-md font-semibold text-cyan-900 text-justify">
-						{{ voiture.nom }}
+						{{ result.nom }}
 					</h4>
 
                      <h4 class="text-md font-semibold text-cyan-900 text-justify">
-						{{ voiture.prix }} <span class="color-principal" >Fcfa</span>
+						{{ result.prix }} <span class="color-principal" >Fcfa</span>
 					</h4>
                     </div>
 					<!-- <h4 class="text-md font-semibold text-cyan-900 text-justify">
-						{{ voiture.nom }} {{ voiture.prix }}
+						{{ result.nom }} {{ result.prix }}
 					</h4> -->
 				</div>
 				<!-- <div class="flex items-center space-x-4 justify-between">
@@ -71,7 +71,7 @@ const  props = defineProps({
 					<div class="text-grey-500 flex flex-row space-x-1  my-4">
 						<!-- <svg stroke="currentColor" fill="none" stroke-width="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg> -->
 						<p class="text-xs"> 10/dec/2023 </p>
-						<!-- <p class="text-xs">{{ voiture.created_at }}</p> -->
+						<!-- <p class="text-xs">{{ result.created_at }}</p> -->
 					</div>
 					<div class="flex flex-row space-x-1">
 						<div

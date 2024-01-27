@@ -22,63 +22,27 @@ class DashboardController extends Controller
 {
     public function Dash()
     {
-        // $user_id = auth()->id();
-        // $dashNom = Immobiliers::where('user_id',$user_id)
-        // ->value('immobiliers.nom');
-        // // prix
-        // $dashPrix = Immobiliers::where('user_id',$user_id)
-        // ->value('immobiliers.prix');
-        // // image1
-        // $dashImage = Immobiliers::where('user_id',$user_id)
-        // ->value('immobiliers.image1');
-
-        // //
-        // $user_id = auth()->id();
-        // $dashNomV = Voitures::where('user_id',$user_id)
-        // ->value('voitures.nom');
-        // // prix
-        // $dashPrixV = Voitures::where('user_id',$user_id)
-        // ->value('voitures.prix');
-        // // image1
-        // $dashImageV = Voitures::where('user_id',$user_id)
-        // ->value('voitures.image1');
-        //  // date
-        //  $dashDateV = Voitures::where('user_id',$user_id)
-        //  ->value('voitures.created_at');
-        //  // date
-        //  $dashDateV = Voitures::where('user_id',$user_id)
-        //  ->value('voitures.created_at');
-
-
-
-
-        // return Inertia::render('Dashboard',[
-                    // 'id' => $topic->id,
-                    // 'name' => $topic->name,
-                    // 'prix' => $topic->prix,
-                    // 'image1' => asset('storage/' . $topic->image1),
-                    // 'userid' => $topic->user_id,
-                    // 'AA' => $topic->user_id,
-                    // 'dashNom'=>$dashNom,
-                    // 'dashPrix'=>$dashPrix,
-                    // 'dashImage'=>$dashImage,
-
-
-                    // 'dashNomV'=>$dashNomV,
-                    // 'dashPrixV'=>$dashPrixV,
-                    // 'dashImageV'=>$dashImageV,
-                    // 'dashDateV'=>$dashDateV,
-                    // 'dashIdV'=>$dashIdV,
-
-        // ]);
         $user_id = auth()->id();
 
-$voitures = Voitures::where('user_id', $user_id)->get(); // Récupérer toutes les voitures
+        $immobiliers = Immobiliers::where('user_id', $user_id)->get()->toArray();
+        $voitures = Voitures::where('user_id', $user_id)->get()->toArray();
 
-return Inertia::render('Dashboard', [
-    'voitures' => $voitures,
-]);
+        // Transforming the arrays to a common structure
+        $immobiliers = array_map(function ($immobilier) {
+            return [
+                'nom' => $immobilier['nom'],
+                'prix' => $immobilier['prix'],
+                'image1' => $immobilier['image1'],
+                'created_at' => $immobilier['created_at'],
+                'id' => $immobilier['id'],
+            ];
+        }, $immobiliers);
 
+        $results = array_merge($voitures, $immobiliers);
+
+        return Inertia::render('Dashboard', [
+            'results' => $results,
+        ]);
     }
 
 }
