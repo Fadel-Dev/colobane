@@ -26,6 +26,7 @@ class Controller extends BaseController
     {
         $voitures = Voitures::orderBy('created_at', 'desc')->paginate(99999999);
         $voituresBoost = Voitures::where('booster', 1)->paginate(99999999);
+        $immobilliersBoost = Immobiliers::where('booster', 1)->paginate(99999999);
 
 
         $maisons = Immobiliers::orderBy('created_at', 'desc')->paginate(9999999);
@@ -37,7 +38,8 @@ class Controller extends BaseController
 
             'voitures' => $voitures,
             'maisons' => $maisons,
-            'voituresBoost' => $voituresBoost
+            'voituresBoost' => $voituresBoost,
+            'immobilliersBoost' => $immobilliersBoost
 
         ]);
     }
