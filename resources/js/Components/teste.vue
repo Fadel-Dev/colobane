@@ -1,6 +1,6 @@
 <template>
     <nav class="
-          px-9        
+          px-9
           py-2
           mx-auto
           md:flex md:justify-between md:items-center
@@ -88,7 +88,7 @@
 
 
 
-<!-- 
+<!--
       <div class="auth">
             <div v-if="canLogin">
               <Link v-if="$page.props.auth.user" :href="route('dashboard')"

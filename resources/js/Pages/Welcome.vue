@@ -218,7 +218,7 @@ Publier une annonce</Link>
 
         <div class="swiper ">
     <div class="swiper-wrapper mt-[10%]">
-      <div v-for="voitureBoost in voituresBoost.data" :key="voitureBoost.id"  @click="navigateToDetail(voitureBoost.id)"  class=" swiper-slide w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 p-2">
+      <div v-for="voitureBoost in voituresBoost.data" :key="voitureBoost.id"  @click="navigateToDetailVehi(voitureBoost.id)"  class=" swiper-slide w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 p-2">
                 <div class="bg-principal rounded-2xl shadow-2xl relative " id="voiture">
             <div class="w-full h-full">
             <img :src="'/storage/' + voitureBoost.image1" :alt="voitureBoost.imageAlt"  class="w-full h-full object-fill rounded-2xl shadow-lg">
