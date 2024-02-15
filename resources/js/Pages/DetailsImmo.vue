@@ -477,6 +477,3 @@ phpVersion: String,
 };
 
     </script>
-
-
-
