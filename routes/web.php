@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BoostController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ImmobilierController;
@@ -86,3 +87,11 @@ Route::get('/detailVehi/{id}', [Controller::class, 'DetailsVehi'])->name('go');
 
 //-for modify and delete products
     //Route::get('/detailVehi/{id}', [Controller::class, 'DetailsVehi'])->name('go');
+
+    //
+// For Boost
+// Route::get('/boost',[BoostController::class,'BoostArticle']);
+Route::get('/boost', function () {
+    return Inertia::render('BoostArticle');
+});
+
