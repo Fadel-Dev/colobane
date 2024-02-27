@@ -8,21 +8,21 @@ import { Inertia } from '@inertiajs/inertia';
 
 import Navbar from '../Components/Navbar.vue'
 
-// const props = defineProps({
-//     voiture: Object,
-//     user: Object,
-//     nameSeler: Object,
-//     mailSeler: Object,
-//     phoneSeler: Object,
-//     suggestions: Object,
-//     urlActuelle: Object,
+const props = defineProps({
+    voiture: Object,
+    user: Object,
+    nameSeler: Object,
+    mailSeler: Object,
+    phoneSeler: Object,
+    // suggestions: Object,
+    urlActuelle: Object,
 
 
-//     canLogin: Boolean,
-//     canRegister: Boolean,
-//     laravelVersion: String,
-//     phpVersion: String,
-// });
+    canLogin: Boolean,
+    canRegister: Boolean,
+    laravelVersion: String,
+    phpVersion: String,
+});
 </script>
 
 <template>
@@ -120,13 +120,13 @@ import Navbar from '../Components/Navbar.vue'
         </div>
         <!-- Home -->
 
-        <!-- <main class=" my-6 lg:pl-[10%] flex justify-center">
+        <main class=" my-6 lg:pl-[10%] flex justify-center">
             <div class="container mx-auto ">
                 <div class="md:flex md:items-center">
                     <div
                         class=" rounded-sm sm:w-[40rem] sm:h-[22rem] sm:flex items-center sm:justify-center sm:bg-gray-200 relative my-0 sm:mx-0 bg-gray-300">
 
-
+                        <!-- img main -->
 
                         <i class="p-2 bg-gray-400 text-3xl rounded text-gray-900 bi bi-chevron-left absolute top-1/2 left-11"
                             @click="previousImage">
@@ -208,7 +208,16 @@ import Navbar from '../Components/Navbar.vue'
                 </div>
 
                 <div v-if="voiture.affaire == 'location'" class="h-auto">
-
+                    <!-- <span class="text-gray-500 mt-3">Marque : <span class="text-gray-700 uppercase">{{ voiture.marque
+                    }} </span> </span> <br>
+                    <span class="text-gray-500 mt-3">Model : <span class="text-gray-700 uppercase">{{ voiture.model
+                    }} </span> </span> <br>
+                    <span class="text-gray-500 mt-3">Kilimetrage : <span class="text-gray-700 uppercase">{{
+                        voiture.kilometrage }} </span> Km</span> <br>
+                    <span class="text-gray-500 mt-3">Boite V : <span class="text-gray-700 uppercase">{{ voiture.boiteVitesse
+                    }} </span> </span> <br>
+                    <span class="text-gray-500 mt-3">Carburant : <span class="text-gray-700 uppercase">{{ voiture.carburant
+                    }} </span> </span> <br> -->
 
                     <span class="text-secondaire uppercase text-2xl ">{{ voiture.nom }}</span> <br>
                     <span class="text-gray-500 mt-3">Prix : <span class="text-principal uppercase">{{ voiture.prix }}
@@ -222,6 +231,7 @@ import Navbar from '../Components/Navbar.vue'
                     <div class="flex items-center ">
 
                         <div class="w-full grid grid-cols-3 ">
+                            <!-- Marque -->
                             <div class="flex items-center mb-3">
                                 <i class="bi bi-bag-check text-2xl mr-2"></i>
                                 <div>
@@ -232,6 +242,7 @@ import Navbar from '../Components/Navbar.vue'
 
 
 
+                            <!-- Boîte de vitesse -->
                             <div class="flex items-center mb-3">
                                 <i class="bi bi-gear text-2xl mr-2"></i>
                                 <div>
@@ -242,6 +253,7 @@ import Navbar from '../Components/Navbar.vue'
 
 
 
+                            <!-- Carburant -->
                             <div class="flex items-center mb-3">
                                 <i class="bi bi-droplet text-2xl mr-2"></i>
                                 <div>
@@ -250,6 +262,7 @@ import Navbar from '../Components/Navbar.vue'
                                 </div>
                             </div>
 
+                            <!-- Place -->
                             <div class="flex items-center mb-3">
                                 <i class="bi bi-person text-2xl mr-2"></i>
                                 <div>
@@ -258,8 +271,10 @@ import Navbar from '../Components/Navbar.vue'
                                 </div>
                             </div>
 
+                            <!-- Année -->
 
 
+                            <!-- État -->
                             <div class="flex items-center mb-3">
                                 <i class="bi bi-check-circle text-2xl mr-2"></i>
                                 <div>
@@ -268,6 +283,7 @@ import Navbar from '../Components/Navbar.vue'
                                 </div>
                             </div>
 
+                            <!-- Vente -->
                             <div class="flex items-center mb-3">
                                 <i class="bi bi-cash text-2xl mr-2"></i>
                                 <div>
@@ -304,6 +320,7 @@ import Navbar from '../Components/Navbar.vue'
                     <div class="flex items-center ">
 
                         <div class="w-full grid grid-cols-3 ">
+                            <!-- Marque -->
                             <div class="flex items-center mb-3">
                                 <i class="bi bi-bag-check text-2xl mr-2"></i>
                                 <div>
@@ -312,6 +329,7 @@ import Navbar from '../Components/Navbar.vue'
                                 </div>
                             </div>
 
+                            <!-- Mode -->
                             <div class="flex items-center mb-3">
                                 <i class="bi bi-speedometer2 text-2xl mr-2"></i>
                                 <div>
@@ -320,6 +338,7 @@ import Navbar from '../Components/Navbar.vue'
                                 </div>
                             </div>
 
+                            <!-- Boîte de vitesse -->
                             <div class="flex items-center mb-3">
                                 <i class="bi bi-gear text-2xl mr-2"></i>
                                 <div>
@@ -328,6 +347,7 @@ import Navbar from '../Components/Navbar.vue'
                                 </div>
                             </div>
 
+                            <!-- Kilométrage -->
                             <div class="flex items-center mb-3">
                                 <i class="bi bi-speedometer text-2xl mr-2"></i>
                                 <div>
@@ -336,6 +356,7 @@ import Navbar from '../Components/Navbar.vue'
                                 </div>
                             </div>
 
+                            <!-- Carburant -->
                             <div class="flex items-center mb-3">
                                 <i class="bi bi-droplet text-2xl mr-2"></i>
                                 <div>
@@ -344,6 +365,7 @@ import Navbar from '../Components/Navbar.vue'
                                 </div>
                             </div>
 
+                            <!-- Place -->
                             <div class="flex items-center mb-3">
                                 <i class="bi bi-person text-2xl mr-2"></i>
                                 <div>
@@ -352,6 +374,7 @@ import Navbar from '../Components/Navbar.vue'
                                 </div>
                             </div>
 
+                            <!-- Année -->
                             <div class="flex items-center mb-3">
                                 <i class="bi bi-calendar text-2xl mr-2"></i>
                                 <div>
@@ -360,6 +383,7 @@ import Navbar from '../Components/Navbar.vue'
                                 </div>
                             </div>
 
+                            <!-- État -->
                             <div class="flex items-center mb-3">
                                 <i class="bi bi-check-circle text-2xl mr-2"></i>
                                 <div>
@@ -368,6 +392,7 @@ import Navbar from '../Components/Navbar.vue'
                                 </div>
                             </div>
 
+                            <!-- Vente -->
                             <div class="flex items-center mb-3">
                                 <i class="bi bi-cash text-2xl mr-2"></i>
                                 <div>
@@ -393,19 +418,21 @@ import Navbar from '../Components/Navbar.vue'
 
 
                 <div class="mt-1">
+                    <!--  -->
                     <div>
                         <h2 class="text-2xl font-semibold mb-4 text-secondaire">Autres produits de la même marque</h2> <br>
                         <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                            <div v-for="suggestion in suggestions" :key="suggestion.id" class="border rounded-lg p-4">
+                            <!-- Afficher les suggestions -->
+                            <!-- <div v-for="suggestion in suggestions" :key="suggestion.id" class="border rounded-lg p-4">
                                 <img :src="'/storage/' + suggestion.image1" alt="Produit" class="w-full mb-2 rounded-lg">
                                 <h3 class="text-lg font-semibold">{{ suggestion.nom }}</h3>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>
 
             </div>
-        </main> -->
+        </main>
     </div>
 
 

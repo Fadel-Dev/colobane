@@ -161,4 +161,58 @@ class Controller extends BaseController
             'urlActuelle' => $urlActuelle,
         ]);
     }
+
+    // For navigte boost article
+
+    public function DetailArticle($id)
+    {
+
+        sleep(1);
+
+        // $user = User::findOrFail($id);
+        $voiture = Voitures::findOrFail($id);
+
+        // Récupérer la marque de la voiture actuelle
+        $marqueVoiture = $voiture->marque;
+
+        // Requête pour obtenir d'autres produits avec la même marque
+        $suggestions = Voitures::where('marque', $marqueVoiture)
+            ->where('id', '!=', $id) // Exclure le produit actuel
+            ->limit(4) // Limiter le nombre de suggestions à 5
+            ->get();
+
+        $nomUtilisateur = DB::table('users')
+            ->join('voitures', 'users.id', '=', 'voitures.user_id')
+            ->where('voitures.id', $id)
+            ->value('users.name');
+
+        $mailUtilisateur = DB::table('users')
+            ->join('voitures', 'users.id', '=', 'voitures.user_id')
+            ->where('voitures.id', $id)
+            ->value('users.email');
+
+        $phoneUtilisateur = DB::table('users')
+            ->join('voitures', 'users.id', '=', 'voitures.user_id')
+            ->where('voitures.id', $id)
+            ->value('users.phone');
+
+        $urlActuelle = URL::current();
+
+
+        return Inertia::render('BoostArticle', [
+            'canLogin' => Route::has('login'),
+            'canRegister' => Route::has('register'),
+            'laravelVersion' => Application::VERSION,
+            'phpVersion' => PHP_VERSION,
+            'voiture' => $voiture,
+            'nameSeler' => $nomUtilisateur,
+            'mailSeler' => $mailUtilisateur,
+            'phoneSeler' => $phoneUtilisateur,
+            // 'user' => $user,
+            'suggestions' => $suggestions,
+            'urlActuelle' => $urlActuelle,
+        ]);
+
+
+    }
 }
