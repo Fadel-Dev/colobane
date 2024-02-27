@@ -90,8 +90,20 @@ Route::get('/detailVehi/{id}', [Controller::class, 'DetailsVehi'])->name('go');
 
     //
 // For Boost
-// Route::get('/boost',[BoostController::class,'BoostArticle']);
-Route::get('/boost', function () {
-    return Inertia::render('BoostArticle');
+
+Route::get('/boost', [Controller::class, 'BoostArticle']);
+
+
+
+
+Route::get('/testee', function () {
+    return Inertia::render('BoostArticle', []);
 });
+
+Route::get('/detailArticle/c/{id}', [Controller::class, 'DetailArticle']);
+
+Route::get('teste',function(){
+    return Inertia::render('teste');
+});
+
 
