@@ -17,4 +17,9 @@ use Illuminate\Support\Facades\URL;
 class modifyController extends Controller
 {
 
+    public function index()
+    {
+        return Inertia::render('ModifyArticle', []);
+    }
+
 }
