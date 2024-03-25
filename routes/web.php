@@ -106,4 +106,8 @@ Route::get('teste',function(){
     return Inertia::render('teste');
 });
 
+// UPADTE ARTICLE
+
+Route::get('/navigateToModify/c/{$id}', [Controller::class, 'UpdateArticle']);
+
 

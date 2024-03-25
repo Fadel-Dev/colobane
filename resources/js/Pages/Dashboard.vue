@@ -1,12 +1,42 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
+import decoupe from './decoupe.vue';
 
 
 
 const  props = defineProps({
+        vehicules:Object,
+        habitats:Object,
      results:Object,
+     total:Object,
+     totalImmobilier:Object,
+     totalVehicule:Object,
+    //  ARTICLE VENDUS
+    totalImmobilierVendu:Object,
+    totalVehiculeVendu:Object,
+    resultsVendu:Object,
+    totalVendu:Object,
+    // ARTICLE Actuel
+
+    totalImmobilierActuel:Object,
+    totalVehiculeActuel:Object,
+    resultsActuel:Object,
+    totalActuel:Object,
+
+    //total articles vendus price
+
+    totalVenduSomme:Object,
+    sommeHabitatVendu:Object,
+    sommeVehiculeVendu:Object,
     });
 </script>
+
+<style>
+  .custom-grid {
+    display: grid;
+    grid-template-rows: 20% 80%; /* First column 10%, second column 90% */
+  }
+</style>
 
 <template>
     <AppLayout title="Dashboard">
@@ -15,85 +45,427 @@ const  props = defineProps({
                 Dashboard
             </h2>
         </template>
-  <div class="bg-white text-slate-900">
-    <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-4 lg:max-w-7xl lg:px-8">
-      <h2 class="text-2xl font-bold tracking-tight text-gray-900"> {{ $page.props.auth.user.name}} Vos Publications  </h2>
-
-      <div class="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-        <div v-for="result in results" :key="result.id" @click="navigateToBoost(result.id)" class="group relative">
-          <div class="min-h-80 aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
-            <img :src=" '/storage/' +  result.image1" :alt="result.imageAlt" class="h-full w-full object-cover object-center lg:h-full lg:w-full" />
-          </div>
-          <div class="mt-4 flex justify-between">
-            <!-- <div>
-              <h3 class="text-sm text-gray-700">
-                <a :href="result.href">
-                  <span aria-hidden="true" class="absolute inset-0 uppercase   " />
-                  {{ result.nom }}
-                </a>
-              </h3>
-              <p class="mt-1 text-sm text-gray-500">{{ result.color }}</p>
-            </div>
-            <p class="text-sm font-medium text-gray-900">{{ result.prix }}</p> -->
-
-            <div class="space-y-2">
-				<div class="space-y-4">
-                    <div class="prix flex justify-between">
- <h4 class="text-md font-semibold text-cyan-900 text-justify">
-						{{ result.nom }}
-					</h4>
-
-                     <h4 class="text-md font-semibold text-cyan-900 text-justify">
-						{{ result.prix }} <span class="color-principal" >Fcfa</span>
-					</h4>
-                    </div>
-					<!-- <h4 class="text-md font-semibold text-cyan-900 text-justify">
-						{{ result.nom }} {{ result.prix }}
-					</h4> -->
-				</div>
-				<!-- <div class="flex items-center space-x-4 justify-between">
-					<div class="flex gap-3 space-y-1">
-						<img  src="https://flowbite.com/docs/images/people/profile-picture-1.jpg"  class="rounded-full h-8 w-8" />
-						<span class="text-sm">Yeah same question here too 🔥</span>
-					</div>
-					<div class=" px-3 py-1 rounded-lg flex space-x-2 flex-row">
-						<div class="cursor-pointer text-center text-md justify-center items-center flex">
-							<svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg" class="text-md"><path d="M923 283.6a260.04 260.04 0 0 0-56.9-82.8 264.4 264.4 0 0 0-84-55.5A265.34 265.34 0 0 0 679.7 125c-49.3 0-97.4 13.5-139.2 39-10 6.1-19.5 12.8-28.5 20.1-9-7.3-18.5-14-28.5-20.1-41.8-25.5-89.9-39-139.2-39-35.5 0-69.9 6.8-102.4 20.3-31.4 13-59.7 31.7-84 55.5a258.44 258.44 0 0 0-56.9 82.8c-13.9 32.3-21 66.6-21 101.9 0 33.3 6.8 68 20.3 103.3 11.3 29.5 27.5 60.1 48.2 91 32.8 48.9 77.9 99.9 133.9 151.6 92.8 85.7 184.7 144.9 188.6 147.3l23.7 15.2c10.5 6.7 24 6.7 34.5 0l23.7-15.2c3.9-2.5 95.7-61.6 188.6-147.3 56-51.7 101.1-102.7 133.9-151.6 20.7-30.9 37-61.5 48.2-91 13.5-35.3 20.3-70 20.3-103.3.1-35.3-7-69.6-20.9-101.9zM512 814.8S156 586.7 156 385.5C156 283.6 240.3 201 344.3 201c73.1 0 136.5 40.8 167.7 100.4C543.2 241.8 606.6 201 679.7 201c104 0 188.3 82.6 188.3 184.5 0 201.2-356 429.3-356 429.3z"></path></svg>
-							<span class="text-md mx-1">80</span>
-						</div>
-						<div class="cursor-pointer text-center text-md justify-center items-center flex">
-							<svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg" class="text-md"><path d="M20 2H4c-1.103 0-2 .897-2 2v18l5.333-4H20c1.103 0 2-.897 2-2V4c0-1.103-.897-2-2-2zm0 14H6.667L4 18V4h16v12z"></path><circle cx="15" cy="10" r="2"></circle><circle cx="9" cy="10" r="2"></circle></svg>
-							<span class="text-md mx-1">80</span>
-						</div>
-					</div>
-				</div> -->
-				<div class="flex items-center space-x-4 justify-between">
-					<div class="text-grey-500 flex flex-row space-x-1  my-4">
-						<!-- <svg stroke="currentColor" fill="none" stroke-width="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg> -->
-						<p class="text-xs"> 10/dec/2023 </p>
-						<!-- <p class="text-xs">{{ result.created_at }}</p> -->
-					</div>
-					<div class="flex flex-row space-x-1">
-						<div
-							class="bg-red-500 shadow-lg shadow- shadow-red-600 text-white cursor-pointer px-3 py-1 text-center justify-center items-center rounded-xl flex space-x-2 flex-row">
-							<!-- <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024" class="text-xl" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M885.9 490.3c3.6-12 5.4-24.4 5.4-37 0-28.3-9.3-55.5-26.1-77.7 3.6-12 5.4-24.4 5.4-37 0-28.3-9.3-55.5-26.1-77.7 3.6-12 5.4-24.4 5.4-37 0-51.6-30.7-98.1-78.3-118.4a66.1 66.1 0 0 0-26.5-5.4H144c-17.7 0-32 14.3-32 32v364c0 17.7 14.3 32 32 32h129.3l85.8 310.8C372.9 889 418.9 924 470.9 924c29.7 0 57.4-11.8 77.9-33.4 20.5-21.5 31-49.7 29.5-79.4l-6-122.9h239.9c12.1 0 23.9-3.2 34.3-9.3 40.4-23.5 65.5-66.1 65.5-111 0-28.3-9.3-55.5-26.1-77.7zM184 456V172h81v284h-81zm627.2 160.4H496.8l9.6 198.4c.6 11.9-4.7 23.1-14.6 30.5-6.1 4.5-13.6 6.8-21.1 6.7a44.28 44.28 0 0 1-42.2-32.3L329 459.2V172h415.4a56.85 56.85 0 0 1 33.6 51.8c0 9.7-2.3 18.9-6.9 27.3l-13.9 25.4 21.9 19a56.76 56.76 0 0 1 19.6 43c0 9.7-2.3 18.9-6.9 27.3l-13.9 25.4 21.9 19a56.76 56.76 0 0 1 19.6 43c0 9.7-2.3 18.9-6.9 27.3l-14 25.5 21.9 19a56.76 56.76 0 0 1 19.6 43c0 19.1-11 37.5-28.8 48.4z"></path></svg> -->
-							<span><a href="www.google.com">Booster</a></span>
-						</div>
-						<div
-							class="text-2 bg-green-500 shadow-lg shadow- shadow-green-600 text-white cursor-pointer px-3 text-center justify-center items-center py-1 rounded-xl flex space-x-2 flex-row">
-							<!-- <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024" class="text-xl" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M885.9 533.7c16.8-22.2 26.1-49.4 26.1-77.7 0-44.9-25.1-87.4-65.5-111.1a67.67 67.67 0 0 0-34.3-9.3H572.4l6-122.9c1.4-29.7-9.1-57.9-29.5-79.4A106.62 106.62 0 0 0 471 99.9c-52 0-98 35-111.8 85.1l-85.9 311H144c-17.7 0-32 14.3-32 32v364c0 17.7 14.3 32 32 32h601.3c9.2 0 18.2-1.8 26.5-5.4 47.6-20.3 78.3-66.8 78.3-118.4 0-12.6-1.8-25-5.4-37 16.8-22.2 26.1-49.4 26.1-77.7 0-12.6-1.8-25-5.4-37 16.8-22.2 26.1-49.4 26.1-77.7-.2-12.6-2-25.1-5.6-37.1zM184 852V568h81v284h-81zm636.4-353l-21.9 19 13.9 25.4a56.2 56.2 0 0 1 6.9 27.3c0 16.5-7.2 32.2-19.6 43l-21.9 19 13.9 25.4a56.2 56.2 0 0 1 6.9 27.3c0 16.5-7.2 32.2-19.6 43l-21.9 19 13.9 25.4a56.2 56.2 0 0 1 6.9 27.3c0 22.4-13.2 42.6-33.6 51.8H329V564.8l99.5-360.5a44.1 44.1 0 0 1 42.2-32.3c7.6 0 15.1 2.2 21.1 6.7 9.9 7.4 15.2 18.6 14.6 30.5l-9.6 198.4h314.4C829 418.5 840 436.9 840 456c0 16.5-7.2 32.1-19.6 43z"></path></svg> -->
-							<span>deja vendu</span>
-						</div>
-					</div>
-				</div>
-			</div>
+        <div class="custom-grid">
 
 
-          </div>
+ <!--sidenav -->
+ <div class=" left-0  px-5 h-full bg-[#f8f4f3] p-4 z-50 sidebar-menu transition-transform">
+
+        <ul class="mt-4">
+            <span class="text-gray-400 font-bold"> Bonjour Cher (e){{ $page.props.auth.user.name }}</span>
+            <div class="flex flex-row">
+
+
+            <li class="mb-1$results->count  group">
+                <button class=" font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
+                    <i class="ri-home-2-line mr-3 text-lg"></i>
+                    <span class="text-sm"
+                    :class="{ 'border-b-2 border-principal': activeTab === 'dashboard' }"
+          @click="activeTab = 'dashboard'">Dashboard</span>
+                </button>
+            </li>
+            <li class="mb-1 group">
+              <button
+          class="  py-2 bg-white text-gray-800 font-semibold"
+          :class="{ 'border-b-2 border-principal': activeTab === 'voitures' }"
+          @click="activeTab = 'voitures'"
+        >
+         voitures
+        </button>
+                <ul class="p$results->count l-7 mt-2 hidden group-[.selected]:block">
+                    <li class="mb-4">
+                        <a href="" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">All</a>
+                    </li>
+                    <li class="mb-4">
+                        <a href="" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Roles</a>
+                    </li>
+                </ul>
+            </li>
+
+            <!-- IMMOBILIERS -->
+
+            <li class="mb-1 group">
+              <button
+          class="  py-2 bg-white px-4 text-gray-800 font-semibold"
+          :class="{ 'border-b-2 border-principal': activeTab === 'immobiliers' }"
+          @click="activeTab = 'immobiliers'"
+        >
+         Immobilliers
+        </button>
+                <ul class="pl-7 mt-2 hidden group-[.selected]:block">
+                    <li class="mb-4">
+                        <a href="" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">All</a>
+                    </li>
+                    <li class="mb-4">
+                        <a href="" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Roles</a>
+                    </li>
+                </ul>
+            </li>
         </div>
-      </div>
+        <!-- A SUPPRIMER -->
+            <!-- <li class="mb-1 group">
+                <a href="" class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
+                    <i class='bx bx-list-ul mr-3 text-lg'></i>
+                    <span class="text-sm">Activities</span>
+                </a>
+            </li>
+            <span class="text-gray-400 font-bold">BLOG</span>
+            <li class="mb-1 group">
+                <a href="" class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100 sidebar-dropdown-toggle">
+                    <i class='bx bxl-blogger mr-3 text-lg' ></i>
+                    <span class="text-sm">Post</span>
+                    <i class="ri-arrow-right-s-line ml-auto group-[.selected]:rotate-90"></i>
+                </a>
+                <ul class="pl-7 mt-2 hidden group-[.selected]:block">
+                    <li class="mb-4">
+                        <a href="" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">All</a>
+                    </li>
+                    <li class="mb-4">
+                        <a href="" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Categories</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="mb-1 group">
+                <a href="" class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
+                    <i class='bx bx-archive mr-3 text-lg'></i>
+                    <span class="text-sm">Archive</span>
+                </a>
+            </li>
+            <span class="text-gray-400 font-bold">PERSONAL</span>
+            <li class="mb-1 group">
+                <a href="" class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
+                    <i class='bx bx-bell mr-3 text-lg' ></i>
+                    <span class="text-sm">Notifications</span>
+                    <span class=" md:block px-2 py-0.5 ml-auto text-xs font-medium tracking-wide text-red-600 bg-red-200 rounded-full">5</span>
+                </a>
+            </li>
+            <li class="mb-1 group">
+                <a href="" class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
+                    <i class='bx bx-envelope mr-3 text-lg' ></i>
+                    <span class="text-sm">Messages</span>
+                    <span class=" md:block px-2 py-0.5 ml-auto text-xs font-medium tracking-wide text-green-600 bg-green-200 rounded-full">2 New</span>
+                </a>
+            </li> -->
+        </ul>
     </div>
+   <!-- CORPS -->
+
+   <div v-show="activeTab === 'dashboard'" class="bg-gray-100">
+    <div class="p-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
+                <div class="bg-white rounded-md border border-gray-100 p-6 shadow-md shadow-black/5">
+                    <div class="flex justify-between mb-6">
+                        <div>
+                            <div class="flex items-center mb-1">
+                                               <div class="text-2xl font-semibold"> {{ $page.props.auth.user.name }} </div>
+                            </div>
+                        <div class="text-sm font-medium text-gray-400">Toutes les Publications </div>
+                        </div>
+                         <div class="dropdown">
+                            <button type="button" class="dropdown-toggle text-gray-400 hover:text-gray-600"><i class="ri-more-fill"></i></button>
+                            <ul class="dropdown-menu shadow-md shadow-black/5 z-30 hidden py-1.5 rounded-md bg-white border border-gray-100 w-full max-w-[140px]">
+                                <li>
+                                    <a href="#" class="flex items-center text-[13px] py-1.5 px-4 text-gray-600 hover:text-blue-500 hover:bg-gray-50">Profile</a>
+                                </li>
+                                <li>
+                                    <a href="#" class="flex items-center text-[13px] py-1.5 px-4 text-gray-600 hover:text-blue-500 hover:bg-gray-50">Settings</a>
+                                </li>
+                                <li>
+                                    <a href="#" class="flex items-center text-[13px] py-1.5 px-4 text-gray-600 hover:text-blue-500 hover:bg-gray-50">Logout</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <a href="/gebruikers" class="text-[#f84525] font-medium text-sm hover:text-red-800">{{ total }}  publication </a>
+                </div>
+                <div class="bg-white rounded-md border border-gray-100 p-6 shadow-md shadow-black/5">
+                    <div class="flex justify-between mb-4">
+                        <div>
+                            <div class="flex items-center mb-1">
+                                <div class="text-2xl font-semibold">Immobiliers</div>
+                                <div class="p-1 rounded bg-emerald-500/10 text-emerald-500 text-[12px] font-semibold leading-none ml-2">+{{ totalImmobilier }}</div>
+                            </div>
+                            <div class="text-sm font-medium text-gray-400">Article publie {{ totalImmobilier }}</div>
+                        </div>
+                         <div class="dropdown">
+                            <button type="button" class="dropdown-toggle text-gray-400 hover:text-gray-600"><i class="ri-more-fill"></i></button>
+                            <ul class="dropdown-menu shadow-md shadow-black/5 z-30 hidden py-1.5 rounded-md bg-white border border-gray-100 w-full max-w-[140px]">
+                                <li>
+                                    <a href="#" class="flex items-center text-[13px] py-1.5 px-4 text-gray-600 hover:text-blue-500 hover:bg-gray-50">Profile</a>
+                                </li>
+                                <li>
+                                    <a href="#" class="flex items-center text-[13px] py-1.5 px-4 text-gray-600 hover:text-blue-500 hover:bg-gray-50">Settings</a>
+                                </li>
+                                <li>
+                                    <a href="#" class="flex items-center text-[13px] py-1.5 px-4 text-gray-600 hover:text-blue-500 hover:bg-gray-50">Logout</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="text-[#f84525] font-medium text-sm hover:text-red-800" @click="activeTab = 'immobiliers'">
+                        <span class="bg-red-300">Voir les Articles</span>
+                    </div>
+                </div>
+                <div class="bg-white rounded-md border border-gray-100 p-6 shadow-md shadow-black/5">
+                    <div class="flex justify-between mb-6">
+                        <div>
+                            <div class="text-2xl font-semibold mb-1">Voitures <span class="p-1 rounded bg-emerald-500/10 text-emerald-500 text-[12px] font-semibold leading-none ml-2">+{{ totalVehicule }}</span></div>
+                            <div class="text-sm font-medium text-gray-400">Article publie {{ totalVehicule }}</div>
+                        </div>
+                         <div class="dropdown">
+                            <button type="button" class="dropdown-toggle text-gray-400 hover:text-gray-600"><i class="ri-more-fill"></i></button>
+                            <ul class="dropdown-menu shadow-md shadow-black/5 z-30 hidden py-1.5 rounded-md bg-white border border-gray-100 w-full max-w-[140px]">
+                                <li>
+                                    <a href="#" class="flex items-center text-[13px] py-1.5 px-4 text-gray-600 hover:text-blue-500 hover:bg-gray-50">Profile</a>
+                                </li>
+                                <li>
+                                    <a href="#" class="flex items-center text-[13px] py-1.5 px-4 text-gray-600 hover:text-blue-500 hover:bg-gray-50">Settings</a>
+                                </li>
+                                <li>
+                                    <a href="#" class="flex items-center text-[13px] py-1.5 px-4 text-gray-600 hover:text-blue-500 hover:bg-gray-50">Logout</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="text-[#f84525] font-medium text-sm hover:text-red-800" @click="activeTab = 'voitures'"> <span>Voir les Articles</span></div>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+                <div class="p-6 relative flex flex-col min-w-0 mb-4 lg:mb-0 break-words bg-gray-50 dark:bg-gray-800 w-full shadow-lg rounded">
+                    <div class="rounded-t mb-0 px-0 border-0">
+                      <div class="flex flex-wrap items-center px-4 py-2">
+                        <div class="relative w-full max-w-full flex-grow flex-1">
+                          <h3 class="font-semibold text-center text-base text-gray-900 dark:text-gray-50">Mes publications + <span class="p-1 rounded bg-emerald-500/10 text-emerald-500 text-[12px] font-semibold leading-none ml-2" >  +{{ total }} </span></h3>
+                        </div>
+                      </div>
+                      <div class="block w-full overflow-x-auto">
+                        <table class="items-center w-full bg-transparent border-collapse">
+                          <thead>
+                            <tr>
+                              <th class="px-4 bg-gray-100 dark:bg-gray-600 text-gray-500 dark:text-gray-100 align-middle border border-solid border-gray-200 dark:border-gray-500 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">Noms</th>
+                              <th class="px-4 bg-gray-100 dark:bg-gray-600 text-gray-500 dark:text-gray-100 align-middle border border-solid border-gray-200 dark:border-gray-500 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">Prix</th>
+                              <th class="px-4 bg-gray-100 dark:bg-gray-600 text-gray-500 dark:text-gray-100 align-middle border border-solid border-gray-200 dark:border-gray-500 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left min-w-140-px">Type</th>
+                            </tr>
+                          </thead>
+                          <tbody v-for="result in results" :key="result.id">
+                            <tr class="text-gray-700 dark:text-gray-100">
+                              <th class="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left">{{ result.nom }}</th>
+                              <td class="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-green-400">{{ result.prix }} <span class="text-gray-500">Fcfa</span></td>
+                              <td class="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                                <div class="flex items-center">
+                                  <span class="mr-2">En {{ result.affaire }}</span>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <!-- <tr class="text-gray-700 dark:text-gray-100">
+                              <th class="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left">User</th>
+                              <td class="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">6</td>
+                              <td class="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                                <div class="flex items-center">
+                                  <span class="mr-2">40%</span>
+                                  <div class="relative w-full">
+                                    <div class="overflow-hidden h-2 text-xs flex rounded bg-blue-200">
+                                      <div style="width: 40%" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-blue-500"></div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </td>
+                            </tr> -->
+
+
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- ARTICLES VENDUS -->
+
+                        <div class="bg-white border border-gray-100 shadow-md shadow-black/5 p-6 rounded-md">
+                            <div class="flex flex-wrap items-center px-4 py-2">
+                        <div class="relative w-full max-w-full flex-grow flex-1">
+                          <h3 class="font-semibold text-center text-base text-gray-900 dark:text-gray-50"> Articles deja vendus <span class="p-1 rounded bg-emerald-500/10 text-emerald-500 text-[12px] font-semibold leading-none ml-2" >  +{{ totalVendu }} </span></h3>
+                        </div>
+                      </div>
+                            <table class="w-full min-w-[460px]">
+
+                            <thead>
+                                <tr>
+                                    <th class="text-[12px] uppercase tracking-wide font-medium text-gray-400 py-2 px-4 bg-gray-50 text-left rounded-tl-md rounded-bl-md">Noms</th>
+                                    <th class="text-[12px] uppercase tracking-wide font-medium text-gray-400 py-2 px-4 bg-gray-50 text-left">Prix</th>
+                                    <th class="text-[12px] uppercase tracking-wide font-medium text-gray-400 py-2 px-4 bg-gray-50 text-left rounded-tr-md rounded-br-md">Categorie</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="resultVendu in resultsVendu" :key="resultVendu.id">
+                                    <td class="py-2 px-4 border-b border-b-gray-50">
+                                        <div class="flex items-center" >
+                                            <img src="https://placehold.co/32x32" alt="" class="w-8 h-8 rounded object-cover block">
+                                            <a href="#" class="text-gray-600 text-sm font-medium hover:text-blue-500 ml-2 truncate"> {{ resultVendu.nom }} </a>
+                                        </div>
+                                    </td>
+                                    <td class="py-2 px-4 border-b border-b-gray-50">
+                                        <span class="text-[13px] font-medium text-emerald-500">{{ resultVendu.prix }}  <span class="text-gray-500">Fcfa</span></span>
+                                    </td>
+                                    <td class="py-2 px-4 border-b border-b-gray-50">
+                                        <span class="inline-block p-1 rounded bg-emerald-500/10 text-emerald-500 font-medium text-[12px] leading-none">{{ resultVendu.categorie }} / <span class="text-gray-500">{{ resultVendu.affaire }} </span></span>
+                                    </td>
+                                </tr>
+
+
+
+                            </tbody>
+                        </table>
+
+                </div>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+                <div class="bg-white border border-gray-100 shadow-md shadow-black/5 p-6 rounded-md lg:col-span-2">
+                    <div class="flex justify-between mb-4 items-start">
+                        <div class="font-medium">Les Statistiques</div>
+                         <div class="dropdown">
+                            <button type="button" class="dropdown-toggle text-gray-400 hover:text-gray-600"><i class="ri-more-fill"></i></button>
+                            <ul class="dropdown-menu shadow-md shadow-black/5 z-30 hidden py-1.5 rounded-md bg-white border border-gray-100 w-full max-w-[140px]">
+                                <li>
+                                    <a href="#" class="flex items-center text-[13px] py-1.5 px-4 text-gray-600 hover:text-blue-500 hover:bg-gray-50">Profile</a>
+                                </li>
+                                <li>
+                                    <a href="#" class="flex items-center text-[13px] py-1.5 px-4 text-gray-600 hover:text-blue-500 hover:bg-gray-50">Settings</a>
+                                </li>
+                                <li>
+                                    <a href="#" class="flex items-center text-[13px] py-1.5 px-4 text-gray-600 hover:text-blue-500 hover:bg-gray-50">Logout</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
+                        <div class="rounded-md border border-dashed border-gray-200 p-4">
+                            <div class="flex items-center mb-0.5">
+                                <div class="text-xl font-semibold">Total revenu</div>
+                                <span class="p-1 rounded text-[12px] font-semibold bg-blue-500/10 text-green-500 leading-none ml-1">{{ totalVendu }} </span>
+                            </div>
+                            <span class="text-gray-400 text-sm">Chiffre d affaire : <span class="text-green-500" >+{{ totalVenduSomme }}</span>  <span class="text-gray-500" >Fcfa</span> </span>
+                        </div>
+                        <div class="rounded-md border border-dashed border-gray-200 p-4">
+                            <div class="flex items-center mb-0.5">
+                                <div class="text-xl font-semibold">Total revenu immobiliere</div>
+                                <!-- <span class="p-1 rounded text-[12px] font-semibold bg-emerald-500/10 text-emerald-500 leading-none ml-1">+$469</span> -->
+                            </div>
+                            <span class="text-gray-400 text-sm">Chiffre d affaire : <span class="text-green-500" >+{{ sommeHabitatVendu }}</span>  <span class="text-gray-500" >Fcfa</span> </span>
+                        </div>
+                        <div class="rounded-md border border-dashed border-gray-200 p-4">
+                            <div class="flex items-center mb-0.5">
+                                <div class="text-xl font-semibold">Total revenu Voitures</div>
+                                <!-- <span class="p-1 rounded text-[12px] font-semibold bg-rose-500/10 text-rose-500 leading-none ml-1">-$130</span> -->
+                            </div>
+                            <span class="text-gray-400 text-sm">Chiffre d affaire : <span class="text-green-500" >+{{ sommeVehiculeVendu }}</span>  <span class="text-gray-500" >Fcfa</span> </span>
+                        </div>
+                    </div>
+                    <div>
+                        <canvas id="order-chart"></canvas>
+                    </div>
+                </div>
+                <div class="bg-white border border-gray-100 shadow-md shadow-black/5 p-6 rounded-md">
+                    <div class="flex justify-between mb-4 items-start">
+                        <div class="font-medium">Articles en cours</div>
+
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full min-w-[460px]">
+                            <thead>
+                                <tr>
+                                    <th class="text-[12px] uppercase tracking-wide font-medium text-gray-400 py-2 px-4 bg-gray-50 text-left rounded-tl-md rounded-bl-md">Noms</th>
+                                    <th class="text-[12px] uppercase tracking-wide font-medium text-gray-400 py-2 px-4 bg-gray-50 text-left">Prix</th>
+                                    <th class="text-[12px] uppercase tracking-wide font-medium text-gray-400 py-2 px-4 bg-gray-50 text-left rounded-tr-md rounded-br-md">Categorie</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="resultActuel in resultsActuel" :key="resultActuel.id">
+                                    <td class="py-2 px-4 border-b border-b-gray-50">
+                                        <div class="flex items-center">
+                                            <img src="https://placehold.co/32x32" alt="" class="w-8 h-8 rounded object-cover block">
+                                            <span class="text-gray-600 text-sm font-medium hover:text-blue-500 ml-2 truncate">{{ resultActuel.nom }}</span>
+                                        </div>
+                                    </td>
+                                    <td class="py-2 px-4 border-b border-b-gray-50">
+                                        <span class="text-[13px] font-medium text-emerald-500"> {{ resultActuel.prix }} <span class="text-gray-400 text-sm">Fcfa</span> </span>
+                                    </td>
+
+
+
+                                    <td class="py-2 px-4 border-b border-b-gray-50">
+                                        <span class="inline-block p-1 rounded bg-emerald-500/10 text-emerald-500 font-medium text-[12px] leading-none">{{ resultActuel.affaire }} / {{ resultActuel.categorie[2,3,1] }}</span>
+                                    </td>
+                                </tr>
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
   </div>
+<!-- VOITURES -->
+<div v-show="activeTab === 'voitures'" class="bg-gray-100 ">
+
+<!-- all articles -->
+<div class="flex flex-wrap justify-center mt-20 text-gray-800">
+<div v-for="vehicule in vehicules" :key="vehicule.id" class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 p-2">
+<div class="bg-secondaire rounded-2xl shadow-2xl relative mt-4">
+<div class="w-full h-full">
+<img :src="'/storage/' + vehicule.image1" :alt="vehicule.imageAlt"  class="w-full h-full object-fill rounded-2xl shadow-lg">
+
+</div>
+<img class="mb-3 w-[4rem] h-[4rem] rounded-full shadow-2xl absolute bottom-1/3 right-0" src="https://flowbite.com/docs/images/people/profile-picture-3.jpg" alt="Bonnie image">
+
+<div class="p-4">
+  <h3 class="text-lg font-semibold text-white">{{ vehicule.nom }}</h3>
+  <p class="text-gray-300">{{ vehicule.affaire }}</p>
+
+  <p class="text-gray-400"> Proposée par {{ total }} <span class="text-gray-600">Fadel</span> </p>
+  <p class="text-principal text-lg">{{ vehicule.prix }}<span class="text-principal text-opacity-60"> Fcfa</span></p>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+<!-- IMMOBILLIERS -->
+  <!-- <div v-show="activeTab === 'immobiliers'" class="bg-gray-100"> -->
+    <div v-show="activeTab === 'immobiliers'" class="bg-gray-100">
+
+
+
+
+        <div class="immo lg:w-9/12  mx-auto text-gray-800">
+
+<div class="flex flex-wrap justify-center mt-20">
+ <div v-for="habitat  in habitats" :key="habitat.id" @click="navigateToDetail(habitat.id)"  class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 p-2">
+   <div class="bg-secondaire rounded-2xl shadow-2xl relative mt-4">
+     <img :src=" '/storage/' + habitat.image1" :alt="habitat.imageAlt" class="w-full h-full object-fill rounded-2xl shadow-lg">
+
+     <div class="p-4">
+         <h3 class="text-lg font-semibold text-white">{{ habitat.nom }}</h3>
+       <p class="text-gray-300">{{ habitat.affaire }}</p>
+
+       <p class="text-gray-400"> Proposee par  <span class="text-gray-600">Fadel</span> </p>
+       <p class="text-principal text-lg">{{ habitat.prix }}<span class="text-principal text-opacity-60"> Fcfa</span></p>
+
+     </div>
+   </div>
+ </div>
+</div>
+</div>
+
+      </div>
+  </div>
+
+
+  <!-- </div> -->
+<!-- </div> -->
 
 
     </AppLayout>
@@ -108,6 +480,8 @@ export default {
 
     data () {
         return {
+          activeTab: 'dashboard',
+        showMenu: false,
 
         }
     },
