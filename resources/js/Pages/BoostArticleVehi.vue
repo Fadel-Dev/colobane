@@ -3,16 +3,16 @@ import { router, useForm } from "@inertiajs/vue3"
 import AppLayout from '@/Layouts/AppLayout.vue';
 
   const form = useForm({
-            nom:  props.maison.nom,
-            description: props.maison.description,
-            prix:  props.maison.prix,
-            // type: maison.type,
+            nom:  props.car.nom,
+            description: props.car.description,
+            prix:  props.car.prix,
+            // type: car.type,
 })
 function submit(id) {
-  router.put('/immobilier/'+id, form)}
+  router.put('/vehicule/'+id, form)}
 
 const props=defineProps({
-    maison:Object,
+    car:Object,
     nameSeler:Object,
 })
 
@@ -35,7 +35,7 @@ const props=defineProps({
   <div  class="w-full p-3 m-auto rounded-2xl border-2 shadow-lg border-slate-200  lg:w-2/5 ">
   <h2 class="my-5 text-center bg-principal text-white rounded-full py-3">Ecrivez votre annonce immobilliere </h2>
 
-      <form @submit.prevent="submit(maison.id)" >
+      <form @submit.prevent="submit(car.id)" >
 <!-- NOM -->
 
       <div class="mb-4">
@@ -50,7 +50,7 @@ const props=defineProps({
              placeholder="Entrez le titre de votre annonce "
              v-model="form.nom"
              required>
-             <!-- <h1>{{ maison.type }}</h1> -->
+             <!-- <h1>{{ car.type }}</h1> -->
 
       </div>
 
