@@ -96,18 +96,28 @@ Route::get('/boost', [Controller::class, 'BoostArticle']);
 
 
 
+
+
 Route::get('/testee', function () {
     return Inertia::render('BoostArticle', []);
 });
 
-Route::get('/detailArticle/c/{id}', [Controller::class, 'DetailArticle']);
+// Route::get('/detailArticle/c/{id}', [Controller::class, 'DetailArticle']);
 
-Route::get('teste',function(){
-    return Inertia::render('teste');
-});
+// Route::get('teste',function(){
+//     return Inertia::render('teste');
+// });
 
-// UPADTE ARTICLE
+// UPADTE ARTICLE PAGE
 
-Route::get('/navigateToModify/c/{$id}', [Controller::class, 'UpdateArticle']);
+Route::get('/vendu/c/{id}', [Controller::class, 'venduArticle']);
+// VENDU VEHICULE
+Route::get('/venduVehicule/c/{id}', [Controller::class, 'venduArticleVehicule']);
+
+
+// UPDATE ARTICLE SAVE
+Route::put('/immobilier/{id}', [ImmobilierController::class, 'storeEdit']);
+Route::put('/vehicule/{id}', [ImmobilierController::class, 'storeEditVehicule']);
+
 
 

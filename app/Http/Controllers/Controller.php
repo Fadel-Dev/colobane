@@ -215,4 +215,119 @@ class Controller extends BaseController
 
 
     }
+
+
+
+    public function venduArticle($id)
+    {
+        $immo = Immobiliers::findOrFail($id);
+        sleep(1);
+
+
+        // Récupérer la marque de la voiture actuelle
+        $typeImmo = $immo->type;
+
+
+
+        $user = User::findOrFail($id);
+        //   name user
+        $nomUtilisateur = DB::table('users')
+            ->join('immobiliers', 'users.id', '=', 'immobiliers.user_id')
+            ->where('immobiliers.id', $id)
+            ->value('users.name');
+
+        //   mail user
+        $mailUtilisateur = DB::table('users')
+            ->join('immobiliers', 'users.id', '=', 'immobiliers.user_id')
+            ->where('immobiliers.id', $id)
+            ->value('users.email');
+
+        //   phone user
+        $phoneUtilisateur = DB::table('users')
+            ->join('immobiliers', 'users.id', '=', 'immobiliers.user_id')
+            ->where('immobiliers.id', $id)
+            ->value('users.phone');
+
+        $urlActuelle = URL::current();
+
+
+        $maison = Immobiliers::findOrFail($id);
+        $car = Voitures::findOrFail($id);
+
+        return Inertia::render('BoostArticle', [
+            'canLogin' => Route::has('login'),
+            'canRegister' => Route::has('register'),
+            'laravelVersion' => Application::VERSION,
+            'phpVersion' => PHP_VERSION,
+
+            'maison' => $maison,
+            'car' =>$car,
+            'nameSeler' => $nomUtilisateur,
+            'mailSeler' => $mailUtilisateur,
+            'phoneSeler' => $phoneUtilisateur,
+            // 'user' => $user,
+            // 'suggestions' => $suggestions,
+            'urlActuelle' => $urlActuelle,
+
+        ]);
+    }
+
+// VENDU ARTICLE VEHICULE
+
+public function venduArticleVehicule($id)
+{
+    $immo = Immobiliers::findOrFail($id);
+    $vehi = Voitures::findOrFail($id);
+
+    sleep(1);
+
+
+    // Récupérer la marque de la voiture actuelle
+    $typeImmo = $immo->type;
+    $typeVehi = $vehi->type;
+
+
+
+    $user = User::findOrFail($id);
+    //   name user
+    $nomUtilisateur = DB::table('users')
+        ->join('immobiliers', 'users.id', '=', 'immobiliers.user_id')
+        ->where('immobiliers.id', $id)
+        ->value('users.name');
+
+    //   mail user
+    $mailUtilisateur = DB::table('users')
+        ->join('immobiliers', 'users.id', '=', 'immobiliers.user_id')
+        ->where('immobiliers.id', $id)
+        ->value('users.email');
+
+    //   phone user
+    $phoneUtilisateur = DB::table('users')
+        ->join('immobiliers', 'users.id', '=', 'immobiliers.user_id')
+        ->where('immobiliers.id', $id)
+        ->value('users.phone');
+
+    $urlActuelle = URL::current();
+
+
+    $maison = Immobiliers::findOrFail($id);
+    $car = Voitures::findOrFail($id);
+
+    return Inertia::render('BoostArticleVehi', [
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
+        'laravelVersion' => Application::VERSION,
+        'phpVersion' => PHP_VERSION,
+
+        'maison' => $maison,
+        'car' =>$car,
+        'nameSeler' => $nomUtilisateur,
+        'mailSeler' => $mailUtilisateur,
+        'phoneSeler' => $phoneUtilisateur,
+        // 'user' => $user,
+        // 'suggestions' => $suggestions,
+        'urlActuelle' => $urlActuelle,
+
+    ]);
+}
 }
