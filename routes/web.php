@@ -109,15 +109,25 @@ Route::get('/testee', function () {
 // });
 
 // UPADTE ARTICLE PAGE
+Route::get('/update/immobilier/{id}', [Controller::class, 'UpdateImmobilier']);
+// UPDATE VEHICULE
+Route::get('/update/vehicule/{id}', [Controller::class, 'UpdateVehicule']);
 
-Route::get('/vendu/c/{id}', [Controller::class, 'venduArticle']);
-// VENDU VEHICULE
-Route::get('/venduVehicule/c/{id}', [Controller::class, 'venduArticleVehicule']);
+// UPDATE ARTICLE VENDU
+Route::get('/update/navigateUpdateVenduImmobilier/{id}', [Controller::class, 'UpdateImmobilierVendu']);
+Route::get('/update/navigateUpdateVenduVehicule/{id}', [Controller::class, 'UpdateVehiculeVendu']);
 
 
 // UPDATE ARTICLE SAVE
 Route::put('/immobilier/{id}', [ImmobilierController::class, 'storeEdit']);
 Route::put('/vehicule/{id}', [ImmobilierController::class, 'storeEditVehicule']);
+
+// UPDATE ARTICLE VENDU
+Route::put('/immobilierVendu/{id}', [ImmobilierController::class, 'StoreVenduImmo']);
+Route::put('/vehiculeVendu/{id}', [ImmobilierController::class, 'StoreVenduVehicule']);
+
+
+
 
 
 

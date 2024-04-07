@@ -172,6 +172,23 @@ public function storeEdit($id )
 
     // Vendu Vehicule
 
+
+
+    // Vendu
+
+    public function StoreVenduImmo($id )
+    {
+
+
+        auth()->user()->Immobiliers()->where('id', $id)->update([
+            // 'type' => Request::input('type'),
+            'vendu' => Request::input('vendu'),
+
+        ]);
+
+        return redirect()->route('dashboard')->with('message', 'Annone publiee avec success Intervention');
+    }
+
     public function storeEditVehicule($id )
     {
 
@@ -188,7 +205,18 @@ public function storeEdit($id )
 
     // Vendu
 
+    public function StoreVenduVehicule($id )
+    {
 
+
+        auth()->user()->Voitures()->where('id', $id)->update([
+            // 'type' => Request::input('type'),
+            'vendu' => Request::input('vendu'),
+
+        ]);
+
+        return redirect()->route('dashboard')->with('message', 'Annone publiee avec success Intervention');
+    }
 
 
 }
