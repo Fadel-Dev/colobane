@@ -300,13 +300,29 @@ car:Object,
                     </div>
                     <div
                       class="text-2 bg-green-500 shadow-lg shadow- shadow-green-600 text-white cursor-pointer px-3 text-center justify-center items-center py-1 rounded-xl flex space-x-2 flex-row">
-                      <span>deja vendu</span>
-                    </div>
-                    <!-- EDIT -->
+                      <div v-if="resultActuel.categorie === 'immobilier'">
+                        <span @click="navigateUpdateImmobilier(resultActuel.id)"
+ >Editer </span>
+
+</div>
+<div v-else>
+    <span @click="navigateUpdateVehicule(resultActuel.id)"
+ >Editer </span>
+</div>
+        </div>
+                    <!-- VENDU -->
                     <div
-                      class="text-1 bg-blue-500 shadow-lg shadow- shadow-blue-600 text-white cursor-pointer px-3 text-center justify-center items-center py-1 rounded-xl flex space-x-2 flex-row">
-                      <span>Editer</span>
-                    </div>
+                      class="text-2 bg-blue-500 shadow-lg shadow- shadow-blue-600 text-white cursor-pointer px-3 text-center justify-center items-center py-1 rounded-xl flex space-x-2 flex-row">
+                      <div v-if="resultActuel.categorie === 'immobilier'">
+                        <span @click="navigateUpdateVenduImmobilier(resultActuel.id)"
+ >vendu? </span>
+
+</div>
+<div v-else>
+    <span @click="navigateUpdateVenduVehicule(resultActuel.id)"
+ >Vendu? </span>
+</div>
+        </div>
                   </div>
                 </div>
                                 </tr>
