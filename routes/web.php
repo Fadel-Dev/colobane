@@ -83,7 +83,7 @@ Route::get('/detail/{id}', [Controller::class, 'DetailsImmo']);
 
 // DETAILS PRODUCTS IMMOBILLIER
 
-// Route::get('/detailVehi/{id}', [Controller::class, 'DetailsVehi'])->name('go');
+Route::get('/detailVehi/{id}', [Controller::class, 'DetailsVehi'])->name('go');
 
 //-for modify and delete products
     //Route::get('/detailVehi/{id}', [Controller::class, 'DetailsVehi'])->name('go');
