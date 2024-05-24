@@ -71,7 +71,7 @@ class Controller extends BaseController
             ->limit(4) // Limiter le nombre de suggestions à 5
             ->get();
 
-        $user = User::findOrFail($id);
+        // $user = User::findOrFail($id);
         //   name user
         $nomUtilisateur = DB::table('users')
             ->join('immobiliers', 'users.id', '=', 'immobiliers.user_id')

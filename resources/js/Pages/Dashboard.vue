@@ -461,6 +461,7 @@ car:Object,
 <div v-for="vehicule in vehicules" :key="vehicule.id" class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 p-2">
 <div class="bg-secondaire rounded-2xl shadow-2xl relative mt-4">
 <div class="w-full h-full">
+
 <img :src="'/storage/' + vehicule.image1" :alt="vehicule.imageAlt"  class="w-full h-full object-fill rounded-2xl shadow-lg">
 
 </div>

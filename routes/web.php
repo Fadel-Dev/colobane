@@ -83,7 +83,7 @@ Route::get('/detail/{id}', [Controller::class, 'DetailsImmo']);
 
 // DETAILS PRODUCTS IMMOBILLIER
 
-Route::get('/detailVehi/{id}', [Controller::class, 'DetailsVehi'])->name('go');
+// Route::get('/detailVehi/{id}', [Controller::class, 'DetailsVehi'])->name('go');
 
 //-for modify and delete products
     //Route::get('/detailVehi/{id}', [Controller::class, 'DetailsVehi'])->name('go');
@@ -91,40 +91,40 @@ Route::get('/detailVehi/{id}', [Controller::class, 'DetailsVehi'])->name('go');
     //
 // For Boost
 
-Route::get('/boost', [Controller::class, 'BoostArticle']);
+// Route::get('/boost', [Controller::class, 'BoostArticle']);
 
 
 
 
 
 
-Route::get('/testee', function () {
-    return Inertia::render('BoostArticle', []);
-});
-
-// Route::get('/detailArticle/c/{id}', [Controller::class, 'DetailArticle']);
-
-// Route::get('teste',function(){
-//     return Inertia::render('teste');
+// Route::get('/testee', function () {
+//     return Inertia::render('BoostArticle', []);
 // });
 
-// UPADTE ARTICLE PAGE
-Route::get('/update/immobilier/{id}', [Controller::class, 'UpdateImmobilier']);
-// UPDATE VEHICULE
-Route::get('/update/vehicule/{id}', [Controller::class, 'UpdateVehicule']);
+// // Route::get('/detailArticle/c/{id}', [Controller::class, 'DetailArticle']);
 
-// UPDATE ARTICLE VENDU
-Route::get('/update/navigateUpdateVenduImmobilier/{id}', [Controller::class, 'UpdateImmobilierVendu']);
-Route::get('/update/navigateUpdateVenduVehicule/{id}', [Controller::class, 'UpdateVehiculeVendu']);
+// // Route::get('teste',function(){
+// //     return Inertia::render('teste');
+// // });
+
+// // UPADTE ARTICLE PAGE
+// Route::get('/update/immobilier/{id}', [Controller::class, 'UpdateImmobilier']);
+// // UPDATE VEHICULE
+// Route::get('/update/vehicule/{id}', [Controller::class, 'UpdateVehicule']);
+
+// // UPDATE ARTICLE VENDU
+// Route::get('/update/navigateUpdateVenduImmobilier/{id}', [Controller::class, 'UpdateImmobilierVendu']);
+// Route::get('/update/navigateUpdateVenduVehicule/{id}', [Controller::class, 'UpdateVehiculeVendu']);
 
 
-// UPDATE ARTICLE SAVE
-Route::put('/immobilier/{id}', [ImmobilierController::class, 'storeEdit']);
-Route::put('/vehicule/{id}', [ImmobilierController::class, 'storeEditVehicule']);
+// // UPDATE ARTICLE SAVE
+// Route::put('/immobilier/{id}', [ImmobilierController::class, 'storeEdit']);
+// Route::put('/vehicule/{id}', [ImmobilierController::class, 'storeEditVehicule']);
 
-// UPDATE ARTICLE VENDU
-Route::put('/immobilierVendu/{id}', [ImmobilierController::class, 'StoreVenduImmo']);
-Route::put('/vehiculeVendu/{id}', [ImmobilierController::class, 'StoreVenduVehicule']);
+// // UPDATE ARTICLE VENDU
+// Route::put('/immobilierVendu/{id}', [ImmobilierController::class, 'StoreVenduImmo']);
+// Route::put('/vehiculeVendu/{id}', [ImmobilierController::class, 'StoreVenduVehicule']);
 
 
 
