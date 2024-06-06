@@ -255,37 +255,46 @@ class Controller extends BaseController
 // VENDU ARTICLE VEHICULE
 
 public function UpdateVehicule($id)
-    {
-        $immo = Immobiliers::findOrFail($id);
-        $vehi = Voitures::findOrFail($id);
+{
 
-        sleep(1);
+    $vehi = Voitures::findOrFail($id);
 
-        $typeVehi = $vehi->type;
+    sleep(1);
 
-        // Récupérer les informations de l'utilisateur lié à l'immobilier
-        $user = $immo->user;
 
-        // Préparer les informations de l'utilisateur
-        $nomUtilisateur = $user->name;
-        $mailUtilisateur = $user->email;
-        $phoneUtilisateur = $user->phone;
+    // Récupérer la marque de la voiture actuelle
+    $typeVehi = $vehi->type;
 
-        $urlActuelle = URL::current();
 
-        return Inertia::render('ModifiVehiculeArticle', [
-            'canLogin' => Route::has('login'),
-            'canRegister' => Route::has('register'),
-            'laravelVersion' => Application::VERSION,
-            'phpVersion' => PHP_VERSION,
-            'maison' => $immo,
-            'car' => $vehi,
-            'nameSeler' => $nomUtilisateur,
-            'mailSeler' => $mailUtilisateur,
-            'phoneSeler' => $phoneUtilisateur,
-            'urlActuelle' => $urlActuelle,
-        ]);
-    }
+
+    $user = User::findOrFail($vehi->user_id);
+     // Récupérer les informations de l'utilisateur
+
+     $nomUtilisateur = $user->name;
+     $mailUtilisateur = $user->email;
+     $phoneUtilisateur = $user->phone;
+
+     $urlActuelle = URL::current();
+
+     $car = Voitures::find($id);
+
+    return Inertia::render('ModifiVehiculeArticle', [
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
+        'laravelVersion' => Application::VERSION,
+        'phpVersion' => PHP_VERSION,
+
+
+        'car' =>$car,
+        'nameSeler' => $nomUtilisateur,
+        'mailSeler' => $mailUtilisateur,
+        'phoneSeler' => $phoneUtilisateur,
+        // 'user' => $user,
+        // 'suggestions' => $suggestions,
+        'urlActuelle' => $urlActuelle,
+
+    ]);
+}
 
 // update VENDU ARTICLE IMMOBILIER
 

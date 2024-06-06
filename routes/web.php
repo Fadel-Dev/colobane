@@ -120,7 +120,7 @@ Route::get('/update/vehicule/{id}', [Controller::class, 'UpdateVehicule']);
 
 // // UPDATE ARTICLE SAVE
 Route::put('/immobilier/{id}', [ImmobilierController::class, 'storeEdit']);
-// Route::put('/vehicule/{id}', [ImmobilierController::class, 'storeEditVehicule']);
+Route::put('/vehicule/{id}', [ImmobilierController::class, 'storeEditVehicule']);
 
 // // UPDATE ARTICLE VENDU
 // Route::put('/immobilierVendu/{id}', [ImmobilierController::class, 'StoreVenduImmo']);
