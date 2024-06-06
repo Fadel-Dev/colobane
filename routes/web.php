@@ -109,7 +109,7 @@ Route::get('/detailVehi/{id}', [Controller::class, 'DetailsVehi'])->name('go');
 // // });
 
 // // UPADTE ARTICLE PAGE
-Route::get('/update/immobilier/{id}', [Controller::class, 'UpdateImmobilier']);
+Route::get('/update/immobilier/{id}', [ImmobilierController::class, 'UpdateImmobilier']);
 // // UPDATE VEHICULE
 Route::get('/update/vehicule/{id}', [Controller::class, 'UpdateVehicule']);
 
