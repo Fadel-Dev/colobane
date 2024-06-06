@@ -307,7 +307,7 @@ car:Object,
 </div>
 <div v-else>
     <span @click="navigateUpdateVehicule(resultActuel.id)"
- >Editer {{resultActuel.id}}</span>
+ >Editer vehicule{{resultActuel.id}}</span>
 </div>
         </div>
                     <!-- VENDU -->
