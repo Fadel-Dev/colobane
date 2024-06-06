@@ -218,118 +218,74 @@ class Controller extends BaseController
 
 
 
-    public function UpdateImmobilier($id)
+   public function UpdateImmobilier($id)
     {
         $immo = Immobiliers::findOrFail($id);
         sleep(1);
 
-
-        // Récupérer la marque de la voiture actuelle
+        // Récupérer le type de l'immobilier
         $typeImmo = $immo->type;
 
-
-
-        $user = User::findOrFail($id);
-        //   name user
-        $nomUtilisateur = DB::table('users')
-            ->join('immobiliers', 'users.id', '=', 'immobiliers.user_id')
-            ->where('immobiliers.id', $id)
-            ->value('users.name');
-
-        //   mail user
-        $mailUtilisateur = DB::table('users')
-            ->join('immobiliers', 'users.id', '=', 'immobiliers.user_id')
-            ->where('immobiliers.id', $id)
-            ->value('users.email');
-
-        //   phone user
-        $phoneUtilisateur = DB::table('users')
-            ->join('immobiliers', 'users.id', '=', 'immobiliers.user_id')
-            ->where('immobiliers.id', $id)
-            ->value('users.phone');
+        // Récupérer les informations de l'utilisateur
+        $user = User::findOrFail($immo->user_id);
+        $nomUtilisateur = $user->name;
+        $mailUtilisateur = $user->email;
+        $phoneUtilisateur = $user->phone;
 
         $urlActuelle = URL::current();
 
-
-        $maison = Immobiliers::findOrFail($id);
-        $car = Voitures::findOrFail($id);
+        // Récupérer les informations de la maison et de la voiture
+        $maison = $immo;
+        $car = Voitures::find($id);
 
         return Inertia::render('ModifiImmobilierArticle', [
             'canLogin' => Route::has('login'),
             'canRegister' => Route::has('register'),
             'laravelVersion' => Application::VERSION,
             'phpVersion' => PHP_VERSION,
-
             'maison' => $maison,
-            'car' =>$car,
+            'car' => $car,
             'nameSeler' => $nomUtilisateur,
             'mailSeler' => $mailUtilisateur,
             'phoneSeler' => $phoneUtilisateur,
-            // 'user' => $user,
-            // 'suggestions' => $suggestions,
             'urlActuelle' => $urlActuelle,
-
         ]);
     }
 
 // VENDU ARTICLE VEHICULE
 
 public function UpdateVehicule($id)
-{
-    $immo = Immobiliers::findOrFail($id);
-    $vehi = Voitures::findOrFail($id);
+    {
+        $immo = Immobiliers::findOrFail($id);
+        $vehi = Voitures::findOrFail($id);
 
-    sleep(1);
+        sleep(1);
 
+        $typeVehi = $vehi->type;
 
-    // Récupérer la marque de la voiture actuelle
-    $typeImmo = $immo->type;
-    $typeVehi = $vehi->type;
+        // Récupérer les informations de l'utilisateur lié à l'immobilier
+        $user = $immo->user;
 
+        // Préparer les informations de l'utilisateur
+        $nomUtilisateur = $user->name;
+        $mailUtilisateur = $user->email;
+        $phoneUtilisateur = $user->phone;
 
+        $urlActuelle = URL::current();
 
-    $user = User::findOrFail($id);
-    //   name user
-    $nomUtilisateur = DB::table('users')
-        ->join('immobiliers', 'users.id', '=', 'immobiliers.user_id')
-        ->where('immobiliers.id', $id)
-        ->value('users.name');
-
-    //   mail user
-    $mailUtilisateur = DB::table('users')
-        ->join('immobiliers', 'users.id', '=', 'immobiliers.user_id')
-        ->where('immobiliers.id', $id)
-        ->value('users.email');
-
-    //   phone user
-    $phoneUtilisateur = DB::table('users')
-        ->join('immobiliers', 'users.id', '=', 'immobiliers.user_id')
-        ->where('immobiliers.id', $id)
-        ->value('users.phone');
-
-    $urlActuelle = URL::current();
-
-
-    $maison = Immobiliers::findOrFail($id);
-    $car = Voitures::findOrFail($id);
-
-    return Inertia::render('ModifiVehiculeArticle', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-
-        'maison' => $maison,
-        'car' =>$car,
-        'nameSeler' => $nomUtilisateur,
-        'mailSeler' => $mailUtilisateur,
-        'phoneSeler' => $phoneUtilisateur,
-        // 'user' => $user,
-        // 'suggestions' => $suggestions,
-        'urlActuelle' => $urlActuelle,
-
-    ]);
-}
+        return Inertia::render('ModifiVehiculeArticle', [
+            'canLogin' => Route::has('login'),
+            'canRegister' => Route::has('register'),
+            'laravelVersion' => Application::VERSION,
+            'phpVersion' => PHP_VERSION,
+            'maison' => $immo,
+            'car' => $vehi,
+            'nameSeler' => $nomUtilisateur,
+            'mailSeler' => $mailUtilisateur,
+            'phoneSeler' => $phoneUtilisateur,
+            'urlActuelle' => $urlActuelle,
+        ]);
+    }
 
 // update VENDU ARTICLE IMMOBILIER
 

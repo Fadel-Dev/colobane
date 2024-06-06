@@ -302,12 +302,12 @@ car:Object,
                       class="text-2 bg-green-500 shadow-lg shadow- shadow-green-600 text-white cursor-pointer px-3 text-center justify-center items-center py-1 rounded-xl flex space-x-2 flex-row">
                       <div v-if="resultActuel.categorie === 'immobilier'">
                         <span @click="navigateUpdateImmobilier(resultActuel.id)"
- >Editer </span>
+ >Editer  {{resultActuel.id}}</span>
 
 </div>
 <div v-else>
     <span @click="navigateUpdateVehicule(resultActuel.id)"
- >Editer </span>
+ >Editer {{resultActuel.id}}</span>
 </div>
         </div>
                     <!-- VENDU -->
@@ -594,11 +594,7 @@ export default {
         {
             this.$inertia.visit(`/update/immobilier/${id}`);
         },
-        /**
-         * Navigates to a specific DejaVendu vehicle by its ID.
-         *
-         * @param {type} id - The ID of the vehicle to navigate to.
-         */
+
         navigateUpdateVehicule(id)
         {
             this.$inertia.visit(`/update/vehicule/${id}`);
