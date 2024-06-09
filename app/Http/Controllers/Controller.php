@@ -301,39 +301,25 @@ public function UpdateVehicule($id)
 
 public function UpdateImmobilierVendu($id)
 {
+    // Récupérer l'immobilier
     $immo = Immobiliers::findOrFail($id);
+
+    // Pause de 1 seconde
     sleep(1);
 
+    // Récupérer les informations sur le propriétaire de l'immobilier
+    $user = User::findOrFail($immo->user_id);
 
-    // Récupérer la marque de la voiture actuelle
-    $typeImmo = $immo->type;
+    // Récupérer les informations nécessaires sur le propriétaire
+    $nomUtilisateur = $user->name;
+    $mailUtilisateur = $user->email;
+    $phoneUtilisateur = $user->phone;
 
-
-
-    $user = User::findOrFail($id);
-    //   name user
-    $nomUtilisateur = DB::table('users')
-        ->join('immobiliers', 'users.id', '=', 'immobiliers.user_id')
-        ->where('immobiliers.id', $id)
-        ->value('users.name');
-
-    //   mail user
-    $mailUtilisateur = DB::table('users')
-        ->join('immobiliers', 'users.id', '=', 'immobiliers.user_id')
-        ->where('immobiliers.id', $id)
-        ->value('users.email');
-
-    //   phone user
-    $phoneUtilisateur = DB::table('users')
-        ->join('immobiliers', 'users.id', '=', 'immobiliers.user_id')
-        ->where('immobiliers.id', $id)
-        ->value('users.phone');
-
+    // Récupérer l'URL actuelle
     $urlActuelle = URL::current();
 
-
-    $maison = Immobiliers::findOrFail($id);
-    $car = Voitures::findOrFail($id);
+    // Vous avez mentionné une voiture, mais assurez-vous que cela soit nécessaire
+    // $car = Voitures::find($id); // Utiliser find au lieu de findOrFail pour éviter une erreur si ce n'est pas trouvé
 
     return Inertia::render('ModifiImmobilierVendu', [
         'canLogin' => Route::has('login'),
@@ -341,56 +327,37 @@ public function UpdateImmobilierVendu($id)
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
 
-        'maison' => $maison,
-        'car' =>$car,
+        'maison' => $immo,
+        // 'car' => $car,
         'nameSeler' => $nomUtilisateur,
         'mailSeler' => $mailUtilisateur,
         'phoneSeler' => $phoneUtilisateur,
-        // 'user' => $user,
-        // 'suggestions' => $suggestions,
         'urlActuelle' => $urlActuelle,
-
     ]);
 }
+
 // UpdateVehiculeVendu
 public function UpdateVehiculeVendu($id)
 {
-    $immo = Immobiliers::findOrFail($id);
+    // Récupérer l'immobilier
+    // $immo = Immobiliers::findOrFail($id);
+
+    // Récupérer la voiture associée
     $vehi = Voitures::findOrFail($id);
 
+    // Pause de 1 seconde
     sleep(1);
 
+    // Récupérer les informations sur le propriétaire de l'immobilier
+    $user = User::findOrFail($vehi->user_id);
 
-    // Récupérer la marque de la voiture actuelle
-    $typeImmo = $immo->type;
-    $typeVehi = $vehi->type;
+    // Récupérer les informations nécessaires sur le propriétaire
+    $nomUtilisateur = $user->name;
+    $mailUtilisateur = $user->email;
+    $phoneUtilisateur = $user->phone;
 
-
-
-    $user = User::findOrFail($id);
-    //   name user
-    $nomUtilisateur = DB::table('users')
-        ->join('immobiliers', 'users.id', '=', 'immobiliers.user_id')
-        ->where('immobiliers.id', $id)
-        ->value('users.name');
-
-    //   mail user
-    $mailUtilisateur = DB::table('users')
-        ->join('immobiliers', 'users.id', '=', 'immobiliers.user_id')
-        ->where('immobiliers.id', $id)
-        ->value('users.email');
-
-    //   phone user
-    $phoneUtilisateur = DB::table('users')
-        ->join('immobiliers', 'users.id', '=', 'immobiliers.user_id')
-        ->where('immobiliers.id', $id)
-        ->value('users.phone');
-
+    // Récupérer l'URL actuelle
     $urlActuelle = URL::current();
-
-
-    $maison = Immobiliers::findOrFail($id);
-    $car = Voitures::findOrFail($id);
 
     return Inertia::render('ModifiVehiculeVendu', [
         'canLogin' => Route::has('login'),
@@ -398,15 +365,13 @@ public function UpdateVehiculeVendu($id)
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
 
-        'maison' => $maison,
-        'car' =>$car,
+        // 'maison' => $immo,
+        'car' => $vehi,
         'nameSeler' => $nomUtilisateur,
         'mailSeler' => $mailUtilisateur,
         'phoneSeler' => $phoneUtilisateur,
-        // 'user' => $user,
-        // 'suggestions' => $suggestions,
         'urlActuelle' => $urlActuelle,
-
     ]);
 }
+
 }
