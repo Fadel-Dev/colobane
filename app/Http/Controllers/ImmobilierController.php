@@ -219,4 +219,21 @@ public function storeEdit($id )
     }
 
 
+    // enregistrer detail boost
+
+    public function StoreBoostImmo($id )
+    {
+
+
+        auth()->user()->Immobiliers()->where('id', $id)->update([
+            // 'type' => Request::input('type'),
+            'booster' => Request::input('boost'),
+
+        ]);
+
+        return redirect()->route('dashboard')->with('message', 'Annone publiee avec success Intervention');
+    }
+
+
+
 }
