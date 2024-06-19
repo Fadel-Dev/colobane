@@ -13,12 +13,12 @@ use App\Models\Voitures;
 
 class PostController extends Controller
 {
-    public function Section($section) 
+    public function Section($section)
     {
         return Inertia::render('Section/'.$section);
     }
 
-    public function Article($article) 
+    public function Article($article)
     {
         return Inertia::render('Categories/'.$article);
     }
@@ -31,8 +31,8 @@ class PostController extends Controller
     'name' => Request::input('name'),
     'image' => $image,
    ]);
-   
-      
+
+
 
          return redirect()->route('publier');
     }

@@ -52,4 +52,43 @@ class BoostController extends Controller
             ]);
         }
 
+
+        // FOR VEHICULE
+
+        public function BoostArticleVehi($id )
+        {
+
+
+                $vehi = Voitures::findOrFail($id);
+                sleep(1);
+
+                // Récupérer le type de l'immobilier
+                // $typeImmo = $immo->type;
+
+                // Récupérer les informations de l'utilisateur
+                $user = User::findOrFail($vehi->user_id);
+                $nomUtilisateur = $user->name;
+                $mailUtilisateur = $user->email;
+                $phoneUtilisateur = $user->phone;
+
+                $urlActuelle = URL::current();
+
+                // Récupérer les informations de la maison et de la voiture
+                // $maison = $immo;
+                $voiture = $vehi;
+
+                return Inertia::render('BoostVehi', [
+                    'canLogin' => Route::has('login'),
+                    'canRegister' => Route::has('register'),
+                    'laravelVersion' => Application::VERSION,
+                    'phpVersion' => PHP_VERSION,
+                    // 'maison' => $maison,
+                    'voiture' => $voiture,
+                    'nameSeler' => $nomUtilisateur,
+                    'mailSeler' => $mailUtilisateur,
+                    'phoneSeler' => $phoneUtilisateur,
+                    'urlActuelle' => $urlActuelle,
+                ]);
+            }
+
 }
