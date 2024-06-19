@@ -299,14 +299,14 @@ car:Object,
                       <span    @click="navigateToBoostImmobillier(resultActuel.id)">Booster  Imm{{resultActuel.id}}</span>                    </div>
                       <div v-else>
                         <span class="text-2 bg-green-500 shadow-lg shadow- shadow-green-600 text-white cursor-pointer px-3 text-center justify-center items-center py-1 rounded-xl flex space-x-2 flex-row"
-                           @click="navigateUpdateImmobilier(habitat.id)">Booster  ve{{resultActuel.id}}</span>
+                           @click="navigateToBoostVehicule(resultActuel.id)">Booster  ve{{resultActuel.id}}</span>
                       </div>
                     <div
 
                       class="text-2 bg-green-500 shadow-lg shadow- shadow-green-600 text-white cursor-pointer px-3 text-center justify-center items-center py-1 rounded-xl flex space-x-2 flex-row">
                       <div v-if="resultActuel.categorie === 'immobilier'">
-                        <span @click="navigateToBoostVehicule(resultActuel.id)"
- >Editer  {{resultActuel.id}}</span>
+                        <span @click="navigateUpdateImmobilier(resultActuel.id)"
+ >Editer {{resultActuel.nom}}  {{resultActuel.id}}</span>
 
 </div>
 <div v-else>

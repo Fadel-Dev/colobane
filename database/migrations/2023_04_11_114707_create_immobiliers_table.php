@@ -16,7 +16,7 @@ return new class extends Migration
             $table->timestamps();
             $table->unSignedBigInteger('user_id');
             $table->date('date_fin_booster')->nullable();
-            $table->boolean('booster')->default(false); // Colonne pour marquer si l'article est boosté ou non
+            $table->boolean('booster')->nullable()->default(false); // Colonne pour marquer si l'article est boosté ou non
             $table->boolean('vendu')->default(false); // Colonne pour marquer si l'article est boosté ou non
 
             $table->string('type');

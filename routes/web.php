@@ -132,7 +132,7 @@ Route::get('/boost/vehi/{id}', [BoostController::class, 'BoostArticleVehi']);
 
 // // UPDATE ARTICLE BOOST
 Route::put('/immobilierBoost/{id}', [ImmobilierController::class, 'StoreBoostImmo']);
-Route::put('/vehiculeVendu/{id}', [ImmobilierController::class, 'StoreVenduVehicule']);
+Route::put('/vehiculeBoost/{id}', [ImmobilierController::class, 'StoreBoostVehicule']);
 
 
 

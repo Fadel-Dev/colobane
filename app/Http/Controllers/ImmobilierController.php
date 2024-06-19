@@ -212,6 +212,7 @@ public function storeEdit($id )
         auth()->user()->Voitures()->where('id', $id)->update([
             // 'type' => Request::input('type'),
             'vendu' => Request::input('vendu'),
+            // 'vendu' => Request::input('vendu'),
 
         ]);
 
@@ -234,6 +235,38 @@ public function storeEdit($id )
         return redirect()->route('dashboard')->with('message', 'Annone publiee avec success Intervention');
     }
 
+
+    // store update vboost vehicule
+
+    public function vehiculeBoost($id)
+    {
+
+
+        auth()->user()->Voitures()->where('id', $id)->update([
+            'booster' => Request::input('boost'),
+
+
+
+        ]);
+
+        return redirect()->route('dashboard')->with('message', 'Annone publiee avec success Intervention');
+    }
+
+
+    // store boost vehi
+
+    public function StoreBoostVehicule($id )
+    {
+
+
+        auth()->user()->Voitures()->where('id', $id)->update([
+            // 'type' => Request::input('type'),
+            'booster' => Request::input('boost'),
+
+        ]);
+
+        return redirect()->route('dashboard')->with('message', 'Annone publiee avec success Intervention');
+    }
 
 
 }
