@@ -131,182 +131,110 @@ phpVersion: String,
     <!-- Home -->
 
 
-    <main class=" my-6 lg:pl-[10%] flex justify-center">
-        <div class="container mx-auto ">
-            <div class="md:flex md:items-center">
-                <div class=" rounded-sm sm:w-[40rem] sm:h-[22rem] sm:flex items-center sm:justify-center sm:bg-gray-200 relative my-0 sm:mx-0 bg-gray-300" >
-                    <!-- img main -->
+    <main class="my-6 lg:pl-[10%] flex justify-center">
+    <div class="container mx-auto">
+        <div class="md:flex md:items-center">
+            <!-- Image Container -->
+            <div class="rounded-sm sm:w-[40rem] sm:h-[22rem] sm:flex items-center sm:justify-center sm:bg-gray-200 relative my-0 sm:mx-0 bg-gray-300">
+                <!-- Left Arrow -->
+                <i class="p-2 bg-transparent text-3xl rounded text-white bi bi-chevron-left absolute top-1/2 left-11" @click="previousImage"></i>
+                <!-- Main Image -->
+                <img class="w-full h-full" :src="'/storage/'+currentImage">
+                <!-- Right Arrow -->
+                <i class="p-2 text-4xl text-white rounded bi bi-chevron-right absolute top-1/2 right-11" @click="nextImage"></i>
+            </div>
 
-                    <i
-                    class="p-2 bg-transparent text-3xl rounded text-white bi bi-chevron-left absolute top-1/2 left-11"
-                    @click="previousImage"
-                    >
+            <!-- Details Container -->
+            <div class="max-w-lg sm:mx-auto mt-5 md:ml-8 md:mt-0 md:w-1/2 mx-auto w-11/12 rounded-2xl md:bg-secondaire p-8 mx-0">
+                <!-- Header Section -->
+                <div class="head flex">
+                    <img class="mb-3 w-[4rem] h-[4rem] rounded-full shadow-2xl  bottom-1/3 right-0" src="https://flowbite.com/docs/images/people/profile-picture-3.jpg" alt="Bonnie image">
+                    <span class="text-gray-400 mt-3 px-3">Proposé par <span class="text-gray-300 uppercase">{{ nameSeler }}</span></span>
+                </div>
+                <hr class="my-3">
 
-                </i>
+                <!-- Property Details Based on Type -->
+                <div v-if="maison.type=='villa' || maison.type=='appartement' || maison.type=='chambre'">
+                    <span class="text-gray-500 mt-3">Lieu : <span class="text-gray-700 uppercase">{{ maison.region }}</span></span><br>
+                    <span class="text-gray-500 mt-3">Piece : <span class="text-gray-700 uppercase">{{ maison.npiece }}</span></span><br>
+                    <span class="text-gray-500 mt-3">Type : <span class="text-gray-700 uppercase">{{ maison.type }}</span></span><br>
+                </div>
+                <div v-else-if="maison.type=='verger' || maison.type=='ferme' || maison.type=='terrain'">
+                    <span class="text-gray-500 mt-3">Lieu : <span class="text-gray-700">{{ maison.region }}</span></span><br>
+                    <span class="text-gray-500 mt-3">Surface : <span class="text-gray-700">{{ maison.surface }}</span></span><br>
+                    <span class="text-gray-500 mt-3">Type : <span class="text-gray-700">{{ maison.type }}</span></span><br>
+                </div>
 
-                <img  class="w-full h-full " :src="'/storage/'+currentImage"  >
-
-
-
-<i class="p-2 text-4xl text-white rounded bi bi-chevron-right absolute top-1/2 right-11" @click="nextImage">
-  </i>
-
-
-    </div>
-
-                <div class=" max-w-lg sm:mx-auto mt-5 md:ml-8 md:mt-0 md:w-1/2 mx-auto w-11/12 rounded-2xl md:bg-secondaire p-8 mx-0">
-
-<div class="head flex">
-    <img class="mb-3 w-[4rem] h-[4rem] rounded-full shadow-2xl  bottom-1/3 right-0" src="https://flowbite.com/docs/images/people/profile-picture-3.jpg" alt="Bonnie image">
-    <!-- Nom -->
-    <span class="text-gray-400 mt-3 px-3">Propose par <span class="text-gray-300 uppercase">{{nameSeler  }} {{  }} </span> </span> <br>
-
-
-</div>
-                    <hr class="my-3">
-
-<!-- FOR VILLA -->
-<div v-if="maison.type=='villa'">
-  <span class="text-gray-500 mt-3">Lieu : <span class="text-gray-700 uppercase">{{maison.region  }} </span> </span> <br>
-  <span class="text-gray-500 mt-3">Piece : <span class="text-gray-700 uppercase">{{maison.npiece  }} </span> </span> <br>
-  <span class="text-gray-500 mt-3">Type : <span class="text-gray-700 uppercase">{{maison.type  }} </span> </span> <br>
-
-</div>
-<!-- FOR APARTEMENT -->
-<div v-else-if="maison.type=='appartement'">
-  <span class="text-gray-500 mt-3">Lieu : <span class="text-gray-700 uppercase">{{maison.region  }} </span> </span> <br>
-  <span class="text-gray-500 mt-3">Piece : <span class="text-gray-700 uppercase">{{maison.npiece  }} </span> </span> <br>
-  <span class="text-gray-500 mt-3">Type : <span class="text-gray-700 uppercase">{{maison.type  }} </span> </span> <br>
-</div>
-<!-- FOR CHAMBRE -->
-<div v-else-if="maison.type=='chambre'">
-  <span class="text-gray-500 mt-3">Lieu : <span class="text-gray-700 uppercase">{{maison.region  }} </span> </span> <br>
-  <span class="text-gray-500 mt-3">Piece : <span class="text-gray-700 uppercase">{{maison.npiece  }} </span> </span> <br>
-  <span class="text-gray-500 mt-3">Type : <span class="text-gray-700 uppercase">{{maison.type  }} </span> </span> <br>
-</div>
-<!-- FOR FERME -->
-
-<div v-else-if="maison.type=='verger'">
-  <span class="text-gray-500 mt-3">Lieu : <span class="text-gray-700 ">{{maison.region  }} </span> </span> <br>
-  <span class="text-gray-500 mt-3">Surface : <span class="text-gray-700 ">{{maison.surface  }} </span> </span> <br>
-  <span class="text-gray-500 mt-3">Type : <span class="text-gray-700 ">{{maison.type  }} </span> </span> <br>
-</div>
-<!-- FOR FERME -->
-
-<div v-else-if="maison.type=='ferme'">
-  <span class="text-gray-500 mt-3">Lieu : <span class="text-gray-700 ">{{maison.region  }} </span> </span> <br>
-  <span class="text-gray-500 mt-3">Surface : <span class="text-gray-700 ">{{maison.surface  }} </span> </span> <br>
-  <span class="text-gray-500 mt-3">Type : <span class="text-gray-700 ">{{maison.type  }} </span> </span> <br>
-</div>
-
-<!-- FOR TERRAIN -->
-
-<div v-else-if="maison.type=='terrain'">
-  <span class="text-gray-500 mt-3">Lieu : <span class="text-gray-700 ">{{maison.region  }} </span> </span> <br>
-  <span class="text-gray-500 mt-3">Surface : <span class="text-gray-700 ">{{maison.surface  }} </span> </span> <br>
-  <span class="text-gray-500 mt-3">Type : <span class="text-gray-700 ">{{maison.type  }} </span> </span> <br>
-</div>
-
-
-<div class="flex flex-col   hidden md:flex">
-                            <button class="w-full h-12 bg-principal text-white font-medium rounded-md mb-2"
-                                @click="ouvrirWhatsApp">
-                                Contacter
-                            </button>
-
-                            <div>
-                                <button
-                                    class="w-full h-12 border-2 border-principal hover:bg-principal hover:border-1 hover:border-white text-white font-medium rounded-md"
-                                    @click="afficherNumero">
-                                    Voir le numero
-                                </button>
-                                <div v-if="afficherPopup"
-                                    class="w-2/4 mx-auto fixed inset-0 flex justify-center bg-gray-800 bg-opacity-75">
-                                    <div class="bg-white rounded-lg p-8">
-                                        <span class="text-3xl text-principal">
-                                            NB
-                                        </span>
-                                        <br>
-                                        <span class="text-3xl ">Évitez les demandes de paiement anticipé : Soyez
-                                            prudents face aux demandes de paiement anticipé avant d'avoir reçu le produit ou
-                                            visité la propriété. Les vendeurs légitimes seront compréhensifs envers vos
-                                            préoccupations</span>
-                                        <br>
-                                        <span class="text-3xl"><span class="text-principal">Numero du
-                                                Vendeur</span> :{{ phoneSeler }}</span>
-                                        <button @click="fermerPopup"
-                                            class="absolute top-0 right-0 mt-2 mr-2 text-3xl text-principal hover:text-gray-800 focus:outline-none">
-                                            X
-                                        </button>
-                                    </div>
-                                </div>
+                <!-- Contact Buttons -->
+                <div class="flex flex-col hidden md:flex">
+                    <button class="w-full h-12 bg-principal text-white font-medium rounded-md mb-2" @click="ouvrirWhatsApp">
+                        Contacter
+                    </button>
+                    <div>
+                        <button class="w-full h-12 border-2 border-principal hover:bg-principal hover:border-1 hover:border-white text-white font-medium rounded-md" @click="afficherNumero">
+                            Voir le numéro
+                        </button>
+                        <div v-if="afficherPopup" class="w-2/4 mx-auto fixed inset-0 flex justify-center bg-gray-800 bg-opacity-75">
+                            <div class="bg-white rounded-lg p-8">
+                                <span class="text-3xl text-principal">NB</span><br>
+                                <span class="text-3xl">Évitez les demandes de paiement anticipé : Soyez prudents face aux demandes de paiement anticipé avant d'avoir reçu le produit ou visité la propriété. Les vendeurs légitimes seront compréhensifs envers vos préoccupations</span><br>
+                                <span class="text-3xl"><span class="text-principal">Numéro du Vendeur</span>: {{ phoneSeler }}</span>
+                                <button @click="fermerPopup" class="absolute top-0 right-0 mt-2 mr-2 text-3xl text-principal hover:text-gray-800 focus:outline-none">X</button>
                             </div>
-
-
                         </div>
-
-
-
-
-
-
+                    </div>
                 </div>
             </div>
-            <!-- sous la photo -->
-            <div class="px-4 mt-4 rounded-sm sm:w-[40rem] sm:h-[22rem]  items-center sm:justify-center  relative my-0 sm:mx-0 ">
-                <span class="text-secondaire uppercase text-2xl ">{{ maison.nom }}</span> <br>
-                    <span class="text-gray-500 mt-3">Prix : <span class="text-principal uppercase">{{maison.prix  }} </span> Fcfa</span> <br>
-                    <!-- <span class="text-gray-500 mt-3">Pieces : <span class="text-principal uppercase">{{ maison.npiece }} </span>. </span> -->
-                    <hr>
-                    <div class="flex items-center mt-4">
- <div class="w-full grid grid-cols-2 ">
-    <div class="flex items-center mr-4">
-    <i class="bi bi-bag-fill text-3xl text-gray-800 mr-2"></i>
-    <span class="text-1xl text-gray-600">{{ maison.affaire }}</span>
-  </div>
+        </div>
 
-  <div class="flex items-center mr-4">
-    <i class="bi bi-border-width text-3xl text-gray-800 mr-2"></i>
-    <span class="text-1xl text-gray-600">{{ maison.type }}</span>
-  </div>
+        <!-- Additional Information Below Image -->
+        <div class="px-4 mt-4 rounded-sm sm:w-[40rem] sm:h-[22rem] items-center sm:justify-center relative my-0 sm:mx-0">
+            <span class="text-secondaire uppercase text-2xl">{{ maison.nom }}</span><br>
+            <span class="text-gray-500 mt-3">Prix : <span class="text-principal uppercase">{{ maison.prix }}</span> Fcfa</span><br>
+            <hr>
+            <div class="flex items-center mt-4">
+                <div class="w-full grid grid-cols-2">
+                    <!-- Property Details Icons -->
+                    <div class="flex items-center mr-4">
+                        <i class="bi bi-bag-fill text-3xl text-gray-800 mr-2"></i>
+                        <span class="text-1xl text-gray-600">{{ maison.affaire }}</span>
+                    </div>
+                    <div class="flex items-center mr-4">
+                        <i class="bi bi-border-width text-3xl text-gray-800 mr-2"></i>
+                        <span class="text-1xl text-gray-600">{{ maison.type }}</span>
+                    </div>
+                    <div class="flex items-center mr-4">
+                        <i class="bi bi-geo-alt-fill text-3xl text-gray-800 mr-2"></i>
+                        <span class="text-1xl text-gray-600">{{ maison.region }}</span>
+                    </div>
+                    <div class="flex items-center mr-4">
+                        <i class="bi bi-grid-3x3-gap-fill text-3xl text-gray-800 mr-2"></i>
+                        <span class="text-1xl text-gray-600">{{ maison.npiece }} pieces</span>
+                    </div>
+                    <div class="flex items-center mr-4">
+                        <i class="bi bi-card-text text-3xl text-gray-800 mr-2"></i>
+                        <span class="text-1xl text-gray-600">{{ maison.surface }} M2</span>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <p class="text-gray-600 mt-3">{{ maison.description }}</p><br>
 
-  <div class="flex items-center mr-4">
-    <i class="bi bi-geo-alt-fill text-3xl text-gray-800 mr-2"></i>
-    <span class="text-1xl text-gray-600">{{ maison.region }}</span>
-  </div>
-
-  <div class="flex items-center mr-4">
-    <i class="bi bi-grid-3x3-gap-fill text-3xl text-gray-800 mr-2"></i>
-    <span class="text-1xl text-gray-600">{{ maison.npiece }} pieces</span>
-  </div>
-
-  <div class="flex items-center mr-4">
-    <i class="bi bi-card-text text-3xl text-gray-800 mr-2"></i>
-    <span class="text-1xl text-gray-600">{{ maison.surface }} M2</span>
-  </div>
- </div>
-</div>
-<hr>
-
-                    <p  class="text-gray-600 mt-3">{{ maison.description }} </p> <br>
-
-
-
-
-              <div>
-    <h2 class="text-2xl font-semibold mb-4 text-secondaire">Autres produits de la même marque</h2> <br>
-    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 ">
-      <!-- Afficher les suggestions -->
-      <div v-for="suggestion in suggestions" :key="suggestion.id" class=" w-full h-full object-cover border rounded-lg p-1">
-        <img :src="'/storage/'+ suggestion.image1" alt="Produit" class="w-full h-auto mb-2 rounded-lg">
-        <span class="text-md font-semibold text-principal text-center ">{{ suggestion.nom }}</span>
-        <!-- <p class="text-gray-700">{{ suggestion.description }}</p> -->
-      </div>
-    </div>
-  </div>
+            <!-- Other Products from the Same Brand -->
+            <div>
+                <h2 class="text-2xl font-semibold mb-4 text-secondaire">Autres produits de la même marque</h2><br>
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    <!-- Display Suggestions -->
+                    <div v-for="suggestion in suggestions" :key="suggestion.id" class="w-full h-full object-cover border rounded-lg p-1">
+                        <img :src="'/storage/'+ suggestion.image1" alt="Produit" class="w-full h-auto mb-2 rounded-lg">
+                        <span class="text-md font-semibold text-principal text-center">{{ suggestion.nom }}</span>
+                        <!-- <p class="text-gray-700">{{ suggestion.description }}</p> -->
+                    </div>
+                </div>
             </div>
         </div>
-    </main>
+    </div>
+</main>
 
 </div>
 
@@ -373,46 +301,14 @@ phpVersion: String,
         height: 100vh;
     }
 
-
-    /* @media only screen and (max-width: 800px) {
-  #photoContact {
-    width: 79vw;
-    margin: auto;
-    background-color: lightblue;
-    display: block;
-  }
-} */
-/* telephone */
-/* @media only screen and (max-width: 428px) {
-  #photoContact {
-    width: 100vw;
-    padding: 0;
-    margin: 0;
-    display: block;
-  }
-} */
-
     </style>
 
 
     <script>
 
 
-    // export default {
-    //  components: { Footer },
-    //   props: {
-    //     maison: Object
-    //   }
-    // }
     export default {
         components: { Footer },
-    //     props: {
-    //     maison: Object,
-    //     user:Object,
-    //     nameSeler:Object,
-    //     mailSeler:Object,
-    //     phoneSeler:Object,
-    //   },
 
       components : {
         Head

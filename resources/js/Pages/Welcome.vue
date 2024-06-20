@@ -1,4 +1,5 @@
 <template>
+
   <Head title="Accueil" />
   <div>
     <!-- Navigation -->
@@ -6,188 +7,272 @@
 
     <!-- Banner -->
     <nav class="nav bg-gray-800 w-full fixed top-0 left-0 z-10">
-  <div class="px-4 py-2 mx-auto md:flex md:justify-between md:items-center shadow-xl bg-gray-900 text-white">
-    <Link :href="route('home')" class="text-xl font-bold md:text-2xl text-principal">
-      Noflay
-    </Link>
-    <!-- Mobile menu button -->
-    <div @click="showMenu = !showMenu" class="flex md:hidden">
-      <button type="button" class="text-gray-400 hover:text-gray-200 focus:outline-none">
-        <svg viewBox="0 0 24 24" class="w-6 h-6 fill-current">
-          <path d="M4 5h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2z"></path>
-        </svg>
-      </button>
-    </div>
-    <!-- Mobile Menu open: "block", Menu closed: "hidden" -->
-    <div :class="showMenu ? 'block' : 'hidden'" class="md:flex md:space-x-10 md:items-center md:space-y-0 space-y-4 mt-4">
-      <nav aria-labelledby="header-navigation" class="flex flex-col items-center justify-between w-full sm:flex-row sm:items-start">
-        <h2 class="sr-only" id="header-navigation">Header navigation</h2>
-        <ul class="flex flex-col items-center sm:flex-row">
+      <div class="px-4 py-2 mx-auto md:flex md:justify-between md:items-center shadow-xl bg-gray-900 text-white">
+        <Link :href="route('home')" class="text-xl font-bold md:text-2xl text-principal">
+        Noflay
+        </Link>
+        <!-- Mobile menu button -->
+        <div @click="showMenu = !showMenu" class="flex md:hidden">
+          <button type="button" class="text-gray-400 hover:text-gray-200 focus:outline-none">
+            <svg viewBox="0 0 24 24" class="w-6 h-6 fill-current">
+              <path
+                d="M4 5h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2z">
+              </path>
+            </svg>
+          </button>
+        </div>
 
-          <li class="font-bold sm:mr-12">Orders</li>
-          <li class="text-gray-400 sm:mr-12">Teams</li>
-          <li class="text-gray-400 sm:mr-12">Customers</li>
-        </ul>
-        <ul class="mt-4 flex sm:mt-0">
-          <div v-if="$page.props.auth.user">
-              <Link v-if="$page.props.auth.user" :href="route('publier')" class="btn-primary">Publier une annonce</Link>
-              <Link v-if="$page.props.auth.user" :href="route('dashboard')" class="btn-secondary md:ml-4 mt-2 md:mt-0">Dashboard</Link>
-          </div>
-          <div v-else>
-            <Link :href="route('publier')" class="btn-primary">Publier une annonce</Link>
-            <Link :href="route('login')" class="btn-secondary md:ml-4 mt-2 md:mt-0">Se connecter</Link>
-          </div>
-        </ul>
-      </nav>
-    </div>
-  </div>
-</nav>
+        <!-- Search bar -->
+         <div class="mx-auto  w-screen max-w-screen-md py-1 leading-6">
+  <form class="relative mx-auto flex w-full max-w-2xl items-center justify-between rounded-md border shadow-lg">
+    <svg class="absolute left-2 block h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="11" cy="11" r="8" class=""></circle>
+      <line x1="21" y1="21" x2="16.65" y2="16.65" class=""></line>
+    </svg>
+    <input type="name" name="search" class="h-5 w-full rounded-md py-4 pr-40 pl-12 outline-none focus:ring-2" placeholder="City, Address, Zip :" />
+    <button type="submit" class="absolute right-0 mr-1 inline-flex h-8 items-center justify-center rounded-lg bg-gray-900 px-10 font-medium text-white focus:ring-4 hover:bg-gray-700">Search</button>
+  </form>
+</div>
+
+        <!-- Mobile Menu open: "block", Menu closed: "hidden" -->
+        <div :class="showMenu ? 'block' : 'hidden'"
+          class="md:flex md:space-x-10 md:items-center md:space-y-0 space-y-4 mt-4">
+          <nav aria-labelledby="header-navigation"
+            class="flex flex-col items-center justify-between w-full sm:flex-row sm:items-start">
+            <h2 class="sr-only" id="header-navigation">Header navigation</h2>
+            <ul class="flex flex-col items-center sm:flex-row">
+
+              <li class="font-bold sm:mr-12">Orders</li>
+              <li class="text-gray-400 sm:mr-12">Teams</li>
+              <li class="text-gray-400 sm:mr-12">Customers</li>
+            </ul>
+            <ul class="mt-4 flex sm:mt-0">
+              <div v-if="$page.props.auth.user">
+                <Link v-if="$page.props.auth.user" :href="route('publier')" class="btn-primary">Publier une annonce
+                </Link>
+                <Link v-if="$page.props.auth.user" :href="route('dashboard')"
+                  class="btn-secondary md:ml-4 mt-2 md:mt-0">Dashboard</Link>
+              </div>
+              <div v-else>
+                <Link :href="route('publier')" class="btn-primary">Publier une annonce</Link>
+                <Link :href="route('login')" class="btn-secondary md:ml-4 mt-2 md:mt-0">Se connecter</Link>
+              </div>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </nav>
 
 
     <!-- Tabs and Content -->
     <div class="mt-20">
-        <div class="flex w-full border-b border-t-[1px] border-gray-200">
-          <button @click="activeTab = 'immobilier'" :class="{'border-b-2 border-principal': activeTab === 'immobilier'}" class="w-1/2 py-2 bg-white text-gray-800 font-semibold">Annonces immobilières</button>
-          <button @click="activeTab = 'vehicule'" :class="{'border-b-2 border-principal': activeTab === 'vehicule'}" class="w-1/2 py-2 bg-white text-gray-800 font-semibold">Annonces de véhicules</button>
+      <div class="flex w-full border-b border-t-[1px] border-gray-200">
+        <button @click="activeTab = 'immobilier'" :class="{ 'border-b-2 border-principal': activeTab === 'immobilier' }"
+          class="w-1/2 py-2 bg-white text-gray-800 font-semibold">Annonces immobilières</button>
+        <button @click="activeTab = 'vehicule'" :class="{ 'border-b-2 border-principal': activeTab === 'vehicule' }"
+          class="w-1/2 py-2 bg-white text-gray-800 font-semibold">Annonces de véhicules</button>
+      </div>
+
+      <div class="lg:max-w-[80vw] max-w-[970vw] mx-auto mt-8">
+        <!-- Immobilier Tab -->
+        <div v-if="activeTab === 'immobilier'" class="bg-gray-100">
+          <div class="swiper">
+            <div class="swiper-wrapper">
+              <div v-for="immobillierBoost in immobilliersBoost.data" :key="immobillierBoost.id"
+                @click="navigateToDetail(immobillierBoost.id)"
+                class="swiper-slide w-full sm:w-1/4 md:w-1/4 lg:w-1/6 xl:w-1/6 p-1">
+                <!-- Immobilier Card -->
+                <div class="card">
+                  <div class="aspect-square overflow-hidden">
+                    <img :src="'/storage/' + immobillierBoost.image1" :alt="immobillierBoost.imageAlt"
+                      class="h-full w-full object-cover transition-all duration-300 group-hover:scale-125">
+                  </div>
+                  <div class="absolute top-0 m-2 rounded-full bg-white">
+                    <p
+                      class="rounded-full bg-principal p-1 text-[8px] font-bold uppercase tracking-wide text-white sm:py-1 sm:px-3">
+                      {{ immobillierBoost.affaire }}</p>
+                  </div>
+
+                  <div class="my-2 mx-auto flex w-10/12 flex-col items-start justify-between">
+                    <p class="mr-3 text-sm font-semibold text-principal align-center"><span class="text-secondaire mr-3">Fcfa</span>{{ immobillierBoost.prix}}</p>
+
+                    <div class="mb-2 flex">
+
+                      <p class="mr-3 text-secondaire  text-sm font-semibold truncate">{{ immobillierBoost.nom.substring(0, 20) }}</p>
+                    </div>
+                    <h3 class="text-sm text-principal mt-[-8%]">{{ immobillierBoost.region }} ,Senegal</h3>
+.
+
+                  </div>
+                  <button
+                      class=" bg-principal group mx-auto mt-[-10%] flex h-8 w-full items-stretch overflow-hidden hover:text-secondaire rounded-md text-white">
+                      <div
+                        class="flex w-full items-center justify-center bg-principal text-xs uppercase transition  group-hover:text-secondaire">
+                        contacter</div>
+
+                    </button>
+
+
+                </div>
+              </div>
+            </div>
+            <section class="bg-white py-1 text-gray-700 sm:py-16 lg:py-1">
+              <div class="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
+                <div class="mx-auto max-w-md text-center">
+                  <h2 class="font-serif text-2xl font-bold sm:text-3xl">Dernières Annonces au Sénégal</h2>
+                </div>
+
+                <!-- Grid For Vehicules -->
+                <div class="mt-10 grid grid-cols-2 gap-6 sm:grid-cols-4 sm:gap-4 lg:mt-16">
+
+                  <article v-for="maison in maisons.data " :key="maison.id" @click="navigateToDetail(maison.id)"
+                    class="relative flex flex-col overflow-hidden rounded-lg border">
+<div class="card">
+                  <div class="aspect-square overflow-hidden">
+                    <img :src="'/storage/' + maison.image1" :alt="maison.imageAlt"
+                      class="h-full w-full object-cover transition-all duration-300 group-hover:scale-125">
+                  </div>
+                  <div class="absolute top-0 m-2 rounded-full bg-white">
+                    <p
+                      class="rounded-full bg-principal p-1 text-[8px] font-bold uppercase tracking-wide text-white sm:py-1 sm:px-3">
+                      {{ maison.affaire }}</p>
+                  </div>
+
+                  <div class="my-2 mx-auto flex w-10/12 flex-col items-start justify-between">
+                    <p class="mr-3 text-sm font-semibold text-principal align-center"><span class="text-secondaire mr-3">Fcfa</span>{{ maison.prix}}</p>
+
+                    <div class="mb-2 flex">
+
+                      <p class="mr-3 text-secondaire  text-sm font-semibold truncate">{{ maison.nom.substring(0, 20) }}</p>
+                    </div>
+                    <h3 class="text-sm text-principal mt-[-8%]">{{ maison.region }} ,Senegal</h3>
+.
+
+                  </div>
+                  <div v-if=" maison.booster ==1"
+                      class=" bg-principal group mx-auto mt-[-10%] flex h-8 w-full items-stretch overflow-hidden hover:text-secondaire rounded-md text-white">
+                      <div
+                        class="flex w-full items-center justify-center bg-principal text-xs uppercase transition  group-hover:text-secondaire">
+                        contacter</div>
+
+                        <div v-if=" maison.booster ==1" class="imgPro ">
+                          <span class="text-secondaire pr-5">Pro</span>
+                        </div>
+
+
+                    </div>
+                    <div v-else
+                      class=" group mx-auto mt-[-10%] flex h-8 w-full items-stretch overflow-hidden hover:text-secondaire rounded-md text-white">
+                      <div
+                        class="flex w-full items-center justify-center text-secondaire text-xs uppercase transition  group-hover:text-secondaire">
+                        contacter</div>
+
+                        <!-- <div v-if=" maison.booster ==1" class="imgPro ">
+                          <span class="text-secondaire pr-5">Pro</span>
+                        </div> -->
+
+
+                    </div>
+
+
+                </div>
+<!--  -->
+                  </article>
+
+
+
+
+
+
+
+
+
+
+
+
+                </div>
+              </div>
+            </section>
+          </div>
+
         </div>
 
-        <div class="max-w-[70vw] mx-auto mt-8">
-          <!-- Immobilier Tab -->
-          <div v-if="activeTab === 'immobilier'" class="bg-gray-100">
-            <div class="swiper">
-              <div class="swiper-wrapper">
-                <div v-for="immobillierBoost in immobilliersBoost.data" :key="immobillierBoost.id" @click="navigateToDetail(immobillierBoost.id)" class="swiper-slide w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 p-2">
-                  <!-- Immobilier Card -->
-                  <div class="card">
+        <!-- Vehicule Tab -->
+        <div v-else-if="activeTab === 'vehicule'" class="bg-gray-100">
+          <div class="swiper">
+            <div class="swiper-wrapper">
+              <div v-for="voitureBoost in voituresBoost.data" :key="voitureBoost.id"
+                @click="navigateToDetailVehi(voitureBoost.id)"
+                class="swiper-slide w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 p-2">
+                <!-- Vehicule Card -->
+                <div class="card">
+                  <img :src="'/storage/' + voitureBoost.image1" :alt="voitureBoost.imageAlt"
+                    class="object-cover w-full h-60 rounded-xl shadow-lg">
+                  <div class="p-4">
+                    <h3 class="text-lg font-semibold text-white">{{ voitureBoost.nom }}</h3>
+                    <p class="text-gray-300">{{ voitureBoost.affaire }}</p>
+                    <p class="text-principal text-lg">{{ voitureBoost.prix }} Fcfa</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <section class="bg-white py-12 text-gray-700 sm:py-16 lg:py-20">
+              <div class="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
+                <div class="mx-auto max-w-md text-center">
+                  <h2 class="font-serif text-2xl font-bold sm:text-3xl">Fresh Fruits & Vegetables</h2>
+                </div>
+
+                <!-- Grid For Vehicules -->
+                <div class="mt-10 grid grid-cols-2 gap-6 sm:grid-cols-4 sm:gap-4 lg:mt-16">
+
+                  <article v-for="voiture in voitures.data " :key="voiture.id" @click="navigateToDetailVehi(voiture.id)"
+                    class="relative flex flex-col overflow-hidden rounded-lg border">
                     <div class="aspect-square overflow-hidden">
-                    <img :src="'/storage/' + immobillierBoost.image1" :alt="immobillierBoost.imageAlt" class="h-full w-full object-cover transition-all duration-300 group-hover:scale-125">
+                      <img class="h-full w-full object-cover transition-all duration-300 group-hover:scale-125"
+                        :src="'/storage/' + voiture.image1" :alt="voiture.imageAlt" />
                     </div>
                     <div class="absolute top-0 m-2 rounded-full bg-white">
-            <p class="rounded-full bg-emerald-500 p-1 text-[8px] font-bold uppercase tracking-wide text-white sm:py-1 sm:px-3">Sale</p>
-          </div>
-
-          <div class="my-4 mx-auto flex w-10/12 flex-col items-start justify-between">
-            <div class="mb-2 flex">
-              <p class="mr-3 text-sm font-semibold">{{ immobillierBoost.prix }}</p>
-              <del class="text-xs text-gray-400"> $79.00 </del>
-            </div>
-            <h3 class="mb-2 text-sm text-gray-400">{{immobillierBoost.affaire}}</h3>
-          </div>
-
-                  </div>
-                </div>
-              </div>
-              <section class="bg-white py-12 text-gray-700 sm:py-16 lg:py-20">
-    <div class="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
-      <div class="mx-auto max-w-md text-center">
-        <h2 class="font-serif text-2xl font-bold sm:text-3xl">Fresh Fruits & Vegetables</h2>
-      </div>
-
-      <!-- Grid For Vehicules -->
-      <div class="mt-10 grid grid-cols-2 gap-6 sm:grid-cols-4 sm:gap-4 lg:mt-16">
-
-        <article v-for="maison in maisons.data " :key="maison.id" class="relative flex flex-col overflow-hidden rounded-lg border">
-          <div class="aspect-square overflow-hidden">
-            <img class="h-full w-full object-cover transition-all duration-300 group-hover:scale-125" :src="'/storage/' + maison.image1" :alt="maison.imageAlt"/>
-          </div>
-          <div class="absolute top-0 m-2 rounded-full bg-white">
-            <p class="rounded-full bg-emerald-500 p-1 text-[8px] font-bold uppercase tracking-wide text-white sm:py-1 sm:px-3">Sale</p>
-          </div>
-          <div class="my-4 mx-auto flex w-10/12 flex-col items-start justify-between">
-            <div class="mb-2 flex">
-              <p class="mr-3 text-sm font-semibold">{{ maison.prix }}</p>
-              <del class="text-xs text-gray-400"> $79.00 </del>
-            </div>
-            <h3 class="mb-2 text-sm text-gray-400">{{maison.affaire}}</h3>
-          </div>
-          <button class="group mx-auto mb-2 flex h-10 w-10/12 items-stretch overflow-hidden rounded-md text-gray-600">
-            <div class="flex w-full items-center justify-center bg-gray-100 text-xs uppercase transition group-hover:bg-emerald-600 group-hover:text-white">Add</div>
-            <div class="flex items-center justify-center bg-gray-200 px-5 transition group-hover:bg-emerald-500 group-hover:text-white">+</div>
-          </button>
-        </article>
-
-
-
-
-
-
-
-
-
-
-
-
-      </div>
-    </div>
-  </section>
-            </div>
-
-          </div>
-
-          <!-- Vehicule Tab -->
-          <div v-else-if="activeTab === 'vehicule'" class="bg-gray-100">
-            <div class="swiper">
-              <div class="swiper-wrapper">
-                <div v-for="voitureBoost in voituresBoost.data" :key="voitureBoost.id" @click="navigateToDetailVehi(voitureBoost.id)" class="swiper-slide w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 p-2">
-                  <!-- Vehicule Card -->
-                  <div class="card">
-                    <img :src="'/storage/' + voitureBoost.image1" :alt="voitureBoost.imageAlt" class="object-cover w-full h-60 rounded-xl shadow-lg">
-                    <div class="p-4">
-                      <h3 class="text-lg font-semibold text-white">{{ voitureBoost.nom }}</h3>
-                      <p class="text-gray-300">{{ voitureBoost.affaire }}</p>
-                      <p class="text-principal text-lg">{{ voitureBoost.prix }} Fcfa</p>
+                      <p
+                        class="rounded-full bg-emerald-500 p-1 text-[8px] font-bold uppercase tracking-wide text-white sm:py-1 sm:px-3">
+                        Sale</p>
                     </div>
-                  </div>
+                    <div class="my-4 mx-auto flex w-10/12 flex-col items-start justify-between">
+                      <div class="mb-2 flex">
+                        <p class="mr-3 text-sm font-semibold">{{ voiture.prix }}</p>
+                        <del class="text-xs text-gray-400"> $79.00 </del>
+                      </div>
+                      <h3 class="mb-2 text-sm text-gray-400">{{ voiture.affaire }}</h3>
+                    </div>
+                    <button
+                      class="group mx-auto mb-2 flex h-10 w-10/12 items-stretch overflow-hidden rounded-md text-gray-600">
+                      <div
+                        class="flex w-full items-center justify-center bg-gray-100 text-xs uppercase transition group-hover:bg-emerald-600 group-hover:text-white">
+                        Add</div>
+                      <div
+                        class="flex items-center justify-center bg-gray-200 px-5 transition group-hover:bg-emerald-500 group-hover:text-white">
+                        +</div>
+                    </button>
+                  </article>
+
+
+
+
+
+
+
+
+
+
+
+
                 </div>
               </div>
-              <section class="bg-white py-12 text-gray-700 sm:py-16 lg:py-20">
-    <div class="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
-      <div class="mx-auto max-w-md text-center">
-        <h2 class="font-serif text-2xl font-bold sm:text-3xl">Fresh Fruits & Vegetables</h2>
-      </div>
+            </section>
 
-      <!-- Grid For Vehicules -->
-      <div class="mt-10 grid grid-cols-2 gap-6 sm:grid-cols-4 sm:gap-4 lg:mt-16">
-
-        <article v-for="voiture in voitures.data " :key="voiture.id" class="relative flex flex-col overflow-hidden rounded-lg border">
-          <div class="aspect-square overflow-hidden">
-            <img class="h-full w-full object-cover transition-all duration-300 group-hover:scale-125" :src="'/storage/' + voiture.image1" :alt="voiture.imageAlt"/>
-          </div>
-          <div class="absolute top-0 m-2 rounded-full bg-white">
-            <p class="rounded-full bg-emerald-500 p-1 text-[8px] font-bold uppercase tracking-wide text-white sm:py-1 sm:px-3">Sale</p>
-          </div>
-          <div class="my-4 mx-auto flex w-10/12 flex-col items-start justify-between">
-            <div class="mb-2 flex">
-              <p class="mr-3 text-sm font-semibold">{{ voiture.prix }}</p>
-              <del class="text-xs text-gray-400"> $79.00 </del>
-            </div>
-            <h3 class="mb-2 text-sm text-gray-400">{{voiture.affaire}}</h3>
-          </div>
-          <button class="group mx-auto mb-2 flex h-10 w-10/12 items-stretch overflow-hidden rounded-md text-gray-600">
-            <div class="flex w-full items-center justify-center bg-gray-100 text-xs uppercase transition group-hover:bg-emerald-600 group-hover:text-white">Add</div>
-            <div class="flex items-center justify-center bg-gray-200 px-5 transition group-hover:bg-emerald-500 group-hover:text-white">+</div>
-          </button>
-        </article>
-
-
-
-
-
-
-
-
-
-
-
-
-      </div>
-    </div>
-  </section>
-
-            </div>
           </div>
         </div>
       </div>
+    </div>
 
 
     <!-- Footer -->
@@ -201,28 +286,37 @@
 .nav {
   z-index: 50;
 }
+
 .card {
   background-color: #ffffff;
   border-radius: 1rem;
   box-shadow: 0 0 1rem rgba(0, 0, 0, 0.1);
 }
+
 .fixed-size {
-  width: 300px; /* Width of the images */
-  height: 200px; /* Height of the images */
-  object-fit: cover; /* Ensures the images cover the space without distorting */
+  width: 300px;
+  /* Width of the images */
+  height: 200px;
+  /* Height of the images */
+  object-fit: cover;
+  /* Ensures the images cover the space without distorting */
 }
+
 .swiper {
   margin-top: 10%;
 }
+
 @media (max-width: 640px) {
   .swiper-slide {
     width: calc(100% / 3);
   }
 }
+
 @media (max-width: 768px) {
   .nav {
     padding: 0.5rem;
   }
+
   .card {
     margin-bottom: 1rem;
   }
@@ -289,7 +383,3 @@ export default {
   },
 };
 </script>
-
-
-
-
