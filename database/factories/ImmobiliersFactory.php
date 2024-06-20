@@ -20,18 +20,20 @@ class ImmobiliersFactory extends Factory
     public function definition(): array
     {
         return [
+
             'user_id' => $this->faker->numberBetween(1, 10), // Associe l'immobilier à un utilisateur
-            'date_fin_booster' =>$this->faker->randomElement([0,1]),
-            'booster' => $this->faker->randomElement([0,1]),
-            'vendu' => $this->faker->boolean(),
+            'date_fin_booster' =>$this->faker->date($format = 'Y-m-d', $max = 'now'),
+                       'booster' => $this->faker->randomElement([0,1]),
+            'vendu' => 0,
             'type' => 'chambre',
             'nom' => $this->faker->words(3, true),
-            'description' => $this->faker->paragraphs(3, true),
+            'description' => $this->faker->paragraphs(1, true),
             'prix' => $this->faker->numberBetween(100000, 10000000),
             'npiece' => 1,
-            'image1' => $this->faker->imageUrl(640, 480, 'real-estate', true),
-            'image2' => $this->faker->optional()->imageUrl(640, 480, 'real-estate', true),
-            'image3' => $this->faker->optional()->imageUrl(640, 480, 'real-estate', true),
+             'image1' => $this->faker->imageUrl(),
+             'image2' => $this->faker->imageUrl(),
+             'image3' => $this->faker->imageUrl(),
+
             'region' => 'dakar',
             'categorie' => $this->faker->randomElement(['vente', 'location']),
             'affaire' => $this->faker->word(),

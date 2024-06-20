@@ -1,14 +1,244 @@
+<template>
+  <Head title="Accueil" />
+  <div>
+    <!-- Navigation -->
+
+
+    <!-- Banner -->
+    <nav class="nav bg-gray-800 w-full fixed top-0 left-0 z-10">
+  <div class="px-4 py-2 mx-auto md:flex md:justify-between md:items-center shadow-xl bg-gray-900 text-white">
+    <Link :href="route('home')" class="text-xl font-bold md:text-2xl text-principal">
+      Noflay
+    </Link>
+    <!-- Mobile menu button -->
+    <div @click="showMenu = !showMenu" class="flex md:hidden">
+      <button type="button" class="text-gray-400 hover:text-gray-200 focus:outline-none">
+        <svg viewBox="0 0 24 24" class="w-6 h-6 fill-current">
+          <path d="M4 5h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2z"></path>
+        </svg>
+      </button>
+    </div>
+    <!-- Mobile Menu open: "block", Menu closed: "hidden" -->
+    <div :class="showMenu ? 'block' : 'hidden'" class="md:flex md:space-x-10 md:items-center md:space-y-0 space-y-4 mt-4">
+      <nav aria-labelledby="header-navigation" class="flex flex-col items-center justify-between w-full sm:flex-row sm:items-start">
+        <h2 class="sr-only" id="header-navigation">Header navigation</h2>
+        <ul class="flex flex-col items-center sm:flex-row">
+
+          <li class="font-bold sm:mr-12">Orders</li>
+          <li class="text-gray-400 sm:mr-12">Teams</li>
+          <li class="text-gray-400 sm:mr-12">Customers</li>
+        </ul>
+        <ul class="mt-4 flex sm:mt-0">
+          <div v-if="$page.props.auth.user">
+              <Link v-if="$page.props.auth.user" :href="route('publier')" class="btn-primary">Publier une annonce</Link>
+              <Link v-if="$page.props.auth.user" :href="route('dashboard')" class="btn-secondary md:ml-4 mt-2 md:mt-0">Dashboard</Link>
+          </div>
+          <div v-else>
+            <Link :href="route('publier')" class="btn-primary">Publier une annonce</Link>
+            <Link :href="route('login')" class="btn-secondary md:ml-4 mt-2 md:mt-0">Se connecter</Link>
+          </div>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</nav>
+
+
+    <!-- Tabs and Content -->
+    <div class="mt-20">
+        <div class="flex w-full border-b border-t-[1px] border-gray-200">
+          <button @click="activeTab = 'immobilier'" :class="{'border-b-2 border-principal': activeTab === 'immobilier'}" class="w-1/2 py-2 bg-white text-gray-800 font-semibold">Annonces immobilières</button>
+          <button @click="activeTab = 'vehicule'" :class="{'border-b-2 border-principal': activeTab === 'vehicule'}" class="w-1/2 py-2 bg-white text-gray-800 font-semibold">Annonces de véhicules</button>
+        </div>
+
+        <div class="max-w-[70vw] mx-auto mt-8">
+          <!-- Immobilier Tab -->
+          <div v-if="activeTab === 'immobilier'" class="bg-gray-100">
+            <div class="swiper">
+              <div class="swiper-wrapper">
+                <div v-for="immobillierBoost in immobilliersBoost.data" :key="immobillierBoost.id" @click="navigateToDetail(immobillierBoost.id)" class="swiper-slide w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 p-2">
+                  <!-- Immobilier Card -->
+                  <div class="card">
+                    <div class="aspect-square overflow-hidden">
+                    <img :src="'/storage/' + immobillierBoost.image1" :alt="immobillierBoost.imageAlt" class="h-full w-full object-cover transition-all duration-300 group-hover:scale-125">
+                    </div>
+                    <div class="absolute top-0 m-2 rounded-full bg-white">
+            <p class="rounded-full bg-emerald-500 p-1 text-[8px] font-bold uppercase tracking-wide text-white sm:py-1 sm:px-3">Sale</p>
+          </div>
+
+          <div class="my-4 mx-auto flex w-10/12 flex-col items-start justify-between">
+            <div class="mb-2 flex">
+              <p class="mr-3 text-sm font-semibold">{{ immobillierBoost.prix }}</p>
+              <del class="text-xs text-gray-400"> $79.00 </del>
+            </div>
+            <h3 class="mb-2 text-sm text-gray-400">{{immobillierBoost.affaire}}</h3>
+          </div>
+
+                  </div>
+                </div>
+              </div>
+              <section class="bg-white py-12 text-gray-700 sm:py-16 lg:py-20">
+    <div class="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-md text-center">
+        <h2 class="font-serif text-2xl font-bold sm:text-3xl">Fresh Fruits & Vegetables</h2>
+      </div>
+
+      <!-- Grid For Vehicules -->
+      <div class="mt-10 grid grid-cols-2 gap-6 sm:grid-cols-4 sm:gap-4 lg:mt-16">
+
+        <article v-for="maison in maisons.data " :key="maison.id" class="relative flex flex-col overflow-hidden rounded-lg border">
+          <div class="aspect-square overflow-hidden">
+            <img class="h-full w-full object-cover transition-all duration-300 group-hover:scale-125" :src="'/storage/' + maison.image1" :alt="maison.imageAlt"/>
+          </div>
+          <div class="absolute top-0 m-2 rounded-full bg-white">
+            <p class="rounded-full bg-emerald-500 p-1 text-[8px] font-bold uppercase tracking-wide text-white sm:py-1 sm:px-3">Sale</p>
+          </div>
+          <div class="my-4 mx-auto flex w-10/12 flex-col items-start justify-between">
+            <div class="mb-2 flex">
+              <p class="mr-3 text-sm font-semibold">{{ maison.prix }}</p>
+              <del class="text-xs text-gray-400"> $79.00 </del>
+            </div>
+            <h3 class="mb-2 text-sm text-gray-400">{{maison.affaire}}</h3>
+          </div>
+          <button class="group mx-auto mb-2 flex h-10 w-10/12 items-stretch overflow-hidden rounded-md text-gray-600">
+            <div class="flex w-full items-center justify-center bg-gray-100 text-xs uppercase transition group-hover:bg-emerald-600 group-hover:text-white">Add</div>
+            <div class="flex items-center justify-center bg-gray-200 px-5 transition group-hover:bg-emerald-500 group-hover:text-white">+</div>
+          </button>
+        </article>
+
+
+
+
+
+
+
+
+
+
+
+
+      </div>
+    </div>
+  </section>
+            </div>
+
+          </div>
+
+          <!-- Vehicule Tab -->
+          <div v-else-if="activeTab === 'vehicule'" class="bg-gray-100">
+            <div class="swiper">
+              <div class="swiper-wrapper">
+                <div v-for="voitureBoost in voituresBoost.data" :key="voitureBoost.id" @click="navigateToDetailVehi(voitureBoost.id)" class="swiper-slide w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 p-2">
+                  <!-- Vehicule Card -->
+                  <div class="card">
+                    <img :src="'/storage/' + voitureBoost.image1" :alt="voitureBoost.imageAlt" class="object-cover w-full h-60 rounded-xl shadow-lg">
+                    <div class="p-4">
+                      <h3 class="text-lg font-semibold text-white">{{ voitureBoost.nom }}</h3>
+                      <p class="text-gray-300">{{ voitureBoost.affaire }}</p>
+                      <p class="text-principal text-lg">{{ voitureBoost.prix }} Fcfa</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <section class="bg-white py-12 text-gray-700 sm:py-16 lg:py-20">
+    <div class="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-md text-center">
+        <h2 class="font-serif text-2xl font-bold sm:text-3xl">Fresh Fruits & Vegetables</h2>
+      </div>
+
+      <!-- Grid For Vehicules -->
+      <div class="mt-10 grid grid-cols-2 gap-6 sm:grid-cols-4 sm:gap-4 lg:mt-16">
+
+        <article v-for="voiture in voitures.data " :key="voiture.id" class="relative flex flex-col overflow-hidden rounded-lg border">
+          <div class="aspect-square overflow-hidden">
+            <img class="h-full w-full object-cover transition-all duration-300 group-hover:scale-125" :src="'/storage/' + voiture.image1" :alt="voiture.imageAlt"/>
+          </div>
+          <div class="absolute top-0 m-2 rounded-full bg-white">
+            <p class="rounded-full bg-emerald-500 p-1 text-[8px] font-bold uppercase tracking-wide text-white sm:py-1 sm:px-3">Sale</p>
+          </div>
+          <div class="my-4 mx-auto flex w-10/12 flex-col items-start justify-between">
+            <div class="mb-2 flex">
+              <p class="mr-3 text-sm font-semibold">{{ voiture.prix }}</p>
+              <del class="text-xs text-gray-400"> $79.00 </del>
+            </div>
+            <h3 class="mb-2 text-sm text-gray-400">{{voiture.affaire}}</h3>
+          </div>
+          <button class="group mx-auto mb-2 flex h-10 w-10/12 items-stretch overflow-hidden rounded-md text-gray-600">
+            <div class="flex w-full items-center justify-center bg-gray-100 text-xs uppercase transition group-hover:bg-emerald-600 group-hover:text-white">Add</div>
+            <div class="flex items-center justify-center bg-gray-200 px-5 transition group-hover:bg-emerald-500 group-hover:text-white">+</div>
+          </button>
+        </article>
+
+
+
+
+
+
+
+
+
+
+
+
+      </div>
+    </div>
+  </section>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    <!-- Footer -->
+    <div class="mt-20">
+      <Footer />
+    </div>
+  </div>
+</template>
+
+<style scoped>
+.nav {
+  z-index: 50;
+}
+.card {
+  background-color: #ffffff;
+  border-radius: 1rem;
+  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.1);
+}
+.fixed-size {
+  width: 300px; /* Width of the images */
+  height: 200px; /* Height of the images */
+  object-fit: cover; /* Ensures the images cover the space without distorting */
+}
+.swiper {
+  margin-top: 10%;
+}
+@media (max-width: 640px) {
+  .swiper-slide {
+    width: calc(100% / 3);
+  }
+}
+@media (max-width: 768px) {
+  .nav {
+    padding: 0.5rem;
+  }
+  .card {
+    margin-bottom: 1rem;
+  }
+}
+</style>
+
 <script setup>
-import { Head, Link, router  } from '@inertiajs/vue3';
-import Footer from '../Components/Footer.vue';
+import { defineProps } from 'vue';
+import { Head, Link } from '@inertiajs/vue3';
 import { Inertia } from '@inertiajs/inertia';
 
 const props = defineProps({
-
-  voitures:Object,
-  voituresBoost:Object,
-  immobilliersBoost:Object,
-  maisons:Object,
+  voitures: Object,
+  voituresBoost: Object,
+  immobilliersBoost: Object,
+  maisons: Object,
   canLogin: Boolean,
   canRegister: Boolean,
   laravelVersion: String,
@@ -16,322 +246,15 @@ const props = defineProps({
 });
 </script>
 
-<template>
-  <Head title="Acceuil" />
-  <div class="sm:h-[90vh]">
-    <div class="nav bg-gray-800 w-full  m-0 p-0 fixed top-0 left-0 z-10">
-      <nav
-        class="
-          px-9
-          py-2
-          mx-auto
-          md:flex md:justify-between md:items-center
-          shadow-xl
-          relative
-          bg-gray-900
-          text-white
-        "
-      >
-        <div class="flex items-center justify-between ">
-          <Link
-            :href="route('home')"
-            class="
-            w-full
-              text-xl
-              text-
-              font-bold
-              md:text-2xl
-            text-principal
-            font-sans
-
-            "
-            >Noflay
-          </Link>
-
-
-
-          <!-- Mobile menu button -->
-          <div @click="showMenu = !showMenu" class="flex md:hidden">
-            <button
-              type="button"
-              class="
-                text-gray-800
-                hover:text-gray-400
-                focus:outline-none focus:text-gray-400
-              "
-            >
-              <svg viewBox="0 0 24 24" class="w-6 h-6 fill-current">
-                <path
-                  fill-rule="evenodd"
-                  d="M4 5h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2z"
-                ></path>
-              </svg>
-            </button>
-          </div>
-        </div>
-
-  <!-- Mobile Menu open: "block", Menu closed: "hidden" -->
-  <div
-          :class="showMenu ? 'flex' : 'hidden'"
-          class="
-            flex-col
-            mt-8
-            space-y-4
-            md:flex
-            md:space-y-0
-            md:flex-row
-            md:items-center
-            md:space-x-10
-            md:mt-0
-          "
-        >
-        <div class="auth">
-   <div v-if="canLogin" class="flex">
-
-    <div v-if="$page.props.auth.user" :href="route('publier')" class="mx-2 bg-principal rounded-xl px-2">
-
-<i class="bi bi-node-plus pl-1"></i>
-<Link v-if="$page.props.auth.user" :href="route('publier')"
-class="font-semibold text-white hover:text-white dark:text-white  dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm ">
-Publier une annonce</Link>
-
-</div>
-
-
-<!-- bar de recherche -->
-
-<!-- <label for="search">chearch</label> -->
-
-<!-- <input type="search" name="" id="" class="bg-red-300 focus:rounded-sm"> -->
-
-
-
-
-
-
-    <div v-if="$page.props.auth.user" :href="route('publier')">
-  <Link v-if="$page.props.auth.user" :href="route('dashboard')"
-        class="font-semibold text-gray-400 hover:text-white dark:text-gray-400 dark:hover:text-principal focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">
-      Dashboard</Link>
-    </div>
-
-      <div v-else>
-
-
-        <div class="auth flex">
-
-<div class="mx-2 bg-principal rounded-xl">
-    <i class="bi bi-node-plus pl-1"></i>
-<Link :href="route('publier')"  class=" px-2 py-0 text-white hover:text-gray-900  dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"> Publier une annonce</Link>
-
-
-</div>         <i class="bi bi-person-circle mx-1"></i>
-<Link :href="route('login')"
-            class="font-semibold text-gray-300 hover:text-white dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm ">
-          Se connecter</Link>
-
-        </div>
-    </div>
-</div>
-</div>
-</div>
-
-      </nav>
-
-    </div>
-    <hr>
-    <!-- Home -->
-<div class="cccc">
-    <div class="Home ">
-
-        <div class="flex border-b w-full border-t-[1px] border-gray-200 m-0 p-0 fixed top-11 left-0 z-10">
-        <button
-          class="w-full  py-2 bg-white text-gray-800 font-semibold"
-          :class="{ 'border-b-2 border-principal': activeTab === 'immobilier' }"
-          @click="activeTab = 'immobilier'"
-        >
-          Annonces immobilières
-        </button>
-        <button
-          class="w-full px-4 py-2 bg-white text-gray-800 font-semibold"
-          :class="{ 'border-b-2 border-principal': activeTab === 'vehicule' }"
-          @click="activeTab = 'vehicule'"
-        >
-          Annonces de véhicules
-        </button>
-      </div>
-
-      <div id="main" class=" max-w-[70vw] mx-auto">
-
-        <div v-show="activeTab === 'immobilier'" class="bg-gray-100">
-            <div class="swiper ">
-    <div class="swiper-wrapper mt-[10%]">
-      <div v-for="immobillierBoost in immobilliersBoost.data" :key="immobillierBoost.id"  @click="navigateToDetail(immobillierBoost.id)"  class=" swiper-slide w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 p-2">
-                <div class="bg-principal rounded-2xl shadow-2xl relative " id="voiture">
-            <div class="w-full h-full">
-            <img :src="'/storage/' + immobillierBoost.image1" :alt="immobillierBoost.imageAlt"  class="w-full h-full object-fill rounded-2xl shadow-lg">
-
-            </div>
-                    <img class="mb-3 w-[2rem] h-[2rem] rounded-full shadow-2xl absolute bottom-1/3 right-0" src="https://flowbite.com/docs/images/people/profile-picture-3.jpg" alt="Bonnie image">
-
-                    <div class="">
-                    <h3 class="text-lg font-semibold text-white text-center">{{ immobillierBoost.nom }}</h3>
-                    <p class="text-gray-300 text-center">{{ immobillierBoost.affaire }}</p>
-
-                    <!-- <p class="text-gray-400"> Proposée par <span class="text-gray-600">Fadel</span> </p> -->
-                    <p class="text-principal text-lg">{{ immobillierBoost.prix }}<span class="text-principal text-opacity-60"> Fcfa</span></p>
-                    </div>
-                    <div class="bg-secondaire object-fill rounded-2xl shadow-lg text-white">
-                    <span class="text-center">Contactez</span>
-                </div>
-                </div>
-
-                </div>
-    </div>
-    <div class="swiper-pagination"></div>
-  </div>
-
-
-
-        <div class="immo lg:w-9/12  mx-auto text-gray-800">
-
-<div class="flex flex-wrap justify-center mt-20">
- <div v-for="maison  in maisons.data" :key="maison.id" @click="navigateToDetail(maison.id)"  class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 p-2">
-   <div class="bg-secondaire rounded-2xl shadow-2xl relative mt-4">
-     <img :src=" '/storage/' + maison.image1" :alt="maison.imageAlt" class="w-full h-full object-fill rounded-2xl shadow-lg">
-
-     <div class="p-4">
-         <h3 class="text-lg font-semibold text-white">{{ maison.nom }}</h3>
-       <p class="text-gray-300">{{ maison.affaire }}</p>
-
-       <p class="text-gray-400"> Proposee par <span class="text-gray-600">Fadel</span> </p>
-       <p class="text-principal text-lg">{{ maison.prix }}<span class="text-principal text-opacity-60"> Fcfa</span></p>
-
-     </div>
-   </div>
- </div>
-</div>
-</div>
-
-      </div>
-      <div v-show="activeTab === 'vehicule'" class="bg-gray-100 ">
-
-        <div class="swiper ">
-    <div class="swiper-wrapper mt-[10%]">
-      <div v-for="voitureBoost in voituresBoost.data" :key="voitureBoost.id"  @click="navigateToDetailVehi(voitureBoost.id)"  class=" swiper-slide w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 p-2">
-                <div class="bg-principal rounded-2xl shadow-2xl relative " id="voiture">
-            <div class="w-full h-full">
-            <img :src="'/storage/' + voitureBoost.image1" :alt="voitureBoost.imageAlt"  class="w-full h-full object-fill rounded-2xl shadow-lg">
-
-            </div>
-                    <img class="mb-3 w-[2rem] h-[2rem] rounded-full shadow-2xl absolute bottom-1/3 right-0" src="https://flowbite.com/docs/images/people/profile-picture-3.jpg" alt="Bonnie image">
-
-                    <div class="">
-                    <h3 class="text-lg font-semibold text-white text-center">{{ voitureBoost.nom }}</h3>
-                    <p class="text-gray-300 text-center">{{ voitureBoost.affaire }}</p>
-
-                    <!-- <p class="text-gray-400"> Proposée par <span class="text-gray-600">Fadel</span> </p> -->
-                    <p class="text-principal text-lg">{{ voitureBoost.prix }}<span class="text-principal text-opacity-60"> Fcfa</span></p>
-                    </div>
-                    <div class="bg-secondaire object-fill rounded-2xl shadow-lg text-white">
-                    <span class="text-center">Contactez</span>
-                </div>
-                </div>
-
-                </div>
-    </div>
-    <div class="swiper-pagination"></div>
-  </div>
-
-
-  <!-- all articles -->
-  <div class="flex flex-wrap justify-center mt-20 text-gray-800">
-    <div v-for="voiture in voitures.data" :key="voiture.id" @click="navigateToDetailVehi(voiture.id)" class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 p-2">
-      <div class="bg-secondaire rounded-2xl shadow-2xl relative mt-4">
-<div class="w-full h-full">
-<img :src="'/storage/' + voiture.image1" :alt="voiture.imageAlt"  class="w-full h-full object-fill rounded-2xl shadow-lg">
-
-</div>
-        <img class="mb-3 w-[4rem] h-[4rem] rounded-full shadow-2xl absolute bottom-1/3 right-0" src="https://flowbite.com/docs/images/people/profile-picture-3.jpg" alt="Bonnie image">
-
-        <div class="p-4">
-          <h3 class="text-lg font-semibold text-white">{{ voiture.nom }}</h3>
-          <p class="text-gray-300">{{ voiture.affaire }}</p>
-
-          <p class="text-gray-400"> Proposée par <span class="text-gray-600">Fadel</span> </p>
-          <p class="text-principal text-lg">{{ voiture.prix }}<span class="text-principal text-opacity-60"> Fcfa</span></p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-      </div>
-      </div>
-
-      </div>
-</div>
- <div class="#">
-              <Footer/>
-            </div>
-  </div>
-
-   <!-- FOOTER -->
-
-
-</template>
-<style>
-
-/* #voiture::after {
-content: "Contacter";
-background: blue;
-width:  100%;
-margin-left: auto;
-margin-right: auto;
-} */
-
-
-.bg-dots-darker {
-  background-image: url("data:image/svg+xml,%3Csvg width='30' height='30' viewBox='0 0 30 30' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.22676 0C1.91374 0 2.45351 0.539773 2.45351 1.22676C2.45351 1.91374 1.91374 2.45351 1.22676 2.45351C0.539773 2.45351 0 1.91374 0 1.22676C0 0.539773 0.539773 0 1.22676 0Z' fill='rgba(0,0,0,0.07)'/%3E%3C/svg%3E");
-}
-
-
-@media (prefers-color-scheme: dark) {
-  .dark\:bg-dots-lighter {
-    background-image: url("data:image/svg+xml,%3Csvg width='30' height='30' viewBox='0 0 30 30' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.22676 0C1.91374 0 2.45351 0.539773 2.45351 1.22676C2.45351 1.91374 1.91374 2.45351 1.22676 2.45351C0.539773 2.45351 0 1.91374 0 1.22676C0 0.539773 0.539773 0 1.22676 0Z' fill='rgba(255,255,255,0.07)'/%3E%3C/svg%3E");
-  }
-}
-</style>
 <script>
-import {InertiaProgress} from '@inertiajs/progress';
-import {Head} from '@inertiajs/vue3'
-
-InertiaProgress.init(
- { delay: 200,
-
-color: '#eb2d53',
-
-includeCSS: true,
-
-showSpinner: true,}
-    )
+import { InertiaProgress } from '@inertiajs/progress';
 
 export default {
-    data() {
-      return {
-        activeTab: 'immobilier',
-        showMenu: false,
-        voituresBoost: {
-        data: [
-          // Vos données de voitures
-          // ...
-        ],
-      },
-      }
-    },
-  //   components: {
-
-  props: {
-    usersList: Object,
+  data() {
+    return {
+      activeTab: 'immobilier',
+      showMenu: false,
+    };
   },
   methods: {
     navigateToDetail(id) {
@@ -339,26 +262,34 @@ export default {
     },
     navigateToDetailVehi(id) {
       this.$inertia.visit(`/detailVehi/${id}`);
-    }
+    },
   },
   mounted() {
-  // Initialisation du carrousel avec Swiper.js
-  const mySwiper = new Swiper('.swiper-container', {
-    slidesPerView: 4, // Nombre de colonnes à afficher
-    spaceBetween: 20, // Espace entre les slides
-    pagination: {
-      el: '.swiper-pagination',
-      clickable: true,
-    },
-    autoplay: {
-      delay: 3000, // Délai entre chaque transition (en millisecondes)
-      disableOnInteraction: false, // Autoriser le défilement automatique même si l'utilisateur interagit avec le carrousel
-    },
-  });
-}
+    // Initialize Swiper
+    new Swiper('.swiper', {
+      slidesPerView: 'auto',
+      spaceBetween: 20,
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      autoplay: {
+        delay: 3000,
+        disableOnInteraction: false,
+      },
+    });
+
+    // Initialize progress bar
+    InertiaProgress.init({
+      delay: 200,
+      color: '#eb2d53',
+      includeCSS: true,
+      showSpinner: true,
+    });
+  },
+};
+</script>
 
 
 
 
-  }
-  </script>
