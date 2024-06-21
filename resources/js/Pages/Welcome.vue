@@ -23,7 +23,7 @@
         </div>
 
         <!-- Search bar -->
-         <div class="mx-auto  w-screen max-w-screen-md py-1 leading-6">
+         <div class="mx-auto mt-5 w-screen max-w-screen-md py-1 leading-6">
   <form class="relative mx-auto flex w-full max-w-2xl items-center justify-between rounded-md border shadow-lg">
     <svg class="absolute left-2 block h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <circle cx="11" cy="11" r="8" class=""></circle>
@@ -100,12 +100,13 @@
 
                       <p class="mr-3 text-secondaire  text-sm font-semibold truncate">{{ immobillierBoost.nom.substring(0, 20) }}</p>
                     </div>
-                    <h3 class="text-sm text-principal mt-[-8%]">{{ immobillierBoost.region }} ,Senegal</h3>
+                    <h3 class="text-sm text-principal pt-[-8%] w-full border-b-[1px] border-gray-300 ">{{ immobillierBoost.region }} ,Senegal</h3>
+
 .
 
                   </div>
                   <button
-                      class=" bg-principal group mx-auto mt-[-10%] flex h-8 w-full items-stretch overflow-hidden hover:text-secondaire rounded-md text-white">
+                      class="  bg-principal group mx-auto mt-[-10%] flex h-8 w-full items-stretch overflow-hidden hover:text-secondaire rounded-md text-white">
                       <div
                         class="flex w-full items-center justify-center bg-principal text-xs uppercase transition  group-hover:text-secondaire">
                         contacter</div>
@@ -125,7 +126,7 @@
                 <!-- Grid For Vehicules -->
                 <div class="mt-10 grid grid-cols-2 gap-6 sm:grid-cols-4 sm:gap-4 lg:mt-16">
 
-                  <article v-for="maison in maisons.data " :key="maison.id" @click="navigateToDetail(maison.id)"
+                  <article v-for="maison in maisons.data " :key="maison.user_id.nom" @click="navigateToDetail(maison.id)"
                     class="relative flex flex-col overflow-hidden rounded-lg border">
 <div class="card">
                   <div class="aspect-square overflow-hidden">
@@ -135,7 +136,7 @@
                   <div class="absolute top-0 m-2 rounded-full bg-white">
                     <p
                       class="rounded-full bg-principal p-1 text-[8px] font-bold uppercase tracking-wide text-white sm:py-1 sm:px-3">
-                      {{ maison.affaire }}</p>
+                      {{ maison.affaire }} </p>
                   </div>
 
                   <div class="my-2 mx-auto flex w-10/12 flex-col items-start justify-between">
@@ -145,8 +146,8 @@
 
                       <p class="mr-3 text-secondaire  text-sm font-semibold truncate">{{ maison.nom.substring(0, 20) }}</p>
                     </div>
-                    <h3 class="text-sm text-principal mt-[-8%]">{{ maison.region }} ,Senegal</h3>
-.
+                    <h3 class="text-sm text-principal mt-[-8%]">{{ maison.user_id }} ,Senegal</h3>
+
 
                   </div>
                   <div v-if=" maison.booster ==1"
@@ -164,8 +165,8 @@
                     <div v-else
                       class=" group mx-auto mt-[-10%] flex h-8 w-full items-stretch overflow-hidden hover:text-secondaire rounded-md text-white">
                       <div
-                        class="flex w-full items-center justify-center text-secondaire text-xs uppercase transition  group-hover:text-secondaire">
-                        contacter</div>
+                        class=" border-t-[2px] border-gray-500 text-bolder flex w-full items-center justify-center text-secondaire text-xs uppercase transition  group-hover:text-secondaire">
+                        contacter  </div>
 
                         <!-- <div v-if=" maison.booster ==1" class="imgPro ">
                           <span class="text-secondaire pr-5">Pro</span>
