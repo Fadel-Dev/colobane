@@ -127,28 +127,26 @@
                   </div>
 
                   <div class="my-2 mx-auto flex w-10/12 flex-col items-start justify-between">
-                    <p class="mr-3 text-sm font-semibold text-principal align-center"><span class="text-secondaire mr-3">Fcfa</span>{{ maison.prix}}</p>
+                    <p class="mr-3 text-sm font-semibold text-principal align-center">{{ maison.prix}} <span class="text-secondaire mr-3">Fcfa</span></p>
 
                     <div class="mb-2 flex">
 
                       <p class="mr-3 text-secondaire  text-sm font-semibold truncate">{{ maison.nom.substring(0, 20) }}</p>
                     </div>
-                    <h3 class="text-sm text-principal mt-[-8%]">{{ maison.user_id }} ,Senegal</h3>
+                    <h3 class="text-sm text-principal pt-[-8%] w-full border-b-[1px] border-gray-300 ">{{ maison.region }} ,Senegal</h3>
 
+.
 
                   </div>
                   <div v-if="maison.booster == 1" class="bg-principal group mx-auto mt-[-5%] flex h-8 w-full items-stretch overflow-hidden hover:text-secondaire rounded-md text-white">
   <!-- Contenu lorsque maison.booster == 1 -->
   <div class="imgPro w-full flex  mx-2">
   
-    <button
-                      class="  bg-principal group mx-auto mt-[-10%] flex h-8 w-full items-stretch overflow-hidden hover:text-secondaire rounded-md text-white">
-                      <div
+    
+    <div
                         class="flex w-full items-center justify-center bg-principal text-xs uppercase transition  group-hover:text-secondaire">
-                      <span class="text-secondaire">Contacter</span>
-                      </div>
-
-                    </button>
+                        contacter </div>
+     
       
    
   
@@ -176,9 +174,9 @@
 
                     <div v-else 
                       class=" group mx-auto mt-[-10%] flex h-8 w-full items-stretch overflow-hidden hover:text-secondaire rounded-md text-white">
-                      <div
-                        class=" border-t-[2px] border-gray-500 text-bolder flex w-full items-center justify-center text-secondaire text-xs uppercase transition  group-hover:text-secondaire">
-                        contacter  </div>
+                      <!-- <div
+                        class=" border-t-[2px] text-bolder flex w-full items-center justify-center text-secondaire text-xs uppercase transition  group-hover:text-secondaire">
+                        contacter  </div> -->
 
                         <!-- <div v-if=" maison.booster ==1" class="imgPro ">
                           <span class="text-secondaire pr-5">Pro</span>
