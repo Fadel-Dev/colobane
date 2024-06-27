@@ -7,61 +7,48 @@
 
     <!-- Banner -->
     <nav class="nav bg-gray-800 w-full fixed top-0 left-0 z-10">
-      <div class="px-4 py-2 mx-auto md:flex md:justify-between md:items-center shadow-xl bg-gray-900 text-white">
-        <Link :href="route('home')" class="text-xl font-bold md:text-2xl text-principal">
-        Noflay
-        </Link>
-        <!-- Mobile menu button -->
-        <div @click="showMenu = !showMenu" class="flex md:hidden">
-          <button type="button" class="text-gray-400 hover:text-gray-200 focus:outline-none">
-            <svg viewBox="0 0 24 24" class="w-6 h-6 fill-current">
-              <path
-                d="M4 5h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2z">
-              </path>
-            </svg>
-          </button>
-        </div>
+  <div class="px-4 py-2 mx-auto md:flex md:justify-between md:items-center shadow-xl bg-gray-900 text-white">
+    <a href="/" class="text-xl font-bold md:text-2xl text-principal">Noflay</a>
 
-        <!-- Search bar -->
-         <div class="mx-auto mt-5 w-screen max-w-screen-md py-1 leading-6">
-  <form class="relative mx-auto flex w-full max-w-2xl items-center justify-between rounded-md border shadow-lg">
-    <svg class="absolute left-2 block h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <circle cx="11" cy="11" r="8" class=""></circle>
-      <line x1="21" y1="21" x2="16.65" y2="16.65" class=""></line>
-    </svg>
-    <input type="name" name="search" class="h-5 w-full rounded-md py-4 pr-40 pl-12 outline-none focus:ring-2" placeholder="City, Address, Zip :" />
-    <button type="submit" class="absolute right-0 mr-1 inline-flex h-8 items-center justify-center rounded-lg bg-gray-900 px-10 font-medium text-white focus:ring-4 hover:bg-gray-700">Search</button>
-  </form>
-</div>
+    <!-- Mobile menu button -->
+    <div @click="showMenu = !showMenu" class="flex md:hidden">
+      <button type="button" class="text-gray-400 hover:text-gray-200 focus:outline-none absolute right-2 top-5">
+        <svg viewBox="0 0 24 24" class="w-6 h-6 fill-current">
+          <path d="M4 5h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2z"></path>
+        </svg>
+      </button>
+    </div>
 
-        <!-- Mobile Menu open: "block", Menu closed: "hidden" -->
-        <div :class="showMenu ? 'block' : 'hidden'"
-          class="md:flex md:space-x-10 md:items-center md:space-y-0 space-y-4 mt-4">
-          <nav aria-labelledby="header-navigation"
-            class="flex flex-col items-center justify-between w-full sm:flex-row sm:items-start">
-            <h2 class="sr-only" id="header-navigation">Header navigation</h2>
-            <ul class="flex flex-col items-center sm:flex-row">
+    <!-- Search bar -->
+    <div class="mx-auto mt-2 w-full max-w-screen-md  leading-6">
+      <form class="relative flex w-full max-w-2xl items-center justify-between rounded-md border shadow-lg">
+        <svg class="absolute left-2 block h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input type="search" name="search" class="h-8 sm:h-10 w-full rounded-md py-2 px-4 sm:px-6 outline-none focus:ring-2" placeholder="Rechercher..." />
+        <button type="submit" class="absolute right-0 mr-1 inline-flex h-8 sm:h-10 items-center justify-center rounded-lg bg-gray-900 px-4 sm:px-6 font-medium text-white focus:ring-4 hover:bg-gray-700">Search</button>
+      </form>
+    </div>
 
-              <li class="font-bold sm:mr-12">Orders</li>
-              <li class="text-gray-400 sm:mr-12">Teams</li>
-              <li class="text-gray-400 sm:mr-12">Customers</li>
-            </ul>
-            <ul class="mt-4 flex sm:mt-0">
-              <div v-if="$page.props.auth.user">
-                <Link v-if="$page.props.auth.user" :href="route('publier')" class="btn-primary">Publier une annonce
-                </Link>
-                <Link v-if="$page.props.auth.user" :href="route('dashboard')"
-                  class="btn-secondary md:ml-4 mt-2 md:mt-0">Dashboard</Link>
-              </div>
-              <div v-else>
-                <Link :href="route('publier')" class="btn-primary">Publier une annonce</Link>
-                <Link :href="route('login')" class="btn-secondary md:ml-4 mt-2 md:mt-0">Se connecter</Link>
-              </div>
-            </ul>
-          </nav>
-        </div>
-      </div>
-    </nav>
+    <!-- Mobile Menu open: "block", Menu closed: "hidden" -->
+    <div :class="showMenu ? 'block' : 'hidden'" class="md:flex md:space-x-10 md:items-center md:space-y-0 mt-4">
+      <nav aria-labelledby="header-navigation" class="flex flex-col items-center justify-between w-full sm:flex-row sm:items-start">
+        <ul class="mt-4 flex flex-col sm:flex-row">
+          <template v-if="$page.props.auth.user">
+            <li><a :href="route('publier')" class="btn-primary">Publier une annonce</a></li>
+            <li><a :href="route('dashboard')" class="btn-secondary md:ml-4 mt-2 md:mt-0">Dashboard</a></li>
+          </template>
+          <template v-else>
+            <li><a :href="route('publier')" class="btn-primary mb-2 sm:mb-0 sm:mr-4">Publier une annonce</a></li>
+            <li><a :href="route('login')" class="btn-secondary">Se connecter</a></li>
+          </template>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</nav>
+
 
 
     <!-- Tabs and Content -->
@@ -82,9 +69,9 @@
                 @click="navigateToDetail(immobillierBoost.id)"
                 class="swiper-slide w-full sm:w-1/4 md:w-1/4 lg:w-1/6 xl:w-1/6 p-1">
                 <!-- Immobilier Card -->
-                <div class="card">
-                  <div class="aspect-square overflow-hidden">
-                    <img :src="'/storage/' + immobillierBoost.image1" :alt="immobillierBoost.imageAlt"
+                <div class="card"> 
+                  <div class="aspect-square overflow-hidden"> 
+                    <img :src="'/storage/' + immobillierBoost.image1" :alt="immobillierBoost.imageAlt" 
                       class="h-full w-full object-cover transition-all duration-300 group-hover:scale-125">
                   </div>
                   <div class="absolute top-0 m-2 rounded-full bg-white">
@@ -94,7 +81,7 @@
                   </div>
 
                   <div class="my-2 mx-auto flex w-10/12 flex-col items-start justify-between">
-                    <p class="mr-3 text-sm font-semibold text-principal align-center"><span class="text-secondaire mr-3">Fcfa</span>{{ immobillierBoost.prix}}</p>
+                    <p class="mr-3 text-sm font-semibold text-principal align-center">{{ immobillierBoost.prix}} <span class="text-secondaire mr-3">Fcfa</span></p>
 
                     <div class="mb-2 flex">
 
@@ -120,7 +107,7 @@
             <section class="bg-white py-1 text-gray-700 sm:py-16 lg:py-1">
               <div class="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
                 <div class="mx-auto max-w-md text-center">
-                  <h2 class="font-serif text-2xl font-bold sm:text-3xl">Dernières Annonces au Sénégal</h2>
+                  <h2 class="font-serif text-2xl font-bold sm:text-2xl">Dernières Annonces au Sénégal</h2>
                 </div>
 
                 <!-- Grid For Vehicules -->
@@ -150,19 +137,44 @@
 
 
                   </div>
-                  <div v-if=" maison.booster ==1"
-                      class=" bg-principal group mx-auto mt-[-10%] flex h-8 w-full items-stretch overflow-hidden hover:text-secondaire rounded-md text-white">
+                  <div v-if="maison.booster == 1" class="bg-principal group mx-auto mt-[-5%] flex h-8 w-full items-stretch overflow-hidden hover:text-secondaire rounded-md text-white">
+  <!-- Contenu lorsque maison.booster == 1 -->
+  <div class="imgPro w-full flex  mx-2">
+  
+    <button
+                      class="  bg-principal group mx-auto mt-[-10%] flex h-8 w-full items-stretch overflow-hidden hover:text-secondaire rounded-md text-white">
                       <div
                         class="flex w-full items-center justify-center bg-principal text-xs uppercase transition  group-hover:text-secondaire">
-                        contacter</div>
+                      <span class="text-secondaire">Contacter</span>
+                      </div>
 
-                        <div v-if=" maison.booster ==1" class="imgPro ">
-                          <span class="text-secondaire pr-5">Pro</span>
-                        </div>
+                    </button>
+      
+   
+  
+  </div>
+</div>
 
 
-                    </div>
-                    <div v-else
+<!-- <div v-else-if="maison.booster == 1" class="bg-green-300 group mx-auto mt-[-5%] flex h-8 w-full items-stretch overflow-hidden hover:text-secondaire rounded-md text-white">
+
+  <div class="imgPro w-full flex justify-between mx-2">
+    <div class="infos flex justify-between">
+      <div class="logo w-full ">
+        <span class="text-secondaire">Logo</span>
+      </div>
+      <div class="boutique">
+        <span class="text-secondaire pl-2">NameShop</span>
+      </div>
+      
+    </div>
+    <div class="pro">
+      <span class="text-secondaire ">Pro</span>
+    </div>
+  </div>
+</div> -->
+
+                    <div v-else 
                       class=" group mx-auto mt-[-10%] flex h-8 w-full items-stretch overflow-hidden hover:text-secondaire rounded-md text-white">
                       <div
                         class=" border-t-[2px] border-gray-500 text-bolder flex w-full items-center justify-center text-secondaire text-xs uppercase transition  group-hover:text-secondaire">
@@ -287,6 +299,7 @@
 .nav {
   z-index: 50;
 }
+
 
 .card {
   background-color: #ffffff;

@@ -16,7 +16,7 @@ class ImmobiliersFactory extends Factory
      * @return array<string, mixed>
      */
 
-     protected $model = \App\Models\Immobiliers::class;
+     protected $model =\App\Models\Immobiliers::class;
     public function definition(): array
     {
         return [
@@ -27,7 +27,7 @@ class ImmobiliersFactory extends Factory
             'vendu' => 0,
             'type' => 'chambre',
             'nom' => $this->faker->words(3, true),
-            'description' => $this->faker->paragraphs(1, true),
+            'description' => $this->faker->paragraphs(1),
             'prix' => $this->faker->numberBetween(100000, 10000000),
             'npiece' => 1,
              'image1' => $this->faker->imageUrl(),
@@ -35,8 +35,8 @@ class ImmobiliersFactory extends Factory
              'image3' => $this->faker->imageUrl(),
 
             'region' => 'dakar',
-            'categorie' => $this->faker->randomElement(['vente', 'location']),
-            'affaire' => $this->faker->word(),
+            'categorie' => 'immobilier',
+            'affaire' => $this->faker->randomElement(['vente', 'location']),
             'surface' => $this->faker->numberBetween(20, 500),
         ];
     }

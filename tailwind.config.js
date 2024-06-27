@@ -15,6 +15,9 @@ module.exports = {
             fontFamily: {
                 sans: ['Alkatra', 'cursive'],
             },
+            screens: {
+                'xs': '480px',
+              },
             colors: {
                 'principal': '#eb2d53',
                'secondaire': '#101634'
