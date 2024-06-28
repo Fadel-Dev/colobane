@@ -138,6 +138,9 @@ Route::put('/vehiculeBoost/{id}', [ImmobilierController::class, 'StoreBoostVehic
 
 
 
+Route::get('/infos', function () {
+    return Inertia::render('infos');
+});
 
 
 

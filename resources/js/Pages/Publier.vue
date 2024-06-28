@@ -49,7 +49,7 @@ import { Inertia } from '@inertiajs/inertia';
         <div class="block sm:flex md:block lg:flex items-center justify-center bg-gray-200">
           <div class="mt-8 sm:m-8 md:m-0 md:mt-8 lg:m-8 text-center">
             <div class="inline-flex items-center">
-              <span class="text-3xl font-medium">0fcfa</span>
+              <span class="text-1xl font-medium">0fcfa</span>
               <!-- <span class="text-xl text-gray-600 ml-2">-</span> -->
               <span class="text-xl ml-2">10 articles/mois</span>
             </div>
@@ -58,9 +58,13 @@ import { Inertia } from '@inertiajs/inertia';
           </div>
           <div class="mt-4 mb-8 sm:m-8 md:m-0 md:mt-4 md:mb-8 lg:m-8 text-center">
             <div class="inline-flex items-center">
-              <span class="text-3xl font-medium">Apartir</span>
+              <span class="text-1xl font-medium">Ouvrir votre boutique</span>
               <!-- <span class="text-xl text-gray-600 ml-2">-</span> -->
-              <span class="text-xl ml-2">2.000fcfa</span>
+              <span class="text-xl ml-2 text-principal hover:text-red-800">
+                <a href="/infos">          
+                      En savoir plus
+                </a>
+               </span>
             </div>
             <span class="block text-sm text-gray-600 mt-2">Publication en illimite</span>
             <span class="block text-sm text-gray-600 mt-2">Booster vos articles</span>
@@ -73,7 +77,7 @@ import { Inertia } from '@inertiajs/inertia';
               <div class="bg-principal rounded-full p-2 fill-current text-principal">
                 <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" ><path class="primary" d="M11 3.05V2a1 1 0 0 1 2 0v1.05A10 10 0 0 1 22 13c0 1.33-2 1.33-2 0a2 2 0 1 0-4 0c0 1.33-2 1.33-2 0a2 2 0 1 0-4 0c0 1.33-2 1.33-2 0a2 2 0 1 0-4 0c0 1.33-2 1.33-2 0a10 10 0 0 1 9-9.95z"/><path class="secondary" d="M11 14a1 1 0 0 1 2 0v5a3 3 0 0 1-6 0 1 1 0 0 1 2 0 1 1 0 0 0 2 0v-5z"/></svg>
               </div>
-              <span class="text-gray-700 text-lg ml-3">Publize Gratuitement Jusqu a 10 articles/Mois</span>
+              <span class="text-gray-700 text-lg ml-3">Publiez Gratuitement Jusqu a 10 articles/Mois</span>
             </li>
             <li class="flex items-center mt-3">
               <div class="bg-principal rounded-full p-2 fill-current text-principal">

@@ -1,395 +1,98 @@
 <template>
 
-  <Head title="Accueil" />
-  <div>
-    <!-- Navigation -->
-
-
-    <!-- Banner -->
-    <nav class="nav bg-gray-800 w-full fixed top-0 left-0 z-10">
-      <div class="px-4 py-2 mx-auto md:flex md:justify-between md:items-center shadow-xl bg-gray-900 text-white">
-        <Link :href="route('home')" class="text-xl font-bold md:text-2xl text-principal">
-        Noflay
-        </Link>
-        <!-- Mobile menu button -->
-        <div @click="showMenu = !showMenu" class="flex md:hidden">
-          <button type="button" class="text-gray-400 hover:text-gray-200 focus:outline-none">
-            <svg viewBox="0 0 24 24" class="w-6 h-6 fill-current">
-              <path
-                d="M4 5h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2z">
-              </path>
-            </svg>
-          </button>
-        </div>
-
-        <!-- Search bar -->
-         <div class="mx-auto mt-2 w-screen max-w-screen-md py-1 leading-6">
-  <form class="relative mx-auto flex w-full max-w-2xl items-center justify-between rounded-md border shadow-lg">
-    <svg class="absolute left-2 block h- w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <circle cx="11" cy="11" r="8" class=""></circle>
-      <line x1="21" y1="21" x2="16.65" y2="16.65" class=""></line>
-    </svg>
-    <input type="name" name="search" class="h-5 w-full rounded-md py-4 pr-40 pl-12 outline-none focus:ring-2" placeholder="City, Address, Zip :" />
-    <button type="submit" class="absolute right-0 mr-1 inline-flex h-8 items-center justify-center rounded-lg bg-gray-900 px-10 font-medium text-white focus:ring-4 hover:bg-gray-700">Search</button>
+<div class="container max-w-sm bg-gradient-to-b from-white to-[#F4F7FB] rounded-[40px] p-6 border-4 border-white shadow-[0_30px_30px_-20px_rgba(133,189,215,0.878)] m-5">
+  <div class="heading text-center font-black text-[30px] text-[#1089D3]">Sign In</div>
+  <form action="" class="form mt-5 space-y-4">
+    <input required class="input w-full bg-white border-none p-4 rounded-[20px] mt-4 shadow-[0_10px_10px_-5px_#cff0ff] border-2 border-transparent placeholder-gray-500 focus:outline-none focus:border-[#12B1D1]" type="email" name="email" id="email" placeholder="E-mail">
+    <input required class="input w-full bg-white border-none p-4 rounded-[20px] mt-4 shadow-[0_10px_10px_-5px_#cff0ff] border-2 border-transparent placeholder-gray-500 focus:outline-none focus:border-[#12B1D1]" type="password" name="password" id="password" placeholder="Password">
+    <span class="forgot-password block mt-2 ml-2 text-xs text-[#0099ff]"><a href="#">Forgot Password ?</a></span>
+    <input class="login-button block w-full font-bold bg-gradient-to-r from-[#1089D3] to-[#12B1D1] text-white py-4 mt-5 rounded-[20px] shadow-[0_20px_10px_-15px_rgba(133,189,215,0.878)] border-none transition-transform duration-200 ease-in-out transform hover:scale-105 active:scale-95" type="submit" value="Sign In">
   </form>
+  <div class="social-account-container mt-6">
+    <span class="title block text-center text-xs text-gray-500">Or Sign in with</span>
+    <div class="social-accounts flex justify-center gap-4 mt-1">
+      <button class="social-button bg-gradient-to-r from-black to-gray-500 border-4 border-white p-1.5 rounded-full w-10 h-10 flex items-center justify-center shadow-[0_12px_10px_-8px_rgba(133,189,215,0.878)] transition-transform duration-200 ease-in-out transform hover:scale-120 active:scale-90">
+        <svg class="svg w-6 h-6 fill-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 488 512">
+          <path d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"></path>
+        </svg>
+      </button>
+      <button class="social-button bg-gradient-to-r from-black to-gray-500 border-4 border-white p-1.5 rounded-full w-10 h-10 flex items-center justify-center shadow-[0_12px_10px_-8px_rgba(133,189,215,0.878)] transition-transform duration-200 ease-in-out transform hover:scale-120 active:scale-90">
+        <svg class="svg w-6 h-6 fill-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
+          <path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"></path>
+        </svg>
+      </button>
+      <button class="social-button bg-gradient-to-r from-black to-gray-500 border-4 border-white p-1.5 rounded-full w-10 h-10 flex items-center justify-center shadow-[0_12px_10px_-8px_rgba(133,189,215,0.878)] transition-transform duration-200 ease-in-out transform hover:scale-120 active:scale-90">
+        <svg class="svg w-6 h-6 fill-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+          <path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+  <span class="agreement block text-center mt-4"><a href="#" class="text-[#0099ff] text-xs">Learn user license agreement</a></span>
 </div>
 
-        <!-- Mobile Menu open: "block", Menu closed: "hidden" -->
-        <div :class="showMenu ? 'block' : 'hidden'"
-          class="md:flex md:space-x-10 md:items-center md:space-y-0 space-y-4 mt-4">
-          <nav aria-labelledby="header-navigation"
-            class="flex flex-col items-center justify-between w-full sm:flex-row sm:items-start">
-           <!-- <h2 class="sr-only" id="header-navigation">Header navigation</h2>-->
-            <!-- <ul class="flex flex-col items-center sm:flex-row">
-
-              <li class="font-bold sm:mr-12">Orders</li>
-              <li class="text-gray-400 sm:mr-12">Teams</li>
-              <li class="text-gray-400 sm:mr-12">Customers</li>998
-            </ul>  -->
-            <ul class="mt-4 flex sm:mt-0">
-              <div v-if="$page.props.auth.user">
-                <Link v-if="$page.props.auth.user" :href="route('publier')" class="btn-primary">Publier une annonce
-                </Link>
-                <Link v-if="$page.props.auth.user" :href="route('dashboard')"
-                  class="btn-secondary md:ml-4 mt-2 md:mt-0">Dashboard</Link>
-              </div>
-              <div v-else>
-                <Link :href="route('publier')" class="btn-primary">Publier une annonce</Link>
-                <Link :href="route('login')" class="btn-secondary md:ml-4 mt-2 md:mt-0">Se connecter</Link>
-              </div>
-            </ul>
-          </nav>
-        </div>
-      </div>
-    </nav>
-
-
-    <!-- Tabs and Content -->
-    <div class="mt-20">
-      <div class="flex w-full border-b border-t-[1px] border-gray-200">
-        <button @click="activeTab = 'immobilier'" :class="{ 'border-b-2 border-principal': activeTab === 'immobilier' }"
-          class="w-1/2 py-2 bg-white text-gray-800 font-semibold">Annonces immobilières</button>
-        <button @click="activeTab = 'vehicule'" :class="{ 'border-b-2 border-principal': activeTab === 'vehicule' }"
-          class="w-1/2 py-2 bg-white text-gray-800 font-semibold">Annonces de véhicules</button>
-      </div>
-
-      <div class="lg:max-w-[80vw] max-w-[970vw] mx-auto mt-8">
-        <!-- Immobilier Tab -->
-        <div v-if="activeTab === 'immobilier'" class="bg-gray-100">
-          <div class="swiper">
-            <div class="swiper-wrapper">
-              <div v-for="immobillierBoost in immobilliersBoost.data" :key="immobillierBoost.id"
-                @click="navigateToDetail(immobillierBoost.id)"
-                class="swiper-slide w-full sm:w-1/4 md:w-1/4 lg:w-1/6 xl:w-1/6 p-1">
-                <!-- Immobilier Card -->
-                <div class="card">
-                  <div class="aspect-square overflow-hidden">
-                    <img :src="'/storage/' + immobillierBoost.image1" :alt="immobillierBoost.imageAlt"
-                      class="h-full w-full object-cover transition-all duration-300 group-hover:scale-125">
-                  </div>
-                  <div class="absolute top-0 m-2 rounded-full bg-white">
-                    <p
-                      class="rounded-full bg-principal p-1 text-[8px] font-bold uppercase tracking-wide text-white sm:py-1 sm:px-3">
-                      {{ immobillierBoost.affaire }}</p>
-                  </div>
-
-                  <div class="my-2 mx-auto flex w-10/12 flex-col items-start justify-between">
-                    <p class="mr-3 text-sm font-semibold text-principal align-center"><span class="text-secondaire mr-3">Fcfa</span>{{ immobillierBoost.prix}}</p>
-
-                    <div class="mb-2 flex">
-
-                      <p class="mr-3 text-secondaire  text-sm font-semibold truncate">{{ immobillierBoost.nom.substring(0, 20) }}</p>
-                    </div>
-                    <h3 class="text-sm text-principal pt-[-8%] w-full border-b-[1px] border-gray-300 ">{{ immobillierBoost.region }} ,Senegal</h3>
-
-.
-
-                  </div>
-                  <button
-                      class="  bg-principal group mx-auto mt-[-10%] flex h-8 w-full items-stretch overflow-hidden hover:text-secondaire rounded-md text-white">
-                      <div
-                        class="flex w-full items-center justify-center bg-principal text-xs uppercase transition  group-hover:text-secondaire">
-                        contacter</div>
-
-                    </button>
-
-
-                </div>
-              </div>
-            </div>
-            <section class="bg-white py-1 text-gray-700 sm:py-16 lg:py-1">
-              <div class="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
-                <div class="mx-auto max-w-md text-center">
-                  <h2 class="font-serif text-2xl font-bold sm:text-2xl">Dernières Annonces au Sénégal</h2>
-                </div>
-
-                <!-- Grid For Vehicules -->
-                <div class="mt-10 grid grid-cols-2 gap-6 sm:grid-cols-4 sm:gap-4 lg:mt-16">
-
-                  <article v-for="maison in maisons.data " :key="maison.user_id.nom" @click="navigateToDetail(maison.id)"
-                    class="relative flex flex-col overflow-hidden rounded-lg border">
-<div class="card">
-                  <div class="aspect-square overflow-hidden">
-                    <img :src="'/storage/' + maison.image1" :alt="maison.imageAlt"
-                      class="h-full w-full object-cover transition-all duration-300 group-hover:scale-125">
-                  </div>
-                  <div class="absolute top-0 m-2 rounded-full bg-white">
-                    <p
-                      class="rounded-full bg-principal p-1 text-[8px] font-bold uppercase tracking-wide text-white sm:py-1 sm:px-3">
-                      {{ maison.affaire }} </p>
-                  </div>
-
-                  <div class="my-2 mx-auto flex w-10/12 flex-col items-start justify-between">
-                    <p class="mr-3 text-sm font-semibold text-principal align-center"><span class="text-secondaire mr-3">Fcfa</span>{{ maison.prix}}</p>
-
-                    <div class="mb-2 flex">
-
-                      <p class="mr-3 text-secondaire  text-sm font-semibold truncate">{{ maison.nom.substring(0, 20) }}</p>
-                    </div>
-                    <h3 class="text-sm text-principal mt-[-8%]">{{ maison.user_id }} ,Senegal</h3>
-
-
-                  </div>
-                  <div v-if=" maison.booster ==1"
-                      class=" bg-principal group mx-auto mt-[-10%] flex h-8 w-full items-stretch overflow-hidden hover:text-secondaire rounded-md text-white">
-                      <!-- <div
-                        class="flex w-full items-center justify-center bg-principal text-xs uppercase transition  group-hover:text-secondaire">
-                        contacter</div> -->
-
-                        <div v-if=" maison.booster ==1" class="imgPro w-full flex space-x-40">
-                          <div class="infos">
-                            <span class="text-secondaire pr-5">logo</span>
-                          <!-- <span class="text-secondaire pr-5">Shop</span> -->
-                          </div>
-                          <div class="pro">
-                            <span class="text-secondaire pr-5">Pro</span>
-                          </div>
-                        
-                          
-                        </div>
-
-
-                    </div>
-                    <div v-else
-                      class=" group mx-auto mt-[-10%] flex h-8 w-full items-stretch overflow-hidden hover:text-secondaire rounded-md text-white">
-                      <div
-                        class=" border-t-[2px] border-gray-500 text-bolder flex w-full items-center justify-center text-secondaire text-xs uppercase transition  group-hover:text-secondaire">
-                        contacter  </div>
-
-                        <!-- <div v-if=" maison.booster ==1" class="imgPro ">
-                          <span class="text-secondaire pr-5">Pro</span>
-                        </div> -->
-
-
-                    </div>
-
-
-                </div>
-<!--  -->
-                  </article>
-
-
-
-
-
-
-
-
-
-
-
-
-                </div>
-              </div>
-            </section>
-          </div>
-
+<!-- NEW FORM  -->
+<form @submit.prevent="submit" class="py-5">
+        <div class="bg-gray-100">
+            <InputLabel for="email" value="Mail" />
+            <TextInput
+                id="email"
+                v-model="form.email"
+                type="email"
+                class="mt-1 block w-full"
+                required
+                autofocus
+                autocomplete="username"
+            />
+            <InputError class="mt-2" :message="form.errors.email" />
         </div>
 
-        <!-- Vehicule Tab -->
-        <div v-else-if="activeTab === 'vehicule'" class="bg-gray-100">
-          <div class="swiper">
-            <div class="swiper-wrapper">
-              <div v-for="voitureBoost in voituresBoost.data" :key="voitureBoost.id"
-                @click="navigateToDetailVehi(voitureBoost.id)"
-                class="swiper-slide w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 p-2">
-                <!-- Vehicule Card -->
-                <div class="card">
-                  <img :src="'/storage/' + voitureBoost.image1" :alt="voitureBoost.imageAlt"
-                    class="object-cover w-full h-60 rounded-xl shadow-lg">
-                  <div class="p-4">
-                    <h3 class="text-lg font-semibold text-white">{{ voitureBoost.nom }}</h3>
-                    <p class="text-gray-300">{{ voitureBoost.affaire }}</p>
-                    <p class="text-principal text-lg">{{ voitureBoost.prix }} Fcfa</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <section class="bg-white py-12 text-gray-700 sm:py-16 lg:py-20">
-              <div class="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
-                <div class="mx-auto max-w-md text-center">
-                  <h2 class="font-serif text-2xl font-bold sm:text-3xl">Fresh Fruits & Vegetables</h2>
-                </div>
-
-                <!-- Grid For Vehicules -->
-                <div class="mt-10 grid grid-cols-2 gap-6 sm:grid-cols-4 sm:gap-4 lg:mt-16">
-
-          <article v-for="voiture in voitures.data" :key="voiture.id" @click="navigateToDetailVehi(voiture.id)"
-         class="relative flex flex-col overflow-hidden rounded-lg border">
-  <div class="aspect-w-16 aspect-h-9">
-    <img class="object-cover transition-all duration-300 group-hover:scale-125"
-         :src="'/storage/' + voiture.image1" :alt="voiture.imageAlt || 'Car image'" />
-  </div>
-  <div class="absolute top-0 m-2 rounded-full bg-white">
-    <p class="rounded-full bg-emerald-500 p-1 text-[8px] font-bold uppercase tracking-wide text-white sm:py-1 sm:px-3">
-      Sale
-    </p>
-  </div>
-  <div class="my-4 mx-auto flex w-10/12 flex-col items-start justify-between">
-    <div class="mb-2 flex">
-      <p class="mr-3 text-sm font-semibold">{{ voiture.prix }}</p>
-      <del v-if="voiture.originalPrix" class="text-xs text-gray-400"> {{ voiture.originalPrix }} </del>
-    </div>
-    <h3 class="mb-2 text-sm text-gray-400">{{ voiture.affaire }}</h3>
-  </div>
-  <button class="group mx-auto mb-2 flex h-10 w-10/12 items-stretch overflow-hidden rounded-md text-gray-600">
-    <div class="flex w-full items-center justify-center bg-gray-100 text-xs uppercase transition group-hover:bg-emerald-600 group-hover:text-white">
-      Add
-    </div>
-    <div class="flex items-center justify-center bg-gray-200 px-5 transition group-hover:bg-emerald-500 group-hover:text-white">
-      +
-    </div>
-  </button>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                </div>
-              </div>
-            </section>
-
-          </div>
+        <div class="mt-4">
+            <InputLabel for="password" value="Mots de passe" />
+            <TextInput
+                id="password"
+                v-model="form.password"
+                type="password"
+                class="mt-1 block w-full"
+                required
+                autocomplete="current-password"
+            />
+            <InputError class="mt-2" :message="form.errors.password" />
         </div>
-      </div>
-    </div>
+
+        <!-- <div class="block mt-4">
+            <label class="flex items-center">
+                <Checkbox v-model:checked="form.remember" name="remember" />
+                <span class="ml-2 text-sm text-gray-600">Se souvenir de moi</span>
+            </label>
+        </div> -->
+
+        <div class="flex items-center justify-between mt-4">
+           <div class="flex-start">
+            <label class="flex items-start">
+                <Checkbox v-model:checked="form.remember" name="remember" />
+                <span class="ml-2 text-sm text-gray-600  hover:text-principal ">Se souvenir de moi</span>
+            </label>
+           </div>
+
+           <div class="flex-end">
+            <Link v-if="canResetPassword" :href="route('password.request')" class="underline text-sm hover:border-principal   hover:text-principal  rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                Mots de passe Oublie ?
+            </Link>
+           </div>
+        </div>
+
+        <!-- cccccccc -->
+
+        <div class="flex items-center justify-center mt-4">
 
 
-    <!-- Footer -->
-    <div class="mt-20">
-      <Footer />
-    </div>
-  </div>
+            <PrimaryButton class="ml-4 text-center bg-principal hover:border-2 hover:border-principal  hover:bg-secondaire hover:text-principal " :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                Se connecter
+            </PrimaryButton>
+        </div>
+
+
+    </form>
+
 </template>
-
-<style scoped>
-.nav {
-  z-index: 50;
-}
-
-.card {
-  background-color: #ffffff;
-  border-radius: 1rem;
-  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.1);
-}
-
-.fixed-size {
-  width: 300px;
-  /* Width of the images */
-  height: 200px;
-  /* Height of the images */
-  object-fit: cover;
-  /* Ensures the images cover the space without distorting */
-}
-
-.swiper {
-  margin-top: 10%;
-}
-
-@media (max-width: 640px) {
-  .swiper-slide {
-    width: calc(100% / 3);
-  }
-}
-
-@media (max-width: 768px) {
-  .nav {
-    padding: 0.5rem;
-  }
-
-  .card {
-    margin-bottom: 1rem;
-  }
-}
-</style>
-
-<script setup>
-import { defineProps } from 'vue';
-import { Head, Link } from '@inertiajs/vue3';
-import { Inertia } from '@inertiajs/inertia';
-
-const props = defineProps({
-  voitures: Object,
-  voituresBoost: Object,
-  immobilliersBoost: Object,
-  maisons: Object,
-  canLogin: Boolean,
-  canRegister: Boolean,
-  laravelVersion: String,
-  phpVersion: String,
-});
-</script>
-
-<script>
-import { InertiaProgress } from '@inertiajs/progress';
-
-export default {
-  data() {
-    return {
-      activeTab: 'immobilier',
-      showMenu: false,
-    };
-  },
-  methods: {
-    navigateToDetail(id) {
-      this.$inertia.visit(`/detail/${id}`);
-    },
-    navigateToDetailVehi(id) {
-      this.$inertia.visit(`/detailVehi/${id}`);
-    },
-  },
-  mounted() {
-    // Initialize Swiper
-    new Swiper('.swiper', {
-      slidesPerView: 'auto',
-      spaceBetween: 20,
-      pagination: {
-        el: '.swiper-pagination',
-        clickable: true,
-      },
-      autoplay: {
-        delay: 3000,
-        disableOnInteraction: false,
-      },
-    });
-
-    // Initialize progress bar
-    InertiaProgress.init({
-      delay: 200,
-      color: '#eb2d53',
-      includeCSS: true,
-      showSpinner: true,
-    });
-  },
-};
-</script>
