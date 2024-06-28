@@ -212,57 +212,115 @@
         <div v-else-if="activeTab === 'vehicule'" class="bg-gray-100">
           <div class="swiper">
             <div class="swiper-wrapper">
-              <div v-for="voitureBoost in voituresBoost.data" :key="voitureBoost.id"
+             <div v-for="voitureBoost in voituresBoost.data" :key="voitureBoost.id"
                 @click="navigateToDetailVehi(voitureBoost.id)"
-                class="swiper-slide w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 p-2">
-                <!-- Vehicule Card -->
+                class="swiper-slide w-full sm:w-1/4 md:w-1/4 lg:w-1/6 xl:w-1/6 p-1">
+                <!-- Immobilier Card -->
                 <div class="card">
-                  <img :src="'/storage/' + voitureBoost.image1" :alt="voitureBoost.imageAlt"
-                    class="object-cover w-full h-60 rounded-xl shadow-lg">
-                  <div class="p-4">
-                    <h3 class="text-lg font-semibold text-white">{{ voitureBoost.nom }}</h3>
-                    <p class="text-gray-300">{{ voitureBoost.affaire }}</p>
-                    <p class="text-principal text-lg">{{ voitureBoost.prix }} Fcfa</p>
+                  <div class="aspect-square overflow-hidden">
+                    <img :src="'/storage/' + voitureBoost.image1" :alt="voitureBoost.imageAlt"
+                      class="h-full w-full object-cover transition-all duration-300 group-hover:scale-125">
                   </div>
+                  <div class="absolute top-0 m-2 rounded-full bg-white">
+                    <p
+                      class="rounded-full bg-principal p-1 text-[8px] font-bold uppercase tracking-wide text-white sm:py-1 sm:px-3">
+                      {{ voitureBoost.affaire }}</p>
+                  </div>
+
+                  <div class="my-2 mx-auto flex w-10/12 flex-col items-start justify-between">
+                    <p class="mr-3 text-sm font-semibold text-principal align-center"><span class="text-secondaire mr-3">Fcfa</span>{{ voitureBoost.prix}}</p>
+
+                    <div class="mb-2 flex">
+
+                      <p class="mr-3 text-secondaire  text-sm font-semibold truncate">{{ voitureBoost.nom.substring(0, 20) }}</p>
+                    </div>
+                    <h3 class="text-sm text-principal pt-[-8%] w-full border-b-[1px] border-gray-300 ">{{ voitureBoost.region }} ,Senegal</h3>
+
+.
+
+                  </div>
+                  <button
+                      class="  bg-principal group mx-auto mt-[-10%] flex h-8 w-full items-stretch overflow-hidden hover:text-secondaire rounded-md text-white">
+                      <div
+                        class="flex w-full items-center justify-center bg-principal text-xs uppercase transition  group-hover:text-secondaire">
+                        contacter</div>
+
+                    </button>
+
+
                 </div>
               </div>
             </div>
-            <section class="bg-white py-12 text-gray-700 sm:py-16 lg:py-20">
+            <section class="bg-white py-1 text-gray-700 sm:py-16 lg:py-1">
               <div class="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
                 <div class="mx-auto max-w-md text-center">
-                  <h2 class="font-serif text-2xl font-bold sm:text-3xl">Fresh Fruits & Vegetables</h2>
+                  <h2 class="font-serif text-2xl font-bold sm:text-2xl">Dernières Annonces au Sénégal</h2>
                 </div>
 
                 <!-- Grid For Vehicules -->
                 <div class="mt-10 grid grid-cols-2 gap-6 sm:grid-cols-4 sm:gap-4 lg:mt-16">
 
-                  <article v-for="voiture in voitures.data " :key="voiture.id" @click="navigateToDetailVehi(voiture.id)"
-                    class="relative flex flex-col overflow-hidden rounded-lg border">
-                    <div class="aspect-square overflow-hidden">
-                      <img class="h-full w-full object-cover transition-all duration-300 group-hover:scale-125"
-                        :src="'/storage/' + voiture.image1" :alt="voiture.imageAlt" />
+                  <article v-for="voiture in voitures.data " :key="voiture.user_id.nom" @click="navigateToDetail(voiture.id)"
+                    class="relative flex flex-col overflow-hidden rounded-lg border"><div class="card">
+                  <div class="aspect-square overflow-hidden">
+                    <img :src="'/storage/' + voiture.image1" :alt="voiture.imageAlt"
+                      class="h-full w-full object-cover transition-all duration-300 group-hover:scale-125">
+                  </div>
+                  <div class="absolute top-0 m-2 rounded-full bg-white">
+                    <p
+                      class="rounded-full bg-principal p-1 text-[8px] font-bold uppercase tracking-wide text-white sm:py-1 sm:px-3">
+                      {{ voiture.affaire }} </p>
+                  </div>
+
+                  <div class="my-2 mx-auto flex w-10/12 flex-col items-start justify-between">
+                    <p class="mr-3 text-sm font-semibold text-principal align-center">{{ voiture.prix}} <span class="text-secondaire mr-3">Fcfa</span></p>
+
+                    <div class="mb-2 flex">
+
+                      <p class="mr-3 text-secondaire  text-sm font-semibold truncate">{{ voiture.nom.substring(0, 20) }}</p>
                     </div>
-                    <div class="absolute top-0 m-2 rounded-full bg-white">
-                      <p
-                        class="rounded-full bg-emerald-500 p-1 text-[8px] font-bold uppercase tracking-wide text-white sm:py-1 sm:px-3">
-                        Sale</p>
+                    <h3 class="text-sm text-principal pt-[-8%] w-full border-b-[1px] border-gray-300 ">{{ voiture.region }} ,Senegal</h3>
+
+.
+
+                  </div>
+                  <div v-if=" voiture.booster ==1"
+                      class=" bg-principal group mx-auto mt-[-10%] flex h-8 w-full items-stretch overflow-hidden hover:text-secondaire rounded-md text-white">
+                      <!-- <div
+                        class="flex w-full items-center justify-center bg-principal text-xs uppercase transition  group-hover:text-secondaire">
+                        contacter</div> -->
+
+                        <div v-if=" voiture.booster ==1" class="imgPro w-full flex space-x-40">
+                          <div
+                        class="flex w-full items-center justify-center bg-principal text-xs uppercase transition  group-hover:text-secondaire">
+                        contacter </div>
+     
+      
+   
+  
+
+                        
+                          
+                        </div>
+
+
                     </div>
-                    <div class="my-4 mx-auto flex w-10/12 flex-col items-start justify-between">
-                      <div class="mb-2 flex">
-                        <p class="mr-3 text-sm font-semibold">{{ voiture.prix }}</p>
-                        <del class="text-xs text-gray-400"> $79.00 </del>
-                      </div>
-                      <h3 class="mb-2 text-sm text-gray-400">{{ voiture.affaire }}</h3>
-                    </div>
-                    <button
-                      class="group mx-auto mb-2 flex h-10 w-10/12 items-stretch overflow-hidden rounded-md text-gray-600">
+                    <div v-else
+                      class=" group mx-auto mt-[-10%] flex h-8 w-full items-stretch overflow-hidden hover:text-secondaire rounded-md text-white">
                       <div
-                        class="flex w-full items-center justify-center bg-gray-100 text-xs uppercase transition group-hover:bg-emerald-600 group-hover:text-white">
-                        Add</div>
-                      <div
-                        class="flex items-center justify-center bg-gray-200 px-5 transition group-hover:bg-emerald-500 group-hover:text-white">
-                        +</div>
-                    </button>
+                        class=" border-t-[2px] border-gray-500 text-bolder flex w-full items-center justify-center text-secondaire text-xs uppercase transition  group-hover:text-secondaire">
+                        contacter  </div>
+
+                        <!-- <div v-if=" maison.booster ==1" class="imgPro ">
+                          <span class="text-secondaire pr-5">Pro</span>
+                        </div> -->
+
+
+                    </div>
+
+
+                </div>
+<!--  -->
                   </article>
 
 
@@ -279,8 +337,8 @@
                 </div>
               </div>
             </section>
-
           </div>
+
         </div>
       </div>
     </div>

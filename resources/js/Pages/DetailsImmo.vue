@@ -222,7 +222,7 @@ phpVersion: String,
 
             <!-- Other Products from the Same Brand -->
             <div>
-                <h2 class="text-2xl font-semibold mb-4 text-secondaire">Autres produits de la même marque</h2><br>
+                <h2 class="text-2xl font-semibold mb-4 text-secondaire">Articles immobiliers similaires</h2><br>
                 <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                     <!-- Display Suggestions -->
                     <div v-for="suggestion in suggestions" :key="suggestion.id" class="w-full h-full object-cover border rounded-lg p-1">
