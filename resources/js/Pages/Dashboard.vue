@@ -123,50 +123,7 @@ car:Object,
                 </ul>
             </li>
         </div>
-        <!-- A SUPPRIMER -->
-            <!-- <li class="mb-1 group">
-                <a href="" class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
-                    <i class='bx bx-list-ul mr-3 text-lg'></i>
-                    <span class="text-sm">Activities</span>
-                </a>
-            </li>
-            <span class="text-gray-400 font-bold">BLOG</span>
-            <li class="mb-1 group">
-                <a href="" class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100 sidebar-dropdown-toggle">
-                    <i class='bx bxl-blogger mr-3 text-lg' ></i>
-                    <span class="text-sm">Post</span>
-                    <i class="ri-arrow-right-s-line ml-auto group-[.selected]:rotate-90"></i>
-                </a>
-                <ul class="pl-7 mt-2 hidden group-[.selected]:block">
-                    <li class="mb-4">
-                        <a href="" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">All</a>
-                    </li>
-                    <li class="mb-4">
-                        <a href="" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Categories</a>
-                    </li>
-                </ul>
-            </li>
-            <li class="mb-1 group">
-                <a href="" class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
-                    <i class='bx bx-archive mr-3 text-lg'></i>
-                    <span class="text-sm">Archive</span>
-                </a>
-            </li>
-            <span class="text-gray-400 font-bold">PERSONAL</span>
-            <li class="mb-1 group">
-                <a href="" class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
-                    <i class='bx bx-bell mr-3 text-lg' ></i>
-                    <span class="text-sm">Notifications</span>
-                    <span class=" md:block px-2 py-0.5 ml-auto text-xs font-medium tracking-wide text-red-600 bg-red-200 rounded-full">5</span>
-                </a>
-            </li>
-            <li class="mb-1 group">
-                <a href="" class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
-                    <i class='bx bx-envelope mr-3 text-lg' ></i>
-                    <span class="text-sm">Messages</span>
-                    <span class=" md:block px-2 py-0.5 ml-auto text-xs font-medium tracking-wide text-green-600 bg-green-200 rounded-full">2 New</span>
-                </a>
-            </li> -->
+      
         </ul>
     </div>
    <!-- CORPS -->
@@ -276,7 +233,8 @@ car:Object,
                                 <tr v-for="resultActuel in resultsActuel" :key="resultActuel.id" >
                                     <td class="py-2 px-4 border-b border-b-gray-50">
                                         <div class="flex items-center">
-                                            <img src="https://placehold.co/32x32" alt="" class="w-8 h-8 rounded object-cover block">
+                                            <!-- <img src="https://placehold.co/32x32" alt="" class="w-8 h-8 rounded object-cover block"> -->
+                                            <img :src="'/storage/' + resultActuel.image1" :alt="resultActuel.imageAlt"  class="w-12 h-12 rounded object-cover block">
                                             <span class="text-gray-600 text-sm font-medium hover:text-blue-500 ml-2 truncate">{{ resultActuel.nom }}</span>
                                         </div>
                                     </td>
@@ -287,7 +245,7 @@ car:Object,
 
 
                                     <td class="py-2 px-4 border-b border-b-gray-50">
-                                        <span class="inline-block p-1 rounded bg-emerald-500/10 text-emerald-500 font-medium text-[12px] leading-none">{{ resultActuel.affaire }} / {{ resultActuel.categorie[2,3,1] }}</span>
+                                        <span class="inline-block p-1 rounded bg-emerald-500/10 text-emerald-500 font-medium text-[12px] leading-none truncate">{{ resultActuel.affaire.substring(0, 3) }}</span>
                                     </td>
                                     <!-- BOOST DEJE VENDU -->
                                     <div class="flex items-center space-x-4 justify-between">
@@ -295,23 +253,22 @@ car:Object,
                   <div class="flex flex-row space-x-1">
                     <div v-if="resultActuel.categorie === 'immobilier'"
                       class="bg-red-500 shadow-lg shadow- shadow-red-600 text-white cursor-pointer px-3 py-1 text-center justify-center items-center rounded-xl flex space-x-2  flex-row">
-                      <!-- <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024" class="text-xl" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M885.9 490.3c3.6-12 5.4-24.4 5.4-37 0-28.3-9.3-55.5-26.1-77.7 3.6-12 5.4-24.4 5.4-37 0-28.3-9.3-55.5-26.1-77.7 3.6-12 5.4-24.4 5.4-37 0-51.6-30.7-98.1-78.3-118.4a66.1 66.1 0 0 0-26.5-5.4H144c-17.7 0-32 14.3-32 32v364c0 17.7 14.3 32 32 32h129.3l85.8 310.8C372.9 889 418.9 924 470.9 924c29.7 0 57.4-11.8 77.9-33.4 20.5-21.5 31-49.7 29.5-79.4l-6-122.9h239.9c12.1 0 23.9-3.2 34.3-9.3 40.4-23.5 65.5-66.1 65.5-111 0-28.3-9.3-55.5-26.1-77.7zM184 456V172h81v284h-81zm627.2 160.4H496.8l9.6 198.4c.6 11.9-4.7 23.1-14.6 30.5-6.1 4.5-13.6 6.8-21.1 6.7a44.28 44.28 0 0 1-42.2-32.3L329 459.2V172h415.4a56.85 56.85 0 0 1 33.6 51.8c0 9.7-2.3 18.9-6.9 27.3l-13.9 25.4 21.9 19a56.76 56.76 0 0 1 19.6 43c0 9.7-2.3 18.9-6.9 27.3l-13.9 25.4 21.9 19a56.76 56.76 0 0 1 19.6 43c0 9.7-2.3 18.9-6.9 27.3l-14 25.5 21.9 19a56.76 56.76 0 0 1 19.6 43c0 19.1-11 37.5-28.8 48.4z"></path></svg> -->
-                      <span    @click="navigateToBoostImmobillier(resultActuel.id)">Booster  Imm{{resultActuel.id}}</span>                    </div>
+                      <span    @click="navigateToBoostImmobillier(resultActuel.id)">Booster</span>                    </div>
                       <div v-else>
                         <span class="text-2 bg-green-500 shadow-lg shadow- shadow-green-600 text-white cursor-pointer px-3 text-center justify-center items-center py-1 rounded-xl flex space-x-2 flex-row"
-                           @click="navigateToBoostVehicule(resultActuel.id)">Booster  ve{{resultActuel.id}}</span>
+                           @click="navigateToBoostVehicule(resultActuel.id)">Booster </span>
                       </div>
                     <div
 
                       class="text-2 bg-green-500 shadow-lg shadow- shadow-green-600 text-white cursor-pointer px-3 text-center justify-center items-center py-1 rounded-xl flex space-x-2 flex-row">
                       <div v-if="resultActuel.categorie === 'immobilier'">
                         <span @click="navigateUpdateImmobilier(resultActuel.id)"
- >Editer {{resultActuel.nom}}  {{resultActuel.id}}</span>
+ >Editer</span>
 
 </div>
 <div v-else>
     <span @click="navigateUpdateVehicule(resultActuel.id)"
- >Editer vehicule{{resultActuel.id}}</span>
+ >Editer </span>
 </div>
         </div>
                     <!-- VENDU -->
@@ -319,12 +276,12 @@ car:Object,
                       class="text-2 bg-blue-500 shadow-lg shadow- shadow-blue-600 text-white cursor-pointer px-3 text-center justify-center items-center py-1 rounded-xl flex space-x-2 flex-row">
                       <div v-if="resultActuel.categorie === 'immobilier'">
                         <span @click="navigateUpdateVenduImmobilier(resultActuel.id)"
- >vendu immo</span>
+ >vendu</span>
 
 </div>
 <div v-else>
     <span @click="navigateUpdateVenduVehicule(resultActuel.id) "
- >Vendu? {{resultActuel.id}} </span>
+ >Vendu{{resultActuel.id}} </span>
 </div>
         </div>
                   </div>
@@ -339,43 +296,7 @@ car:Object,
                   </div>
                   <!-- ARTICLES VENDUS -->
 
-                        <div class="bg-white border border-gray-100 shadow-md shadow-black/5 p-6 rounded-md">
-                            <div class="flex flex-wrap items-center px-4 py-2">
-                        <div class="relative w-full max-w-full flex-grow flex-1">
-                          <h3 class="font-semibold text-center text-base text-gray-900 dark:text-gray-50"> Articles deja vendus <span class="p-1 rounded bg-emerald-500/10 text-emerald-500 text-[12px] font-semibold leading-none ml-2" >  +{{ totalVendu }} </span></h3>
-                        </div>
-                      </div>
-                            <table class="w-full min-w-[460px]">
-
-                            <thead>
-                                <tr>
-                                    <th class="text-[12px] uppercase tracking-wide font-medium text-gray-400 py-2 px-4 bg-gray-50 text-left rounded-tl-md rounded-bl-md">Noms</th>
-                                    <th class="text-[12px] uppercase tracking-wide font-medium text-gray-400 py-2 px-4 bg-gray-50 text-left">Prix</th>
-                                    <th class="text-[12px] uppercase tracking-wide font-medium text-gray-400 py-2 px-4 bg-gray-50 text-left rounded-tr-md rounded-br-md">Categorie</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for="resultVendu in resultsVendu" :key="resultVendu.id">
-                                    <td class="py-2 px-4 border-b border-b-gray-50">
-                                        <div class="flex items-center" >
-                                            <img src="https://placehold.co/32x32" alt="" class="w-8 h-8 rounded object-cover block">
-                                            <a href="#" class="text-gray-600 text-sm font-medium hover:text-blue-500 ml-2 truncate"> {{ resultVendu.nom }} </a>
-                                        </div>
-                                    </td>
-                                    <td class="py-2 px-4 border-b border-b-gray-50">
-                                        <span class="text-[13px] font-medium text-emerald-500">{{ resultVendu.prix }}  <span class="text-gray-500">Fcfa</span></span>
-                                    </td>
-                                    <td class="py-2 px-4 border-b border-b-gray-50">
-                                        <span class="inline-block p-1 rounded bg-emerald-500/10 text-emerald-500 font-medium text-[12px] leading-none">{{ resultVendu.categorie }} / <span class="text-gray-500">{{ resultVendu.affaire }} </span></span>
-                                    </td>
-                                </tr>
-
-
-
-                            </tbody>
-                        </table>
-
-                </div>
+                     
             </div>
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
                 <div class="bg-white border border-gray-100 shadow-md shadow-black/5 p-6 rounded-md lg:col-span-2">
@@ -482,19 +403,14 @@ car:Object,
                   <div class="flex flex-row space-x-1">
                     <div
                       class=" bg-green-500 shadow-md shadow- shadow-green-600 text-white cursor-pointer px-3 py-1 text-center justify-center items-center rounded-xl flex space-x-2 flex-row">
-                      <!-- <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024" class="text-xl" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M885.9 490.3c3.6-12 5.4-24.4 5.4-37 0-28.3-9.3-55.5-26.1-77.7 3.6-12 5.4-24.4 5.4-37 0-28.3-9.3-55.5-26.1-77.7 3.6-12 5.4-24.4 5.4-37 0-51.6-30.7-98.1-78.3-118.4a66.1 66.1 0 0 0-26.5-5.4H144c-17.7 0-32 14.3-32 32v364c0 17.7 14.3 32 32 32h129.3l85.8 310.8C372.9 889 418.9 924 470.9 924c29.7 0 57.4-11.8 77.9-33.4 20.5-21.5 31-49.7 29.5-79.4l-6-122.9h239.9c12.1 0 23.9-3.2 34.3-9.3 40.4-23.5 65.5-66.1 65.5-111 0-28.3-9.3-55.5-26.1-77.7zM184 456V172h81v284h-81zm627.2 160.4H496.8l9.6 198.4c.6 11.9-4.7 23.1-14.6 30.5-6.1 4.5-13.6 6.8-21.1 6.7a44.28 44.28 0 0 1-42.2-32.3L329 459.2V172h415.4a56.85 56.85 0 0 1 33.6 51.8c0 9.7-2.3 18.9-6.9 27.3l-13.9 25.4 21.9 19a56.76 56.76 0 0 1 19.6 43c0 9.7-2.3 18.9-6.9 27.3l-13.9 25.4 21.9 19a56.76 56.76 0 0 1 19.6 43c0 9.7-2.3 18.9-6.9 27.3l-14 25.5 21.9 19a56.76 56.76 0 0 1 19.6 43c0 19.1-11 37.5-28.8 48.4z"></path></svg> -->
                       <span    @click="navigateUpdateVenduVehicule(vehicule.id)">Vendu </span>
                     </div>
 
                     <div
                       class=" bg-red-500 shadow-md shadow- shadow-red-600 text-white cursor-pointer px-3 py-1 text-center justify-center items-center rounded-xl flex space-x-2 flex-row">
-                      <!-- <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024" class="text-xl" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M885.9 490.3c3.6-12 5.4-24.4 5.4-37 0-28.3-9.3-55.5-26.1-77.7 3.6-12 5.4-24.4 5.4-37 0-28.3-9.3-55.5-26.1-77.7 3.6-12 5.4-24.4 5.4-37 0-51.6-30.7-98.1-78.3-118.4a66.1 66.1 0 0 0-26.5-5.4H144c-17.7 0-32 14.3-32 32v364c0 17.7 14.3 32 32 32h129.3l85.8 310.8C372.9 889 418.9 924 470.9 924c29.7 0 57.4-11.8 77.9-33.4 20.5-21.5 31-49.7 29.5-79.4l-6-122.9h239.9c12.1 0 23.9-3.2 34.3-9.3 40.4-23.5 65.5-66.1 65.5-111 0-28.3-9.3-55.5-26.1-77.7zM184 456V172h81v284h-81zm627.2 160.4H496.8l9.6 198.4c.6 11.9-4.7 23.1-14.6 30.5-6.1 4.5-13.6 6.8-21.1 6.7a44.28 44.28 0 0 1-42.2-32.3L329 459.2V172h415.4a56.85 56.85 0 0 1 33.6 51.8c0 9.7-2.3 18.9-6.9 27.3l-13.9 25.4 21.9 19a56.76 56.76 0 0 1 19.6 43c0 9.7-2.3 18.9-6.9 27.3l-13.9 25.4 21.9 19a56.76 56.76 0 0 1 19.6 43c0 9.7-2.3 18.9-6.9 27.3l-14 25.5 21.9 19a56.76 56.76 0 0 1 19.6 43c0 19.1-11 37.5-28.8 48.4z"></path></svg> -->
                       <span    @click="navigateUpdateVehicule(vehicule.id)">modifier Vehicule {{ vehicule.id }}</span>
                     </div>
-                    <!-- <div
-                      class="text-2 bg-green-500 shadow-lg shadow- shadow-green-600 text-white cursor-pointer px-3 text-center justify-center items-center py-1 rounded-xl flex space-x-2 flex-row">
-                      <span    @click="navigateToBoost(habitat.id)">ooster {{habitat.id}}</span>
-                    </div> -->
+                  
                   </div>
                 </div>
 </div>
@@ -567,6 +483,7 @@ car:Object,
 
 
 </template>
+
 <script>
 import {InertiaProgress} from '@inertiajs/progress';
 import {Head} from '@inertiajs/vue3'
