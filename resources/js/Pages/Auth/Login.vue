@@ -38,7 +38,7 @@ const submit = () => {
     </Head>
 
  <div class="main max-h-1/4">
-    <div class="min-w-screen min-h-screen bg-black flex items-center justify-center px-5 py-5">
+    <div class="min-w-screen min-h-screen bg-secondaire flex items-center justify-center px-5 py-5">
     <div class="bg-gray-100 text-gray-500 rounded-3xl shadow-xl w-full overflow-hidden" style="max-width:1000px">
         <div class="md:flex w-full h-screen" id="main">
             <div class="hidden md:block w-1/2  bg-red-300 h-full" id="pic">
@@ -68,7 +68,7 @@ const submit = () => {
 <!-- FOR THE FORM -->
 
 
-<div class="container max-w-sm bg-gradient-to-b from-white to-[#F4F7FB] rounded-[40px] p-6 border-4 border-white shadow-[0_30px_30px_-20px_rgba(133,189,215,0.878)] m-5">
+<div class="container max-w-sm bg-gradient-to-b from-white to-[#F4F7FB] rounded-[40px] p-6 border-4 border-white shadow-[0_30px_30px_-20px_rgba(133,189,215,0.878)]">
   <div class="heading text-center font-black text-[30px] text-[#1089D3]"> <AuthenticationCardLogo /></div>
 
        
@@ -87,7 +87,7 @@ const submit = () => {
         id="email"
         v-model="form.email"
         type="email"
-        class="w-full bg-white border-none p-4 rounded-[20px] mt-4 shadow-[0_10px_10px_-5px_#101634] border-2 border-transparent placeholder-gray-300 focus:outline-none 
+        class="w-full bg-white border-none p-4 rounded-[20px] mt-4 shadow-[0_10px_10px_-5px_#101634] border-2 border-transparent placeholder-gray-500 focus:outline-none 
          focus:border-white focus:ring focus:ring-white focus:ring-opacity-50
         "
         required
@@ -106,7 +106,7 @@ const submit = () => {
         v-model="form.password"
         type="password"
         required
-        class="w-full bg-white border-none p-4 rounded-[20px] mt-4 shadow-[0_10px_10px_-5px_#101634] border-2 border-transparent placeholder-gray-300 focus:outline-none 
+        class="w-full bg-white border-none p-4 rounded-[20px] mt-4 shadow-[0_10px_10px_-5px_#101634] border-2 border-transparent placeholder-gray-500 focus:outline-none 
          focus:border-white focus:ring focus:ring-white focus:ring-opacity-50
         "
         autocomplete="current-password"
@@ -149,7 +149,7 @@ const submit = () => {
       </button> -->
       <!-- <div class="w-full bg-red-300 hover:border-2   hover:bg-principal   p-2 text-center rounded-lg my-9 text-white"> -->
 
-<Link :href="route('register')">Cree Un Compte</Link>
+<Link class="text-red-500 hover:text-principal" :href="route('register')">Cree Un Compte</Link>
 
 <!-- </div> -->
     </div>
