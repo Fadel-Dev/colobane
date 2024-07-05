@@ -66,66 +66,70 @@ car:Object,
                 Dashboard
             </h2>
         </template>
+        <div>
+            <div class=" left-0  px-5 h-full bg-[#f8f4f3] p-4 z-50 sidebar-menu transition-transform">
+
+<ul class="mt-4">
+    <span class="text-gray-400 font-bold"> Bonjour Cher (e){{ $page.props.auth.user.name }}</span>
+    <div class="flex flex-row">
+
+
+    <li class="mb-1$results->count  group">
+        <button class=" font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
+            <i class="ri-home-2-line mr-3 text-lg"></i>
+            <span class="text-sm"
+            :class="{ 'border-b-2 border-principal': activeTab === 'dashboard' }"
+  @click="activeTab = 'dashboard'">Dashboard</span>
+        </button>
+    </li>
+    <li class="mb-1 group">
+      <button
+  class="  py-2 bg-white text-gray-800 font-semibold"
+  :class="{ 'border-b-2 border-principal': activeTab === 'voitures' }"
+  @click="activeTab = 'voitures'"
+>
+ voitures
+</button>
+        <ul class="p$results->count l-7 mt-2 hidden group-[.selected]:block">
+            <li class="mb-4">
+                <a href="" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">All</a>
+            </li>
+            <li class="mb-4">
+                <a href="" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Roles</a>
+            </li>
+        </ul>
+    </li>
+
+    <!-- IMMOBILIERS -->
+
+    <li class="mb-1 group">
+      <button
+  class="  py-2 bg-white px-4 text-gray-800 font-semibold"
+  :class="{ 'border-b-2 border-principal': activeTab === 'immobiliers' }"
+  @click="activeTab = 'immobiliers'"
+>
+ Immobilliers
+</button>
+        <ul class="pl-7 mt-2 hidden group-[.selected]:block">
+            <li class="mb-4">
+                <a href="" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">All</a>
+            </li>
+            <li class="mb-4">
+                <a href="" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Roles</a>
+            </li>
+        </ul>
+    </li>
+</div>
+
+</ul>
+</div>
+</div>
         <div class="custom-grid">
 
 
  <!--sidenav -->
- <div class=" left-0  px-5 h-full bg-[#f8f4f3] p-4 z-50 sidebar-menu transition-transform">
-
-        <ul class="mt-4">
-            <span class="text-gray-400 font-bold"> Bonjour Cher (e){{ $page.props.auth.user.name }}</span>
-            <div class="flex flex-row">
 
 
-            <li class="mb-1$results->count  group">
-                <button class=" font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
-                    <i class="ri-home-2-line mr-3 text-lg"></i>
-                    <span class="text-sm"
-                    :class="{ 'border-b-2 border-principal': activeTab === 'dashboard' }"
-          @click="activeTab = 'dashboard'">Dashboard</span>
-                </button>
-            </li>
-            <li class="mb-1 group">
-              <button
-          class="  py-2 bg-white text-gray-800 font-semibold"
-          :class="{ 'border-b-2 border-principal': activeTab === 'voitures' }"
-          @click="activeTab = 'voitures'"
-        >
-         voitures
-        </button>
-                <ul class="p$results->count l-7 mt-2 hidden group-[.selected]:block">
-                    <li class="mb-4">
-                        <a href="" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">All</a>
-                    </li>
-                    <li class="mb-4">
-                        <a href="" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Roles</a>
-                    </li>
-                </ul>
-            </li>
-
-            <!-- IMMOBILIERS -->
-
-            <li class="mb-1 group">
-              <button
-          class="  py-2 bg-white px-4 text-gray-800 font-semibold"
-          :class="{ 'border-b-2 border-principal': activeTab === 'immobiliers' }"
-          @click="activeTab = 'immobiliers'"
-        >
-         Immobilliers
-        </button>
-                <ul class="pl-7 mt-2 hidden group-[.selected]:block">
-                    <li class="mb-4">
-                        <a href="" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">All</a>
-                    </li>
-                    <li class="mb-4">
-                        <a href="" class="text-gray-900 text-sm flex items-center hover:text-[#f84525] before:contents-[''] before:w-1 before:h-1 before:rounded-full before:bg-gray-300 before:mr-3">Roles</a>
-                    </li>
-                </ul>
-            </li>
-        </div>
-      
-        </ul>
-    </div>
    <!-- CORPS -->
 
    <div v-show="activeTab === 'dashboard'" class="bg-gray-100">
@@ -460,7 +464,6 @@ car:Object,
 </div>
 
 <!-- IMMOBILLIERS -->
-  <!-- <div v-show="activeTab === 'immobiliers'" class="bg-gray-100"> -->
     <div v-show="activeTab === 'immobiliers'" class="bg-gray-100">
 
 
@@ -483,12 +486,10 @@ car:Object,
                   <div class="flex flex-row space-x-1">
                     <div
                       class=" bg-green-500 shadow-md shadow- shadow-green-600 text-white cursor-pointer px-3 py-1 text-center justify-center items-center rounded-xl flex space-x-2 flex-row">
-                      <!-- <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024" class="text-xl" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M885.9 490.3c3.6-12 5.4-24.4 5.4-37 0-28.3-9.3-55.5-26.1-77.7 3.6-12 5.4-24.4 5.4-37 0-28.3-9.3-55.5-26.1-77.7 3.6-12 5.4-24.4 5.4-37 0-51.6-30.7-98.1-78.3-118.4a66.1 66.1 0 0 0-26.5-5.4H144c-17.7 0-32 14.3-32 32v364c0 17.7 14.3 32 32 32h129.3l85.8 310.8C372.9 889 418.9 924 470.9 924c29.7 0 57.4-11.8 77.9-33.4 20.5-21.5 31-49.7 29.5-79.4l-6-122.9h239.9c12.1 0 23.9-3.2 34.3-9.3 40.4-23.5 65.5-66.1 65.5-111 0-28.3-9.3-55.5-26.1-77.7zM184 456V172h81v284h-81zm627.2 160.4H496.8l9.6 198.4c.6 11.9-4.7 23.1-14.6 30.5-6.1 4.5-13.6 6.8-21.1 6.7a44.28 44.28 0 0 1-42.2-32.3L329 459.2V172h415.4a56.85 56.85 0 0 1 33.6 51.8c0 9.7-2.3 18.9-6.9 27.3l-13.9 25.4 21.9 19a56.76 56.76 0 0 1 19.6 43c0 9.7-2.3 18.9-6.9 27.3l-13.9 25.4 21.9 19a56.76 56.76 0 0 1 19.6 43c0 9.7-2.3 18.9-6.9 27.3l-14 25.5 21.9 19a56.76 56.76 0 0 1 19.6 43c0 19.1-11 37.5-28.8 48.4z"></path></svg> -->
                       <span    @click="navigateUpdateVenduImmobilier(habitat.id)">Vendu </span>
                     </div>
                     <div
                       class=" bg-red-500 shadow-md shadow- shadow-red-600 text-white cursor-pointer px-3 py-1 text-center justify-center items-center rounded-xl flex space-x-2 flex-row">
-                      <!-- <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024" class="text-xl" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M885.9 490.3c3.6-12 5.4-24.4 5.4-37 0-28.3-9.3-55.5-26.1-77.7 3.6-12 5.4-24.4 5.4-37 0-28.3-9.3-55.5-26.1-77.7 3.6-12 5.4-24.4 5.4-37 0-51.6-30.7-98.1-78.3-118.4a66.1 66.1 0 0 0-26.5-5.4H144c-17.7 0-32 14.3-32 32v364c0 17.7 14.3 32 32 32h129.3l85.8 310.8C372.9 889 418.9 924 470.9 924c29.7 0 57.4-11.8 77.9-33.4 20.5-21.5 31-49.7 29.5-79.4l-6-122.9h239.9c12.1 0 23.9-3.2 34.3-9.3 40.4-23.5 65.5-66.1 65.5-111 0-28.3-9.3-55.5-26.1-77.7zM184 456V172h81v284h-81zm627.2 160.4H496.8l9.6 198.4c.6 11.9-4.7 23.1-14.6 30.5-6.1 4.5-13.6 6.8-21.1 6.7a44.28 44.28 0 0 1-42.2-32.3L329 459.2V172h415.4a56.85 56.85 0 0 1 33.6 51.8c0 9.7-2.3 18.9-6.9 27.3l-13.9 25.4 21.9 19a56.76 56.76 0 0 1 19.6 43c0 9.7-2.3 18.9-6.9 27.3l-13.9 25.4 21.9 19a56.76 56.76 0 0 1 19.6 43c0 9.7-2.3 18.9-6.9 27.3l-14 25.5 21.9 19a56.76 56.76 0 0 1 19.6 43c0 19.1-11 37.5-28.8 48.4z"></path></svg> -->
                       <span    @click="navigateUpdateImmobilier(habitat.id)">modifier </span>
                     </div>
                     <!-- <div
@@ -519,7 +520,6 @@ car:Object,
 
 
 </template>
-
 <script>
 import {InertiaProgress} from '@inertiajs/progress';
 import {Head} from '@inertiajs/vue3'

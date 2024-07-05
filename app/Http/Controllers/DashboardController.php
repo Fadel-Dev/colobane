@@ -141,6 +141,15 @@ class DashboardController extends Controller
         $totalVehiculeActuel = count($vehiculesActuel);
         $totalActuel = count($resultsActuel);
 
+
+        // calcule
+
+        $restantImmobilier= $totalImmobilier - $totalImmobilierVendu;
+        $restantVoiture=$totalVehicule - $totalVehiculeVendu;
+        $totalArticles=$totalVehicule - $totalImmobilier;
+        $totalRestant=$restantVoiture + $restantImmobilier;
+
+
         // $totalPrixVendu += $voiture['prix'];
 
 
@@ -198,6 +207,16 @@ class DashboardController extends Controller
             // Total price of sold all immobilier
             'sommeHabitatVendu' => $sommeHabitatVendu,
             'sommeVehiculeVendu' => $sommeVehiculeVendu,
+
+            // CALCULE FOR STATISTIQUE
+
+            
+             'restantImmobilier' => $restantImmobilier,
+             'restantVoiture' => $restantVoiture,
+             "totalArticles" => $totalArticles,
+              "totalRestant" => $totalRestant,
+
+             
         ]);
     }
 }
