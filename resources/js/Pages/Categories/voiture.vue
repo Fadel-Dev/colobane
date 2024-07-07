@@ -55,10 +55,14 @@ const vente = useForm({
         </template>
 <div class="w-5/6 my-7 m-auto rounded-2xl  lg:w-2/5 border-2 shadow-lg border-slate-400   ">
     <h2 class="text-2xl  font-bold mb-4 text-center">Sélectionnez une image</h2>
-    <div class=" " id="menu">
+    <div class=" "
+     id="menu">
       <div v-for="image in images" :key="image.id" id="titre" class="text-principal focus:border-white focus:ring-white">
         <label>
-          <input type="radio" :value="image.titre" v-model="lead.type" class="w-4/6 hidden mx-auto">
+          <input type="radio" :value="image.titre" v-model="lead.type"
+           class="w-4/6 hidden mx-auto"
+           
+           >
           <h3 class="text-center">{{ image.titre }}</h3>
           <img :src="image.src" :alt="image.alt" class=" rounded-lg shadow-lg">
         </label>
@@ -75,12 +79,15 @@ const vente = useForm({
     <form @submit.prevent="handleSubmitLocation">
       <div class="titre">
         <div class="mb-4">
-          <label class="block text-gray-700 font-bold mb-2"
+          <!-- <label class="block text-gray-700 font-bold mb-2"
           for="nom">
               Entrez le titre
-          </label>
-          <input class="shadow appearance-none focus:border-gray-500 focus:ring-gray-500 border rounded  w-full py-2 px-3 text-gray-700 leading-tight focus:outline-white focus:shadow-outline-black"
-             id="nom"
+          </label> -->
+          <input 
+          class="w-full bg-white border-none p-4 rounded-[20px] mt-4 shadow-[0_10px_10px_-5px_#101634] border-2 border-transparent placeholder-gray-500 focus:outline-none 
+         focus:border-white focus:ring focus:ring-white focus:ring-opacity-50
+        "
+          id="nom"
              name="nom"
              type="text"
              placeholder="Entrez le titre"
@@ -89,35 +96,102 @@ const vente = useForm({
       </div>
 
       <div class="mb-4">
-        <label class="block text-gray-700 font-bold mb-2"
+        <!-- <label class="block text-gray-700 font-bold mb-2"
              for="marque">
                  Marque
-             </label>
-      <select class="shadow appearance-none focus:border-gray-500 focus:ring-gray-500 border rounded  w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outlineshadow appearance-none focus:border-gray-500 focus:ring-gray-500 border rounded  w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" for="marque"
+             </label> -->
+      <select 
+      class="w-full bg-white border-none p-4 rounded-[20px] mt-4 shadow-[0_10px_10px_-5px_#101634] border-2 border-transparent placeholder-gray-500 focus:outline-none 
+         focus:border-white focus:ring focus:ring-white focus:ring-opacity-50
+        "       for="marque"
       name="marque"
       id="marque"
       v-model="lead.marque"
       required >
-  <option>Toyota</option>
-  <option>Nissan</option>
-  <option>Honda</option>
-  <option>Hyundai</option>
-  <option>Kia</option>
-  <option>Mercedes</option>
-  <option>BMW</option>
-  <option>Audi</option>
+      <option>Acura</option>
+<option>Alfa Romeo</option>
+<option>Aston Martin</option>
+<option>Audi</option>
+<option>Bentley</option>
+<option>BMW</option>
+<option>Bugatti</option>
+<option>Buick</option>
+<option>Cadillac</option>
+<option>Caterham</option>
+<option>Chevrolet</option>
+<option>Chrysler</option>
+<option>Citroën</option>
+<option>Dacia</option>
+<option>Daewoo</option>
+<option>Daihatsu</option>
+<option>Dodge</option>
+<option>DS Automobiles</option>
+<option>Ferrari</option>
+<option>Fiat</option>
+<option>Fisker</option>
+<option>Ford</option>
+<option>Genesis</option>
+<option>GMC</option>
+<option>Holden</option>
+<option>Honda</option>
+<option>Hyundai</option>
+<option>Infiniti</option>
+<option>Isuzu</option>
+<option>Jaguar</option>
+<option>Jeep</option>
+<option>Kia</option>
+<option>Koenigsegg</option>
+<option>Lamborghini</option>
+<option>Lancia</option>
+<option>Land Rover</option>
+<option>Lexus</option>
+<option>Lincoln</option>
+<option>Lotus</option>
+<option>Maserati</option>
+<option>Mazda</option>
+<option>McLaren</option>
+<option>Mercedes-Benz</option>
+<option>MG</option>
+<option>Mini</option>
+<option>Mitsubishi</option>
+<option>Nissan</option>
+<option>Opel</option>
+<option>Pagani</option>
+<option>Peugeot</option>
+<option>Polestar</option>
+<option>Pontiac</option>
+<option>Porsche</option>
+<option>RAM</option>
+<option>Renault</option>
+<option>Rolls-Royce</option>
+<option>Saab</option>
+<option>SEAT</option>
+<option>Škoda</option>
+<option>Smart</option>
+<option>Subaru</option>
+<option>Suzuki</option>
+<option>Tesla</option>
+<option>Toyota</option>
+<option>Vauxhall</option>
+<option>Volkswagen</option>
+<option>Volvo</option>
+<option>Wiesmann</option>
+
 </select>
   </div>
       </div>
 
       <div class="placePrix">
         <div class="mb-4">
-          <label class="block text-gray-700 font-bold mb-2"
+          <!-- <label class="block text-gray-700 font-bold mb-2"
           for="place">
               place
-          </label>
-          <input class="shadow appearance-none focus:border-gray-500 focus:ring-gray-500 border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-             id="place"
+          </label> -->
+          <input 
+          class="w-full bg-white border-none p-4 rounded-[20px] mt-4 shadow-[0_10px_10px_-5px_#101634] border-2 border-transparent placeholder-gray-500 focus:outline-none 
+         focus:border-white focus:ring focus:ring-white focus:ring-opacity-50
+        "          
+           id="place"
              name="place"
              type="text"
              placeholder="4"
@@ -126,11 +200,13 @@ const vente = useForm({
       </div>
 
       <div class="mb-4">
-          <label class="block text-gray-700 font-bold mb-2" for="price">
+          <!-- <label class="block text-gray-700 font-bold mb-2" for="price">
               Prix
-          </label>
-          <input class="shadow appearance-none focus:border-gray-500 focus:ring-gray-500 border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-             id="prix"
+          </label> -->
+          <input 
+          class="w-full bg-white border-none p-4 rounded-[20px] mt-4 shadow-[0_10px_10px_-5px_#101634] border-2 border-transparent placeholder-gray-500 focus:outline-none 
+         focus:border-white focus:ring focus:ring-white focus:ring-opacity-50
+        "             id="prix"
              type="text"
              placeholder="Entrez le prix"
              name="prix"
@@ -140,11 +216,13 @@ const vente = useForm({
       </div>
 
       <div class="mb-4">
-       <label class="block text-gray-700 font-bold mb-2" for="fuel">
+       <label class="block text-gray-500 font-bold mb-2" for="fuel">
          Boite de vitesse
        </label>
-       <select class="shadow appearance-none focus:border-gray-500 focus:ring-gray-500 border rounded w-full py-2 px-3 text-gray-700 venteing-tight focus:outline-none focus:shadow-outline"
-            id="boiteVitesse"
+       <select 
+       class="w-full bg-white border-none p-4 rounded-[20px] mt-4 shadow-[0_10px_10px_-5px_#101634] border-2 border-transparent placeholder-gray-500 focus:outline-none 
+         focus:border-white focus:ring focus:ring-white focus:ring-opacity-50
+        "            id="boiteVitesse"
             name="boiteVitesse"
             v-model="lead.boiteVitesse">
          <option value="automatique">Automatique</option>
@@ -156,11 +234,13 @@ const vente = useForm({
 
 
       <div class="mb-4">
-          <label class="block text-gray-700 font-bold mb-2" for="description">
+          <!-- <label class="block text-gray-700 font-bold mb-2" for="description">
               Description
-          </label>
-          <textarea class="shadow appearance-none focus:border-gray-500 focus:ring-gray-500 border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-             id="description" rows="5"
+          </label> -->
+          <textarea 
+          class="w-full bg-white border-none p-4 rounded-[20px] mt-4 shadow-[0_10px_10px_-5px_#101634] border-2 border-transparent placeholder-gray-500 focus:outline-none 
+         focus:border-white focus:ring focus:ring-white focus:ring-opacity-50
+        "             id="description" rows="5"
              name="description"
              v-model="lead.description"
              placeholder="Entrez la description"
@@ -173,7 +253,10 @@ const vente = useForm({
                 >
                  Image 1
              </label>
-             <input type="file" @input="lead.image1 = $event.target.files[0]" />
+             <input type="file" @input="lead.image1 = $event.target.files[0]"
+             class="w-full bg-white border-none p-4 rounded-[20px] mt-4 shadow-[0_10px_10px_-5px_#101634] border-2 border-transparent placeholder-gray-500 focus:outline-none 
+         focus:border-white focus:ring focus:ring-white focus:ring-opacity-50
+        " />
              <progress v-if="lead.progress" :value="lead.progress.percentage" max="100">
       {{ lead.progress.percentage }}%
     </progress>
@@ -185,7 +268,10 @@ const vente = useForm({
                 >
                  Image 2
              </label>
-             <input type="file" @input="lead.image2 = $event.target.files[0]" />
+             <input type="file" @input="lead.image2 = $event.target.files[0]" 
+             class="w-full bg-white border-none p-4 rounded-[20px] mt-4 shadow-[0_10px_10px_-5px_#101634] border-2 border-transparent placeholder-gray-500 focus:outline-none 
+         focus:border-white focus:ring focus:ring-white focus:ring-opacity-50
+        "/>
              <progress v-if="lead.progress" :value="lead.progress.percentage" max="100">
       {{ lead.progress.percentage }}%
     </progress>
@@ -197,7 +283,10 @@ const vente = useForm({
                 >
                  Image 3
              </label>
-             <input type="file" @input="lead.image3 = $event.target.files[0]" />
+             <input type="file" @input="lead.image3 = $event.target.files[0]"
+             class="w-full bg-white border-none p-4 rounded-[20px] mt-4 shadow-[0_10px_10px_-5px_#101634] border-2 border-transparent placeholder-gray-500 focus:outline-none 
+         focus:border-white focus:ring focus:ring-white focus:ring-opacity-50
+        " />
              <progress v-if="lead.progress" :value="lead.progress.percentage" max="100">
       {{ lead.progress.percentage }}%
     </progress>
@@ -210,8 +299,11 @@ const vente = useForm({
     <label class="block text-gray-700 font-bold mb-2" for="fuel">
       Carburant
     </label>
-    <select class="shadow appearance-none focus:border-gray-500 focus:ring-gray-500 border rounded  w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-         id="carburant"
+    <select
+    class="w-full bg-white border-none p-4 rounded-[20px] mt-4 shadow-[0_10px_10px_-5px_#101634] border-2 border-transparent placeholder-gray-500 focus:outline-none 
+         focus:border-white focus:ring focus:ring-white focus:ring-opacity-50
+        "
+                 id="carburant"
          name="carburant"
          v-model="lead.carburant">
       <option value="essence">Essence</option>
@@ -226,8 +318,10 @@ const vente = useForm({
     <label class="block text-gray-700 font-bold mb-2" for="region">
       Region
     </label>
-      <select class="shadow appearance-none focus:border-gray-500 focus:ring-gray-500  border rounded  w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-      name="region"
+      <select
+class="w-full bg-white border-none p-4 rounded-[20px] mt-4 shadow-[0_10px_10px_-5px_#101634] border-2 border-transparent placeholder-gray-500 focus:outline-none 
+         focus:border-white focus:ring focus:ring-white focus:ring-opacity-50
+        "      name="region"
       id="region"
       v-model="lead.region"
       required >
@@ -261,12 +355,14 @@ const vente = useForm({
          <div class="mb-4">
   <h2 class="my-5 text-center text-white bg-principal rounded-full py-3">Ecrivez votre annonce de voiture</h2>
 
-             <label class="block text-gray-700 font-bold mb-2"
+             <!-- <label class="block text-gray-700 font-bold mb-2"
              for="nom">
                  Titre
-             </label>
-             <input class="shadow appearance-none focus:border-gray-500 focus:ring-gray-500 border rounded w-full py-2 px-3 text-gray-700 venteing-tight focus:outline-none focus:shadow-outline"
-                id="nom"
+             </label> -->
+             <input 
+             class="w-full bg-white border-none p-4 rounded-[20px] mt-4 shadow-[0_10px_10px_-5px_#101634] border-2 border-transparent placeholder-gray-500 focus:outline-none 
+         focus:border-white focus:ring focus:ring-white focus:ring-opacity-50
+        "                id="nom"
                 name="nom"
                 type="text"
                 placeholder="Entrez le titre de votre ..."
@@ -274,33 +370,98 @@ const vente = useForm({
                 required>
          </div>
 
-        <div class="flex">
-          <div class="mb-4 flex flex-col">
-            <label class="block text-gray-700 font-bold mb-2" for="text">Marque</label>
-         <select class="shadow appearance-none focus:border-gray-500 focus:ring-gray-500 border rounded w-full py-2 px-3 text-gray-700 venteing-tight "
-         name="marque"
+        <div class="grid grid-cols-4 gap-2">
+          <div class="">
+            <!-- <label class="block text-gray-700 font-bold mb-2" for="text">Marque</label> -->
+         <select 
+         class="w-full bg-white border-none p-4 rounded-[20px] mt-4 shadow-[0_10px_10px_-5px_#101634] border-2 border-transparent placeholder-gray-500 focus:outline-none 
+         focus:border-white focus:ring focus:ring-white focus:ring-opacity-50
+        "         name="marque"
          id="marque"
          v-model="vente.marque"
          required >
-     <option>Toyota</option>
-     <option>Nissan</option>
-     <option>Honda</option>
-     <option>Hyundai</option>
-     <option>Kia</option>
-     <option>Mercedes</option>
-     <option>BMW</option>
-     <option>Audi</option>
+         <option>Acura</option>
+<option>Alfa Romeo</option>
+<option>Aston Martin</option>
+<option>Audi</option>
+<option>Bentley</option>
+<option>BMW</option>
+<option>Bugatti</option>
+<option>Buick</option>
+<option>Cadillac</option>
+<option>Caterham</option>
+<option>Chevrolet</option>
+<option>Chrysler</option>
+<option>Citroën</option>
+<option>Dacia</option>
+<option>Daewoo</option>
+<option>Daihatsu</option>
+<option>Dodge</option>
+<option>DS Automobiles</option>
+<option>Ferrari</option>
+<option>Fiat</option>
+<option>Fisker</option>
+<option>Ford</option>
+<option>Genesis</option>
+<option>GMC</option>
+<option>Holden</option>
+<option>Honda</option>
+<option>Hyundai</option>
+<option>Infiniti</option>
+<option>Isuzu</option>
+<option>Jaguar</option>
+<option>Jeep</option>
+<option>Kia</option>
+<option>Koenigsegg</option>
+<option>Lamborghini</option>
+<option>Lancia</option>
+<option>Land Rover</option>
+<option>Lexus</option>
+<option>Lincoln</option>
+<option>Lotus</option>
+<option>Maserati</option>
+<option>Mazda</option>
+<option>McLaren</option>
+<option>Mercedes-Benz</option>
+<option>MG</option>
+<option>Mini</option>
+<option>Mitsubishi</option>
+<option>Nissan</option>
+<option>Opel</option>
+<option>Pagani</option>
+<option>Peugeot</option>
+<option>Polestar</option>
+<option>Pontiac</option>
+<option>Porsche</option>
+<option>RAM</option>
+<option>Renault</option>
+<option>Rolls-Royce</option>
+<option>Saab</option>
+<option>SEAT</option>
+<option>Škoda</option>
+<option>Smart</option>
+<option>Subaru</option>
+<option>Suzuki</option>
+<option>Tesla</option>
+<option>Toyota</option>
+<option>Vauxhall</option>
+<option>Volkswagen</option>
+<option>Volvo</option>
+<option>Wiesmann</option>
+
    </select>
      </div>
 
     <!--  -->
-     <div class="mb-4 w-full m-auto">
-            <div class="bg-white w-5/6 mx-auto ">
-              <label class="block text-gray-700 font-bold mb-2 w-24 mx-auto" for="model">
+     <div class="mb-4 col-span-3">
+            <div class="  mx-auto ">
+              <!-- <label class="block text-gray-700 font-bold mb-2" for="model">
                  Modèle
-             </label>
-              <input class="shadow appearance-none focus:border-gray-500 focus:ring-gray-500 border rounded py-2 px-auto text-gray-700 venteing-tight focus:outline-none focus:shadow-outline w-full"
-                id="model"
+             </label> -->
+              <input 
+class="w-full bg-white border-none p-4 rounded-[20px] mt-4 shadow-[0_10px_10px_-5px_#101634] border-2 border-transparent placeholder-gray-500 focus:outline-none 
+         focus:border-white focus:ring focus:ring-white focus:ring-opacity-50
+        "                id="model"
                 type="text"
                 name="model"
                 placeholder="Entrez le modèle"
@@ -311,12 +472,14 @@ const vente = useForm({
         </div>
       <div class="prixAnnee grid grid-cols-2 gap-2 ">
         <div class="mb-4 ">
-             <label class="block text-gray-700 font-bold mb-2"
+             <!-- <label class="block text-gray-700 font-bold mb-2"
              for="annee">
                  Annee
-             </label>
-             <input class="shadow appearance-none focus:border-gray-500 focus:ring-gray-500 border rounded w-full py-2 px-3 text-gray-700 venteing-tight focus:outline-none focus:shadow-outline"
-                id="annee"
+             </label> -->
+             <input 
+             class="w-full bg-white border-none p-4 rounded-[20px] mt-4 shadow-[0_10px_10px_-5px_#101634] border-2 border-transparent placeholder-gray-500 focus:outline-none 
+         focus:border-white focus:ring focus:ring-white focus:ring-opacity-50
+        "                id="annee"
                 name="annee"
                 type="text"
                 placeholder="1999"
@@ -326,11 +489,13 @@ const vente = useForm({
 
 
          <div class="mb-4">
-             <label class="block text-gray-700 font-bold mb-2" for="price">
+             <!-- <label class="block text-gray-700 font-bold mb-2" for="price">
                  Prix
-             </label>
-             <input class="shadow appearance-none focus:border-gray-500 focus:ring-gray-500 border rounded w-full py-2 px-3 text-gray-700 venteing-tight focus:outline-none focus:shadow-outline"
-                id="prix"
+             </label> -->
+             <input 
+             class="w-full bg-white border-none p-4 rounded-[20px] mt-4 shadow-[0_10px_10px_-5px_#101634] border-2 border-transparent placeholder-gray-500 focus:outline-none 
+         focus:border-white focus:ring focus:ring-white focus:ring-opacity-50
+        "                id="prix"
                 type="text"
                 placeholder="Entrez le prix"
                 name="prix"
@@ -340,11 +505,13 @@ const vente = useForm({
       </div>
         <div class="kiloPlace">
           <div class="mb-4">
-             <label class="block text-gray-700 font-bold mb-2" for="price">
+             <!-- <label class="block text-gray-700 font-bold mb-2" for="price">
                  kilometrage
-             </label>
-             <input class="shadow appearance-none focus:border-gray-500 focus:ring-gray-500 border rounded w-full py-2 px-3 text-gray-700 venteing-tight focus:outline-none focus:shadow-outline"
-                id="kilometrage"
+             </label> -->
+             <input 
+             class="w-full bg-white border-none p-4 rounded-[20px] mt-4 shadow-[0_10px_10px_-5px_#101634] border-2 border-transparent placeholder-gray-500 focus:outline-none 
+         focus:border-white focus:ring focus:ring-white focus:ring-opacity-50
+        "                id="kilometrage"
                 type="text"
                 placeholder="Entrez le kilometrage"
                 name="kilometrage"
@@ -353,11 +520,13 @@ const vente = useForm({
          </div>
 
          <div class="mb-4">
-             <label class="block text-gray-700 font-bold mb-2" for="price">
+             <!-- <label class="block text-gray-700 font-bold mb-2" for="price">
                  place
-             </label>
-             <input class="shadow appearance-none focus:border-gray-500 focus:ring-gray-500 border rounded w-full py-2 px-3 text-gray-700 venteing-tight focus:outline-none focus:shadow-outline"
-                id="place"
+             </label> -->
+             <input 
+             class="w-full bg-white border-none p-4 rounded-[20px] mt-4 shadow-[0_10px_10px_-5px_#101634] border-2 border-transparent placeholder-gray-500 focus:outline-none 
+         focus:border-white focus:ring focus:ring-white focus:ring-opacity-50
+        "                id="place"
                 type="text"
                 placeholder="Entrez le place"
                 name="place"
@@ -367,11 +536,13 @@ const vente = useForm({
         </div>
 
          <div class="mb-4">
-             <label class="block text-gray-700 font-bold mb-2" for="description">
+             <!-- <label class="block text-gray-700 font-bold mb-2" for="description">
                  Description
-             </label>
-             <textarea class="shadow appearance-none focus:border-gray-500 focus:ring-gray-500 border rounded w-full py-2 px-3 text-gray-700 venteing-tight focus:outline-none focus:shadow-outline"
-                id="description" rows="5"
+             </label> -->
+             <textarea 
+             class="w-full bg-white border-none p-4 rounded-[20px] mt-4 shadow-[0_10px_10px_-5px_#101634] border-2 border-transparent placeholder-gray-500 focus:outline-none 
+         focus:border-white focus:ring focus:ring-white focus:ring-opacity-50
+        "                id="description" rows="5"
                 name="description"
                 v-model="vente.description"
                 placeholder="Entrez la description"
@@ -384,8 +555,10 @@ const vente = useForm({
        <label class="block text-gray-700 font-bold mb-2" for="fuel">
          Carburant
        </label>
-       <select class="shadow appearance-none focus:border-gray-500 focus:ring-gray-500 border rounded w-full py-2 px-3 text-gray-700 venteing-tight focus:outline-none focus:shadow-outline"
-            id="carburant"
+       <select 
+       class="w-full bg-white border-none p-4 rounded-[20px] mt-4 shadow-[0_10px_10px_-5px_#101634] border-2 border-transparent placeholder-gray-500 focus:outline-none 
+         focus:border-white focus:ring focus:ring-white focus:ring-opacity-50
+        "            id="carburant"
             name="carburant"
             v-model="vente.carburant">
          <option value="essence">Essence</option>
@@ -397,8 +570,10 @@ const vente = useForm({
        <label class="block text-gray-700 font-bold mb-2" for="fuel">
          Boite de vitesse
        </label>
-       <select class="shadow appearance-none focus:border-gray-500 focus:ring-gray-500 border rounded w-full py-2 px-3 text-gray-700 venteing-tight focus:outline-none focus:shadow-outline"
-            id="boiteVitesse"
+       <select 
+       class="w-full bg-white border-none p-4 rounded-[20px] mt-4 shadow-[0_10px_10px_-5px_#101634] border-2 border-transparent placeholder-gray-500 focus:outline-none 
+         focus:border-white focus:ring focus:ring-white focus:ring-opacity-50
+        "            id="boiteVitesse"
             name="boiteVitesse"
             v-model="vente.boiteVitesse">
          <option value="automatique">Automatique</option>
@@ -412,8 +587,10 @@ const vente = useForm({
        <label class="block text-gray-700 font-bold mb-2" for="fuel">
          Etat
        </label>
-       <select class="shadow appearance-none focus:border-gray-500 focus:ring-gray-500 border rounded w-full py-2 px-3 text-gray-700 venteing-tight focus:outline-none focus:shadow-outline"
-            id="etat"
+       <select 
+       class="w-full bg-white border-none p-4 rounded-[20px] mt-4 shadow-[0_10px_10px_-5px_#101634] border-2 border-transparent placeholder-gray-500 focus:outline-none 
+         focus:border-white focus:ring focus:ring-white focus:ring-opacity-50
+        "            id="etat"
             name="etat"
             v-model="vente.etat">
          <option value="occasion">occasion</option>
@@ -425,8 +602,10 @@ const vente = useForm({
       <label class="block text-gray-700 font-bold mb-2" for="region">
          Region
        </label>
-         <select class="shadow appearance-none focus:border-gray-500 focus:ring-gray-500 border rounded w-full py-2 px-3 text-gray-700 venteing-tight focus:outline-none focus:shadow-outline"
-         name="region"
+         <select 
+         class="w-full bg-white border-none p-4 rounded-[20px] mt-4 shadow-[0_10px_10px_-5px_#101634] border-2 border-transparent placeholder-gray-500 focus:outline-none 
+         focus:border-white focus:ring focus:ring-white focus:ring-opacity-50
+        "         name="region"
          id="region"
          v-model="vente.region"
          required >
@@ -454,8 +633,13 @@ const vente = useForm({
                 >
                  Image 1
              </label>
-             <input type="file" @input="vente.image1 = $event.target.files[0]" @change="vente.image1" />
-             <progress v-if="vente.progress" :value="vente.progress.percentage" max="100">
+             <input
+             class="w-full bg-white border-none p-4 rounded-[20px] mt-4 shadow-[0_10px_10px_-5px_#101634] border-2 border-transparent placeholder-gray-500 focus:outline-none 
+         focus:border-white focus:ring focus:ring-white focus:ring-opacity-50
+        "
+              type="file" @input="vente.image1 = $event.target.files[0]" @change="vente.image1" />
+             <progress 
+             v-if="vente.progress" :value="vente.progress.percentage" max="100">
       {{ vente.progress.percentage }}%
     </progress>
          </div>
@@ -466,7 +650,11 @@ const vente = useForm({
                 >
                  Image 2
              </label>
-             <input type="file" @input="vente.image2 = $event.target.files[0]" />
+             <input
+             class="w-full bg-white border-none p-4 rounded-[20px] mt-4 shadow-[0_10px_10px_-5px_#101634] border-2 border-transparent placeholder-gray-500 focus:outline-none 
+         focus:border-white focus:ring focus:ring-white focus:ring-opacity-50
+        "
+             type="file" @input="vente.image2 = $event.target.files[0]" />
              <progress v-if="vente.progress" :value="vente.progress.percentage" max="100">
       {{ vente.progress.percentage }}%
     </progress>
@@ -478,7 +666,11 @@ const vente = useForm({
                 >
                  Image 3
              </label>
-             <input type="file" @input="vente.image3 = $event.target.files[0]" />
+             <input
+             class="w-full bg-white border-none p-4 rounded-[20px] mt-4 shadow-[0_10px_10px_-5px_#101634] border-2 border-transparent placeholder-gray-500 focus:outline-none 
+         focus:border-white focus:ring focus:ring-white focus:ring-opacity-50
+        "
+             type="file" @input="vente.image3 = $event.target.files[0]" />
              <progress v-if="vente.progress" :value="vente.progress.percentage" max="100">
       {{ vente.progress.percentage }}%
     </progress>
