@@ -53,22 +53,21 @@ const vente = useForm({
                 publcation voiture
             </h2>
         </template>
-<div class="w-5/6 my-7 m-auto rounded-2xl  lg:w-2/5 border-2 shadow-lg border-slate-400   ">
-    <h2 class="text-2xl  font-bold mb-4 text-center">Sélectionnez une image</h2>
-    <div class=" "
-     id="menu">
-      <div v-for="image in images" :key="image.id" id="titre" class="text-principal focus:border-white focus:ring-white">
-        <label>
-          <input type="radio" :value="image.titre" v-model="lead.type"
-           class="w-4/6 hidden mx-auto"
-           
-           >
-          <h3 class="text-center">{{ image.titre }}</h3>
-          <img :src="image.src" :alt="image.alt" class=" rounded-lg shadow-lg">
-        </label>
-      </div>
+        <div class="w-5/6 my-7 mx-auto rounded-2xl lg:w-2/5 border-2 shadow-lg border-slate-400">
+    <h2 class="text-2xl font-bold mb-4 text-center text-gray-800">Sélectionnez une image</h2>
+    <div id="menu" class="space-y-4">
+        <div v-for="image in images" :key="image.id" class="flex flex-col items-center">
+            <label class="w-full cursor-pointer">
+                <input type="radio" :value="image.titre" v-model="lead.type" class="hidden">
+                <div class="w-full p-4 border border-gray-300 rounded-lg hover:border-gray-500 focus-within:border-indigo-500">
+                    <h3 class="text-lg font-semibold text-center text-gray-700 mb-2">{{ image.titre }}</h3>
+                    <img :src="image.src" :alt="image.alt" class="rounded-lg shadow-lg w-full">
+                </div>
+            </label>
+        </div>
     </div>
-  </div>
+</div>
+
 
 <!-- LOCATION -->
 
