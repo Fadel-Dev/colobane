@@ -89,20 +89,32 @@ const isStepTwoValid = computed(() => {
           <div v-if="currentStep === 1">
             <!-- NOM -->
             <div class="mb-4">
-              <label class="block text-gray-700 font-bold mb-2" for="nom">Titre</label>
-              <input class="shadow appearance-none focus:border-gray-500 focus:ring-gray-500 border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="nom" name="nom" type="text" placeholder="Entrez le titre de votre annonce" v-model="lead.nom" required>
+              <!-- <label class="block text-gray-700 font-bold mb-2" for="nom">Titre</label> -->
+              <input
+              class="w-full bg-white border-none p-4 rounded-[20px] mt-4 shadow-[0_10px_10px_-5px_#101634] border-2 border-transparent placeholder-gray-500 focus:outline-none 
+         focus:border-white focus:ring focus:ring-white focus:ring-opacity-50
+        "               id="nom" name="nom" type="text" placeholder="Entrez le titre de votre annonce" v-model="lead.nom" required>
             </div>
 
             <!-- PRIX -->
             <div class="mb-4">
-              <label class="block text-gray-700 font-bold mb-2" for="prix">Prix</label>
-              <input class="shadow appearance-none focus:border-gray-500 focus:ring-gray-500 border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="prix" type="text" placeholder="Entrez le prix" name="prix" v-model="lead.prix" required>
+              <!-- <label class="block text-gray-700 font-bold mb-2" for="prix">Prix</label> -->
+              <input 
+              class="w-full bg-white border-none p-4 rounded-[20px] mt-4 shadow-[0_10px_10px_-5px_#101634] border-2 border-transparent placeholder-gray-500 focus:outline-none 
+         focus:border-white focus:ring focus:ring-white focus:ring-opacity-50
+        "
+       
+              id="prix" type="text" placeholder="Entrez le prix" name="prix" v-model="lead.prix" required>
             </div>
 
             <!-- DESCRIPTION -->
             <div class="mb-4">
-              <label class="block text-gray-700 font-bold mb-2" for="description">Description</label>
-              <textarea class="shadow appearance-none focus:border-gray-500 focus:ring-gray-500 border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="description" rows="5" name="description" v-model="lead.description" placeholder="Entrez la description" required></textarea>
+              <!-- <label class="block text-gray-700 font-bold mb-2" for="description">Description</label> -->
+              <textarea 
+              class="w-full bg-white border-none p-4 rounded-[20px] mt-4 shadow-[0_10px_10px_-5px_#101634] border-2 border-transparent placeholder-gray-500 focus:outline-none 
+         focus:border-white focus:ring focus:ring-white focus:ring-opacity-50
+        "               id="description" rows="5" 
+              name="description" v-model="lead.description" placeholder="Entrez la description" required></textarea>
             </div>
 
             <button type="button" @click="nextStep" class="bg-principal text-white px-5 py-1 rounded-2xl" :disabled="!isStepOneValid">Suivant</button>
@@ -116,40 +128,62 @@ const isStepTwoValid = computed(() => {
             </div>
 
             <div v-else class="mb-4">
-              <label class="block text-gray-700 font-bold mb-2" for="surface">Surface</label>
-              <input class="shadow appearance-none focus:border-gray-500 focus:ring-gray-500 border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="surface" name="surface" type="text" placeholder="Entrez la surface" v-model="lead.surface" required>
+              <!-- <label class="block text-gray-700 font-bold mb-2" for="surface">Surface</label> -->
+              <input 
+              class="w-full bg-white border-none p-4 rounded-[20px] mt-4 shadow-[0_10px_10px_-5px_#101634] border-2 border-transparent placeholder-gray-500 focus:outline-none 
+         focus:border-white focus:ring focus:ring-white focus:ring-opacity-50
+        "            
+          id="surface" name="surface" type="text" placeholder="Entrez la surface" v-model="lead.surface" required>
             </div>
 
             <!-- AFFAIRE -->
-            <label class="block text-gray-700 font-bold mb-2" for="affaire">Location ou vente</label>
-            <select class="shadow appearance-none focus:border-gray-500 focus:ring-gray-500 border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="affaire" name="affaire" v-model="lead.affaire">
+            <!-- <label class="block text-gray-700 font-bold mb-2" for="affaire">Location ou vente</label> -->
+            <select
+            class="w-full bg-white border-none p-4 rounded-[20px] mt-4 shadow-[0_10px_10px_-5px_#101634] border-2 border-transparent placeholder-gray-500 focus:outline-none 
+         focus:border-white focus:ring focus:ring-white focus:ring-opacity-50
+        "              id="affaire" name="affaire" v-model="lead.affaire">
               <option value="vente">Vente</option>
               <option value="location">Location</option>
             </select>
 
-            <button type="button" @click="prevStep" class="bg-gray-500 text-white px-5 py-1 rounded-2xl">Précédent</button>
-            <button type="button" @click="nextStep" class="bg-principal text-white px-5 py-1 rounded-2xl" :disabled="!isStepTwoValid">Suivant</button>
+            <button type="button" @click="prevStep" class="bg-gray-500 mt-5 text-white px-5 py-1 rounded-2xl">Précédent</button>
+            <button type="button" @click="nextStep" class="bg-principal mt-5 text-white px-5 py-1 rounded-2xl" :disabled="!isStepTwoValid">Suivant</button>
           </div>
 
           <div v-if="currentStep === 3">
             <!-- IMAGES -->
             <div class="images mb-4">
-              <label class="block text-gray-700 font-bold mb-2" for="image1">Image 1</label>
-              <input type="file" @change="event => lead.image1 = event.target.files[0]" />
+              <!-- <label 
+              class="block text-gray-700 font-bold mb-2" 
+              for="image1">Image 1</label> -->
+              <input type="file" @change="event => lead.image1 = event.target.files[0]" 
+              class="w-full bg-white border-none p-4 rounded-[20px] mt-4 shadow-[0_10px_10px_-5px_#101634] border-2 border-transparent placeholder-gray-500 focus:outline-none 
+         focus:border-white focus:ring focus:ring-white focus:ring-opacity-50
+        "
+              />
               <progress v-if="lead.progress" :value="lead.progress.percentage" max="100">{{ lead.progress.percentage }}%</progress>
 
-              <label class="block text-gray-700 font-bold mb-2" for="image2">Image 2</label>
-              <input type="file" @change="event => lead.image2 = event.target.files[0]" />
+              <!-- <label class="block text-gray-700 font-bold mb-2" for="image2">Image 2</label> -->
+              <input type="file" @change="event => lead.image2 = event.target.files[0]"
+              class="w-full bg-white border-none p-4 rounded-[20px] mt-4 shadow-[0_10px_10px_-5px_#101634] border-2 border-transparent placeholder-gray-500 focus:outline-none 
+         focus:border-white focus:ring focus:ring-white focus:ring-opacity-50
+        "
+              />
               <progress v-if="lead.progress" :value="lead.progress.percentage" max="100">{{ lead.progress.percentage }}%</progress>
 
-              <label class="block text-gray-700 font-bold mb-2" for="image3">Image 3</label>
-              <input type="file" @change="event => lead.image3 = event.target.files[0]" />
+              <!-- <label class="block text-gray-700 font-bold mb-2" for="image3">Image 3</label> -->
+              <input type="file" @change="event => lead.image3 = event.target.files[0]"
+              class="w-full bg-white border-none p-4 rounded-[20px] mt-4 shadow-[0_10px_10px_-5px_#101634] border-2 border-transparent placeholder-gray-500 focus:outline-none 
+         focus:border-white focus:ring focus:ring-white focus:ring-opacity-50
+        " />
               <progress v-if="lead.progress" :value="lead.progress.percentage" max="100">{{ lead.progress.percentage }}%</progress>
             </div>
 
             <!-- REGION -->
             <div class="mb-4">
-              <select class="border border-gray-300 rounded-full text-gray-600 h-10 pl-5 pr-10 bg-white hover:border-gray-400 focus:outline-none appearance-none" v-model="lead.region" required>
+              <select 
+              class="border border-gray-300 rounded-full text-gray-600 h-10 pl-5 pr-10 bg-white hover:border-gray-400 focus:outline-none appearance-none"
+               v-model="lead.region" required>
                 <option value="" disabled selected hidden>Région</option>
                 <option value="Dakar">Dakar</option>
                 <option value="Diourbel">Diourbel</option>
