@@ -39,12 +39,14 @@ const props=defineProps({
 <!-- NOM -->
 
       <div class="mb-4">
-          <label class="block text-gray-700 font-bold mb-2"
+          <!-- <label class="block text-gray-700 font-bold mb-2"
           for="nom">
               Titre
-          </label>
-          <input class="shadow appearance-none focus:border-gray-500 focus:ring-gray-500 border rounded w-full py-2 px-3 text-gray-700 posting-tight focus:outline-none focus:shadow-outline"
-             id="nom"
+          </label> -->
+          <input 
+          class="w-full bg-white border-none p-4 rounded-[20px] mt-4 shadow-[0_10px_10px_-5px_#101634] border-2 border-transparent placeholder-gray-500 focus:outline-none 
+         focus:border-white focus:ring focus:ring-white focus:ring-opacity-50
+        "             id="nom"
              name="nom"
              type="text"
              placeholder="Entrez le titre de votre annonce "
@@ -57,11 +59,13 @@ const props=defineProps({
 
 <!-- PRIX -->
            <div class="mb-4" >
-          <label class="block text-gray-700 font-bold mb-2" for="price">
+          <!-- <label class="block text-gray-700 font-bold mb-2" for="price">
               Prix
-          </label>
-          <input class="shadow appearance-none focus:border-gray-500 focus:ring-gray-500 border rounded w-full py-2 px-3 text-gray-700 posting-tight focus:outline-none focus:shadow-outline"
-             id="prix"
+          </label> -->
+          <input
+          class="w-full bg-white border-none p-4 rounded-[20px] mt-4 shadow-[0_10px_10px_-5px_#101634] border-2 border-transparent placeholder-gray-500 focus:outline-none 
+         focus:border-white focus:ring focus:ring-white focus:ring-opacity-50
+        "             id="prix"
              type="text"
              placeholder="Entrez le prix"
              name="prix"
@@ -70,11 +74,13 @@ const props=defineProps({
       </div>
 <!-- DESCRIPTION -->
       <div class="mb-4">
-          <label class="block text-gray-700 font-bold mb-2" for="description">
+          <!-- <label class="block text-gray-700 font-bold mb-2" for="description">
               Description
-          </label>
-          <textarea class="shadow appearance-none focus:border-gray-500 focus:ring-gray-500 border rounded w-full py-2 px-3 text-gray-700 posting-tight focus:outline-none focus:shadow-outline"
-             id="description" rows="5"
+          </label> -->
+          <textarea 
+          class="w-full bg-white border-none p-4 rounded-[20px] mt-4 shadow-[0_10px_10px_-5px_#101634] border-2 border-transparent placeholder-gray-500 focus:outline-none 
+         focus:border-white focus:ring focus:ring-white focus:ring-opacity-50
+        "             id="description" rows="5"
              name="description"
              v-model="form.description"
              placeholder="Entrez la description"
@@ -82,7 +88,7 @@ const props=defineProps({
       </div>
 
 
-         <button type="submit" class="bg-principal text-white px-5 py-1 rounded-2xl">save</button>
+         <button type="submit" class="bg-principal text-white px-5 py-1 rounded-2xl">Enregister</button>
 
     </form>
     </div>
