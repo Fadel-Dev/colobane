@@ -262,10 +262,11 @@ public function storeEdit($id )
         auth()->user()->Voitures()->where('id', $id)->update([
             // 'type' => Request::input('type'),
             'booster' => Request::input('boost'),
+            'duration' => Request::input('duration'),
 
         ]);
 
-        return redirect()->route('dashboard')->with('message', 'Annone publiee avec success Intervention');
+        return redirect()->back()->with('message', 'Votre annonce est en attente de vérification.');
     }
 
 

@@ -458,7 +458,7 @@ totalRestant:Object
                 </div>
 </div>
 <div class="bg-green-400 rounded-sm shadow-lg shadow-green-600 text-white cursor-pointer px-3 text-center justify-center items-center py-1 rounded-xl flex space-x-2 flex-row">
-        <span>Booster</span>
+        <span @click=" navigateToBoostVehicule(vehicule.id)" >Booster</span>
      </div>
 </div>
 </div>

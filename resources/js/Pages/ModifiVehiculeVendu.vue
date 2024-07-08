@@ -39,10 +39,8 @@ const props=defineProps({
 
 <!-- REGION -->
 <div class="mb-4">
-      <select 
-      class="w-full bg-white border-none p-4 rounded-[20px] mt-4 shadow-[0_10px_10px_-5px_#101634] border-2 border-transparent placeholder-gray-500 focus:outline-none 
-         focus:border-white focus:ring focus:ring-white focus:ring-opacity-50
-        "      name="vendu"
+      <select class="border border-gray-300 rounded-full text-gray-600 h-10 pl-5 pr-10 bg-white hover:border-gray-400 focus:outline-none appearance-none focus:border-gray-500 focus:ring-gray-500"
+      name="vendu"
       id="vendu"
       v-model="form.vendu"
       required >

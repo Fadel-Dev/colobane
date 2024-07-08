@@ -12,7 +12,6 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('voitures', function (Blueprint $table) {
-
             $table->id();
             $table->unSignedBigInteger('user_id');
 
@@ -36,6 +35,9 @@ return new class extends Migration
             $table->string('etat');
             $table->string('affaire');
             $table->string('categorie');
+            $table->string('status')->default('pending'); // Ajouter un statut pour la vérification
+            $table->integer('duration')->nullable(); // Durée en minutes
+            $table->timestamp('boosted_at')->nullable(); // Date de début du boost
 
             $table->timestamps();
         });

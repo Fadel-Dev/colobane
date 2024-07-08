@@ -4,6 +4,7 @@ import AppLayout from '@/Layouts/AppLayout.vue';
 
   const form = useForm({
             boost:  props.voiture.boost,
+            duration:  props.voiture.duration,
 
 })
 function submit(id) {
@@ -45,7 +46,21 @@ const props=defineProps({
       required >
       <option value=1>Booster l article</option>
 <option value=0>ne pas bosster</option>
+
+
 </select>
+<select name="duration" id="duration" required v-model="form.duration"
+class="w-full bg-white border-none p-4 rounded-[20px] mt-4 shadow-[0_10px_10px_-5px_#101634] border-2 border-transparent placeholder-gray-500 focus:outline-none 
+         focus:border-white focus:ring focus:ring-white focus:ring-opacity-50
+        "
+
+        
+>
+        <option value="120">2 heures</option>
+        <option value="2880">48 heures</option>
+        <option value="4320">72 heures</option>
+        <option value="10080">1 semaine</option>
+    </select>
 
 
 <!-- teste -->

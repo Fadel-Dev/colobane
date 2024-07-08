@@ -113,7 +113,7 @@
                 <!-- Grid For Vehicules -->
                 <div class="mt-10 grid grid-cols-2 gap-6 sm:grid-cols-4 sm:gap-4 lg:mt-16">
 
-                  <article v-for="maison in maisons.data " :key="maison.user_id.nom" @click="navigateToDetail(maison.id)"
+                  <article v-for="maison in maisons.data " :key="maison.id" @click="navigateToDetail(maison.id)"
                     class="relative flex flex-col overflow-hidden rounded-lg border">
 <div class="card">
                   <div class="aspect-square overflow-hidden">
@@ -260,7 +260,7 @@
                 <!-- Grid For Vehicules -->
                 <div class="mt-10 grid grid-cols-2 gap-6 sm:grid-cols-4 sm:gap-4 lg:mt-16">
 
-                  <article v-for="voiture in voitures.data " :key="voiture.user_id.nom" @click="navigateToDetail(voiture.id)"
+                  <article v-for="voiture in voitures.data " :key="voiture.id" @click="navigateToDetailVehi(voiture.id)"
                     class="relative flex flex-col overflow-hidden rounded-lg border"><div class="card">
                   <div class="aspect-square overflow-hidden">
                     <img :src="'/storage/' + voiture.image1" :alt="voiture.imageAlt"
@@ -273,7 +273,7 @@
                   </div>
 
                   <div class="my-2 mx-auto flex w-10/12 flex-col items-start justify-between">
-                    <p class="mr-3 text-sm font-semibold text-principal align-center">{{ voiture.prix}} <span class="text-secondaire mr-3">Fcfa</span></p>
+                    <p class="mr-3 text-sm font-semibold text-principal align-center">{{ voiture.prix}}vvvvvvvvvvvvvvvv <span class="text-secondaire mr-3">Fcfa</span></p>
 
                     <div class="mb-2 flex">
 
