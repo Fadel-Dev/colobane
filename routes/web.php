@@ -144,3 +144,17 @@ Route::get('/infos', function () {
 
 
 
+
+
+
+
+
+// Admin
+
+Route::get('/detail/{id}',[DashboardController::class,'Details'])->name('go');
+
+
+
+
+
+
