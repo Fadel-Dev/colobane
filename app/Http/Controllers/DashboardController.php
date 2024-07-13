@@ -25,7 +25,7 @@ class DashboardController extends Controller
         // Vérifier le rôle administrateur
         if (auth()->user()->role == 'admin') {
             // $voitures = Voitures::all()->toArray();
-            $immobiliers = Immobiliers::all()->toArray();
+            // $immobiliers = Immobiliers::all()->toArray();
     
             // // Logique pour séparer les articles vendus et en cours de vente
             // $immobiliersVendu = Immobiliers::where('vendu', 1)->get()->toArray();
@@ -36,12 +36,11 @@ class DashboardController extends Controller
             // $user = auth()->user();
 
             // $myRvs = Immobiliers::where('user_id', $user->id)->get();
-            $rvs = Immobiliers::all();
+            $immobiliers = Voitures::all();
     
             return Inertia::render('DashboardAdmin', [
                 // 'voitures' => $voitures,
                 'immobiliers' => $immobiliers,
-                'rvs' => $rvs,
                 // 'total' => count($voitures) + count($immobiliers),
                 // 'totalImmobilier' => count($immobiliers),
                 // 'totalVehicule' => count($voitures),
@@ -99,7 +98,7 @@ class DashboardController extends Controller
 
 
 
-    // ADMIN
+    // ADMIN VEHI
 
     public function Details($id)
     {
@@ -122,7 +121,7 @@ class DashboardController extends Controller
         $maison = $immo;
         $car = Voitures::find($id);
 
-        return Inertia::render('Detail', [
+        return Inertia::render('UpdateByAdmin/DetailVehicule', [
             'canLogin' => Route::has('login'),
             'canRegister' => Route::has('register'),
             'laravelVersion' => Application::VERSION,
@@ -137,6 +136,38 @@ class DashboardController extends Controller
     
     
     }
+
+    // Update
+
+    public function update( )
+{
+
+
+$rv = Immobiliers::findOrFail(1);
+
+
+if ($rv) {
+    // Mettre à jour les colonnes "heure", "date" et "etat" à partir du formulaire
+    $rv->status = Request::input('status');
+    $rv->boosted_at = Request::input('boosted_at');
+    $rv->date_fin_booster = Request::input('date_fin_booster');
+
+    // Sauvegarder les modifications dans la base de données
+    $rv->save();
+
+
+}
+    return redirect()->route('dashboard')->with('message', 'Rendezs-vous modifier  avec success');
+
+;
+
+
+}
+
+    // Admin Immo
+
     
+
+   
     
 }

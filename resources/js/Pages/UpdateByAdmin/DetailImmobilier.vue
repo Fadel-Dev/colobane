@@ -20,10 +20,10 @@ const props = defineProps({
 // motiondific donnee rendez vous
 
 const form=useForm({
-    date: null,
-            heure: null,
+    status: null,
+    boosted_at: null,
 
-            etat: null,
+            date_fin_booster: null,
 });
 function handleSubmit() {
   form.put('/rv/update')
@@ -94,7 +94,7 @@ function handleSubmit() {
                     autocomplete="etat"
             id="etat"
             name="etat"
-            v-model="form.etat"
+            v-model="form.status"
 
             >
             <option value="accepter">Accepter</option>
@@ -112,7 +112,7 @@ function handleSubmit() {
                                 <input datepicker type="time"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     placeholder="saisir l'heure hh : mm"
-                                     v-model="form.heure">
+                                     v-model="form.boosted_at">
                             </div>
                             <label for="cvc" class="text-gray-800 text-sm font-bold forming-tight tracking-normal">Changer
                                 la date</label>
@@ -130,7 +130,7 @@ function handleSubmit() {
                                     <input datepicker type="date"
                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         placeholder="saisir une date date xx/yy/zzzz"
-                                        v-model="form.date">
+                                        v-model="form.date_fin_booster">
                                 </div>
                             </div>
 
