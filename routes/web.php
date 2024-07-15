@@ -154,8 +154,8 @@ Route::get('/infos', function () {
 Route::get('/statusImmobilier/{id}',[DashboardController::class,'Details'])->name('go');
 
 // for Immobillier
-Route::get('/detailupdateVehiculeAdmin/{id}',[DashboardController::class,'Details'])->name('go');
-Route::put('/rv/update',[DashboardController::class,'update']);
+// Route::get('/detailupdateVehiculeAdmin/{id}',[DashboardController::class,'Details'])->name('go');
+Route::put('/rv/update/{id}',[DashboardController::class,'Update']);
 
 
 
