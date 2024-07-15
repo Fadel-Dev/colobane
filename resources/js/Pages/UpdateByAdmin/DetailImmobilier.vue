@@ -13,6 +13,7 @@ const props = defineProps({
 const form = useForm({
     status: props.immobiliers.status,
     date_fin_booster: props.immobiliers.date_fin_booster,
+    duration: props.immobiliers.duration,
 });
 
 function submit(id) {
@@ -92,7 +93,7 @@ function submit(id) {
                     <button type="submit" class="bg-principal text-white px-5 py-1 rounded-2xl">Enregistrer</button>
                 </form>
 
-               
+
                 </div>
             </div>
         </div>

@@ -153,10 +153,15 @@ Route::get('/infos', function () {
 // Admin
 // for immobillier
 Route::get('/statusImmobilier/{id}',[AdminController::class,'Details'])->name('go');
+// for vehicule
+Route::get('/statusVehicule/{id}',[AdminController::class,'DetailsVehicule'])->name('god');
 
 // for Immobillier
 // Route::get('/detailupdateVehiculeAdmin/{id}',[DashboardController::class,'Details'])->name('go');
 Route::put('/rv/update/{id}',[AdminController::class,'Update']);
+// for vehicule
+Route::put('/rvVoiture/update/{id}',[AdminController::class,'UpdateVoiture']);
+
 
 
 
