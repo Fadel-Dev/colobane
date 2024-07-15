@@ -4,6 +4,7 @@ use App\Http\Controllers\BoostController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ImmobilierController;
+use App\Http\Controllers\AdminController;
 
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ServiceController;
@@ -150,12 +151,12 @@ Route::get('/infos', function () {
 
 
 // Admin
-// for vehicle
-Route::get('/statusImmobilier/{id}',[DashboardController::class,'Details'])->name('go');
+// for immobillier
+Route::get('/statusImmobilier/{id}',[AdminController::class,'Details'])->name('go');
 
 // for Immobillier
 // Route::get('/detailupdateVehiculeAdmin/{id}',[DashboardController::class,'Details'])->name('go');
-Route::put('/rv/update/{id}',[DashboardController::class,'Update']);
+Route::put('/rv/update/{id}',[AdminController::class,'Update']);
 
 
 
