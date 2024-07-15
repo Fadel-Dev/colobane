@@ -2,6 +2,9 @@
 
 
 namespace App\Http\Controllers;
+// use Request;
+use Illuminate\Http\Request;
+
 
 use App\Models\Lead;
 use App\Models\User;
@@ -36,10 +39,11 @@ class DashboardController extends Controller
             // $user = auth()->user();
 
             // $myRvs = Immobiliers::where('user_id', $user->id)->get();
-            $immobiliers = Voitures::all();
+            $immobiliers = Immobiliers::all();
+            $voitures = Voitures::all();
     
             return Inertia::render('DashboardAdmin', [
-                // 'voitures' => $voitures,
+                'voitures' => $voitures,
                 'immobiliers' => $immobiliers,
                 // 'total' => count($voitures) + count($immobiliers),
                 // 'totalImmobilier' => count($immobiliers),
@@ -116,12 +120,13 @@ class DashboardController extends Controller
         $phoneUtilisateur = $user->phone;
 
         $urlActuelle = URL::current();
+        $immobiliers = Immobiliers::all();
 
         // Récupérer les informations de la maison et de la voiture
         $maison = $immo;
         $car = Voitures::find($id);
 
-        return Inertia::render('UpdateByAdmin/DetailVehicule', [
+        return Inertia::render('UpdateByAdmin/DetailImmobilier', [
             'canLogin' => Route::has('login'),
             'canRegister' => Route::has('register'),
             'laravelVersion' => Application::VERSION,
@@ -132,6 +137,7 @@ class DashboardController extends Controller
             'mailSeler' => $mailUtilisateur,
             'phoneSeler' => $phoneUtilisateur,
             'urlActuelle' => $urlActuelle,
+            'immobiliers' => $immobiliers,
         ]);
     
     
@@ -139,35 +145,27 @@ class DashboardController extends Controller
 
     // Update
 
-    public function update( )
-{
-
-
-$rv = Immobiliers::findOrFail(1);
-
-
-if ($rv) {
-    // Mettre à jour les colonnes "heure", "date" et "etat" à partir du formulaire
-    $rv->status = Request::input('status');
-    $rv->boosted_at = Request::input('boosted_at');
-    $rv->date_fin_booster = Request::input('date_fin_booster');
-
-    // Sauvegarder les modifications dans la base de données
-    $rv->save();
-
-
-}
-    return redirect()->route('dashboard')->with('message', 'Rendezs-vous modifier  avec success');
-
-;
-
-
-}
-
-    // Admin Immo
-
+    public function update(Request $request, $id)
+    {
+        $immobilier = Immobiliers::findOrFail($id);
     
-
-   
+        // Valider les données reçues
+        $validatedData = $request->validate([
+            'status' => 'required|string',
+            'duration' => 'required|integer',
+            'date_fin_booster' => 'required|date',
+        ]);
     
+        // Mettre à jour l'enregistrement avec les données validées
+        $immobilier->status = $validatedData['status'];
+        $immobilier->duration = $validatedData['duration'];
+        $immobilier->date_fin_booster = $validatedData['date_fin_booster'];
+        $immobilier->save();
+    
+        return redirect()->route('dashboard')->with('message', 'Annonce modifiée avec succès');
+    }
+
+
+
 }
+
