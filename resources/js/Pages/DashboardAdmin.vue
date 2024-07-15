@@ -94,10 +94,10 @@ const navigateUpdateVenduImmobilier = (id) => {
             </div>
         </div>
         <!-- ---------------------------------------------------------------------------------------------------------- -->
-        <!-- <div class="custom-grid">
-            
+        <div class="custom-grid">
+
             <div class="flex flex-wrap justify-center mt-20 text-gray-800">
-                <div v-for="voiture in voitures" :key="voiture.id" @click="navigateToDetail(voiture.id)" class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 p-2">
+                <div v-for="voiture in voitures" :key="voiture.id" @click="navigateToDetailVoiture(voiture.id)" class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 p-2">
                     <div class="bg-secondaire rounded-2xl shadow-2xl relative mt-4">
                         <div class="w-full h-full">
                             <img :src="'/storage/' + voiture.image1" :alt="voiture.imageAlt" class="w-full h-full object-fill rounded-2xl shadow-lg">
@@ -109,14 +109,14 @@ const navigateUpdateVenduImmobilier = (id) => {
                             <p class="text-principal text-lg">{{ voiture.prix }}<span class="text-principal text-opacity-60"> Fcfa</span></p>
                             <div class="flex items-center space-x-4 justify-between">
                                 <div class="flex flex-row space-x-1">
-                                   
+
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div> -->
+        </div>
 
         <!-- Popup -->
         <div v-if="data.popupVisible" class="popup">
@@ -144,6 +144,10 @@ export default {
   methods: {
     navigateToDetail(id) {
       this.$inertia.visit(`/statusImmobilier/${id}`);
+    },
+
+    navigateToDetailVoiture(id) {
+      this.$inertia.visit(`/statusVehicule/${id}`);
     }
   },}
 </script>

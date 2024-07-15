@@ -1,156 +1,103 @@
 <script setup>
-
-import { Head, Link, router,useForm } from '@inertiajs/vue3';
-// import { Inertia } from '@inertiajs/inertia';
-
-
+import { Head, Link, router, useForm } from '@inertiajs/vue3';
 
 const props = defineProps({
     usere: Object,
     nomPatient: Object,
     mailPatient: Object,
-   phonePatient : Object,
-
-    //         canLogin: Boolean,
-    // canRegister: Boolean,
-    // laravelVersion: String,
-    // phpVersion: String,
+    phonePatient: Object,
+    voitures: Object,
+    immobiliers: Object,
 });
 
-// motiondific donnee rendez vous
-
-const form=useForm({
-    status: null,
-    date_fin_booster: null,
-
-            boosted_at: null,
+const form = useForm({
+    status: props.immobiliers.status,
+    date_fin_booster: props.immobiliers.date_fin_booster,
+    duration: props.immobiliers.duration,
 });
-function handleSubmit() {
-  form.put('/rv/update')
+
+function submit(id) {
+    router.put('/rvVoiture/update/'+id, form);
 }
 </script>
+
 <template>
-    <div>
-        <h1>Détails du patient</h1>
+    <!-- duration: props.immobiliers.duration, -->
 
-        <!-- <form @submit="updatePatient">
-            <div>
-                <label>Nom :</label>
-                <input type="text" v-model="patient.nom" :readonly="!editing" />
-            </div>
+    <app-layout>
+        <template #header>
+            <h2 class="font-semibold text-xl text-gray-800 posting-tight text-center">
+                Publication
+            </h2>
+        </template>
 
-            <div>
-                <label>Âge :</label>
-                <input type="number" v-model="patient.age" :readonly="!editing" />
-            </div>
+        <div class="w-11/12 my-7 m-auto rounded-2xl lg:w-2/5 border-2 shadow-lg border-slate-400">
+            <!-- Content to develop further -->
+        </div>
 
+        <div class="p-6">
+            <div class="w-full p-3 m-auto rounded-2xl border-2 shadow-lg border-slate-200 lg:w-2/5">
+                <h2 class="my-5 text-center bg-principal text-white rounded-full py-3">Ecrivez votre annonce immobilière</h2>
+                <div v-for="imm in immobiliers" :key="imm.id">
+                    <h1>{{ imm.nom }}</h1>
 
-
-            <div>
-                <button type="button" @click="toggleEditing" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
-                    {{ editing ? 'Enregistrer' : 'Modifier' }}
-                </button>
-            </div>
-        </form> -->
-        <dh-component>
-            <form @submit="handleSubmit">
-                <div class="py-12 bg-gray-700 transition duration-150 ease-in-out z-10 absolute top-0 right-0 bottom-0 left-0"
-                    id="modal">
-                    <div role="alert" class="container mx-auto w-11/12 md:w-2/3 max-w-lg">
-                        <div class="relative py-8 px-5 md:px-10 bg-white shadow-md rounded border border-gray-400">
-
-
-                            <!-- <div class="main flex ">
-                                <div class="nom flex-auto">
-                                    <span for="name" class="text-gray-800 text-lg font-bold forming-tight tracking-normal">
-                                Prenom && Nom
-                            </span> <br>
-
-
-                            <span for="name" class="text-gray-500 text-sm font-bold forming-tight tracking-normal">
-                                {{ nomPatient }}
-                            </span>
-                                </div>
-
-                                <div class="phone">
-                                    <span for="name" class="text-gray-800 text-lg font-bold forming-tight tracking-normal">
-                                Telephone du Patient
-                            </span> <br>
-
-
-                            <span for="name" class="text-gray-500 text-sm font-bold forming-tight tracking-normal">
-                                {{ phonePatient }}
-                            </span>
-                                </div>
-                            </div> -->
-                            <label for="email2" class="text-gray-800 text-sm font-bold forming-tight tracking-normal">
-                                Modifier Status</label>
-                            <div class="relative mb-5 mt-2">
-
-                                <select
-                class="mt-1 block w-full"
-                    required
-                    autofocus
-                    autocomplete="etat"
-            id="etat"
-            name="etat"
-            v-model="form.etat"
-
-            >
-            <option value="accepter">Accepter</option>
-            <option value="attente">En attente</option>
-
-
-
-       </select>
-                            </div>
-                            <label for="expiry"
-                                class="text-gray-800 text-sm font-bold forming-tight tracking-normal">heure de fin</label>
-                            <div class="relative mb-5 mt-2">
-
-                                <input datepicker type="time"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                    placeholder="saisir l'heure hh : mm"
-                                     v-model="form.boosted_at">
-                            </div>
-                            <label for="cvc" class="text-gray-800 text-sm font-bold forming-tight tracking-normal">Changer
-                                la date de fin</label>
-                            <div class="relative mb-5 mt-2">
-
-                                <div class="relative max-w-sm">
-                                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                        <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400"
-                                            fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                            <path fill-rule="evenodd"
-                                                d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
-                                                clip-rule="evenodd"></path>
-                                        </svg>
-                                    </div>
-                                    <input datepicker type="date"
-                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                        placeholder="saisir une date date xx/yy/zzzz"
-                                        v-model="form.date_fin_booster">
-                                </div>
-                            </div>
-
-
-                            <div class="modal-footer">
-					<input type="button" class="btn btn-default" data-dismiss="modal" value="Annuler">
-					<input type="submit" class="btn btn-success text-black" value="Enregistrer">
-				</div>
-                        </div>
+                <form @submit.prevent="submit(imm.id)">
+                    <!-- STATUS -->
+                    <div class="mb-4">
+                        <select
+                            class="w-full bg-white border-none p-4 rounded-[20px] mt-4 shadow-[0_10px_10px_-5px_#101634] border-2 border-transparent placeholder-gray-500 focus:outline-none focus:border-white focus:ring focus:ring-white focus:ring-opacity-50"
+                            id="status"
+                            name="status"
+                            v-model="form.status"
+                            required
+                        >
+                            <option value="accepter">Accepter</option>
+                            <option value="attente">En attente</option>
+                        </select>
                     </div>
 
+                    <!-- BOOSTED AT -->
+                    <div class="mb-4">
+                        <select
+                            class="w-full bg-white border-none p-4 rounded-[20px] mt-4 shadow-[0_10px_10px_-5px_#101634] border-2 border-transparent placeholder-gray-500 focus:outline-none focus:border-white focus:ring focus:ring-white focus:ring-opacity-50"
+                            id="duration"
+                            placeholder="Saisir l'heure hh:mm"
+                            name="duration"
+                            v-model="form.duration"
+                            required
+                        >
+                        <option value="1440">1 jour - 1440 minutes</option>
+  <option value="2880">2 jours - 2880 minutes</option>
+  <option value="4320">3 jours - 4320 minutes</option>
+  <option value="5760">4 jours - 5760 minutes</option>
+  <option value="7200">5 jours - 7200 minutes</option>
+  <option value="8640">6 jours - 8640 minutes</option>
+  <option value="10080">7 jours - 10080 minutes</option>
+
+                        </select>
+                    </div>
+
+                    <!-- DATE FIN BOOSTER -->
+                    <div class="mb-4">
+                        <input
+                            class="w-full bg-white border-none p-4 rounded-[20px] mt-4 shadow-[0_10px_10px_-5px_#101634] border-2 border-transparent placeholder-gray-500 focus:outline-none focus:border-white focus:ring focus:ring-white focus:ring-opacity-50"
+                            id="date_fin_booster"
+                            type="date"
+                            name="date_fin_booster"
+                            v-model="form.date_fin_booster"
+                            placeholder="Saisir une date xx/yy/zzzz"
+                            required
+                        >
+                    </div>
+
+                    <button type="submit" class="bg-principal text-white px-5 py-1 rounded-2xl">Enregistrer</button>
+                </form>
+
+
                 </div>
-
-            </form>
-
-
-
-
-
-        </dh-component>
-
-    </div>
+            </div>
+        </div>
+    </app-layout>
 </template>
+
 
