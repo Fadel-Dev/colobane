@@ -25,8 +25,8 @@ class Controller extends BaseController
     public function Home()
     {
         $voitures = Voitures::orderBy('created_at', 'desc')->paginate(99999999);
-        $voituresBoost = Voitures::where('status', 'booster')->paginate(99999999);
-        $immobilliersBoost = Immobiliers::where('booster', 1)->paginate(99999999);
+        $voituresBoost = Voitures::where('status', 'accepter')->paginate(99999999);
+        $immobilliersBoost = Immobiliers::where('status', 'accepter')->paginate(99999999);
 
 
         $maisons = Immobiliers::orderBy('created_at', 'desc')->paginate(9999999);
