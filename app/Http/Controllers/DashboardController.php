@@ -29,19 +29,25 @@ class DashboardController extends Controller
         if (auth()->user()->role == 'admin') {
             // $voitures = Voitures::all()->toArray();
             // $immobiliers = Immobiliers::all()->toArray();
-    
+
             // // Logique pour séparer les articles vendus et en cours de vente
             // $immobiliersVendu = Immobiliers::where('vendu', 1)->get()->toArray();
             // $voituresVendu = Voitures::where('vendu', 1)->get()->toArray();
-    
+
             // $immobiliersActuel = Immobiliers::where('vendu', 0)->get()->toArray();
             // $voituresActuel = Voitures::where('vendu', 0)->get()->toArray();
             // $user = auth()->user();
 
             // $myRvs = Immobiliers::where('user_id', $user->id)->get();
-            $immobiliers = Immobiliers::all();
-            $voitures = Voitures::all();
-    
+            $immobiliers = Immobiliers::where('booster', 1)
+            ->where('status', 'pending')
+            ->get()
+            ->toArray();
+
+            $voitures = Voitures::where('booster',1)
+            ->where('status', 'pending')
+            ->get()
+            ->toArray();
             return Inertia::render('DashboardAdmin', [
                 'voitures' => $voitures,
                 'immobiliers' => $immobiliers,
@@ -58,11 +64,11 @@ class DashboardController extends Controller
                 // 'totalActuel' => count($voituresActuel) + count($immobiliersActuel),
             ]);
         }
-    
+
         $user_id = auth()->id();
         $immobiliers = Immobiliers::where('user_id', $user_id)->get()->toArray();
         $voitures = Voitures::where('user_id', $user_id)->get()->toArray();
-    
+
         // Logique pour séparer les articles vendus et en cours de vente
         $immobiliersVendu = Immobiliers::where('user_id', $user_id)
             ->where('vendu', 1)
@@ -72,7 +78,7 @@ class DashboardController extends Controller
             ->where('vendu', 1)
             ->get()
             ->toArray();
-    
+
         $immobiliersActuel = Immobiliers::where('user_id', $user_id)
             ->where('vendu', 0)
             ->get()
@@ -81,7 +87,7 @@ class DashboardController extends Controller
             ->where('vendu', 0)
             ->get()
             ->toArray();
-    
+
         return Inertia::render('Dashboard', [
             'vehicules' => $voitures,
             'habitats' => $immobiliers,
@@ -96,13 +102,16 @@ class DashboardController extends Controller
             'totalImmobilierActuel' => count($immobiliersActuel),
             'totalVehiculeActuel' => count($voituresActuel),
             'totalActuel' => count($voituresActuel) + count($immobiliersActuel),
+            'restantVoiture' => count($voitures) - count($voituresVendu),
+            'restantImmobilier' => count($immobiliers) - count($immobiliersVendu),
+            'totalRestant' => count($voitures) - count($voituresVendu) + count($immobiliers) - count($immobiliersVendu),
         ]);
     }
 
 
 
 
-   
+
 
 
 }
