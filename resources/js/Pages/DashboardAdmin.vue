@@ -94,21 +94,26 @@ const navigateUpdateVenduImmobilier = (id) => {
                             <p class="text-principal text-lg">{{ immobilier.prix }}<span
                                     class="text-principal text-opacity-60">
                                     Fcfa</span></p>
-                            <div class="flex items-center space-x-4 justify-between">
-                                <div class="flex flex-row space-x-1">
-                                    <div v-for="us in user" :key="us.id">
-                                        <span class="text-principal">email :<span class="text-gray-300">{{ us.email
-                                                }}></span></span> <br>
-                                        <span class="text-principal">name:<span class="text-gray-300">{{ us.name
-                                                }}></span></span> <br>
-                                        <span class="text-principal">phone :<span class="text-gray-300">{{ us.phone
-                                                }}></span></span> <br>
-                                        <span class="text-principal">id : <span class="text-gray-300">{{ us.id
-                                                }}</span></span> <br>
 
-                                    </div>
-                                </div>
-                            </div>
+
+                            <span class="text-principal">name : <span class="text-gray-300">{{ immobilier.user.name
+                                    }} <span class="text-principal">Id {{ immobilier.user.id
+                                        }}</span></span></span> <br>
+
+                            <span class="text-principal">phone :<span class="text-gray-300">{{ immobilier.user.phone
+                                    }}</span></span> <br>
+
+
+                            <span class="text-principal">email:<span class="text-gray-300">{{ immobilier.user.email
+                                    }}</span></span> <br>
+
+
+                            <span class="text-principal">.boosted_at : <span class="text-gray-300">{{
+                                immobilier.boosted_at
+                                    }}</span></span> br
+
+                            <span class="text-principal">Duree : <span class="text-gray-300">{{ immobilier.duration
+                                    }}</span></span>
                         </div>
                     </div>
                 </div>
