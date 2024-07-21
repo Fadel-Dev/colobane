@@ -13,7 +13,7 @@ const props = defineProps({
 const form = useForm({
     status: props.voiture.status,
     date_fin_booster: props.voiture.date_fin_booster,
-    duration: props.voiture.duration,
+    // duration: props.voiture.duration,
 });
 
 function submit(id) {
@@ -60,7 +60,7 @@ function submit(id) {
                     </div>
 
                     <!-- BOOSTED AT -->
-                    <div class="mb-4">
+                    <!-- <div class="mb-4">
                         <select
                             class="w-full bg-white border-none p-4 rounded-[20px] mt-4 shadow-[0_10px_10px_-5px_#101634] border-2 border-transparent placeholder-gray-500 focus:outline-none focus:border-white focus:ring focus:ring-white focus:ring-opacity-50"
                             id="duration" placeholder="Saisir l'heure hh:mm" name="duration" v-model="form.duration"
@@ -72,7 +72,7 @@ function submit(id) {
                             <option value="4320">3 jours </option>
                             <option value="10080">7 jours</option>
                         </select>
-                    </div>
+                    </div> -->
 
                     <!-- DATE FIN BOOSTER -->
                     <div class="mb-4">

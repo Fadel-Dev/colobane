@@ -122,13 +122,13 @@ public function DetailsVehicule($id)
          // Valider les données reçues
          $validatedData = $request->validate([
              'status' => 'required|string',
-             'duration' => 'required|integer',
+            //  'duration' => 'required|integer',
              'date_fin_booster' => 'required|date',
          ]);
 
          // Mettre à jour l'enregistrement avec les données validées
          $immobilier->status = $validatedData['status'];
-         $immobilier->duration = $validatedData['duration'];
+        //  $immobilier->duration = $validatedData['duration'];
          $immobilier->date_fin_booster = $validatedData['date_fin_booster'];
          $immobilier->save();
 
@@ -151,13 +151,13 @@ public function DetailsVehicule($id)
          // Valider les données reçues
          $validatedData = $request->validate([
              'status' => 'required|string',
-             'duration' => 'required|integer',
+            //  'duration' => 'required|integer',
              'date_fin_booster' => 'required|date',
          ]);
 
          // Mettre à jour l'enregistrement avec les données validées
          $voiture->status = $validatedData['status'];
-         $voiture->duration = $validatedData['duration'];
+        //  $voiture->duration = $validatedData['duration'];
          $voiture->date_fin_booster = $validatedData['date_fin_booster'];
          $voiture->save();
 
