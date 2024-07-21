@@ -450,7 +450,7 @@ car:Object,
                       class=" bg-red-500 shadow-md shadow- shadow-red-600 text-white cursor-pointer px-3 py-1 text-center justify-center items-center rounded-xl flex space-x-2 flex-row">
                       <span    @click="navigateUpdateVehicule(vehicule.id)">modifier Vehicule {{ vehicule.id }}</span>
                     </div>
-                  
+
                   </div>
                 </div>
 </div>
