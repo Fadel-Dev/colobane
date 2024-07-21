@@ -35,7 +35,7 @@ class DashboardController extends Controller
 
             // Récupérer les voitures avec les utilisateurs associés
             $voitures = Voitures::where('booster', 1)
-                // ->where('status', 'pending')
+                ->where('status', 'pending')
                 ->with('user:id,name,phone,email,id') // Charger la relation user avec seulement l'id et le nom
                 ->get();
 

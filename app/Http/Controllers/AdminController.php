@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 // use Request;
 use Illuminate\Http\Request;
-
+use Carbon\Carbon;
 
 use App\Models\Lead;
 use App\Models\User;
@@ -23,85 +23,84 @@ class AdminController extends Controller
 {
      // ADMIN for Immobillier
 
-     public function Details($id)
-     {
+  public function Details($id)
+{
+    // Trouver l'immobilier avec l'ID spécifié
+    $immo = Immobiliers::findOrFail($id);
+    sleep(1);
 
-         $immo = Immobiliers::findOrFail($id);
-         sleep(1);
+    // Récupérer les informations de l'utilisateur
+    $user = User::findOrFail($immo->user_id);
+    $nomUtilisateur = $user->name;
+    $mailUtilisateur = $user->email;
+    $phoneUtilisateur = $user->phone;
 
-         // Récupérer le type de l'immobilier
-         $typeImmo = $immo->type;
+    // Récupérer la durée depuis l'immobilier (en minutes)
+    $duration = $immo->duration;
 
-         // Récupérer les informations de l'utilisateur
-         $user = User::findOrFail($immo->user_id);
-         $nomUtilisateur = $user->name;
-         $mailUtilisateur = $user->email;
-         $phoneUtilisateur = $user->phone;
+    // Date et heure actuelles
+    $currentDateTime = Carbon::now();
 
-         $urlActuelle = URL::current();
-         $immobiliers = Immobiliers::all();
+    // Ajouter la durée à la date et l'heure actuelles
+    $newDateTime = $currentDateTime->copy()->addMinutes($duration);
 
-         // Récupérer les informations de la maison et de la voiture
-         $maison = $immo;
-         $car = Voitures::find($id);
+    $urlActuelle = URL::current();
 
-         return Inertia::render('UpdateByAdmin/DetailImmobilier', [
-             'canLogin' => Route::has('login'),
-             'canRegister' => Route::has('register'),
-             'laravelVersion' => Application::VERSION,
-             'phpVersion' => PHP_VERSION,
-             'maison' => $maison,
-             'car' => $car,
-             'nameSeler' => $nomUtilisateur,
-             'mailSeler' => $mailUtilisateur,
-             'phoneSeler' => $phoneUtilisateur,
-             'urlActuelle' => $urlActuelle,
-             'immobiliers' => $immobiliers,
-         ]);
-
-
-     }
-
+    return Inertia::render('UpdateByAdmin/DetailImmobilier', [
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
+        'laravelVersion' => Application::VERSION,
+        'phpVersion' => PHP_VERSION,
+        'immobilier' => $immo,
+        'nameSeler' => $nomUtilisateur,
+        'mailSeler' => $mailUtilisateur,
+        'phoneSeler' => $phoneUtilisateur,
+        'urlActuelle' => $urlActuelle,
+        'currentDateTime' => $currentDateTime->toDateTimeString(),
+        'newDateTime' => $newDateTime->toDateTimeString(),
+    ]);
+}
 
 
-     public function DetailsVehicule($id)
-     {
+public function DetailsVehicule($id)
+{
+    // Trouver la voiture avec l'ID spécifié
+    $voiture = Voitures::findOrFail($id);
+    sleep(1);
 
-        $immo = Voitures::findOrFail($id);
-        sleep(1);
+    // Récupérer les informations de l'utilisateur
+    $user = User::findOrFail($voiture->user_id);
+    $nomUtilisateur = $user->name;
+    $mailUtilisateur = $user->email;
+    $phoneUtilisateur = $user->phone;
 
-        // Récupérer le type de l'immobilier
-        $typeImmo = $immo->type;
+    // Récupérer la durée depuis la voiture
+    $duration = $voiture->duration; // Durée en minutes
 
-        // Récupérer les informations de l'utilisateur
-        $user = User::findOrFail($immo->user_id);
-        $nomUtilisateur = $user->name;
-        $mailUtilisateur = $user->email;
-        $phoneUtilisateur = $user->phone;
+    // Date et heure actuelles
+    $currentDateTime = Carbon::now();
 
-        $urlActuelle = URL::current();
-        $immobiliers = Voitures::all();
+    // Ajouter la durée à la date et l'heure actuelles
+    $newDateTime = $currentDateTime->copy()->addMinutes($duration);
 
-        // Récupérer les informations de la maison et de la voiture
-        $maison = $immo;
+    $urlActuelle = URL::current();
 
-
-        return Inertia::render('UpdateByAdmin/DetailVehicule', [
-            'canLogin' => Route::has('login'),
-            'canRegister' => Route::has('register'),
-            'laravelVersion' => Application::VERSION,
-            'phpVersion' => PHP_VERSION,
-            'maison' => $maison,
-
-            'nameSeler' => $nomUtilisateur,
-            'mailSeler' => $mailUtilisateur,
-            'phoneSeler' => $phoneUtilisateur,
-            'urlActuelle' => $urlActuelle,
-            'immobiliers' => $immobiliers,
-        ]);
+    return Inertia::render('UpdateByAdmin/DetailVehicule', [
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
+        'laravelVersion' => Application::VERSION,
+        'phpVersion' => PHP_VERSION,
+        'voiture' => $voiture,
+        'nameSeler' => $nomUtilisateur,
+        'mailSeler' => $mailUtilisateur,
+        'phoneSeler' => $phoneUtilisateur,
+        'urlActuelle' => $urlActuelle,
+        'currentDateTime' => $currentDateTime->toDateTimeString(),
+        'newDateTime' => $newDateTime->toDateTimeString(),
+    ]);
+}
 
 
-     }
 
 
 
