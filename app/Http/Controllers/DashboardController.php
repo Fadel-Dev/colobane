@@ -26,44 +26,67 @@ class DashboardController extends Controller
     public function Dash()
     {
         // Vérifier le rôle administrateur
-        if (auth()->user()->role == 'admin') {
-            // $voitures = Voitures::all()->toArray();
-            // $immobiliers = Immobiliers::all()->toArray();
-
-            // // Logique pour séparer les articles vendus et en cours de vente
-            // $immobiliersVendu = Immobiliers::where('vendu', 1)->get()->toArray();
-            // $voituresVendu = Voitures::where('vendu', 1)->get()->toArray();
-
-            // $immobiliersActuel = Immobiliers::where('vendu', 0)->get()->toArray();
-            // $voituresActuel = Voitures::where('vendu', 0)->get()->toArray();
-            // $user = auth()->user();
-
-            // $myRvs = Immobiliers::where('user_id', $user->id)->get();
+     if (auth()->user()->role == 'admin') {
+            // Récupérer les immobiliers avec les utilisateurs associés
             $immobiliers = Immobiliers::where('booster', 1)
-            ->where('status', 'pending')
-            ->get()
-            ->toArray();
+                ->where('status', 'pending')
+                ->with('user:id,name,phone,email,id') // Charger la relation user avec seulement l'id et le nom
+                ->get();
 
-            $voitures = Voitures::where('booster',1)
-            ->where('status', 'pending')
-            ->get()
-            ->toArray();
+            // Récupérer les voitures avec les utilisateurs associés
+            $voitures = Voitures::where('booster', 1)
+                // ->where('status', 'pending')
+                ->with('user:id,name,phone,email,id') // Charger la relation user avec seulement l'id et le nom
+                ->get();
+
+            // Tableau pour stocker les informations
+            $articles = [];
+            $userIds = []; // Tableau pour stocker les user_id
+
+            // Parcourir les immobiliers et stocker les informations
+            foreach ($immobiliers as $immobilier) {
+                $articles[] = [
+                    'type' => 'immobilier',
+                    'article_id' => $immobilier->id,
+                    'user_id' => $immobilier->user->id,
+                    'user_name' => $immobilier->user->name,
+                    'user_phone' => $immobilier->user->phone,
+                    'user_email' => $immobilier->user->email,
+                ];
+
+                // Stocker le user_id dans un tableau
+                $userIds[] = $immobilier->user->id;
+            }
+
+            // Parcourir les voitures et stocker les informations
+            foreach ($voitures as $voiture) {
+                $articles[] = [
+                    'type' => 'voiture',
+                    'article_id' => $voiture->id,
+                    'user_id' => $voiture->user->id,
+                    'user_name' => $voiture->user->name,
+                    'user_phone' => $voiture->user->phone,
+                    'user_email' => $voiture->user->email,
+                ];
+
+                // Stocker le user_id dans un tableau
+                $userIds[] = $voiture->user->id;
+            }
+
+            // Supprimer les doublons de userIds
+            $userIds = array_unique($userIds);
+
+            // Récupérer les utilisateurs
+            $users = User::whereIn('id', $userIds)->get(['id', 'name']);
+
             return Inertia::render('DashboardAdmin', [
                 'voitures' => $voitures,
                 'immobiliers' => $immobiliers,
-                // 'total' => count($voitures) + count($immobiliers),
-                // 'totalImmobilier' => count($immobiliers),
-                // 'totalVehicule' => count($voitures),
-                // 'resultsVendu' => array_merge($voituresVendu, $immobiliersVendu),
-                // 'totalImmobilierVendu' => count($immobiliersVendu),
-                // 'totalVehiculeVendu' => count($voituresVendu),
-                // 'totalVendu' => count($voituresVendu) + count($immobiliersVendu),
-                // 'resultsActuel' => array_merge($voituresActuel, $immobiliersActuel),
-                // 'totalImmobilierActuel' => count($immobiliersActuel),
-                // 'totalVehiculeActuel' => count($voituresActuel),
-                // 'totalActuel' => count($voituresActuel) + count($immobiliersActuel),
+                'users' => $users, // Passer les utilisateurs récupérés
             ]);
         }
+
+        // Autre logique pour les utilisateurs non-admin...
 
         $user_id = auth()->id();
         $immobiliers = Immobiliers::where('user_id', $user_id)->get()->toArray();
