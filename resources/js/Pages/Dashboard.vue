@@ -522,7 +522,8 @@ const props = defineProps({
                                     <p class="text-gray-300">{{ vehicule.affaire }}</p>
 
                                     <p class="text-gray-400"> Proposée par {{ total }} <span
-                                            class="text-gray-600">Fadel</span> </p>
+                                            class="text-gray-600">Fadel</span>
+                                    </p>
                                     <p class="text-principal text-lg">{{ vehicule.prix }}<span
                                             class="text-principal text-opacity-60"> Fcfa</span></p>
                                     <!-- new -->
@@ -543,7 +544,12 @@ const props = defineProps({
                                 </div>
                                 <div
                                     class="bg-green-400 rounded-sm shadow-lg shadow-green-600 text-white cursor-pointer px-[3%] text-center justify-center items-center py-1 rounded-xl flex space-x-2 flex-row">
-                                    <span @click=" navigateToBoostVehicule(vehicule.id)">Booster</span>
+                                    <span v-if="vehicule.status == 'accepter'"
+                                        @click=" navigateToBoostVehicule(vehicule.id)">En
+                                        boost</span>
+                                    <span v-else-if="vehicule.status == 'pending'"
+                                        @click=" navigateToBoostVehicule(vehicule.id)">En attente</span>
+                                    <span v-else @click=" navigateToBoostVehicule(vehicule.id)">Boostaer</span>
                                 </div>
                             </div>
                         </div>
@@ -588,9 +594,20 @@ const props = defineProps({
                                                 class=" bg-red-500 shadow-md shadow- shadow-red-600 text-white cursor-pointer px-[3%] text-center justify-center items-center rounded-xl flex space-x-2 flex-row">
                                                 <span @click="navigateUpdateImmobilier(habitat.id)">modifier </span>
                                             </div>
-                                            <div
+                                            <!-- <div
                                                 class="text-2 bg-green-500 shadow-lg shadow- shadow-green-600 text-white cursor-pointer  px-[3%] text-center justify-center items-center py-1 rounded-xl flex space-x-2 flex-row">
                                                 <span @click="navigateToBoostImmobillier(habitat.id)">Booster </span>
+                                            </div> -->
+
+                                            <div
+                                                class="bg-green-400 rounded-sm shadow-lg shadow-green-600 text-white cursor-pointer px-[3%] text-center justify-center items-center py-1 rounded-xl flex space-x-2 flex-row">
+                                                <span v-if="habitat.status == 'accepter'"
+                                                    @click=" navigateToBoostVehicule(habitat.id)">En
+                                                    boost</span>
+                                                <span v-else-if="habitat.status == 'pending'" class="bg-gray-300"
+                                                    @click=" navigateToBoostVehicule(habitat.id)">En attente</span>
+                                                <span v-else
+                                                    @click=" navigateToBoostVehicule(vehicule.id)">Boostaer</span>
                                             </div>
                                         </div>
                                     </div>
