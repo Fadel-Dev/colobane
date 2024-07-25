@@ -22,27 +22,38 @@ class Controller extends BaseController
     use AuthorizesRequests, ValidatesRequests;
     // HOME
 
-    public function Home()
-    {
-        $voitures = Voitures::orderBy('created_at', 'desc')->paginate(99999999);
-        $voituresBoost = Voitures::where('status', 'accepter')->paginate(99999999);
-        $immobilliersBoost = Immobiliers::where('status', 'accepter')->paginate(99999999);
+ public function Home()
+{
+    $now = now(); // Date et heure actuelles
 
+    // Mettre à jour le statut des Voitures
+    Voitures::where('status', 'accepter')
+        ->where('date_fin_booster', $now) // Comparaison exacte avec la date de fin
+        ->update(['status' => 'pending']);
 
-        $maisons = Immobiliers::orderBy('created_at', 'desc')->paginate(9999999);
-        return Inertia::render('Welcome', [
-            'canLogin' => Route::has('login'),
-            'canRegister' => Route::has('register'),
-            'laravelVersion' => Application::VERSION,
-            'phpVersion' => PHP_VERSION,
+    // Mettre à jour le statut des Immobiliers
+    Immobiliers::where('status', 'accepter')
+        ->where('date_fin_booster', $now) // Comparaison exacte avec la date de fin
+        ->update(['status' => 'pending']);
 
-            'voitures' => $voitures,
-            'maisons' => $maisons,
-            'voituresBoost' => $voituresBoost,
-            'immobilliersBoost' => $immobilliersBoost
+    // Récupérer les enregistrements mis à jour
+    $voitures = Voitures::orderBy('created_at', 'desc')->paginate(99999999);
+    $voituresBoost = Voitures::where('status', 'accepter')->paginate(99999999);
+    $immobilliersBoost = Immobiliers::where('status', 'accepter')->paginate(99999999);
 
-        ]);
-    }
+    $maisons = Immobiliers::orderBy('created_at', 'desc')->paginate(9999999);
+
+    return Inertia::render('Welcome', [
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
+        'laravelVersion' => Application::VERSION,
+        'phpVersion' => PHP_VERSION,
+        'voitures' => $voitures,
+        'maisons' => $maisons,
+        'voituresBoost' => $voituresBoost,
+        'immobilliersBoost' => $immobilliersBoost
+    ]);
+}
 
 
 

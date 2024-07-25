@@ -263,6 +263,7 @@ public function storeEdit($id )
             // 'type' => Request::input('type'),
             'booster' => Request::input('boost'),
             'duration' => Request::input('duration'),
+            'status' => 'pending',
 
         ]);
 
