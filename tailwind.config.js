@@ -17,11 +17,12 @@ module.exports = {
             },
             screens: {
                 'xs': '480px',
-              },
+            },
             colors: {
                 'principal': '#eb2d53',
-               'secondaire': '#101634'
-              },
+                'troisieme': '#FC9918',
+                'secondaire': '#101634'
+            },
         },
     },
 

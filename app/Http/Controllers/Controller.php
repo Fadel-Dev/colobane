@@ -36,12 +36,31 @@ class Controller extends BaseController
         ->where('date_fin_booster', $now) // Comparaison exacte avec la date de fin
         ->update(['status' => 'pending']);
 
+        //For chambre
+
     // Récupérer les enregistrements mis à jour
     $voitures = Voitures::orderBy('created_at', 'desc')->paginate(99999999);
     $voituresBoost = Voitures::where('status', 'accepter')->paginate(99999999);
     $immobilliersBoost = Immobiliers::where('status', 'accepter')->paginate(99999999);
 
     $maisons = Immobiliers::orderBy('created_at', 'desc')->paginate(9999999);
+
+// FOR CHAMBRE
+    $chambres=Immobiliers::where('type','Chambre')->get();
+    $chambresBoost =Immobiliers::where('type','Chambre')->get();
+    // FOR Villa
+    $villas=Immobiliers::where('type','Villa')->get();
+    $villasBoost =Immobiliers::where('type','Villa')->get();
+    // For Immeuble
+    $immeubles=Immobiliers::where('type','Immeuble')->get();
+    $immeublesBoost =Immobiliers::where('type','Immeuble')->get();
+     // ForTerrain
+    $terrains=Immobiliers::where('type','Terrain')->get();
+    $terrainsBoost =Immobiliers::where('type','Terrain')->get();
+     // For Verger
+    $vergers=Immobiliers::where('type','Verger')->get();
+    $vergersBoost =Immobiliers::where('type','Verger')->get();
+
 
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
@@ -51,7 +70,17 @@ class Controller extends BaseController
         'voitures' => $voitures,
         'maisons' => $maisons,
         'voituresBoost' => $voituresBoost,
-        'immobilliersBoost' => $immobilliersBoost
+        'immobilliersBoost' => $immobilliersBoost,
+        'chambres'=>$chambres,
+        'chambresBoost'=>$chambresBoost,
+        'villas'=>$villas,
+        'villasBoost'=>$villasBoost,
+        'immeubles'=>$immeubles,
+        'immeublesBoost'=>$immeublesBoost,
+        'terrains'=>$terrains,
+        'terrainsBoost'=>$terrainsBoost,
+        'vergers'=>$vergers,
+        'vergersBoost'=>$vergersBoost
     ]);
 }
 
