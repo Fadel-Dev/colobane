@@ -178,7 +178,7 @@
                                             <h3
                                                 class="text-sm text-principal pt-[-8%] w-full border-b-[1px] border-gray-200 ">
                                                 {{
-                                                    immobillierBoost.region }} ,Senegal </h3>
+                                                immobillierBoost.region }} ,Senegal </h3>
 
                                             .
 
@@ -209,14 +209,14 @@
                                             Sénégal
                                         </h2>
                                     </div>
-                                    <div class="region-filter flex flex-col">
-                                        <label for="region">Trie</label>
+                                    <!-- <div class="region-filter flex flex-col">
+                                        <label for="marque">Trieeee</label>
                                         <select v-model="selectedRegion" id="region">
                                             <option v-for="region in regions" :key="region" :value="region">
                                                 {{ region }}
                                             </option>
                                         </select>
-                                    </div>
+                                    </div> -->
                                     <!-- Grid For Vehicules -->
                                     <div class="mt-10 grid grid-cols-2 gap-6 sm:grid-cols-4 sm:gap-4 lg:mt-16">
 
@@ -245,7 +245,7 @@
 
                                                         <p class="mr-3 text-secondaire  text-sm font-semibold truncate">
                                                             {{
-                                                                maison.nom.substring(0, 20) }}</p>
+                                                            maison.nom.substring(0, 20) }}</p>
                                                     </div>
                                                     <h3
                                                         class="text-sm text-principal pt-[-8%] w-full border-b-[1px] border-gray-200 ">
@@ -306,7 +306,7 @@
                     <!-- Vehicule Tab -->
                     <div v-else-if="activeTab == 'Vehicule'" class="bg-transparent">
 
-                        <Voiture :voitures="voitures" :voituresBoost="voituresBoost" :regions="regions" />
+                        <Voiture :voitures="voitures" :voituresBoost="voituresBoost" :marques="marques" />
 
                     </div>
                     <!-- Chambre -->
@@ -322,45 +322,36 @@
 
                     <!-- Immeubles -->
                     <div v-else-if="activeTab == 'Immeuble'" class="bg-transparent">
-                        <h1>mes Immeubless</h1>
+                        <!-- <h1>mes Immeubless</h1> -->
                         <Immeuble :immeubles="immeubles" :immeublesBoost="immeublesBoost" />
                     </div>
 
                     <!-- Terrain -->
                     <div v-else-if="activeTab == 'Terrain'" class="bg-transparent">
-                        <h1>mes Terrain</h1>
+                        <!-- <h1>mes Terrain</h1> -->
                         <Terrain :terrains="terrains" :terrainsBoost="terrainsBoost" />
                     </div>
 
                     <!-- Verger -->
                     <div v-else-if="activeTab == 'Verger'" class="bg-transparent">
-                        <h1>mes Vergers</h1>
+                        <!-- <h1>mes Vergers</h1> -->
                         <Verger :vergers="vergers" :vergersBoost="vergersBoost" />
                     </div>
                 </div>
             </div>
-
-
-
-
-
-
-
             <div>
-
-
-
             </div>
 
 
-
+            <!-- <footer /> -->
 
             <!-- Footer -->
-            <div class="mt-20">
-                <Footer />
-            </div>
+
         </div>
 
+    </div>
+    <div class="mt-20">
+        <Footer />
     </div>
 </template>
 
@@ -611,13 +602,15 @@ import Villa from './ForWelcome/Villa.vue';
 import Immeuble from './ForWelcome/Immeuble.vue';
 import Terrain from './ForWelcome/Terrain.vue';
 import Verger from './ForWelcome/Verger.vue';
+import Footer from '../Components/Footer.vue';
+
 
 export default {
     data() {
         return {
             activeTab: 'immobilier',
             showMenu: false,
-            regions: [
+            marques: [
                 "tous",
                 "volvo",
                 "renault",
@@ -632,9 +625,11 @@ export default {
                 "toyota",
                 "ford",
                 "Jeep",
+
+                "xxxxxxxxxxxxxxx",
                 "autres"
             ],
-            selectedRegion: 'dakar'
+            selectedMarque: 'dakar'
 
 
         };
