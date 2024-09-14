@@ -12,13 +12,14 @@
             <!-- Banner -->
             <nav class="  w-full fixed top-0 left-0 z-10">
                 <div
-                    class="px-11 py-5 mx-auto md:flex md:justify-between md:items-center shadow-xl bg-black text-white">
+                    class="px-11 py-5 mx-auto md:flex md:justify-between md:items-center shadow-xl bg-white text-principal">
                     <!-- Branding -->
                     <div class="flex items-center justify-between ">
-                        <button class="button" data-text="Awesome">
+                        <!-- <button class="button" data-text="Awesome">
                             <span class="actual-text">&nbsp;Noflay&nbsp;</span>
                             <span aria-hidden="true" class="hover-text">&nbsp;Noflay&nbsp;</span>
-                        </button>
+                        </button> -->
+                        <img width="100" class=" m-0 p-0" :src="'/storage/slide/NoflayHub.png'" alt="Image logo">
 
                         <!-- Mobile Menu Button -->
                         <button @click="showMenu = !showMenu" type="button"
@@ -33,16 +34,16 @@
 
                     <!-- Desktop Menu -->
                     <div class="hidden md:flex md:space-x-5 md:items-center  ">
-                        <a :href="route('publier')" class="btn-secondary mx-[210px] ">
+                        <a :href="route('publier')" class="btn-secondary mx-[210px] text-principal ">
                             <button class="sign">
-                                <div class="arrow-wrapper bg-principal">
+                                <div class="arrow-wrapper bg-principal text-principal">
                                     <i class="bi bi-plus"></i>
                                 </div>
                                 Publier une annonce
                             </button>
                         </a>
                         <template v-if="$page.props.auth.user">
-                            <a :href="route('publier')" class="btn-primary">Publier une annonce</a>
+                            <a :href="route('publier')" class="btn-primary text-principal">Publier une annonce</a>
                             <a :href="route('dashboard')" class="btn-secondary">Dashboard</a>
                         </template>
                         <!-- For LG -->
@@ -178,7 +179,7 @@
                                             <h3
                                                 class="text-sm text-principal pt-[-8%] w-full border-b-[1px] border-gray-200 ">
                                                 {{
-                                                immobillierBoost.region }} ,Senegal </h3>
+                                                    immobillierBoost.region }} ,Senegal </h3>
 
                                             .
 
@@ -245,7 +246,7 @@
 
                                                         <p class="mr-3 text-secondaire  text-sm font-semibold truncate">
                                                             {{
-                                                            maison.nom.substring(0, 20) }}</p>
+                                                                maison.nom.substring(0, 20) }}</p>
                                                     </div>
                                                     <h3
                                                         class="text-sm text-principal pt-[-8%] w-full border-b-[1px] border-gray-200 ">
@@ -585,7 +586,9 @@ let items = [
         "id": 8,
         "icon": "home", // FontAwesome icon name for Immobilier
         "name": "Immobilier"
-    }
+    },
+
+
 ];
 
 
@@ -622,11 +625,9 @@ export default {
                 "nissan",
                 "mercedes-benz",
                 "volkswagen",
-                "toyota",
+                "Toyota",
                 "ford",
                 "Jeep",
-
-                "xxxxxxxxxxxxxxx",
                 "autres"
             ],
             selectedMarque: 'dakar'

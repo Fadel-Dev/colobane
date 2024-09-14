@@ -19,58 +19,57 @@ const props = defineProps({
 <template>
 
     <div class="swiper">
-        <div class="swiper-wrapper">
+        <!-- <div class="swiper-wrapper">
             <div v-for="voitureBoost in voituresBoost.data" :key="voitureBoost.id"
                 @click="navigateToDetailVehi(voitureBoost.id)"
                 class="swiper-slide w-full sm:w-2/4 md:w-1/4 lg:w-1/6 xl:w-1/6 p-1  ">
-                <!-- Immobilier Card -->
-                <div class="card" id="card">
-                    <div class="aspect-square overflow-hidden">
-                        <img :src="'/storage/' + voitureBoost.image1" :alt="voitureBoost.imageAlt"
-                            class="h-full w-full object-cover transition-all duration-300 group-hover:scale-125">
-                    </div>
-                    <div class="absolute top-0 m-2 rounded-full ">
-                        <p
-                            class="rounded-full bg-principal p-1 text-[8px] font-bold uppercase tracking-wide text-white sm:py-1 sm:px-3">
-                            {{ voitureBoost.affaire }}</p>
-                    </div>
-
-                    <div class="my-2 mx- text-center flex-col items-start justify-between">
-                        <span class="mr-3 text-xl font-semibold text-secondaire align-center">{{
-                            voitureBoost.nom.substring(0, 20) }}</span>
-
-                        <div>
-
-                            <span class=" text-troisieme  text-sm font-semibold truncate">
-                                {{
-                                    voitureBoost.prix
-                                }} Xof
-
-
-                            </span>
-                        </div>
-                        <h3 class="text-sm text-secondaire  w-full border-b-[1px] border-gray-200 ">
-                            {{
-                                voitureBoost.region }} ,Senegal</h3>
-
-                        .
-
-                    </div>
-                    <div class="pb-3">
-                        <button
-                            class="  bg-principal w-[80%]  group mx-auto mt-[-15%] flex h-8  items-stretch overflow-hidden hover:text-secondaire rounded-md text-white">
-                            <div
-                                class="flex w-full items-center justify-center bg-principal text-xs uppercase transition  group-hover:text-secondaire">
-                                contacter</div>
-
-                        </button>
-
-                    </div>
-
-
-                </div>
+        <div class="card" id="card">
+            <div class="aspect-square overflow-hidden">
+                <img :src="'/storage/' + voitureBoost.image1" :alt="voitureBoost.imageAlt"
+                    class="h-full w-full object-cover transition-all duration-300 group-hover:scale-125">
             </div>
+            <div class="absolute top-0 m-2 rounded-full ">
+                <p
+                    class="rounded-full bg-principal p-1 text-[8px] font-bold uppercase tracking-wide text-white sm:py-1 sm:px-3">
+                    {{ voitureBoost.affaire }}</p>
+            </div>
+
+            <div class="my-2 mx- text-center flex-col items-start justify-between">
+                <span class="mr-3 text-xl font-semibold text-secondaire align-center">{{
+                    voitureBoost.nom.substring(0, 20) }}</span>
+
+                <div>
+
+                    <span class=" text-troisieme  text-sm font-semibold truncate">
+                        {{
+                            voitureBoost.prix
+                        }} Xof
+
+
+                    </span>
+                </div>
+                <h3 class="text-sm text-secondaire  w-full border-b-[1px] border-gray-200 ">
+                    {{
+                        voitureBoost.region }} ,Senegal</h3>
+
+                .
+
+            </div>
+            <div class="pb-3">
+                <button
+                    class="  bg-principal w-[80%]  group mx-auto mt-[-15%] flex h-8  items-stretch overflow-hidden hover:text-secondaire rounded-md text-white">
+                    <div
+                        class="flex w-full items-center justify-center bg-principal text-xs uppercase transition  group-hover:text-secondaire">
+                        contacter</div>
+
+                </button>
+
+            </div>
+
+
         </div>
+    </div>
+    </div> -->
 
         <div
             class=" bg-transparent border border-principal  my-5 rounded-[20px] w-full h-[10vh] flex items-center justify-center">
@@ -93,21 +92,21 @@ const props = defineProps({
                         Sénégal
                     </h2>
                 </div>
-                <div class="region-filter ">
+                <!-- <div class="region-filter ">
                     <label for="region">Trie</label>
                     <select v-model="selectedRegion" id="region">
                         <option v-for="region in regions" :key="region" :value="region">
                             {{ region }}
                         </option>
                     </select>
-                </div>
+                </div> -->
 
                 <!-- Grid For Vehicules -->
                 <div class="mt-10 lg:mt-16  rounded-lg">
                     <article v-for="voiture in voitures.data" :key="voiture.id"
                         @click="navigateToDetailVehi(voiture.id)"
                         class="relative flex flex-col overflow-hidden rounded-lg border">
-                        <div class="card flex items-start space-x-4 mb-4" v-if="voiture.region == selectedRegion">
+                        <div class="card flex items-start space-x-4 mb-4">
                             <!-- Image -->
                             <div class="w-1/6 aspect-square overflow-hidden">
                                 <img :src="'/storage/' + voiture.image1" :alt="voiture.imageAlt"
