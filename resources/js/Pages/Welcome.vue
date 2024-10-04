@@ -15,11 +15,13 @@
                     class="px-11 py-5 mx-auto md:flex md:justify-between md:items-center shadow-xl bg-white text-principal">
                     <!-- Branding -->
                     <div class="flex items-center justify-between ">
-                        <!-- <button class="button" data-text="Awesome">
+                        <router-link to="/">
+                            <img width="100" class=" m-0 p-0" :src="'/storage/slide/NoflayHub.png'" alt="Image logo">
+                        </router-link> <!-- <button class="button" data-text="Awesome">
                             <span class="actual-text">&nbsp;Noflay&nbsp;</span>
                             <span aria-hidden="true" class="hover-text">&nbsp;Noflay&nbsp;</span>
-                        </button> -->
-                        <img width="100" class=" m-0 p-0" :src="'/storage/slide/NoflayHub.png'" alt="Image logo">
+                            </button> -->
+
 
                         <!-- Mobile Menu Button -->
                         <button @click="showMenu = !showMenu" type="button"
