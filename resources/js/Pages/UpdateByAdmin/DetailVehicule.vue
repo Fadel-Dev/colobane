@@ -16,6 +16,7 @@ const form = useForm({
     // duration: props.voiture.duration,
 });
 
+
 function submit(id) {
     router.put('/rvVoiture/update/' + id, form);
 }
@@ -39,7 +40,8 @@ function submit(id) {
                 <p><strong>Email du vendeur:</strong> {{ mailSeler }}</p>
                 <p><strong>Téléphone du vendeur:</strong> {{ phoneSeler }}</p>
                 <p><strong>Duree:</strong> {{ newDateTime }}</p>
-                <p><strong>date Fin Booster:</strong> {{ newDateTime }}</p>
+                <p><strong>Date Fin Booster:</strong> {{ newDateTime }}</p>
+                <p><strong>Date Fin Booster + 48h:</strong> {{ newDateTimePlus48h }}</p>
             </div>
         </div>
 
@@ -88,3 +90,22 @@ function submit(id) {
         </div>
     </app-layout>
 </template>
+
+<script>
+export default {
+    data() {
+        return {
+            // Initialize newDateTime to the current date/time or any given date
+            newDateTime: new Date().toLocaleString(), // Current date/time
+        };
+    },
+    computed: {
+        // Create a computed property to calculate newDateTime + 48h
+        newDateTimePlus48h() {
+            let date = new Date(this.newDateTime); // Convert to Date object
+            date.setHours(date.getHours() + 48);   // Add 48 hours
+            return date.toLocaleString();          // Return as a formatted string
+        }
+    }
+}
+</script>

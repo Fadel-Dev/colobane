@@ -548,7 +548,7 @@ const props = defineProps({
                                         @click=" navigateToBoostVehicule(vehicule.id)">En
                                         boost</span>
                                     <span v-else-if="vehicule.status == 'pending'"
-                                        @click=" navigateToBoostVehicule(vehicule.id)">En attente</span>
+                                        @click=" navigateToBoostVehicule(vehicule.id)">Booster</span>
                                     <span v-else @click=" navigateToBoostVehicule(vehicule.id)">Boostaer</span>
                                 </div>
                             </div>
@@ -602,12 +602,12 @@ const props = defineProps({
                                             <div
                                                 class="bg-green-400 rounded-sm shadow-lg shadow-green-600 text-white cursor-pointer px-[3%] text-center justify-center items-center py-1 rounded-xl flex space-x-2 flex-row">
                                                 <span v-if="habitat.status == 'accepter'"
-                                                    @click=" navigateToBoostVehicule(habitat.id)">En
+                                                    @click=" navigateToBoostImmobillier(habitat.id)">En
                                                     boost</span>
-                                                <span v-else-if="habitat.status == 'pending'" class="bg-gray-300"
-                                                    @click=" navigateToBoostVehicule(habitat.id)">En attente</span>
+                                                <span v-else-if="habitat.status == 'pending'"
+                                                    @click=" navigateToBoostImmobillier(habitat.id)">Booster</span>
                                                 <span v-else
-                                                    @click=" navigateToBoostVehicule(vehicule.id)">Boostaer</span>
+                                                    @click=" navigateToBoostImmobillier(habitat.id)">Boostaer</span>
                                             </div>
                                         </div>
                                     </div>
