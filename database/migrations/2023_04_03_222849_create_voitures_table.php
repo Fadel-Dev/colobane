@@ -17,7 +17,7 @@ return new class extends Migration
 
             $table->string('nom');
             $table->date('date_fin_booster')->nullable();
-            $table->boolean('booster')->default(false); // Colonne pour marquer si l'article est boosté ou non
+            $table->string('booster')->default(false); // Colonne pour marquer si l'article est boosté ou non
             $table->boolean('vendu')->default(false); // Colonne pour marquer si l'article est boosté ou non
             $table->string('marque');
             $table->string('model');
@@ -35,7 +35,8 @@ return new class extends Migration
             $table->string('etat');
             $table->string('affaire');
             $table->string('categorie');
-            $table->string('status')->default('pending'); // Ajouter un statut pour la vérification
+            $table->string('onceBooster')->default(false);
+            $table->string('status')->default('null'); // Ajouter un statut pour la vérification
             $table->integer('duration')->nullable(); // Durée en minutes
             $table->timestamp('boosted_at')->nullable(); // Date de début du boost
 

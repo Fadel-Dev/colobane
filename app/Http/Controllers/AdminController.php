@@ -130,6 +130,7 @@ public function DetailsVehicule($id)
          $immobilier->status = $validatedData['status'];
         //  $immobilier->duration = $validatedData['duration'];
          $immobilier->date_fin_booster = $validatedData['date_fin_booster'];
+         $immobilier->onceBooster = true;
          $immobilier->save();
 
          return redirect()->route('dashboard')->with('message', 'Annonce modifiée avec succès');
