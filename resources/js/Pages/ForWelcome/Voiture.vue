@@ -42,7 +42,7 @@ const props = defineProps({
 
                             <span class=" text-troisieme  text-sm font-semibold truncate">
                                 {{
-                                    voitureBoost.prix
+                                voitureBoost.prix
                                 }} Xof
 
 
@@ -50,7 +50,7 @@ const props = defineProps({
                         </div>
                         <h3 class="text-sm text-secondaire  w-full border-b-[1px] border-gray-200 ">
                             {{
-                                voitureBoost.region }} ,Senegal</h3>
+                            voitureBoost.region }} ,Senegal</h3>
 
                         .
 
@@ -78,7 +78,10 @@ const props = defineProps({
                     <span class="text-secondaire text-3xl">C'est le moment de vendre</span>
                     <div class="flex   items-center border-2 border-principal rounded-[10px] p-1 mx-2">
                         <i class="fas fa-plus text-principal px-1  "></i>
-                        <span class="text-secondaire text-lg ml-2">Déposer une annonce</span>
+                        <a :href="route('publier')" class="text-secondaire text-lg ml-2">
+                            Déposer une annonce
+                        </a>
+
                     </div>
                 </div>
             </div>
@@ -125,8 +128,8 @@ const props = defineProps({
                                 <div class="my-2">
                                     <p class="text-lg font-semibold text-principal">{{
                                         voiture.nom.substring(0,
-                                            20)
-                                    }} </p>
+                                        20)
+                                        }} </p>
 
 
 
@@ -140,13 +143,13 @@ const props = defineProps({
 
                                     <h3 class="text-sm text-principal border-b-[1px] border-gray-400 ">
                                         {{
-                                            voiture.region }} ,Senegal</h3>
+                                        voiture.region }} ,Senegal</h3>
 
                                     <div class="flex justify-between mt-2">
                                         <div>
                                             <span class="text-secondaire text-lg my-3 font-semibold truncate">
                                                 {{
-                                                    voiture.prix }} F<span class="text-principal ">
+                                                voiture.prix }} F<span class="text-principal ">
                                                     cfa</span>
                                             </span>
                                         </div>
