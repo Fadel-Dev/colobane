@@ -36,6 +36,13 @@ class DashboardController extends Controller
                 //recuperer les deja booster
 
                 $immobilliersBoost = Immobiliers::where('booster', 1)
+                ->where('status', 'terminer')
+                ->with('user:id,name,phone,email,id') // Charger la relation user avec seulement l'id et le nom
+                ->get();
+
+                //recuperer les en cours de  boost
+
+                $immobilliersBoosting = Immobiliers::where('booster', 1)
                 ->where('status', 'accepter')
                 ->with('user:id,name,phone,email,id') // Charger la relation user avec seulement l'id et le nom
                 ->get();
@@ -48,6 +55,13 @@ class DashboardController extends Controller
 
                 // recuprer les deja booster
                 $voituresBoosted = Voitures::where('booster', 1)
+                ->where('status', 'accepter')
+                ->with('user:id,name,phone,email,id') // Charger la relation user avec seulement l'id et le nom
+                ->get();
+
+                // recuprer les en cours de boost
+
+                  $voituresBoosting = Voitures::where('booster', 1)
                 ->where('status', 'accepter')
                 ->with('user:id,name,phone,email,id') // Charger la relation user avec seulement l'id et le nom
                 ->get();
@@ -98,6 +112,8 @@ class DashboardController extends Controller
                 'users' => $users, // Passer les utilisateurs récupérés
                 'immobilliersBoosted'=> $immobilliersBoost,
                 'voituresBoosted'=> $voituresBoosted,
+                'immobilliersBoosting'=> $immobilliersBoosting,
+                'voituresBoosting'=> $voituresBoosting
             ]);
         }
 

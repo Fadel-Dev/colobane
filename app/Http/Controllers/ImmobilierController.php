@@ -232,7 +232,7 @@ public function storeEdit($id )
 
         ]);
 
-        return redirect()->route('dashboard')->with('message', 'Annone publiee avec success Intervention');
+        return redirect()->route('dashboard')->with('message', 'boost avec Succes attente de validation');
     }
 
 
@@ -249,7 +249,7 @@ public function storeEdit($id )
 
         ]);
 
-        return redirect()->route('dashboard')->with('message', 'Annone publiee avec success Intervention');
+        return redirect()->route('dashboard')->with('message',  'boost avec Succes attente de validation');
     }
 
 

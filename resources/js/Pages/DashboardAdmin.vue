@@ -8,6 +8,7 @@ const props = defineProps({
     voitures: Array,
     voituresBoosted: Array,
     immobilliersBoosted: Array,
+    immobilliersBoosting: Array,
     users: Object
 });
 
@@ -196,59 +197,62 @@ const navigateUpdateVenduImmobilier = (id) => {
         </div>
 
         <!--IMMOBILIER DEJA BOOSTER -->
+
+
         <div class="custom-grid">
             <!-- All Articles -->
+            <h1>Immobiliers qui ont ete deja bosster et terminer(historique)</h1>
             <div class="flex flex-wrap justify-center mt-20 text-gray-800">
-                <div v-for="immobilierBoosted in immobilliersBoosted" :key="immobilierBoosted.id"
-                    @click="navigateToDetail(immobilierBoosted.id)"
+                <div v-for="immobillierBoosting in immobilliersBoosted" :key="immobillierBoosting.id"
+                    @click="navigateToDetail(immobillierBoosting.id)"
                     class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 p-2">
 
 
                     <div class=" bg-secondaire rounded-2xl shadow-2xl relative mt-4">
                         <div class="w-full h-full">
-                            <img :src="'/storage/' + immobilierBoosted.image1" :alt="immobilierBoosted.imageAlt"
+                            <img :src="'/storage/' + immobillierBoosting.image1" :alt="immobillierBoosting.imageAlt"
                                 class="w-full h-full object-fill rounded-2xl shadow-lg">
                         </div>
                         <img class="mb-3 w-[4rem] h-[4rem] rounded-full shadow-2xl absolute bottom-1/3 right-0"
                             src="https://flowbite.com/docs/images/people/profile-picture-3.jpg" alt="Profile image">
                         <div class="p-4">
-                            <h3 class="text-lg font-semibold text-white">{{ immobilierBoosted.nom }} : <span
+                            <h3 class="text-lg font-semibold text-white">{{ immobillierBoosting.nom }} : <span
                                     class="text-green-300 text-xs">{{
-                                        immobilierBoosted.affaire
+                                        immobillierBoosting.affaire
                                     }}</span> </h3>
 
-                            <p class="text-principal text-lg">{{ immobilierBoosted.prix }}<span
+                            <p class="text-principal text-lg">{{ immobillierBoosting.prix }}<span
                                     class="text-principal text-opacity-60">
                                     Fcfa</span></p>
 
 
                             <span class="text-principal">name : <span class="text-gray-300">{{
-                                immobilierBoosted.user.name
-                                    }} <span class="text-principal">Id {{ immobilierBoosted.user.id
+                                immobillierBoosting.user.name
+                                    }} <span class="text-principal">Id {{ immobillierBoosting.user.id
                                         }}</span></span></span> <br>
 
                             <span class="text-principal">phone :<span class="text-gray-300">{{
-                                immobilierBoosted.user.phone
+                                immobillierBoosting.user.phone
                                     }}</span></span> <br>
 
 
                             <span class="text-principal">email:<span class="text-gray-300">{{
-                                immobilierBoosted.user.email
+                                immobillierBoosting.user.email
                                     }}</span></span> <br>
 
 
                             <!-- <span class="text-principal">Date Boost : <span class="text-gray-300">{{
-                                immobilierBoosted.boosted_at
+                                immobillierBoosting.boosted_at
                                     }}</span></span> br -->
 
                             <!-- date de boost -->
 
                             <span class="text-principal">Debut : <span class="text-gray-300">{{
-                                immobilierBoosted.updated_at
+                                immobillierBoosting.updated_at
                                     }}</span></span> <br>
                             <!-- dater fin boost -->
                             <span class="text-principal">fin : <span class="text-gray-300">{{
-                                immobilierBoosted.date_fin_booster
+                                immobillierBoosting.date_fin_booster
                                     }}</span></span>
 
 
@@ -321,6 +325,82 @@ const navigateUpdateVenduImmobilier = (id) => {
                             <!-- dater fin boost -->
                             <span class="text-principal">fin : <span class="text-gray-300">{{
                                 voitureBoosted.date_fin_booster
+                                    }}</span></span>
+
+
+
+
+
+
+
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+        <!-- immobilliersBoosting QUI SONT EN COURS DE BOOST -->
+        <div class="custom-grid">
+            <!-- All Articles -->
+            <h1>articles qui ont ete deja bosster et terminer(historique)</h1>
+            <div class="flex flex-wrap justify-center mt-20 text-gray-800">
+                <div v-for="immobillierBoosting in immobilliersBoosting " :key="immobillierBoosting.id"
+                    @click="navigateToDetail(immobillierBoosting.id)"
+                    class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 p-2">
+
+
+                    <div class=" bg-secondaire rounded-2xl shadow-2xl relative mt-4">
+                        <div class="w-full h-full">
+                            <img :src="'/storage/' + immobillierBoosting.image1" :alt="immobillierBoosting.imageAlt"
+                                class="w-full h-full object-fill rounded-2xl shadow-lg">
+                        </div>
+                        <img class="mb-3 w-[4rem] h-[4rem] rounded-full shadow-2xl absolute bottom-1/3 right-0"
+                            src="https://flowbite.com/docs/images/people/profile-picture-3.jpg" alt="Profile image">
+                        <div class="p-4">
+                            <h3 class="text-lg font-semibold text-white">{{ immobillierBoosting.nom }} : <span
+                                    class="text-green-300 text-xs">{{
+                                        immobillierBoosting.affaire
+                                    }}</span> </h3>
+
+                            <p class="text-principal text-lg">{{ immobillierBoosting.prix }}<span
+                                    class="text-principal text-opacity-60">
+                                    Fcfa</span></p>
+
+
+                            <span class="text-principal">name : <span class="text-gray-300">{{
+                                immobillierBoosting.user.name
+                                    }} <span class="text-principal">Id {{ immobillierBoosting.user.id
+                                        }}</span></span></span> <br>
+
+                            <span class="text-principal">phone :<span class="text-gray-300">{{
+                                immobillierBoosting.user.phone
+                                    }}</span></span> <br>
+
+
+                            <span class="text-principal">email:<span class="text-gray-300">{{
+                                immobillierBoosting.user.email
+                                    }}</span></span> <br>
+
+
+                            <!-- <span class="text-principal">Date Boost : <span class="text-gray-300">{{
+                                immobillierBoosting.boosted_at
+                                    }}</span></span> br -->
+
+                            <!-- date de boost -->
+
+                            <span class="text-principal">Debut : <span class="text-gray-300">{{
+                                immobillierBoosting.updated_at
+                                    }}</span></span> <br>
+                            <!-- dater fin boost -->
+                            <span class="text-principal">fin : <span class="text-gray-300">{{
+                                immobillierBoosting.date_fin_booster
                                     }}</span></span>
 
 
