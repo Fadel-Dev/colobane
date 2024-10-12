@@ -21,9 +21,9 @@ class ImmobiliersFactory extends Factory
     {
         return [
 
-            'user_id' => $this->faker->numberBetween(1, 10), // Associe l'immobilier à un utilisateur
+            'user_id' => $this->faker->numberBetween(2), // Associe l'immobilier à un utilisateur
             'date_fin_booster' =>$this->faker->date($format = 'Y-m-d', $max = 'now'),
-                       'booster' => $this->faker->randomElement([0,1]),
+                    //    'booster' => $this->faker->randomElement([0,0]),
             'vendu' => 0,
             'type' =>$this->faker->randomElement(['ferme', 'terrain', 'verger','chambre','immeuble','villa']),
             'nom' => $this->faker->words(3, true),
