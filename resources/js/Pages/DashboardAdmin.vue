@@ -78,6 +78,9 @@ const navigateUpdateVenduImmobilier = (id) => {
         </div>
         <div class="custom-grid">
             <!-- All Articles -->
+            <h1>IMMOBILIERS EN ATTENTE DE VALIDATION BOOST </h1>
+
+
             <div class="flex flex-wrap justify-center mt-20 text-gray-800">
                 <div v-for="immobilier in immobiliers" :key="immobilier.id" @click="navigateToDetail(immobilier.id)"
                     class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 p-2">
@@ -201,9 +204,9 @@ const navigateUpdateVenduImmobilier = (id) => {
 
         <div class="custom-grid">
             <!-- All Articles -->
-            <h1>Immobiliers qui ont ete deja bosster et terminer(historique)</h1>
+            <h1>Immobiliers qui sont en cours de boost</h1>
             <div class="flex flex-wrap justify-center mt-20 text-gray-800">
-                <div v-for="immobillierBoosting in immobilliersBoosted" :key="immobillierBoosting.id"
+                <div v-for="immobillierBoosting in immobilliersBoosting" :key="immobillierBoosting.id"
                     @click="navigateToDetail(immobillierBoosting.id)"
                     class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 p-2">
 
@@ -351,7 +354,7 @@ const navigateUpdateVenduImmobilier = (id) => {
             <!-- All Articles -->
             <h1>articles qui ont ete deja bosster et terminer(historique)</h1>
             <div class="flex flex-wrap justify-center mt-20 text-gray-800">
-                <div v-for="immobillierBoosting in immobilliersBoosting " :key="immobillierBoosting.id"
+                <div v-for="immobillierBoosting in immobilliersBoosted " :key="immobillierBoosting.id"
                     @click="navigateToDetail(immobillierBoosting.id)"
                     class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 p-2">
 

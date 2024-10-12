@@ -229,6 +229,9 @@ public function storeEdit($id )
         auth()->user()->Immobiliers()->where('id', $id)->update([
             // 'type' => Request::input('type'),
             'booster' => Request::input('boost'),
+            'duration' => Request::input('duration'),
+            'status' => 'pending',
+
 
         ]);
 

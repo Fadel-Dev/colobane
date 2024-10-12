@@ -33,10 +33,11 @@ class DashboardController extends Controller
                 ->with('user:id,name,phone,email,id') // Charger la relation user avec seulement l'id et le nom
                 ->get();
 
-                //recuperer les deja booster
+                //recuperer les deja booster et terminer hiatorque
 
-                $immobilliersBoost = Immobiliers::where('booster', 1)
-                ->where('status', 'terminer')
+                $immobilliersBoosted = Immobiliers::
+                where('status', 'null')
+                ->where('onceBooster', true)
                 ->with('user:id,name,phone,email,id') // Charger la relation user avec seulement l'id et le nom
                 ->get();
 
@@ -110,7 +111,7 @@ class DashboardController extends Controller
                 'voitures' => $voitures,
                 'immobiliers' => $immobiliers,
                 'users' => $users, // Passer les utilisateurs récupérés
-                'immobilliersBoosted'=> $immobilliersBoost,
+                'immobilliersBoosted'=> $immobilliersBoosted,
                 'voituresBoosted'=> $voituresBoosted,
                 'immobilliersBoosting'=> $immobilliersBoosting,
                 'voituresBoosting'=> $voituresBoosting

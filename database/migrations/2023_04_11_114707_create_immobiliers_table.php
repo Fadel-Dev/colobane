@@ -31,7 +31,9 @@ return new class extends Migration
             $table->string('categorie');
             $table->string('affaire');
             $table->string('surface');
-            $table->string('status')->default('pending'); // Ajouter un statut pour la vérification
+            // onceBoost boolean
+            $table->boolean('onceBooster')->default(false);
+            $table->string('status')->default('null'); // Ajouter un statut pour la vérification
             $table->integer('duration')->nullable(); // Durée en minutes
 
 

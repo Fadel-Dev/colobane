@@ -57,7 +57,7 @@ function submit(id) {
                             id="status" name="status" v-model="form.status" required>
                             <option value="accepter">Accepter</option>
                             <option value="attente">En attente</option>
-                            <option value="pending">Terminer</option>
+                            <option value="null">Terminer</option>
                         </select>
                     </div>
 
