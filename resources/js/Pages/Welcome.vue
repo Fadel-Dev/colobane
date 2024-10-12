@@ -257,7 +257,7 @@
                                                     .
 
                                                 </div>
-                                                <div v-if="maison.booster == 1"
+                                                <div v-if="maison.status == 'accepter'"
                                                     class="bg-principal group mx-auto mt-[-5%] flex h-8 w-full items-stretch overflow-hidden hover:text-secondaire rounded-md text-white">
                                                     <!-- Contenu lorsque maison.booster == 1 -->
                                                     <div class="imgPro w-full flex  mx-2">

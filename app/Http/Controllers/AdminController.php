@@ -160,6 +160,7 @@ public function DetailsVehicule($id)
          $voiture->status = $validatedData['status'];
         //  $voiture->duration = $validatedData['duration'];
          $voiture->date_fin_booster = $validatedData['date_fin_booster'];
+          $voiture->onceBooster = true;
          $voiture->save();
 
          return redirect()->route('dashboard')->with('message', 'Annonce modifiée avec succès');

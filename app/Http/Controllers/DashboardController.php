@@ -55,15 +55,16 @@ class DashboardController extends Controller
                 ->get();
 
                 // recuprer les deja booster
-                $voituresBoosted = Voitures::where('booster', 1)
-                ->where('status', 'accepter')
+                $voituresBoosted = Voitures::
+                where('status', 'null')
+               -> where('onceBooster', true)
                 ->with('user:id,name,phone,email,id') // Charger la relation user avec seulement l'id et le nom
                 ->get();
 
                 // recuprer les en cours de boost
 
-                  $voituresBoosting = Voitures::where('booster', 1)
-                ->where('status', 'accepter')
+                  $voituresBoosting = Voitures::
+                where('status', 'accepter')
                 ->with('user:id,name,phone,email,id') // Charger la relation user avec seulement l'id et le nom
                 ->get();
 
