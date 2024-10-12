@@ -264,7 +264,7 @@ public function storeEdit($id )
 
         auth()->user()->Voitures()->where('id', $id)->update([
             // 'type' => Request::input('type'),
-            'booster' => Request::input('boost'),
+                 'booster' => Request::input('boost'),
             'duration' => Request::input('duration'),
             'status' => 'pending',
 
