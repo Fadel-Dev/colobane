@@ -10,99 +10,7 @@
 
 
             <!-- Banner -->
-            <nav class="  w-full fixed top-0 left-0 z-10">
-                <div
-                    class="px-11 py-5 mx-auto md:flex md:justify-between md:items-center shadow-xl bg-white text-principal">
-                    <!-- Branding -->
-                    <div class="flex items-center justify-between ">
-                        <router-link to="/">
-                            <img width="100" class=" m-0 p-0" :src="'/storage/slide/NoflayHub.png'" alt="Image logo">
-                        </router-link> <!-- <button class="button" data-text="Awesome">
-                            <span class="actual-text">&nbsp;Noflay&nbsp;</span>
-                            <span aria-hidden="true" class="hover-text">&nbsp;Noflay&nbsp;</span>
-                            </button> -->
-
-
-                        <!-- Mobile Menu Button -->
-                        <button @click="showMenu = !showMenu" type="button"
-                            class="md:hidden text-secondaire hover:text-secondaire focus:outline-none absolute right-4 top-4">
-                            <svg viewBox="0 0 24 24" class="w-12 h-12 fill-current">
-                                <path
-                                    d="M4 5h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2z">
-                                </path>
-                            </svg>
-                        </button>
-                    </div>
-
-                    <!-- Desktop Menu -->
-                    <div class="hidden md:flex md:space-x-5 md:items-center  ">
-                        <a :href="route('publier')" class="btn-secondary mx-[210px] text-principal ">
-                            <button class="sign bg-principal">
-                                <div class="arrow-wrapper bg-principal text-principal">
-                                    <i class="bi bi-plus"></i>
-                                </div>
-                                Publier une annonce
-                            </button>
-                        </a>
-                        <template v-if="$page.props.auth.user">
-                            <a :href="route('publier')" class="btn-primary text-principal">Publier une annonce</a>
-                            <a :href="route('dashboard')" class="btn-secondary">Dashboard</a>
-                        </template>
-                        <!-- For LG -->
-                        <template v-else>
-                            <a :href="route('publier')" class="btn-primary">Accueil</a>
-                            <a :href="route('publier')" class="btn-primary">Contact Us</a>
-                            <SwitchBtn />
-                            <a :href="route('login')" class="btn-secondary">
-                                <button class="sign bg-principal">
-                                    Se connecter
-                                    <div class="arrow-wrapper">
-                                        <div class="arrow"></div>
-                                    </div>
-                                </button>
-                            </a>
-                        </template>
-                    </div>
-                </div>
-
-                <!-- Mobile Menu -->
-                <div :class="{ 'block': showMenu, 'hidden': !showMenu }"
-                    class="md:hidden bg-secondaire text-white mt-4">
-                    <nav aria-labelledby="header-navigation" class="flex flex-col items-center">
-                        <ul class="flex flex-col space-y-4 px-4 py-2">
-                            <template v-if="$page.props.auth.user">
-                                <li>
-                                    <a :href="route('publier')" class="btn-primary">Publier une annonce</a>
-                                </li>
-                                <li>
-                                    <a :href="route('dashboard')" class="btn-secondary">Dashboard</a>
-                                </li>
-                            </template>
-                            <template v-else>
-                                <li>
-                                    <a :href="route('publier')" class="btn-primary">Accueil</a>
-                                </li>
-                                <li>
-                                    <a :href="route('publier')" class="btn-primary">Contact Us</a>
-                                </li>
-                                <li>
-                                    <SwitchBtn />
-                                </li>
-                                <li>
-                                    <a :href="route('login')" class="btn-secondary">
-                                        <button class="sign">
-                                            Se connecter
-                                            <div class="arrow-wrapper">
-                                                <div class="arrow"></div>
-                                            </div>
-                                        </button>
-                                    </a>
-                                </li>
-                            </template>
-                        </ul>
-                    </nav>
-                </div>
-            </nav>
+            <Navbar />
 
 
 
@@ -221,84 +129,63 @@
                                         </select>
                                     </div> -->
                                     <!-- Grid For Vehicules -->
-                                    <div class="mt-10 grid grid-cols-2 gap-6 sm:grid-cols-4 sm:gap-4 lg:mt-16">
 
-                                        <article v-for="maison in maisons.data " :key="maison.id"
+                                    <div class="mt-10 grid grid-cols-2 gap-6 sm:grid-cols-4 sm:gap-4 lg:mt-16">
+                                        <article v-for="maison in maisons.data" :key="maison.id"
                                             @click="navigateToDetail(maison.id)"
-                                            class="relative flex flex-col overflow-hidden rounded-lg border">
-                                            <div class="card">
-                                                <div class="aspect-square overflow-hidden">
+                                            class="relative flex flex-col overflow-hidden rounded-lg border justify-center items-center">
+                                            <!-- Centering Flex -->
+                                            <div class="card w-full"> <!-- Ensure full width -->
+                                                <div
+                                                    class="aspect-square overflow-hidden flex justify-center items-center">
+                                                    <!-- Center the image -->
                                                     <img :src="'/storage/' + maison.image1" :alt="maison.imageAlt"
                                                         class="h-full w-full object-cover transition-all duration-300 group-hover:scale-125">
                                                 </div>
-                                                <div class="absolute top-0 m-2 rounded-full ">
+                                                <div class="absolute top-0 m-2 rounded-full">
                                                     <p
                                                         class="rounded-full bg-principal p-1 text-[8px] font-bold uppercase tracking-wide text-white sm:py-1 sm:px-3">
-                                                        {{ maison.affaire }} </p>
+                                                        {{ maison.affaire }}
+                                                    </p>
                                                 </div>
 
                                                 <div
-                                                    class="my-2 mx-auto flex w-10/12 flex-col items-start justify-between">
-                                                    <p class="mr-3 text-sm font-semibold text-principal align-center">{{
-                                                        maison.prix }}{{ maison.type }} <span
-                                                            class="text-secondaire mr-3">Fcfa</span>
+                                                    class="my-2 mx-auto flex w-10/12 flex-col items-center justify-between">
+                                                    <!-- Centered flex -->
+                                                    <p class="text-center text-sm font-semibold text-principal">{{
+                                                        maison.prix }}{{
+                                                            maison.type }} <span class="text-secondaire mr-3">Fcfa</span>
                                                     </p>
 
-                                                    <div class="mb-2 flex">
-
-                                                        <p class="mr-3 text-secondaire  text-sm font-semibold truncate">
-                                                            {{
-                                                                maison.nom.substring(0, 20) }}</p>
+                                                    <div class="mb-2 flex justify-center"> <!-- Center the name -->
+                                                        <p class="text-secondaire text-sm font-semibold truncate">{{
+                                                            maison.nom.substring(0, 20) }}</p>
                                                     </div>
+
                                                     <h3
-                                                        class="text-sm text-principal pt-[-8%] w-full border-b-[1px] border-gray-200 ">
-                                                        {{ maison.region }} ,Senegal</h3>
-
-                                                    .
-
+                                                        class="text-sm text-principal w-full border-b-[1px] border-gray-200 text-center">
+                                                        <!-- Centered text -->
+                                                        {{ maison.region }}, Senegal
+                                                    </h3>
                                                 </div>
+
                                                 <div v-if="maison.status == 'accepter'"
-                                                    class="bg-principal group mx-auto mt-[-5%] flex h-8 w-full items-stretch overflow-hidden hover:text-secondaire rounded-md text-white">
-                                                    <!-- Contenu lorsque maison.booster == 1 -->
-                                                    <div class="imgPro w-full flex  mx-2">
-
-
+                                                    class="bg-principal group mx-auto mt-[-5%] flex h-8 w-full items-center justify-center rounded-md text-white">
+                                                    <div class="w-full flex justify-center"> <!-- Center the button -->
                                                         <div
-                                                            class="flex w-full items-center justify-center bg-principal text-xs uppercase transition  group-hover:text-secondaire">
-                                                            contacter </div>
-
-
-
-
+                                                            class="bg-principal text-xs uppercase transition group-hover:text-secondaire">
+                                                            Contacter
+                                                        </div>
                                                     </div>
                                                 </div>
-
-
 
                                                 <div v-else
-                                                    class=" group mx-auto mt-[-10%] flex h-8 w-full items-stretch overflow-hidden hover:text-secondaire rounded-md text-white">
-
-
-
+                                                    class="group mx-auto mt-[-10%] flex h-8 w-full items-center justify-center overflow-hidden rounded-md text-white">
                                                 </div>
-
-
                                             </div>
-                                            <!--  -->
                                         </article>
-
-
-
-
-
-
-
-
-
-
-
-
                                     </div>
+
                                 </div>
                             </section>
                         </div>
@@ -608,6 +495,7 @@ import Immeuble from './ForWelcome/Immeuble.vue';
 import Terrain from './ForWelcome/Terrain.vue';
 import Verger from './ForWelcome/Verger.vue';
 import Footer from '../Components/Footer.vue';
+import Navbar from '../Components/Navbar.vue';
 
 
 export default {
