@@ -13,117 +13,325 @@ const props = defineProps({
 
 <template>
     <div class="bg-gray-100 ">
-        <nav class="
-          px-9
-          py-2
-          mx-auto
-          md:flex md:justify-between md:items-center
-          shadow-xl
-          relative
-          bg-black
-          text-white
-        ">
-            <div class="flex items-center justify-between ">
-                <router-link to="/" class="
-            w-full
-              text-xl
-              text-
-              font-bold
-              md:text-2xl
-              hover:text-red-600
-
-            ">Noflay
-                </router-link>
+        <nav class="  w-full fixed top-0 left-0 z-10">
+            <div
+                class="px-11 py-5 mx-auto md:flex md:justify-between md:items-center shadow-xl bg-white text-principal">
+                <!-- Branding -->
+                <div class="flex items-center justify-between ">
+                    <a :href="route('home')">
+                        <img width=" 100" class=" m-0 p-0" :src="'/storage/slide/NoflayHub.png'" alt="Image logo">
+                    </a> <!-- <button class="button" data-text="Awesome">
+                            <span class="actual-text">&nbsp;Noflay&nbsp;</span>
+                            <span aria-hidden="true" class="hover-text">&nbsp;Noflay&nbsp;</span>
+                            </button> -->
 
 
-
-                <!-- Mobile menu button -->
-                <div @click="showMenu = !showMenu" class="flex md:hidden">
-                    <button type="button" class="
-                text-gray-800
-                hover:text-gray-400
-                focus:outline-none focus:text-gray-400
-              ">
-                        <svg viewBox="0 0 24 24" class="w-6 h-6 fill-current">
-                            <path fill-rule="evenodd"
-                                d="M4 5h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2z">
+                    <!-- Mobile Menu Button -->
+                    <button @click="showMenu = !showMenu" type="button"
+                        class="md:hidden text-secondaire hover:text-secondaire focus:outline-none absolute right-4 top-4">
+                        <svg viewBox="0 0 24 24" class="w-12 h-12 fill-current">
+                            <path
+                                d="M4 5h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2z">
                             </path>
                         </svg>
                     </button>
                 </div>
-            </div>
 
-            <!-- Mobile Menu open: "block", Menu closed: "hidden" -->
-            <div :class="showMenu ? 'flex' : 'hidden'" class="
-            flex-col
-            mt-8
-            space-y-4
-            md:flex
-            md:space-y-0
-            md:flex-row
-            md:items-center
-            md:space-x-10
-            md:mt-0
-          ">
-                <div class="auth">
-                    <div v-if="canLogin">
-                        <Link v-if="$page.props.auth.user" :href="route('dashboard')"
-                            class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">
-                        Dashboard</Link>
-
-                        <div v-else>
-
-
-                            <div class="auth flex">
-                                <div class="text-2xl">
-                                    <i class="bi bi-node-plus"></i>
-                                    <!-- <svg xmlns="http://www.w3.org/2000/svg" width="28" height="26" fill="currentColor" class="bi bi-node-plus" viewBox="0 0 16 16">
-  <path d="M11 13a5 5 0 1 0-4.975-5.5H4A1.5 1.5 0 0 0 2.5 6h-1A1.5 1.5 0 0 0 0 7.5v1A1.5 1.5 0 0 0 1.5 10h1A1.5 1.5 0 0 0 4 8.5h2.025A5 5 0 0 0 11 13zm.5-7.5v2h2a.5.5 0 0 1 0 1h-2v2a.5.5 0 0 1-1 0v-2h-2a.5.5 0 0 1 0-1h2v-2a.5.5 0 0 1 1 0z"/>
-</svg> -->
-                                </div>
-                                <div class="mx-2">
-                                    <Link :href="route('publier')"
-                                        class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">
-                                    Publier une annonce</Link>
-
-
-                                </div> <i class="bi bi-person-circle mx-1"></i>
-                                <Link :href="route('login')"
-                                    class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">
-                                Se connecter</Link>
-
-                                <Link v-if="canRegister" :href="route('register')"
-                                    class="ml-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">
-                                S inscrire</Link>
-
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex md:space-x-5 md:items-center  ">
+                    <a :href="route('publier')" class="btn-secondary mx-[210px] text-principal ">
+                        <button class="sign bg-principal">
+                            <div class="arrow-wrapper bg-principal text-principal">
+                                <i class="bi bi-plus"></i>
                             </div>
-                        </div>
-                    </div>
+                            Publier une annonce
+                        </button>
+                    </a>
+                    <template v-if="$page.props.auth.user">
+                        <a :href="route('publier')" class="btn-primary text-principal">Publier une annonce</a>
+                        <a :href="route('dashboard')" class="btn-secondary">Dashboard</a>
+                    </template>
+                    <!-- For LG -->
+                    <template v-else>
+                        <a :href="route('publier')" class="btn-primary">Accueil</a>
+                        <a :href="route('publier')" class="btn-primary">Contact Us</a>
+                        <SwitchBtn />
+                        <a :href="route('login')" class="btn-secondary">
+                            <button class="sign bg-principal">
+                                Se connecter
+                                <div class="arrow-wrapper">
+                                    <div class="arrow"></div>
+                                </div>
+                            </button>
+                        </a>
+                    </template>
                 </div>
             </div>
 
+            <!-- Mobile Menu -->
+            <div :class="{ 'block': showMenu, 'hidden': !showMenu }" class="md:hidden bg-secondaire text-white mt-4">
+                <nav aria-labelledby="header-navigation" class="flex flex-col items-center">
+                    <ul class="flex flex-col space-y-4 px-4 py-2">
+                        <template v-if="$page.props.auth.user">
+                            <li>
+                                <a :href="route('publier')" class="btn-primary">Publier une annonce</a>
+                            </li>
+                            <li>
+                                <a :href="route('dashboard')" class="btn-secondary">Dashboard</a>
+                            </li>
+                        </template>
+                        <template v-else>
+                            <li>
+                                <a :href="route('publier')" class="btn-primary">Accueil</a>
+                            </li>
+                            <li>
+                                <a :href="route('publier')" class="btn-primary">Contact Us</a>
+                            </li>
+                            <li>
+                                <SwitchBtn />
+                            </li>
+                            <li>
+                                <a :href="route('login')" class="btn-secondary">
+                                    <button class="sign">
+                                        Se connecter
+                                        <div class="arrow-wrapper">
+                                            <div class="arrow"></div>
+                                        </div>
+                                    </button>
+                                </a>
+                            </li>
+                        </template>
+                    </ul>
+                </nav>
+            </div>
         </nav>
 
     </div>
 </template>
 
-<style>
-@media only screen and (max-width: 767px) {
-    #humb {
+<style scoped>
+#principal {
+    margin: 0;
+    padding: 0;
+    min-height: 105vh;
+    /* background: url('https://cdn.pixabay.com/photo/2023/06/11/01/24/flowers-8055013_1280.jpg'); */
+    background-size: cover;
+}
 
-        position: absolute;
-        right: 0;
-        top: 0;
-    }
+#card,
+#cat,
+#transparent {
+    background-color: #ffffff30;
+    backdrop-filter: blur(16px) saturate(180%);
+}
+
+
+.pub {
+    /*  background: url('https://images.unsplash.com/photo-1496181133206-80ce9b88a853?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80'); */
+}
+
+
+.nav {
+    z-index: 50;
+}
+
+/* === removing default button style ===*/
+.button {
+    margin: 0;
+    height: auto;
+    background: transparent;
+    padding: 0;
+    border: none;
+    cursor: pointer;
+}
+
+/* button styling */
+.button {
+    --border-right: 6px;
+    --text-stroke-color: rgba(255, 255, 255, 0.6);
+    --animation-color:
+        rgb(235 45 83 / var(--tw-text-opacity));
+
+    --fs-size: 1.5em;
+    /* letter-spacing: 3px; */
+    text-decoration: none;
+    font-size: var(--fs-size);
+    font-family: "Arial";
+    position: relative;
+    /* text-transform: uppercase; */
+    color: transparent;
+    -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+
+/* this is the text, when you hover on button */
+.hover-text {
+    position: absolute;
+    box-sizing: border-box;
+    content: attr(data-text);
+    color: var(--animation-color);
+    width: 0%;
+    inset: 0;
+    border-right: var(--border-right) solid var(--animation-color);
+    overflow: hidden;
+    transition: 0.5s;
+    -webkit-text-stroke: 1px var(--animation-color);
+}
+
+/* hover */
+.button:hover .hover-text {
+    width: 100%;
+    filter: drop-shadow(0 0 23px var(--animation-color))
+}
+
+.card {
+    background-color: #ffffff;
+    border-radius: 1rem;
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.1);
+}
+
+.fixed-size {
+    width: 300px;
+    /* Width of the images */
+    height: 200px;
+    /* Height of the images */
+    object-fit: cover;
+    /* Ensures the images cover the space without distorting */
+}
+
+#swiper {
+    margin-top: 10%;
+}
+
+/* button sign */
+
+.sign {
+
+    border: 0.3px dotted white;
+
+
+
+
+
+
+    --primary-color: #625bff;
+    --secondary-color: #fff;
+    --hover-color: #eb2d53;
+    --arrow-width: 10px;
+    --arrow-stroke: 2px;
+    box-sizing: border-box;
+    /* border: 0; */
+    border-radius: 20px;
+    color: var(--secondary-color);
+    padding: 2px 1.8em;
+    /* background: var(--primary-color); */
+    display: flex;
+    transition: 0.2s background;
+    align-items: center;
+    gap: 0.6em;
+    font-weight: bold;
+}
+
+.sign .arrow-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.sign .arrow {
+    margin-top: 1px;
+    width: var(--arrow-width);
+    background: var(--primary-color);
+    height: var(--arrow-stroke);
+    position: relative;
+    transition: 0.2s;
+}
+
+.sign .arrow::before {
+    content: "";
+    box-sizing: border-box;
+    position: absolute;
+    border: solid var(--secondary-color);
+    border-width: 0 var(--arrow-stroke) var(--arrow-stroke) 0;
+    display: inline-block;
+    top: -3px;
+    right: 3px;
+    transition: 0.2s;
+    padding: 3px;
+    transform: rotate(-45deg);
+}
+
+.sign:hover {
+    background-color: var(--hover-color);
+}
+
+.sign:hover .arrow {
+    background: var(--secondary-color);
+}
+
+.sign:hover .arrow:before {
+    right: 0;
 }
 </style>
+
 <script>
-import { ref } from 'vue';
+
+
+
 export default {
-    setup() {
-        let showMenu = ref(false);
-        const toggleNav = () => (showMenu.value = !showMenu.value);
-        return { showMenu, toggleNav };
+    data() {
+        return {
+            activeTab: 'immobilier',
+            showMenu: false,
+            marques: [
+                "tous",
+                "volvo",
+                "renault",
+                "peugeot",
+                "citroen",
+                "mitsubishi",
+                "bmw",
+                "audi",
+                "nissan",
+                "mercedes-benz",
+                "volkswagen",
+                "Toyota",
+                "ford",
+                "Jeep",
+                "autres"
+            ],
+            selectedMarque: 'dakar'
+
+
+        };
+    },
+    methods: {
+        navigateToDetail(id) {
+            this.$inertia.visit(`/detail/${id}`);
+        },
+
+    },
+    mounted() {
+        // Initialize Swiper
+        new Swiper('.swiper', {
+            slidesPerView: 'auto',
+            spaceBetween: 20,
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            autoplay: {
+                delay: 3000,
+                disableOnInteraction: false,
+            },
+        });
+
+        // Initialize progress bar
+        InertiaProgress.init({
+            delay: 200,
+            color: '#eb2d53',
+            includeCSS: true,
+            showSpinner: true,
+        });
     },
 };
 </script>
