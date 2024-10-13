@@ -26,7 +26,7 @@ const props = defineProps({
                 @click="navigateToDetail(immeubleBoost.id)"
                 class="swiper-slide w-full sm:w-1/4 md:w-1/4 lg:w-1/6 xl:w-1/6 p-1">
                 <!-- Immobilier Card -->
-                <div class="card">
+                <!-- <div class="card">
                     <div class="aspect-square overflow-hidden">
                         <img :src="'/storage/' + immeubleBoost.image1" :alt="immeubleBoost.imageAlt"
                             class="h-full w-full object-cover transition-all duration-300 group-hover:scale-125">
@@ -63,7 +63,49 @@ const props = defineProps({
                     </button>
 
 
+                </div> -->
+                <div class="card relative overflow-hidden rounded-lg border">
+                    <!-- Image -->
+                    <div class="aspect-square overflow-hidden">
+                        <img :src="'/storage/' + immeubleBoost.image1"
+                            :alt="immeubleBoost.imageAlt || 'Photo de l\'immeuble'"
+                            class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110">
+                    </div>
+
+                    <!-- Affaire Label -->
+                    <div
+                        class="absolute top-0 m-2 rounded-full bg-principal p-1 text-[8px] font-bold uppercase tracking-wide text-white sm:py-1 sm:px-3">
+                        {{ immeubleBoost.affaire }}
+                    </div>
+
+                    <!-- Content Section -->
+                    <div class="my-2 mx-auto flex w-10/12 flex-col items-start justify-between">
+                        <!-- Prix -->
+                        <p class="text-sm font-semibold text-principal">
+                            {{ immeubleBoost.prix }} <span class="text-secondaire">Fcfa</span>
+                        </p>
+
+                        <!-- Nom -->
+                        <div class="mb-2">
+                            <p class="text-sm font-semibold text-secondaire truncate">
+                                {{ immeubleBoost.nom.substring(0, 20) }}
+                            </p>
+                        </div>
+
+                        <!-- Localisation -->
+                        <h3 class="text-sm text-principal w-full border-b-[1px] border-gray-200">
+                            {{ immeubleBoost.region }}, Sénégal
+                        </h3>
+                    </div>
+
+                    <!-- Contact Button -->
+                    <button
+                        class="bg-principal group mx-auto mt-2 flex h-8 w-[80%] items-center justify-center rounded-md text-white text-xs uppercase transition-colors duration-300 hover:text-secondaire">
+                        Contacter
+                    </button>
                 </div>
+
+
             </div>
         </div>
         <!-- Bouton add -->

@@ -13,6 +13,7 @@ use App\Models\Voitures;
 
 class PostController extends Controller
 {
+
     public function Section($section)
     {
         return Inertia::render('Section/'.$section);

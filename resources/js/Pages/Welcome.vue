@@ -37,7 +37,7 @@
                     <!-- Desktop Menu -->
                     <div class="hidden md:flex md:space-x-5 md:items-center  ">
                         <a :href="route('publier')" class="btn-secondary mx-[210px] text-principal ">
-                            <button class="sign">
+                            <button class="sign bg-principal">
                                 <div class="arrow-wrapper bg-principal text-principal">
                                     <i class="bi bi-plus"></i>
                                 </div>
@@ -54,7 +54,7 @@
                             <a :href="route('publier')" class="btn-primary">Contact Us</a>
                             <SwitchBtn />
                             <a :href="route('login')" class="btn-secondary">
-                                <button class="sign">
+                                <button class="sign bg-principal">
                                     Se connecter
                                     <div class="arrow-wrapper">
                                         <div class="arrow"></div>
