@@ -7,9 +7,7 @@ const props = defineProps({
     immobiliers: Array,
     voitures: Array,
     voituresBoosted: Array,
-    voituresBoosting: Array,
     immobilliersBoosted: Array,
-    immobilliersBoosting: Array,
     users: Object
 });
 
@@ -79,9 +77,6 @@ const navigateUpdateVenduImmobilier = (id) => {
         </div>
         <div class="custom-grid">
             <!-- All Articles -->
-            <h1>IMMOBILIERS EN ATTENTE DE VALIDATION BOOST </h1>
-
-
             <div class="flex flex-wrap justify-center mt-20 text-gray-800">
                 <div v-for="immobilier in immobiliers" :key="immobilier.id" @click="navigateToDetail(immobilier.id)"
                     class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 p-2">
@@ -140,7 +135,6 @@ const navigateUpdateVenduImmobilier = (id) => {
 
         </div>
         <!-- ---------------------------------------------------------------------------------------------------------- -->
-        <h1>Voitures EN ATTENTE DE VALIDATION BOOST </h1>
         <div class="custom-grid">
 
             <div class="flex flex-wrap justify-center mt-20 text-gray-800">
@@ -206,58 +200,58 @@ const navigateUpdateVenduImmobilier = (id) => {
 
         <div class="custom-grid">
             <!-- All Articles -->
-            <h1>Immobiliers qui sont en cours de boost</h1>
+            <h1>articles qui ont ete deja bosster et terminer(historique)</h1>
             <div class="flex flex-wrap justify-center mt-20 text-gray-800">
-                <div v-for="immobillierBoosting in immobilliersBoosting" :key="immobillierBoosting.id"
-                    @click="navigateToDetail(immobillierBoosting.id)"
+                <div v-for="immobilierBoosted in immobilliersBoosted" :key="immobilierBoosted.id"
+                    @click="navigateToDetail(immobilierBoosted.id)"
                     class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 p-2">
 
 
                     <div class=" bg-secondaire rounded-2xl shadow-2xl relative mt-4">
                         <div class="w-full h-full">
-                            <img :src="'/storage/' + immobillierBoosting.image1" :alt="immobillierBoosting.imageAlt"
+                            <img :src="'/storage/' + immobilierBoosted.image1" :alt="immobilierBoosted.imageAlt"
                                 class="w-full h-full object-fill rounded-2xl shadow-lg">
                         </div>
                         <img class="mb-3 w-[4rem] h-[4rem] rounded-full shadow-2xl absolute bottom-1/3 right-0"
                             src="https://flowbite.com/docs/images/people/profile-picture-3.jpg" alt="Profile image">
                         <div class="p-4">
-                            <h3 class="text-lg font-semibold text-white">{{ immobillierBoosting.nom }} : <span
+                            <h3 class="text-lg font-semibold text-white">{{ immobilierBoosted.nom }} : <span
                                     class="text-green-300 text-xs">{{
-                                        immobillierBoosting.affaire
+                                        immobilierBoosted.affaire
                                     }}</span> </h3>
 
-                            <p class="text-principal text-lg">{{ immobillierBoosting.prix }}<span
+                            <p class="text-principal text-lg">{{ immobilierBoosted.prix }}<span
                                     class="text-principal text-opacity-60">
                                     Fcfa</span></p>
 
 
                             <span class="text-principal">name : <span class="text-gray-300">{{
-                                immobillierBoosting.user.name
-                                    }} <span class="text-principal">Id {{ immobillierBoosting.user.id
+                                immobilierBoosted.user.name
+                                    }} <span class="text-principal">Id {{ immobilierBoosted.user.id
                                         }}</span></span></span> <br>
 
                             <span class="text-principal">phone :<span class="text-gray-300">{{
-                                immobillierBoosting.user.phone
+                                immobilierBoosted.user.phone
                                     }}</span></span> <br>
 
 
                             <span class="text-principal">email:<span class="text-gray-300">{{
-                                immobillierBoosting.user.email
+                                immobilierBoosted.user.email
                                     }}</span></span> <br>
 
 
                             <!-- <span class="text-principal">Date Boost : <span class="text-gray-300">{{
-                                immobillierBoosting.boosted_at
+                                immobilierBoosted.boosted_at
                                     }}</span></span> br -->
 
                             <!-- date de boost -->
 
                             <span class="text-principal">Debut : <span class="text-gray-300">{{
-                                immobillierBoosting.updated_at
+                                immobilierBoosted.updated_at
                                     }}</span></span> <br>
                             <!-- dater fin boost -->
                             <span class="text-principal">fin : <span class="text-gray-300">{{
-                                immobillierBoosting.date_fin_booster
+                                immobilierBoosted.date_fin_booster
                                     }}</span></span>
 
 
@@ -277,216 +271,59 @@ const navigateUpdateVenduImmobilier = (id) => {
 
 
         </div>
-
-        <!-- VOITURES DEJA BOOSTER EN COURS -->
+        <!-- VOITURES DEJA BOOSTER -->
         <div class="custom-grid">
             <!-- All Articles -->
-            <div class="flex flex-wrap justify-center mt-20
-            text-gray-800">
-
-                <h1>Voitures qui sont en cours de boost</h1> <br>
-                <div v-for="voitureBoosting in voituresBoosting" :key="voitureBoosting.id"
-                    @click=" navigateToDetailVoiture(voitureBoosting.id)"
-                    class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 p-2">
-
-
-                    <div class=" bg-secondaire rounded-2xl shadow-2xl relative mt-4">
-                        <div class="w-full h-full">
-                            <img :src="'/storage/' + voitureBoosting.image1" :alt="voitureBoosting.imageAlt"
-                                class="w-full h-full object-fill rounded-2xl shadow-lg">
-                        </div>
-                        <img class="mb-3 w-[4rem] h-[4rem] rounded-full shadow-2xl absolute bottom-1/3 right-0"
-                            src="https://flowbite.com/docs/images/people/profile-picture-3.jpg" alt="Profile image">
-                        <div class="p-4">
-                            <h3 class="text-lg font-semibold text-white">{{ voitureBoosting.nom }} : <span
-                                    class="text-green-300 text-xs">{{
-                                        voitureBoosting.affaire
-                                    }}</span> </h3>
-
-                            <p class="text-principal text-lg">{{ voitureBoosting.prix }}<span
-                                    class="text-principal text-opacity-60">
-                                    Fcfa</span></p>
-
-
-                            <span class="text-principal">name : <span class="text-gray-300">{{
-                                voitureBoosting.user.name
-                                    }} <span class="text-principal">Id {{ voitureBoosting.user.id
-                                        }}</span></span></span> <br>
-
-                            <span class="text-principal">phone :<span class="text-gray-300">{{
-                                voitureBoosting.user.phone
-                                    }}</span></span> <br>
-
-
-                            <span class="text-principal">email:<span class="text-gray-300">{{
-                                voitureBoosting.user.email
-                                    }}</span></span> <br>
-
-
-                            <!-- <span class="text-principal">Date Boost : <span class="text-gray-300">{{
-                                voitureBoosting.boosted_at
-                                    }}</span></span> br -->
-
-                            <!-- date de boost -->
-
-                            <span class="text-principal">Debut : <span class="text-gray-300">{{
-                                voitureBoosting.updated_at
-                                    }}</span></span> <br>
-                            <!-- dater fin boost -->
-                            <span class="text-principal">fin : <span class="text-gray-300">{{
-                                voitureBoosting.date_fin_booster
-                                    }}</span></span>
-
-
-
-
-
-
-
-
-                        </div>
-                    </div>
-
-
-                </div>
-
-            </div>
-
-
-        </div>
-
-
-        <!-- immobilliersBoosting QUI SONT EN COURS DE BOOST -->
-        <div class="custom-grid">
-            <!-- All Articles -->
-            <h1>Immobillier qui ont ete deja bosster et terminer(historique)</h1>
             <div class="flex flex-wrap justify-center mt-20 text-gray-800">
-                <div v-for="immobillierBoosting in immobilliersBoosted " :key="immobillierBoosting.id"
-                    @click="navigateToDetail(immobillierBoosting.id)"
-                    class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 p-2">
+                <div v-for="voitureBoosted in voituresBoosted" :key="voitureBoosted.id"
+                    @click="navigateToDetail(voitureBoosted.id)" class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 p-2">
 
 
                     <div class=" bg-secondaire rounded-2xl shadow-2xl relative mt-4">
                         <div class="w-full h-full">
-                            <img :src="'/storage/' + immobillierBoosting.image1" :alt="immobillierBoosting.imageAlt"
+                            <img :src="'/storage/' + voitureBoosted.image1" :alt="voitureBoosted.imageAlt"
                                 class="w-full h-full object-fill rounded-2xl shadow-lg">
                         </div>
                         <img class="mb-3 w-[4rem] h-[4rem] rounded-full shadow-2xl absolute bottom-1/3 right-0"
                             src="https://flowbite.com/docs/images/people/profile-picture-3.jpg" alt="Profile image">
                         <div class="p-4">
-                            <h3 class="text-lg font-semibold text-white">{{ immobillierBoosting.nom }} : <span
+                            <h3 class="text-lg font-semibold text-white">{{ voitureBoosted.nom }} : <span
                                     class="text-green-300 text-xs">{{
-                                        immobillierBoosting.affaire
+                                        voitureBoosted.affaire
                                     }}</span> </h3>
 
-                            <p class="text-principal text-lg">{{ immobillierBoosting.prix }}<span
+                            <p class="text-principal text-lg">{{ voitureBoosted.prix }}<span
                                     class="text-principal text-opacity-60">
                                     Fcfa</span></p>
 
 
                             <span class="text-principal">name : <span class="text-gray-300">{{
-                                immobillierBoosting.user.name
-                                    }} <span class="text-principal">Id {{ immobillierBoosting.user.id
+                                voitureBoosted.user.name
+                                    }} <span class="text-principal">Id {{ voitureBoosted.user.id
                                         }}</span></span></span> <br>
 
                             <span class="text-principal">phone :<span class="text-gray-300">{{
-                                immobillierBoosting.user.phone
+                                voitureBoosted.user.phone
                                     }}</span></span> <br>
 
 
                             <span class="text-principal">email:<span class="text-gray-300">{{
-                                immobillierBoosting.user.email
+                                voitureBoosted.user.email
                                     }}</span></span> <br>
 
 
                             <!-- <span class="text-principal">Date Boost : <span class="text-gray-300">{{
-                                immobillierBoosting.boosted_at
+                                voitureBoosted.boosted_at
                                     }}</span></span> br -->
 
                             <!-- date de boost -->
 
                             <span class="text-principal">Debut : <span class="text-gray-300">{{
-                                immobillierBoosting.updated_at
+                                voitureBoosted.updated_at
                                     }}</span></span> <br>
                             <!-- dater fin boost -->
                             <span class="text-principal">fin : <span class="text-gray-300">{{
-                                immobillierBoosting.date_fin_booster
-                                    }}</span></span>
-
-
-
-
-
-
-
-
-                        </div>
-                    </div>
-
-
-                </div>
-
-            </div>
-
-
-        </div>
-
-        <div class="custom-grid">
-            <!-- All Articles -->
-            <div class="flex flex-wrap justify-center mt-20
-            text-gray-800">
-
-                <h1>Voitures qui ont ete deja bosster et terminer(historique)</h1> <br>
-                <div v-for="voitureBoosting in voituresBoosted" :key="voitureBoosting.id"
-                    @click="navigateToDetail(voitureBoosting.id)"
-                    class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 p-2">
-
-
-                    <div class=" bg-secondaire rounded-2xl shadow-2xl relative mt-4">
-                        <div class="w-full h-full">
-                            <img :src="'/storage/' + voitureBoosting.image1" :alt="voitureBoosting.imageAlt"
-                                class="w-full h-full object-fill rounded-2xl shadow-lg">
-                        </div>
-                        <img class="mb-3 w-[4rem] h-[4rem] rounded-full shadow-2xl absolute bottom-1/3 right-0"
-                            src="https://flowbite.com/docs/images/people/profile-picture-3.jpg" alt="Profile image">
-                        <div class="p-4">
-                            <h3 class="text-lg font-semibold text-white">{{ voitureBoosting.nom }} : <span
-                                    class="text-green-300 text-xs">{{
-                                        voitureBoosting.affaire
-                                    }}</span> </h3>
-
-                            <p class="text-principal text-lg">{{ voitureBoosting.prix }}<span
-                                    class="text-principal text-opacity-60">
-                                    Fcfa</span></p>
-
-
-                            <span class="text-principal">name : <span class="text-gray-300">{{
-                                voitureBoosting.user.name
-                                    }} <span class="text-principal">Id {{ voitureBoosting.user.id
-                                        }}</span></span></span> <br>
-
-                            <span class="text-principal">phone :<span class="text-gray-300">{{
-                                voitureBoosting.user.phone
-                                    }}</span></span> <br>
-
-
-                            <span class="text-principal">email:<span class="text-gray-300">{{
-                                voitureBoosting.user.email
-                                    }}</span></span> <br>
-
-
-                            <!-- <span class="text-principal">Date Boost : <span class="text-gray-300">{{
-                                voitureBoosting.boosted_at
-                                    }}</span></span> br -->
-
-                            <!-- date de boost -->
-
-                            <span class="text-principal">Debut : <span class="text-gray-300">{{
-                                voitureBoosting.updated_at
-                                    }}</span></span> <br>
-                            <!-- dater fin boost -->
-                            <span class="text-principal">fin : <span class="text-gray-300">{{
-                                voitureBoosting.date_fin_booster
+                                voitureBoosted.date_fin_booster
                                     }}</span></span>
 
 

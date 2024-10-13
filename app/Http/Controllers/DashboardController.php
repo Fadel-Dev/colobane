@@ -23,6 +23,13 @@ use Illuminate\Support\Facades\URL;
 
 class DashboardController extends Controller
 {
+    /**
+     * Renvoie la page de dashboard pour les utilisateurs
+     * Récupère les immobiliers et les voitures de l'utilisateur
+     * ainsi que les utilisateurs qui ont des articles en cours de vente
+     * et les utilisateurs qui ont des articles vendus
+     * @return \Inertia\Response
+     */
     public function Dash()
     {
         // Vérifier le rôle administrateur

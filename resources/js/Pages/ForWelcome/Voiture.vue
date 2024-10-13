@@ -19,7 +19,7 @@ const props = defineProps({
 <template>
 
     <div class="swiper">
-        <div class="swiper-wrapper">
+        <!-- <div class="swiper-wrapper">
             <div v-for="voitureBoost in voituresBoost.data" :key="voitureBoost.id"
                 @click="navigateToDetailVehi(voitureBoost.id)"
                 class="swiper-slide w-full sm:w-2/4 md:w-1/4 lg:w-1/6 xl:w-1/6 p-1  ">
@@ -69,6 +69,53 @@ const props = defineProps({
 
                 </div>
             </div>
+        </div> -->
+        <div class="swiper-wrapper">
+            <div v-for="voitureBoost in voituresBoost.data" :key="voitureBoost.id"
+                @click="navigateToDetailVehi(voitureBoost.id)"
+                class="swiper-slide w-full sm:w-2/4 md:w-1/4 lg:w-1/6 xl:w-1/6 p-1">
+                <div class="card relative">
+                    <!-- Image -->
+                    <div class="aspect-square overflow-hidden">
+                        <img :src="'/storage/' + voitureBoost.image1"
+                            :alt="voitureBoost.imageAlt || 'Photo de la voiture'"
+                            class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110" />
+                    </div>
+
+                    <!-- Affaire Label -->
+                    <div
+                        class="absolute top-0 m-2 rounded-full bg-principal p-1 text-[8px] font-bold uppercase tracking-wide text-white sm:py-1 sm:px-3">
+                        {{ voitureBoost.affaire }}
+                    </div>
+
+                    <!-- Content Section -->
+                    <div class="my-2 mx-2 text-center flex-col items-start justify-between">
+                        <span class="block text-xl font-semibold text-secondaire">
+                            {{ voitureBoost.nom.substring(0, 20) }}
+                        </span>
+
+                        <div>
+                            <span class="block text-sm font-semibold text-troisieme truncate">
+                                {{ voitureBoost.prix }} XOF
+                            </span>
+                        </div>
+
+                        <h3 class="text-sm text-secondaire w-full border-b-[1px] border-gray-200">
+                            {{ voitureBoost.region }}, Sénégal
+                        </h3>
+                    </div>
+
+                    <!-- Contact Button -->
+                    <div class="pb-3">
+                        <button
+                            class="bg-principal w-[80%] group mx-auto flex h-8 items-center justify-center rounded-md text-white uppercase transition-colors hover:text-secondaire">
+                            <div class="text-xs font-bold">
+                                Contacter
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div
@@ -108,90 +155,53 @@ const props = defineProps({
                 <div class="mt-10 grid grid-cols-2 gap-6 sm:grid-cols-4 sm:gap-4 lg:mt-16">
                     <article v-for="voiture in voitures.data" :key="voiture.id"
                         @click="navigateToDetailVehi(voiture.id)"
-                        class="relative flex flex-col overflow-hidden rounded-lg border">
+                        class="relative flex flex-col overflow-hidden rounded-lg border hover:shadow-lg transition-shadow duration-300">
                         <div class="card">
                             <!-- Image -->
                             <div class="aspect-square overflow-hidden">
-                                <img :src="'/storage/' + voiture.image1" :alt="voiture.imageAlt"
-                                    class="h-full w-full object-cover transition-all duration-300 group-hover:scale-125">
+                                <img :src="'/storage/' + voiture.image1"
+                                    :alt="voiture.imageAlt || 'Photo de la voiture'"
+                                    class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110" />
                             </div>
 
-                            <div class="absolute top-0 m-2 rounded-full ">
-                                <p
-                                    class="rounded-full bg-principal p-1 text-[8px] font-bold uppercase tracking-wide text-white sm:py-1 sm:px-3">
-                                    {{ voiture.affaire }} </p>
+                            <!-- Label (Affaire) -->
+                            <div
+                                class="absolute top-0 m-2 rounded-full bg-principal p-1 text-[8px] font-bold uppercase tracking-wide text-white sm:py-1 sm:px-3">
+                                {{ voiture.affaire }}
                             </div>
 
                             <!-- Content -->
-                            <div class="flex flex-col justify-between w-10/12 mx-auto  ">
+                            <div class="flex flex-col justify-between w-10/12 mx-auto my-2">
+                                <p class="text-lg font-semibold text-principal truncate">
+                                    {{ voiture.nom.substring(0, 20) }}
+                                </p>
 
-                                <div class="my-2">
-                                    <p class="text-lg font-semibold text-principal">{{
-                                        voiture.nom.substring(0,
-                                        20)
-                                        }} </p>
+                                <div class="text-sm text-gray-600">
+                                    <span>{{ voiture.marque }} {{ voiture.model }} - {{ voiture.boiteVitesse }}</span>
+                                </div>
 
+                                <h3 class="text-sm text-principal border-b-[1px] border-gray-400">
+                                    {{ voiture.region }}, Sénégal
+                                </h3>
 
-
-                                    <div class="relative">
-                                        <div class=" rounded-full  ">
-
-                                            <span> {{ voiture.marque }} {{ voiture.model }} {{
-                                                voiture.boiteVitesse }} </span>
-                                        </div>
+                                <div class="flex justify-between mt-2">
+                                    <div>
+                                        <span class="text-secondaire text-lg font-semibold">
+                                            {{ voiture.prix }} F <span class="text-principal">CFA</span>
+                                        </span>
                                     </div>
-
-                                    <h3 class="text-sm text-principal border-b-[1px] border-gray-400 ">
-                                        {{
-                                        voiture.region }} ,Senegal</h3>
-
-                                    <div class="flex justify-between mt-2">
-                                        <div>
-                                            <span class="text-secondaire text-lg my-3 font-semibold truncate">
-                                                {{
-                                                voiture.prix }} F<span class="text-principal ">
-                                                    cfa</span>
-                                            </span>
-                                        </div>
-
-                                        <div>
-                                            <span class="mx-3 mt-5 bg-black px-1 w-full rounded-full ">
-                                                <i class="text-white bi bi-telephone"></i></span>
-                                            <span class="bg-green-300  px-1 w-full rounded-lg ">
-                                                <i class="bi bi-whatsapp"></i></span>
-                                        </div>
-
-
-
-
-
-
-                                    </div>
-
                                 </div>
-
-                                <!-- Contact Button -->
-                                <!-- <div :class="{ 'bg-principal text-white hover:text-secondaire': voiture.booster == 2, 'border-t-[2px] border-secondaire text-secondaire text-xs uppercase hover:text-secondaire': voiture.booster != 1 }"
-                                                        class="bg-principal  flex h-8  items-center justify-center rounded-md">
-                                                        contactersssssssssssssssssss
-                                                    </div> -->
-
-                                <div class="details">
-
-                                </div>
-
-                                <div v-if="voiture.status == 'accepter'"
-                                    class="bg-principal  flex h-8  items-center justify-center rounded-md">
-                                    <span>connecter</span>
-                                </div>
-
-
-
                             </div>
 
+                            <!-- Booster status -->
+                            <div v-if="voiture.status == 'accepter'"
+                                class="bg-principal flex h-8 items-center justify-center rounded-md text-white font-semibold">
+                                <span>Connecter</span>
+                            </div>
                         </div>
                     </article>
                 </div>
+
 
 
 

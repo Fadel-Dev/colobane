@@ -32,9 +32,9 @@ const props = defineProps({
                             class="h-full w-full object-cover transition-all duration-300 group-hover:scale-125">
                     </div>
                     <div class="absolute top-0 m-2 rounded-full ">
-                        <p
+                        <!-- <p
                             class="rounded-full bg-principal p-1 text-[8px] font-bold uppercase tracking-wide text-white sm:py-1 sm:px-3">
-                            {{ terrainBoost.affaire }}</p>
+                            {{ terrainBoost.affaire }}</p> -->
                     </div>
 
                     <div class="my-2 mx-auto flex w-10/12 flex-col items-start justify-between">
