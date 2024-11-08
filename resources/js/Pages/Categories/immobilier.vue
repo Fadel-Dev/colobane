@@ -38,13 +38,13 @@ function handleSubmit() {
 }
 
 const images = [
-    { id: 1, src: "image1.jpg", alt: "Image 1", titre: "Villa" },
-    { id: 2, src: "image2.jpg", alt: "Image 2", titre: "Appartement" },
-    { id: 3, src: "image3.jpg", alt: "Image 3", titre: "Terrain" },
-    { id: 4, src: "image4.jpg", alt: "Image 4", titre: "Chambre" },
-    { id: 5, src: "image5.jpg", alt: "Image 5", titre: "Immeuble" },
-    { id: 6, src: "image6.jpg", alt: "Image 6", titre: "Verger" },
-    { id: 7, src: "image7.jpg", alt: "Image 7", titre: "Ferme" }
+    { id: 1, src: "/storage/icons/villa.png", alt: "Image 1", titre: "Villa" },
+    { id: 2, src: "/storage/icons/appartement.png", alt: "Image 2", titre: "Appartement" },
+    { id: 3, src: "/storage/icons/terrain.png", alt: "Image 3", titre: "Terrain" },
+    { id: 4, src: "/storage/icons/chambre.png", alt: "Image 4", titre: "Chambre" },
+    { id: 5, src: "/storage/icons/immeuble.png", alt: "Image 5", titre: "Immeuble" },
+    { id: 6, src: "/storage/icons/verger.png", alt: "Image 6", titre: "Verger" },
+    { id: 7, src: "/storage/icons/ferme.png", alt: "Image 7", titre: "Ferme" }
 ];
 
 const isStepOneValid = computed(() => {
@@ -76,7 +76,7 @@ const isStepTwoValid = computed(() => {
                         <input type="radio" class="text-principal focus:border-white focus:ring-white"
                             :value="image.titre" v-model="lead.type">
                         <h3>{{ image.titre }}</h3>
-                        <img :src="image.src" :alt="image.alt" class="w-full rounded-lg shadow-lg">
+                        <img :src="image.src" :alt="image.alt" class="w-2/3 rounded-lg shadow-lg">
                     </label>
                 </div>
             </div>

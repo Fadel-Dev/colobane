@@ -20,10 +20,7 @@ const props = defineProps({
                 <div class="flex items-center justify-between ">
                     <a :href="route('home')">
                         <img width=" 100" class=" m-0 p-0" :src="'/storage/slide/NoflayHub.png'" alt="Image logo">
-                    </a> <!-- <button class="button" data-text="Awesome">
-                            <span class="actual-text">&nbsp;Noflay&nbsp;</span>
-                            <span aria-hidden="true" class="hover-text">&nbsp;Noflay&nbsp;</span>
-                            </button> -->
+                    </a>
 
 
                     <!-- Mobile Menu Button -->

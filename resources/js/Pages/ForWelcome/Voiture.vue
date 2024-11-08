@@ -70,10 +70,9 @@ const props = defineProps({
                 </div>
             </div>
         </div> -->
-        <div class="swiper-wrapper">
+        <div class="swiper-wrapper grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-6">
             <div v-for="voitureBoost in voituresBoost.data" :key="voitureBoost.id"
-                @click="navigateToDetailVehi(voitureBoost.id)"
-                class="swiper-slide w-full sm:w-2/4 md:w-1/4 lg:w-1/6 xl:w-1/6 p-1">
+                @click="navigateToDetailVehi(voitureBoost.id)" class="swiper-slide w-full p-1">
                 <div class="card relative">
                     <!-- Image -->
                     <div class="aspect-square overflow-hidden">
@@ -117,6 +116,7 @@ const props = defineProps({
                 </div>
             </div>
         </div>
+
 
         <div
             class=" bg-transparent border border-principal  my-5 rounded-[20px] w-full h-[10vh] flex items-center justify-center">
