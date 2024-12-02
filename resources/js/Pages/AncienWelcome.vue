@@ -522,7 +522,6 @@
 </style>
 
 <script setup>
-import { defineProps } from 'vue';
 import { Head, Link } from '@inertiajs/vue3';
 import { Inertia } from '@inertiajs/inertia';
 

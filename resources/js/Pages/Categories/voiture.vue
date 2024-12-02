@@ -592,15 +592,14 @@ function handleSubmitVente() {
     left: 15%;
 
     background: rgb(255, 255, 255);
+}
 
-    .element {
-        background: linear-gradient(90deg,
-                rgba(235, 45, 83, 1) 0%,
-                rgba(235, 45, 83, 1) 50%,
-                rgba(235, 45, 83, 1) 100%);
-        opacity: 0.2;
-    }
-
+.element {
+    background: linear-gradient(90deg,
+            rgba(235, 45, 83, 1) 0%,
+            rgba(235, 45, 83, 1) 50%,
+            rgba(235, 45, 83, 1) 100%);
+    opacity: 0.2;
     transition: all 1s cubic-bezier(0.15, 0.83, 0.66, 1);
 }
 
