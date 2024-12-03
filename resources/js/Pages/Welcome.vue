@@ -66,8 +66,7 @@
                                     <!-- Immobilier Card -->
                                     <div class="card">
                                         <div class="aspect-square overflow-hidden">
-                                            <img :src="'/storage/' + immobillierBoost.image1"
-                                                :alt="immobillierBoost.imageAlt"
+                                            <img :src="'/' + immobillierBoost.image1" :alt="immobillierBoost.imageAlt"
                                                 class="h-full w-full object-cover transition-all duration-300 group-hover:scale-125">
                                         </div>
                                         <div class="absolute top-0 m-2 rounded-full ">
@@ -139,7 +138,7 @@
                                                 <div
                                                     class="aspect-square overflow-hidden flex justify-center items-center">
                                                     <!-- Center the image -->
-                                                    <img :src="'/storage/' + maison.image1" :alt="maison.imageAlt"
+                                                    <img :src="'/' + maison.image1" :alt="maison.imageAlt"
                                                         class="h-full w-full object-cover transition-all duration-300 group-hover:scale-125">
                                                 </div>
                                                 <div class="absolute top-0 m-2 rounded-full">

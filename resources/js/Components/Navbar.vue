@@ -19,7 +19,7 @@ const props = defineProps({
                 <!-- Branding -->
                 <div class="flex items-center justify-between ">
                     <a :href="route('home')">
-                        <img width=" 100" class=" m-0 p-0" :src="'/storage/slide/NoflayHub.png'" alt="Image logo">
+                        <img width=" 100" class=" m-0 p-0" :src="'/slide/NoflayHub.png'" alt="Image logo">
                     </a>
 
 
