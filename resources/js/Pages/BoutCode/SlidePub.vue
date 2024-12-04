@@ -46,9 +46,9 @@ export default {
         return {
             currentSlide: 0,
             newSlides: [
-                '/slide/pub.png',
-                '/slide/Hub premium.png',
-                '/slide/3.png'
+                '/storage/slide/pub.png',
+                '/storage/slide/Hub premium.png',
+                '/storage/slide/3.png'
             ]
         };
     },
