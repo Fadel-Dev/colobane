@@ -134,9 +134,10 @@ const props = defineProps({
 
                         </i>
 
-                        <div class="w-full h-full border">
-    <img class="w-full h-full object-contain" :src="'/storage/' + currentImage" alt="Image">
+                      <div class="w-full h-64 border flex justify-center items-center">
+    <img class="max-w-full max-h-full object-contain" :src="'/storage/' + currentImage" alt="Image">
 </div>
+
 
 
                         <i class="p-2 text-4xl bg-gray-400 text-gray-900 rounded bi bi-chevron-right absolute top-1/2 right-11"
