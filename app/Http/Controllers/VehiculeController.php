@@ -17,87 +17,87 @@ class VehiculeController extends Controller
 {
 // voiture
 
-      public function storeVoitureVente()
-      {
+     public function storeVoitureVente()
+{
+    // Stockage des images
+    $image1 = Request::file('image1')->store('topics', 'public');
+    $image2 = Request::file('image2')->store('topics', 'public');
+    $image3 = Request::file('image3')->store('topics', 'public');
 
-          $image1=Request::file('image1')->store('topics','public');
-          $image2=Request::file('image2')->store('topics','public');
-          $image3=Request::file('image3')->store('topics','public');
+    // Redimensionnement proportionnel des images
+    $this->resizeImage(public_path("storage/{$image1}"));
+    $this->resizeImage(public_path("storage/{$image2}"));
+    $this->resizeImage(public_path("storage/{$image3}"));
 
-          $img1=Image::make(public_path("storage/{$image1}"))->resize(1200,1200);
-          $img2=Image::make(public_path("storage/{$image2}"))->resize(1200,1200);
-          $img3=Image::make(public_path("storage/{$image3}"))->resize(1200,1200);
-          $img1->save();
-          $img2->save();
-          $img3->save();
+    // Création de l'entrée en base de données
+    auth()->user()->Voitures()->create([
+        'model' => Request::input('model'),
+        'marque' => Request::input('marque'),
+        'nom' => Request::input('nom'),
+        'prix' => Request::input('prix'),
+        'description' => Request::input('description'),
+        'carburant' => Request::input('carburant'),
+        'region' => Request::input('region'),
+        'etat' => Request::input('etat'),
+        'boiteVitesse' => Request::input('boiteVitesse'),
+        'kilometrage' => Request::input('kilometrage'),
+        'place' => Request::input('place'),
+        'annee' => Request::input('annee'),
+        'affaire' => 'vente',
+        'image1' => $image1,
+        'image2' => $image2,
+        'image3' => $image3,
+        'categorie' => 'voiture',
+    ]);
 
-
-          auth()->user()->Voitures()->create([
-              'model' => Request::input('model'),
-              'marque' => Request::input('marque'),
-              'nom' => Request::input('nom'),
-              'prix' => Request::input('prix'),
-              'description' => Request::input('description'),
-              'carburant' => Request::input('carburant'),
-               'region' => Request::input('region'),
-              'etat' => Request::input('etat'),
-              'boiteVitesse' => Request::input('boiteVitesse'),
-              'kilometrage' => Request::input('kilometrage'),
-              'place' => Request::input('place'),
-              'annee' => Request::input('annee'),
-              'affaire' =>'vente',
-              'image1' => $image1,
-              'image2' => $image2,
-              'image3' => $image3,
-              'categorie' =>'voiture',
-
-          ])
-          ;
-          return redirect()->route('publier');
-      }
+    return redirect()->route('publier');
+}
 
       // voiture
 
-      public function storeVoitureLoc()
-      {
+   public function storeVoitureLoc()
+{
+    $image1 = Request::file('image1')->store('topics', 'public');
+    $image2 = Request::file('image2')->store('topics', 'public');
+    $image3 = Request::file('image3')->store('topics', 'public');
 
-          $image1=Request::file('image1')->store('topics','public');
-          $image2=Request::file('image2')->store('topics','public');
-          $image3=Request::file('image3')->store('topics','public');
+    $this->resizeImage(public_path("storage/{$image1}"));
+    $this->resizeImage(public_path("storage/{$image2}"));
+    $this->resizeImage(public_path("storage/{$image3}"));
 
-          $img1=Image::make(public_path("storage/{$image1}"))->resize(1200,1200);
-          $img2=Image::make(public_path("storage/{$image2}"))->resize(1200,1200);
-          $img3=Image::make(public_path("storage/{$image3}"))->resize(1200,1200);
-          $img1->save();
-          $img2->save();
-          $img3->save();
+    // Stockez les données de la voiture
+    auth()->user()->Voitures()->create([
+        'marque' => Request::input('marque'),
+        'nom' => Request::input('nom'),
+        'model' => 'N',
+        'prix' => Request::input('prix'),
+        'description' => Request::input('description'),
+        'kilometrage' => 0,
+        'boiteVitesse' => Request::input('boiteVitesse'),
+        'carburant' => Request::input('carburant'),
+        'region' => Request::input('region'),
+        'place' => Request::input('place'),
+        'affaire' => 'location',
+        'annee' => 0,
+        'etat' => 0,
+        'image1' => $image1,
+        'image2' => $image2,
+        'image3' => $image3,
+        'categorie' => 'voiture',
+    ]);
 
+    return redirect()->route('publier');
+}
 
-          auth()->user()->Voitures()->create([
-              'marque' => Request::input('marque'),
-              'nom' => Request::input('nom'),
-              'model' => 'N',
-              'prix' => Request::input('prix'),
-              'description' => Request::input('description'),
-              'kilometrage' => 0,
-              'boiteVitesse' => Request::input('boiteVitesse'),
-              'carburant' => Request::input('carburant'),
-               'region' => Request::input('region'),
-              'place' => Request::input('place'),
-              'affaire' =>'location',
-              'annee' => 0,
-              'etat' => 0,
-              'image1' => $image1,
-              'image2' => $image2,
-              'image3' => $image3,
-              'categorie' =>'voiture',
-
-
-          ])
-          ;
-          return redirect()->route('publier');
-      }
-
+private function resizeImage($path)
+{
+    $img = Image::make($path)
+        ->resize(1200, null, function ($constraint) {
+            $constraint->aspectRatio(); // Maintenir les proportions
+            $constraint->upsize(); // Éviter d'agrandir les petites images
+        })
+        ->save();
+}
     //    Edit in Dashboard
 
     public function UpdateImmobilier($id)
