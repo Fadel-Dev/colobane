@@ -135,14 +135,17 @@ phpVersion: String,
     <div class="container mx-auto">
         <div class="md:flex md:items-center">
             <!-- Image Container -->
-            <div class="rounded-sm sm:w-[40rem] sm:h-[22rem] sm:flex items-center sm:justify-center sm:bg-gray-200 relative my-0 sm:mx-0 bg-gray-300">
-                <!-- Left Arrow -->
-                <i class="p-2 bg-transparent text-3xl rounded text-white bi bi-chevron-left absolute top-1/2 left-11" @click="previousImage"></i>
-                <!-- Main Image -->
-                <img class="w-full h-full" :src="'/storage/'+currentImage">
-                <!-- Right Arrow -->
-                <i class="p-2 text-4xl text-white rounded bi bi-chevron-right absolute top-1/2 right-11" @click="nextImage"></i>
-            </div>
+            <div class="rounded-sm sm:w-[40rem] sm:h-[22rem] sm:flex items-center sm:justify-center sm:bg-gray-200 relative my-0 sm:mx-0 bg-gray-300 overflow-hidden">
+    <!-- Left Arrow -->
+    <i class="p-2 bg-transparent text-3xl rounded text-white bi bi-chevron-left absolute top-1/2 left-11 cursor-pointer" @click="previousImage"></i>
+    
+    <!-- Main Image -->
+    <img :src="'/storage/' + currentImage" class="w-full h-full object-cover transition-all duration-300 ease-in-out" alt="Carrousel image">
+    
+    <!-- Right Arrow -->
+    <i class="p-2 text-4xl text-white rounded bi bi-chevron-right absolute top-1/2 right-11 cursor-pointer" @click="nextImage"></i>
+</div>
+
 
             <!-- Details Container -->
             <div class="max-w-lg sm:mx-auto mt-5 md:ml-8 md:mt-0 md:w-1/2 mx-auto w-11/12 rounded-2xl md:bg-secondaire p-8 mx-0">
