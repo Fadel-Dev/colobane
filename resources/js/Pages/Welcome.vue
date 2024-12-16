@@ -1,126 +1,120 @@
 <template>
+    <AppLayout title="Acceuil">
 
-    <Head title="Accueil" />
-    <div id="principal">
-
-
-
-        <div class=" lg:w-8/12 mx-auto mx-0 px-0 ">
-            <!-- Navigation -->
-
-
-            <!-- Banner -->
-            <Navbar />
+        <div id="principal">
 
 
 
-            <!-- slide categorie -->
+            <div class=" lg:w-8/12 mx-auto mx-0 px-0 ">
+                <!-- Navigation -->
 
 
-            <div class="swiper  w-full lg:w-3/4   pt-20  lg:pt-20 lg:mt-[-30px] " id="cat">
-                <div class="swiper-wrapper pt-10 ">
-
-                </div>
-            </div>
-
-            <!-- Slide -->
-
-            <SlidePub />
+                <!-- Banner -->
 
 
-            <!-- slide nav -->
 
-            <div class="mt-0">
 
-                <div class="swiper  w-full lg:w-4/4  lg:mt-[10px] " id="cat">
-                    <div class="swiper-wrapper pt-10 ">
-                        <div v-for="item in items" :key="item.id"
-                            class="swiper-slide w-1/4 sm:w-1/4 md:w-1/6 lg:w-6/6 xl:w-1/6  flex  flex-col ">
 
-                            <div class="text-center" @click="activeTab = item.name">
-                                <i :class="`fas fa-${item.icon} text-3xl text-principal`"></i>
-                            </div>
 
-                            <div class="text-center">
-                                <span class="  font-semibold text-secondaire">{{ item.name }}</span>
+                <!-- Slide -->
+
+                <SlidePub />
+
+
+                <!-- slide nav -->
+
+                <div class="mt-0">
+
+                    <div class="swiper  w-full lg:w-4/4  lg:mt-[10px] " id="cat">
+                        <div class="swiper-wrapper pt-10 ">
+                            <div v-for="item in items" :key="item.id"
+                                class="swiper-slide w-1/4 sm:w-1/4 md:w-1/6 lg:w-6/6 xl:w-1/6  flex  flex-col ">
+
+                                <div class="text-center" @click="activeTab = item.name">
+                                    <i :class="`fas fa-${item.icon} text-3xl text-principal`"></i>
+                                </div>
+
+                                <div class="text-center">
+                                    <span class="  font-semibold text-secondaire">{{ item.name }}</span>
+
+                                </div>
 
                             </div>
-
                         </div>
                     </div>
-                </div>
 
 
 
-                <!-- bouton vendre -->
+                    <!-- bouton vendre -->
 
 
-                <div class="lg:max-w-[80vw] max-w-[970vw] mx-auto mt-8">
-                    <!-- Immobilier Tab -->
-                    <div v-if="activeTab === 'immobilier'" class="">
-                        <div class="swiper">
-                            <div class="swiper-wrapper">
-                                <div v-for="immobillierBoost in immobilliersBoost.data" :key="immobillierBoost.id"
-                                    @click="navigateToDetail(immobillierBoost.id)"
-                                    class="swiper-slide w-full sm:w-1/4 md:w-1/4 lg:w-1/6 xl:w-1/6 p-1">
-                                    <!-- Immobilier Card -->
-                                    <div class="card">
-                                        <div class="aspect-square overflow-hidden">
-                                            <img :src="'/storage/' + immobillierBoost.image1"
-                                                :alt="immobillierBoost.imageAlt"
-                                                class="h-full w-full object-cover transition-all duration-300 group-hover:scale-125">
-                                        </div>
-                                        <div class="absolute top-0 m-2 rounded-full ">
-                                            <p
-                                                class="rounded-full bg-principal p-1 text-[8px] font-bold uppercase tracking-wide text-white sm:py-1 sm:px-3">
-                                                {{ immobillierBoost.affaire }}</p>
-                                        </div>
-
-                                        <div class="my-2 mx-auto flex w-10/12 flex-col items-start justify-between">
-                                            <p class="mr-3 text-sm font-semibold text-principal align-center">{{
-                                                immobillierBoost.prix }} <span class="text-secondaire mr-3">Fcfa</span>
-                                            </p>
-
-                                            <div class="mb-2 flex">
-
-                                                <p class="mr-3 text-secondaire  text-sm font-semibold truncate">{{
-                                                    immobillierBoost.nom.substring(0, 20) }}</p>
+                    <div class="lg:max-w-[80vw] max-w-[970vw] mx-auto mt-8">
+                        <!-- Immobilier Tab -->
+                        <div v-if="activeTab === 'immobilier'" class="">
+                            <div class="swiper">
+                                <div class="swiper-wrapper">
+                                    <div v-for="immobillierBoost in immobilliersBoost.data" :key="immobillierBoost.id"
+                                        @click="navigateToDetail(immobillierBoost.id)"
+                                        class="swiper-slide w-full sm:w-1/4 md:w-1/4 lg:w-1/6 xl:w-1/6 p-1">
+                                        <!-- Immobilier Card -->
+                                        <div class="card">
+                                            <div class="aspect-square overflow-hidden">
+                                                <img :src="'/storage/' + immobillierBoost.image1"
+                                                    :alt="immobillierBoost.imageAlt"
+                                                    class="h-full w-full object-cover transition-all duration-300 group-hover:scale-125">
                                             </div>
-                                            <h3
-                                                class="text-sm text-principal pt-[-8%] w-full border-b-[1px] border-gray-200 ">
-                                                {{
-                                                    immobillierBoost.region }} ,Senegal </h3>
+                                            <div class="absolute top-0 m-2 rounded-full ">
+                                                <p
+                                                    class="rounded-full bg-principal p-1 text-[8px] font-bold uppercase tracking-wide text-white sm:py-1 sm:px-3">
+                                                    {{ immobillierBoost.affaire }}</p>
+                                            </div>
 
-                                            .
+                                            <div class="my-2 mx-auto flex w-10/12 flex-col items-start justify-between">
+                                                <p class="mr-3 text-sm font-semibold text-principal align-center">{{
+                                                    immobillierBoost.prix }} <span
+                                                        class="text-secondaire mr-3">Fcfa</span>
+                                                </p>
+
+                                                <div class="mb-2 flex">
+
+                                                    <p class="mr-3 text-secondaire  text-sm font-semibold truncate">{{
+                                                        immobillierBoost.nom.substring(0, 20) }}</p>
+                                                </div>
+                                                <h3
+                                                    class="text-sm text-principal pt-[-8%] w-full border-b-[1px] border-gray-200 ">
+                                                    {{
+                                                        immobillierBoost.region }} ,Senegal </h3>
+
+                                                .
+
+                                            </div>
+                                            <button
+                                                class="  bg-principal group mx-auto mt-[-10%] flex h-8 w-full items-stretch overflow-hidden hover:text-secondaire rounded-md text-white">
+                                                <div
+                                                    class="flex w-full items-center justify-center bg-principal text-xs uppercase transition  group-hover:text-secondaire">
+                                                    contacter</div>
+
+                                            </button>
+
 
                                         </div>
-                                        <button
-                                            class="  bg-principal group mx-auto mt-[-10%] flex h-8 w-full items-stretch overflow-hidden hover:text-secondaire rounded-md text-white">
-                                            <div
-                                                class="flex w-full items-center justify-center bg-principal text-xs uppercase transition  group-hover:text-secondaire">
-                                                contacter</div>
-
-                                        </button>
-
-
                                     </div>
                                 </div>
-                            </div>
-                            <!-- Bouton add -->
+                                <!-- Bouton add -->
 
 
 
 
 
 
-                            <section class=" py-1 text-secondaire sm:py-16 lg:py-1" id="transparent">
-                                <div class="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
-                                    <div class="mx-auto max-w-md text-center">
-                                        <h2 class="font-serif text-2xl font-bold sm:text-2xl">Dernières Annonces au
-                                            Sénégal
-                                        </h2>
-                                    </div>
-                                    <!-- <div class="region-filter flex flex-col">
+                                <section class=" py-1 text-secondaire sm:py-16 lg:py-1" id="transparent">
+                                    <div class="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
+                                        <div class="mx-auto max-w-md text-center">
+                                            <h2 class="font-serif text-2xl font-bold sm:text-2xl">Dernières Annonces au
+                                                Sénégal
+                                            </h2>
+                                        </div>
+                                        <!-- <div class="region-filter flex flex-col">
                                         <label for="marque">Trieeee</label>
                                         <select v-model="selectedRegion" id="region">
                                             <option v-for="region in regions" :key="region" :value="region">
@@ -128,121 +122,127 @@
                                             </option>
                                         </select>
                                     </div> -->
-                                    <!-- Grid For Vehicules -->
+                                        <!-- Grid For Vehicules -->
 
-                                    <div class="mt-10 grid grid-cols-2 gap-6 sm:grid-cols-4 sm:gap-4 lg:mt-16">
-                                        <article v-for="maison in maisons.data" :key="maison.id"
-                                            @click="navigateToDetail(maison.id)"
-                                            class="relative flex flex-col overflow-hidden rounded-lg border justify-center items-center">
-                                            <!-- Centering Flex -->
-                                            <div class="card w-full"> <!-- Ensure full width -->
-                                                <div
-                                                    class="aspect-square overflow-hidden flex justify-center items-center">
-                                                    <!-- Center the image -->
-                                                    <img :src="'/storage/' + maison.image1" :alt="maison.imageAlt"
-                                                        class="h-full w-full object-cover transition-all duration-300 group-hover:scale-125">
-                                                </div>
-                                                <div class="absolute top-0 m-2 rounded-full">
-                                                    <p
-                                                        class="rounded-full bg-principal p-1 text-[8px] font-bold uppercase tracking-wide text-white sm:py-1 sm:px-3">
-                                                        {{ maison.affaire }}
-                                                    </p>
-                                                </div>
-
-                                                <div
-                                                    class="my-2 mx-auto flex w-10/12 flex-col items-center justify-between">
-                                                    <!-- Centered flex -->
-                                                    <p class="text-center text-sm font-semibold text-principal">{{
-                                                        maison.prix }}{{
-                                                            maison.type }} <span class="text-secondaire mr-3">Fcfa</span>
-                                                    </p>
-
-                                                    <div class="mb-2 flex justify-center"> <!-- Center the name -->
-                                                        <p class="text-secondaire text-sm font-semibold truncate">{{
-                                                            maison.nom.substring(0, 20) }}</p>
+                                        <div class="mt-10 grid grid-cols-2 gap-6 sm:grid-cols-4 sm:gap-4 lg:mt-16">
+                                            <article v-for="maison in maisons.data" :key="maison.id"
+                                                @click="navigateToDetail(maison.id)"
+                                                class="relative flex flex-col overflow-hidden rounded-lg border justify-center items-center">
+                                                <!-- Centering Flex -->
+                                                <div class="card w-full"> <!-- Ensure full width -->
+                                                    <div
+                                                        class="aspect-square overflow-hidden flex justify-center items-center">
+                                                        <!-- Center the image -->
+                                                        <img :src="'/storage/' + maison.image1" :alt="maison.imageAlt"
+                                                            class="h-full w-full object-cover transition-all duration-300 group-hover:scale-125">
+                                                    </div>
+                                                    <div class="absolute top-0 m-2 rounded-full">
+                                                        <p
+                                                            class="rounded-full bg-principal p-1 text-[8px] font-bold uppercase tracking-wide text-white sm:py-1 sm:px-3">
+                                                            {{ maison.affaire }}
+                                                        </p>
                                                     </div>
 
-                                                    <h3
-                                                        class="text-sm text-principal w-full border-b-[1px] border-gray-200 text-center">
-                                                        <!-- Centered text -->
-                                                        {{ maison.region }}, Senegal
-                                                    </h3>
-                                                </div>
+                                                    <div
+                                                        class="my-2 mx-auto flex w-10/12 flex-col items-center justify-between">
+                                                        <!-- Centered flex -->
+                                                        <p class="text-center text-sm font-semibold text-principal">{{
+                                                            maison.prix }}{{
+                                                                maison.type }} <span
+                                                                class="text-secondaire mr-3">Fcfa</span>
+                                                        </p>
 
-                                                <div v-if="maison.status == 'accepter'"
-                                                    class="bg-principal group mx-auto mt-[-5%] flex h-8 w-full items-center justify-center rounded-md text-white">
-                                                    <div class="w-full flex justify-center"> <!-- Center the button -->
-                                                        <div
-                                                            class="bg-principal text-xs uppercase transition group-hover:text-secondaire">
-                                                            Contacter
+                                                        <div class="mb-2 flex justify-center"> <!-- Center the name -->
+                                                            <p class="text-secondaire text-sm font-semibold truncate">{{
+                                                                maison.nom.substring(0, 20) }}</p>
+                                                        </div>
+
+                                                        <h3
+                                                            class="text-sm text-principal w-full border-b-[1px] border-gray-200 text-center">
+                                                            <!-- Centered text -->
+                                                            {{ maison.region }}, Senegal
+                                                        </h3>
+                                                    </div>
+
+                                                    <div v-if="maison.status == 'accepter'"
+                                                        class="bg-principal group mx-auto mt-[-5%] flex h-8 w-full items-center justify-center rounded-md text-white">
+                                                        <div class="w-full flex justify-center">
+                                                            <!-- Center the button -->
+                                                            <div
+                                                                class="bg-principal text-xs uppercase transition group-hover:text-secondaire">
+                                                                Contacter
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
 
-                                                <div v-else
-                                                    class="group mx-auto mt-[-10%] flex h-8 w-full items-center justify-center overflow-hidden rounded-md text-white">
+                                                    <div v-else
+                                                        class="group mx-auto mt-[-10%] flex h-8 w-full items-center justify-center overflow-hidden rounded-md text-white">
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </article>
+                                            </article>
+                                        </div>
+
                                     </div>
+                                </section>
+                            </div>
 
-                                </div>
-                            </section>
                         </div>
 
-                    </div>
 
+                        <!-- Vehicule Tab -->
+                        <div v-else-if="activeTab == 'Vehicule'" class="bg-transparent">
 
-                    <!-- Vehicule Tab -->
-                    <div v-else-if="activeTab == 'Vehicule'" class="bg-transparent">
+                            <Voiture :voitures="voitures" :voituresBoost="voituresBoost" :marques="marques" />
 
-                        <Voiture :voitures="voitures" :voituresBoost="voituresBoost" :marques="marques" />
+                        </div>
+                        <!-- Chambre -->
+                        <div v-else-if="activeTab == 'Chambre'" class="bg-transparent">
+                            <Chambre :chambres="chambres" :chambresBoost="chambresBoost" />
+                        </div>
 
-                    </div>
-                    <!-- Chambre -->
-                    <div v-else-if="activeTab == 'Chambre'" class="bg-transparent">
-                        <Chambre :chambres="chambres" :chambresBoost="chambresBoost" />
-                    </div>
+                        <!-- Villa -->
+                        <div v-else-if="activeTab == 'Villa'" class="bg-transparent">
+                            <Villa :villas="villas" :villasBoost="villasBoost" />
 
-                    <!-- Villa -->
-                    <div v-else-if="activeTab == 'Villa'" class="bg-transparent">
-                        <Villa :villas="villas" :villasBoost="villasBoost" />
+                        </div>
 
-                    </div>
+                        <!-- Immeubles -->
+                        <div v-else-if="activeTab == 'Immeuble'" class="bg-transparent">
+                            <!-- <h1>mes Immeubless</h1> -->
+                            <Immeuble :immeubles="immeubles" :immeublesBoost="immeublesBoost" />
+                        </div>
 
-                    <!-- Immeubles -->
-                    <div v-else-if="activeTab == 'Immeuble'" class="bg-transparent">
-                        <!-- <h1>mes Immeubless</h1> -->
-                        <Immeuble :immeubles="immeubles" :immeublesBoost="immeublesBoost" />
-                    </div>
+                        <!-- Terrain -->
+                        <div v-else-if="activeTab == 'Terrain'" class="bg-transparent">
+                            <!-- <h1>mes Terrain</h1> -->
+                            <Terrain :terrains="terrains" :terrainsBoost="terrainsBoost" />
+                        </div>
 
-                    <!-- Terrain -->
-                    <div v-else-if="activeTab == 'Terrain'" class="bg-transparent">
-                        <!-- <h1>mes Terrain</h1> -->
-                        <Terrain :terrains="terrains" :terrainsBoost="terrainsBoost" />
-                    </div>
-
-                    <!-- Verger -->
-                    <div v-else-if="activeTab == 'Verger'" class="bg-transparent">
-                        <!-- <h1>mes Vergers</h1> -->
-                        <Verger :vergers="vergers" :vergersBoost="vergersBoost" />
+                        <!-- Verger -->
+                        <div v-else-if="activeTab == 'Verger'" class="bg-transparent">
+                            <!-- <h1>mes Vergers</h1> -->
+                            <Verger :vergers="vergers" :vergersBoost="vergersBoost" />
+                        </div>
                     </div>
                 </div>
+                <div>
+                </div>
+
+
+                <!-- <footer /> -->
+
+                <!-- Footer -->
+
             </div>
-            <div>
-            </div>
-
-
-            <!-- <footer /> -->
-
-            <!-- Footer -->
 
         </div>
+        <div class="mt-20">
+            <Footer />
+        </div>
 
-    </div>
-    <div class="mt-20">
-        <Footer />
-    </div>
+
+    </AppLayout>
+
 </template>
 
 <style scoped>
@@ -413,6 +413,7 @@
 
 import { Head, Link } from '@inertiajs/vue3';
 import { Inertia } from '@inertiajs/inertia';
+import AppLayout from '@/Layouts/AppLayout.vue';
 
 const props = defineProps({
     voitures: Object,
