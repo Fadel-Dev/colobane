@@ -26,7 +26,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <AppLayout title="{{ miason.nom }}">
+  <AppLayout title="{{ maison.nom }}">
     <div>
 
       <!-- Home -->
