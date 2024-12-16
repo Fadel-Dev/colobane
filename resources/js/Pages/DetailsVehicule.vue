@@ -42,8 +42,8 @@ const props = defineProps({
                         </i>
 
                         <div class="w-full h-full flex items-center justify-center border">
-                            <img class="max-w-full max-h-full object-contain" :src="'/storage/' + currentImage"
-                                alt="Image">
+                            <img class="flex max-w-full max-h-full items-center justify-center object-contain"
+                                :src="'/storage/' + currentImage" alt="Image">
                         </div>
 
 
