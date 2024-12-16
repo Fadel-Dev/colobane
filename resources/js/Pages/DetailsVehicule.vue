@@ -135,8 +135,7 @@ const props = defineProps({
                         </i>
 
                      <div class="w-full h-64 border flex justify-center items-center overflow-hidden">
-    <img class="max-w-full max-h-full object-contain" :src="'/storage/' + currentImage" alt="Image">
-</div>
+   <img :src="'/storage/' + currentImage" class="w-auto h-full object-cover transition-all duration-300 ease-in-out" alt="Carrousel image">
 
 
 
