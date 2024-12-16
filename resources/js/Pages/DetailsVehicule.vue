@@ -1,13 +1,8 @@
 <script setup>
-
 import { Head, Link, router } from '@inertiajs/vue3';
 import Footer from '../Components/Footer.vue';
 import { Inertia } from '@inertiajs/inertia';
-
-
-
 import Navbar from '../Components/Navbar.vue'
-
 const props = defineProps({
     voiture: Object,
     user: Object,
@@ -16,8 +11,6 @@ const props = defineProps({
     phoneSeler: Object,
     suggestions: Object,
     urlActuelle: Object,
-
-
     canLogin: Boolean,
     canRegister: Boolean,
     laravelVersion: String,
@@ -50,7 +43,6 @@ const props = defineProps({
               font-bold
               md:text-2xl
             text-principal
-
             ">Noflay
                     </Link>
 
@@ -134,11 +126,9 @@ const props = defineProps({
 
                         </i>
 
-                     <div class="w-full h-64 border flex justify-center items-center overflow-hidden">
-   <img :src="'/storage/' + currentImage" class="w-auto h-full object-cover transition-all duration-300 ease-in-out" alt="Carrousel image">
-
-
-
+                        <div class="w-full h-full border">
+                            <img class="w-auto h-full object-contain" :src="'/storage/' + currentImage" alt="Image">
+                        </div>
 
 
                         <i class="p-2 text-4xl bg-gray-400 text-gray-900 rounded bi bi-chevron-right absolute top-1/2 right-11"
@@ -528,8 +518,6 @@ const props = defineProps({
 
 
 <script>
-
-
 // export default {
 //  components: { Footer },
 //   props: {
@@ -545,20 +533,15 @@ export default {
     //     mailSeler:Object,
     //     phoneSeler:Object,
     //   },
-
     components: {
         Head
     },
     data() {
         return {
             images: [
-
                 this.voiture.image1,
                 this.voiture.image2,
                 this.voiture.image3,
-
-
-
             ],
             currentIndex: 0,
             showUserNumber: false,
@@ -590,15 +573,11 @@ export default {
         }, ouvrirWhatsApp() {
             const numeroContact = `${this.phoneSeler}`; // Remplacez par le numéro de téléphone que vous souhaitez utiliser
             const messageText = `Bonjour, je suis intéressé par vos produits.${this.urlActuelle}`; // Message texte par défaut
-
             const lienWhatsApp = `https://wa.me/${numeroContact}?text=${encodeURIComponent(messageText)}`;
-
-
             // Ouvrir le lien dans une nouvelle fenêtre/onglet
             window.open(lienWhatsApp, "_blank");
         },
         // envoie
     }
 };
-
 </script>
