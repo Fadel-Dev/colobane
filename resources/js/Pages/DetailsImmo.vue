@@ -140,7 +140,7 @@ phpVersion: String,
     <i class="p-2 bg-transparent text-3xl rounded text-white bi bi-chevron-left absolute top-1/2 left-11 cursor-pointer" @click="previousImage"></i>
     
     <!-- Main Image -->
-    <img :src="'/storage/' + currentImage" class="w-full h-full object-cover transition-all duration-300 ease-in-out" alt="Carrousel image">
+    <img :src="'/storage/' + currentImage" class="w-auto h-full object-cover transition-all duration-300 ease-in-out" alt="Carrousel image">
     
     <!-- Right Arrow -->
     <i class="p-2 text-4xl text-white rounded bi bi-chevron-right absolute top-1/2 right-11 cursor-pointer" @click="nextImage"></i>

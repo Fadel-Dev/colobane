@@ -134,9 +134,11 @@ const props = defineProps({
 
                         </i>
 
-                      <div class="w-full h-64 border flex justify-center items-center">
+                     <div class="w-full h-64 border flex justify-center items-center overflow-hidden">
     <img class="max-w-full max-h-full object-contain" :src="'/storage/' + currentImage" alt="Image">
 </div>
+
+
 
 
 
