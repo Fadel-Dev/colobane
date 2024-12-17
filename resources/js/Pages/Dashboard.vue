@@ -120,7 +120,7 @@ const props = defineProps({
                                         stroke-linecap="round" />
                                     <path
                                         d="M9.60279 97.5926C6.37325 89.2671 4.81515 80.3871 5.01745 71.4595C5.21975 62.5319 7.1785 53.7316 10.7818 45.561C14.3852 37.3904 19.5626 30.0095 26.0184 23.8398C32.4742 17.6701 40.082 12.8323 48.4075 9.6028"
-                                        stroke="url(#paint2_linear_622:13617)" stroke-width="10"
+                                        stroke="urlz(#paint2_linear_622:13617)" stroke-width="10"
                                         stroke-linecap="round" />
                                     <path d="M73 5.00001C86.6504 5.00001 99.9849 9.10831 111.269 16.7904"
                                         stroke="url(#paint3_linear_622:13617)" stroke-width="10"
