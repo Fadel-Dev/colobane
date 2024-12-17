@@ -71,14 +71,15 @@ const isStepTwoValid = computed(() => {
         <div class="w-11/12 my-7 m-auto rounded-2xl lg:w-2/5 border-2 shadow-lg border-slate-400">
             <h2 class="text-2xl font-bold mb-4 text-center">Sélectionnez une image</h2>
             <div class="grid grid-cols-3 md:grid-cols-3 lg:grid-cols-3 gap-4">
-                <div v-for="image in images" :key="image.id">
-                    <label>
+                <div class="flex flex-col items-center justify-center" v-for="image in images" :key="image.id">
+                    <label class="flex flex-col items-center">
                         <input type="radio" class="text-principal focus:border-white focus:ring-white"
                             :value="image.titre" v-model="lead.type">
-                        <h3>{{ image.titre }}</h3>
-                        <img :src="image.src" :alt="image.alt" class="w-2/3 rounded-lg shadow-lg">
+                        <h3 class="text-center mt-2">{{ image.titre }}</h3>
+                        <img :src="image.src" :alt="image.alt" class="w-2/5 rounded-lg shadow-lg mt-2">
                     </label>
                 </div>
+
             </div>
         </div>
 
