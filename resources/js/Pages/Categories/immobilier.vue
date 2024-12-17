@@ -38,13 +38,13 @@ function handleSubmit() {
 }
 
 const images = [
-    { id: 1, src: "/storage/icons/villa.png", alt: "Image 1", titre: "Villa" },
-    { id: 2, src: "/storage/icons/appartement.png", alt: "Image 2", titre: "Appartement" },
-    { id: 3, src: "/storage/icons/terrain.png", alt: "Image 3", titre: "Terrain" },
-    { id: 4, src: "/storage/icons/chambre.png", alt: "Image 4", titre: "Chambre" },
-    { id: 5, src: "/storage/icons/immeuble.png", alt: "Image 5", titre: "Immeuble" },
-    { id: 6, src: "/storage/icons/verger.png", alt: "Image 6", titre: "Verger" },
-    { id: 7, src: "/storage/icons/ferme.png", alt: "Image 7", titre: "Ferme" }
+    { id: 1, src: "/storage/slide/villa.png", alt: "Image 1", titre: "Villa" },
+    { id: 2, src: "/storage/slide/appartement.png", alt: "Image 2", titre: "Appartement" },
+    { id: 3, src: "/storage/slide/terrain.png", alt: "Image 3", titre: "Terrain" },
+    { id: 4, src: "/storage/slide/chambre.png", alt: "Image 4", titre: "Chambre" },
+    { id: 5, src: "/storage/slide/immeuble.png", alt: "Image 5", titre: "Immeuble" },
+    { id: 6, src: "/storage/slide/verger.png", alt: "Image 6", titre: "Verger" },
+    { id: 7, src: "/storage/slide/ferme.png", alt: "Image 7", titre: "Ferme" }
 ];
 
 const isStepOneValid = computed(() => {
