@@ -12,31 +12,57 @@ const props = defineProps({
 </script>
 
 <template>
-    <div class="bg-gray-100 ">
-        <nav class="  w-full fixed top-0 left-0 z-10">
+    <Composant />
+
+
+    <div class="bg-gray-100  ">
+        <nav class="  w-full relative mb-[2%] border-b-[5px] border-b-principale   fixed top-0 left-0 z-10">
             <div
-                class="px-11 py-5 mx-auto md:flex md:justify-between md:items-center shadow-xl bg-white text-principal">
+                class="text-secondaire   px-11 py-5 mx-auto md:flex md:justify-between md:items-center shadow-xl bg-white text-principal">
                 <!-- Branding -->
                 <div class="flex items-center justify-between ">
                     <a :href="route('home')">
                         <img width=" 100" class=" m-0 p-0" :src="'/storage/slide/NoflayHub.png'" alt="Image logo">
                     </a>
+                    <div class="hidden  lg:flex items-center justify-center mx-3 space-x-4">
+                        <a :href="route('home')" class="mx-7  btn-primary relative group">
+                            Accueil
+                            <span
+                                class=" w-1 absolute bottom-0 left-0 w-0 h-1 bg-principal group-hover:w-full transition-all duration-300 ease-in-out">
+                            </span>
+                        </a>
+                        <a href="https://sn.noflayhub.com/#Blog" target="_blank" class="btn-primary relative group">
+                            Blog
+                            <span
+                                class=" w-1 absolute bottom-0 left-0 w-0 h-1 bg-principal group-hover:w-full transition-all duration-300 ease-in-out">
+                            </span>
+                        </a>
+                    </div>
+
 
 
                     <!-- Mobile Menu Button -->
                     <button @click="showMenu = !showMenu" type="button"
                         class="md:hidden text-secondaire hover:text-secondaire focus:outline-none absolute right-4 top-4">
-                        <svg viewBox="0 0 24 24" class="w-12 h-12 fill-current">
+                        <!-- Icône de menu (hamburger) -->
+                        <svg v-if="!showMenu" viewBox="0 0 24 24" class="w-12 h-12 fill-current">
                             <path
                                 d="M4 5h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2z">
                             </path>
                         </svg>
+                        <!-- Icône de fermeture (croix) -->
+                        <svg v-else viewBox="0 0 24 24" class="w-12 h-12 fill-current">
+                            <path d="M6 18L18 6M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                            </path>
+                        </svg>
                     </button>
+
                 </div>
 
                 <!-- Desktop Menu -->
-                <div class="hidden md:flex md:space-x-5 md:items-center  ">
-                    <a :href="route('publier')" class="btn-secondary mx-[210px] text-principal ">
+                <div class="hidden md:flex md:space-x-2 md:items-center  ">
+                    <a :href="route('publier')" class="btn-secondary mx-[110px] text-principal ">
                         <button class="sign bg-principal">
                             <div class="arrow-wrapper bg-principal text-principal">
                                 <i class="bi bi-plus"></i>
@@ -45,13 +71,59 @@ const props = defineProps({
                         </button>
                     </a>
                     <template v-if="$page.props.auth.user">
-                        <a :href="route('publier')" class="btn-primary text-principal">Publier une annonce</a>
+                        <ul class="text-secondaire  flex flex-col lg:flex-row gap-4 list-none">
+                            <li class="relative group">
+                                <a href="https://sn.noflayhub.com/#Services" target="_blank"
+                                    class="btn-primary relative">
+                                    Services
+                                    <span
+                                        class="w-1  absolute bottom-0 left-0 w-0 h-1 bg-principal  group-hover:w-full transition-all duration-300 ease-in-out">
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="relative group">
+                                <a href="https://wa.me/221778650096?text=Exprimez%20vos%20besoins%20:%20trouvez%20votre%20futur%20logement,%20terrain%20ou%20véhicule%20en%20quelques%20clics."
+                                    target="_blank" rel="noopener noreferrer" class="btn-primary relative">
+                                    Contact Us
+                                    <span
+                                        class=" w-1 absolute bottom-0 left-0 w-0 h-1 bg-principal group-hover:w-full transition-all duration-300 ease-in-out">
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <SwitchBtn />
+                            </li>
+                        </ul>
+
+
                         <a :href="route('dashboard')" class="btn-secondary">Dashboard</a>
                     </template>
                     <!-- For LG -->
                     <template v-else>
-                        <a :href="route('publier')" class="btn-primary">Accueil</a>
-                        <a :href="route('publier')" class="btn-primary">Contact Us</a>
+                        <!-- <a :href="route('publier')" class="btn-primary">Contact </a> -->
+
+
+
+
+
+
+
+                        <a href="https://sn.noflayhub.com/#Services" target="_blank" class="btn-primary relative group">
+                            Services
+                            <span
+                                class="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-principal via-secondaire to-principal scale-x-0 group-hover:scale-x-100 transition-all duration-300"></span>
+                        </a>
+
+                        <a :href="route('home')" class="btn-primary relative group">
+                            Contact
+                            <span
+                                class="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-principal via-secondaire to-principal scale-x-0 group-hover:scale-x-100 transition-all duration-300"></span>
+                        </a>
+
+
+
+
+
                         <SwitchBtn />
                         <a :href="route('login')" class="btn-secondary">
                             <button class="sign bg-principal">
@@ -66,31 +138,86 @@ const props = defineProps({
             </div>
 
             <!-- Mobile Menu -->
-            <div :class="{ 'block': showMenu, 'hidden': !showMenu }" class="md:hidden bg-secondaire text-white mt-4">
-                <nav aria-labelledby="header-navigation" class="flex flex-col items-center">
-                    <ul class="flex flex-col space-y-4 px-4 py-2">
+            <div id="myNav" :class="{ 'block': showMenu, 'hidden': !showMenu }"
+                class="md:hidden bg-red-300 text-white  rounded-lg shadow-md">
+                <nav aria-labelledby="header-navigation" class="flex flex-col ml-[2%]">
+                    <ul class="flex flex-col space-y-4 px-4 py-4">
                         <template v-if="$page.props.auth.user">
-                            <li>
-                                <a :href="route('publier')" class="btn-primary">Publier une annonce</a>
-                            </li>
-                            <li>
-                                <a :href="route('dashboard')" class="btn-secondary">Dashboard</a>
-                            </li>
+                            <ul class="space-y-4 text-left">
+                                <!-- Publier une annonce -->
+                                <li>
+                                    <a :href="route('publier')"
+                                        class="relative inline-block px-6 py-3 text-white bg-blue-500 rounded-lg overflow-hidden group transition-all duration-300 ease-in-out transform hover:scale-105">
+                                        <i class="fas fa-plus-circle mr-2"></i> Publier une annonce
+                                        <span
+                                            class="absolute inset-0 bg-blue-700 transform scale-0 transition-transform duration-300 group-hover:scale-110 group-active:scale-75 opacity-20"></span>
+                                    </a>
+                                </li>
+
+                                <!-- Services -->
+                                <li>
+                                    <a href="https://sn.noflayhub.com/#Services" target="_blank"
+                                        class="relative group text-lg text-blue-400 hover:text-blue-600 transition-all duration-300 ease-in-out">
+                                        <i class="fas fa-cogs mr-2"></i> Services
+                                        <span
+                                            class="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-principal via-secondaire to-principal scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-in-out"></span>
+                                    </a>
+                                </li>
+
+                                <!-- Contact Us -->
+                                <li>
+                                    <a href="https://wa.me/221778650096?text=Exprimez%20vos%20besoins%20:%20trouvez%20votre%20futur%20logement,%20terrain%20ou%20véhicule%20en%20quelques%20clics."
+                                        target="_blank" rel="noopener noreferrer"
+                                        class="relative group text-lg text- hover:text-green-600 transition-all duration-300 ease-in-out">
+                                        <i class="fas fa-phone-alt mr-2"></i> Contact Us
+                                        <span
+                                            class="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-principal via-secondaire to-principal scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-in-out"></span>
+                                    </a>
+                                </li>
+
+                                <!-- Dashboard -->
+                                <li>
+                                    <a :href="route('dashboard')"
+                                        class="btn-secondary hover:bg-secondary-dark transition-all duration-300 ease-in-out">
+                                        <i class="fas fa-tachometer-alt mr-2"></i> Dashboard
+                                    </a>
+                                </li>
+                            </ul>
                         </template>
+
                         <template v-else>
                             <li>
-                                <a :href="route('publier')" class="btn-primary">Accueil</a>
+                                <a :href="route('home')"
+                                    class="btn-primary  relative group text-lg text-blue-400 hover:text-blue-600 transition-all duration-300 ease-in-out">
+                                    <i class="fas fa-home mr-2"></i> Accueil
+                                    <span
+                                        class="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-principal via-secondaire to-principal scale-x-0 group-hover:scale-x-100 transition-all duration-300"></span>
+                                </a>
                             </li>
+
                             <li>
-                                <a :href="route('publier')" class="btn-primary">Contact Us</a>
+                                <a href="https://sn.noflayhub.com/#Services" target="_blank"
+                                    class="btn-primary relative group text-lg text-blue-400 hover:text-blue-600 transition-all duration-300 ease-in-out">
+                                    <i class="fas fa-cogs mr-2"></i> Services
+                                    <span
+                                        class="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-principal via-secondaire to-principal scale-x-0 group-hover:scale-x-100 transition-all duration-300"></span>
+                                </a>
                             </li>
+
                             <li>
+                                <a href="https://wa.me/221778650096?text=Exprimez%20vos%20besoins%20:%20trouvez%20votre%20futur%20logement,%20terrain%20ou%20véhicule%20en%20quelques%20clics."
+                                    target="_blank" rel="noopener noreferrer"
+                                    class="btn-primary text-lg text-green-400 hover:text-green-600 transition-all duration-300 ease-in-out">
+                                    <i class="fas fa-phone-alt mr-2"></i> Contact Us
+                                </a>
                                 <SwitchBtn />
                             </li>
+
                             <li>
-                                <a :href="route('login')" class="btn-secondary">
+                                <a :href="route('login')"
+                                    class="btn-secondary text-lg text-yellow-400 hover:text-yellow-600 transition-all duration-300 ease-in-out">
                                     <button class="sign">
-                                        Se connecter
+                                        <i class="fas fa-sign-in-alt mr-2"></i> Se connecter
                                         <div class="arrow-wrapper">
                                             <div class="arrow"></div>
                                         </div>
@@ -101,6 +228,7 @@ const props = defineProps({
                     </ul>
                 </nav>
             </div>
+
         </nav>
 
     </div>
@@ -141,6 +269,7 @@ const props = defineProps({
     border: none;
     cursor: pointer;
 }
+
 
 /* button styling */
 .button {
@@ -268,9 +397,20 @@ const props = defineProps({
 .sign:hover .arrow:before {
     right: 0;
 }
+
+
+#myNav {
+    position: absolute;
+    width: 100%;
+    background-color: white;
+    backdrop-filter: blur(10px);
+}
 </style>
 
 <script>
+
+import Composant from '@/Layouts/Composant.vue';
+
 
 
 

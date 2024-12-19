@@ -3,7 +3,7 @@
 
     <Head title="Accueil" />
 
-    <Navbar />
+    <Navbar class="relative" />
     <div id="principal">
 
 
@@ -33,7 +33,7 @@
                         <div v-for="item in items" :key="item.id"
                             class="swiper-slide w-1/4 sm:w-1/4 md:w-1/6 lg:w-6/6 xl:w-1/6  flex  flex-col ">
 
-                            <div class="text-center" @click="activeTab = item.name">
+                            <div id="{{ item.id }}" class="text-center" @click="activeTab = item.name">
                                 <i :class="`fas fa-${item.icon} text-3xl text-principal`"></i>
                             </div>
 
@@ -191,15 +191,16 @@
 
 
                     <!-- Vehicule Tab -->
-                    <div v-else-if="activeTab == 'Vehicule'" class="bg-transparent">
+                    <div id="VoitureSection" v-else-if="activeTab == 'Vehicule'" class="bg-transparent">
 
                         <Voiture :voitures="voitures" :voituresBoost="voituresBoost" :marques="marques" />
 
                     </div>
                     <!-- Chambre -->
-                    <div v-else-if="activeTab == 'Chambre'" class="bg-transparent">
+                    <div id="maisons" v-else-if="activeTab == 'Chambre'" class="bg-transparent">
                         <Chambre :chambres="chambres" :chambresBoost="chambresBoost" />
                     </div>
+
 
                     <!-- Villa -->
                     <div v-else-if="activeTab == 'Villa'" class="bg-transparent">
@@ -235,11 +236,11 @@
             <!-- Footer -->
 
         </div>
+        <div class="mt-20">
+            <Footer />
+        </div>
+    </div>
 
-    </div>
-    <div class="mt-20">
-        <Footer />
-    </div>
 
 
     <!-- </AppLayout> -->
