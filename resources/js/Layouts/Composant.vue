@@ -2,27 +2,31 @@
     <div class="bg-gradient-to-r from-principal via-secondaire to-principal text-white py-2">
         <div class="container mx-auto flex justify-between items-center px-4">
             <!-- Numéro de téléphone -->
-            <div class="flex items-center gap-2">
-                <i class="fas fa-phone-alt"></i>
-                <span class="text-sm sm:text-base sm:block">+221 77 526 68 64 </span>
+            <div class="flex items-center gap-1">
+                <i class="fab fa-whatsapp text-xs sm:text-sm md:text-base"></i>
+                <a href="https://wa.me/221775266864?text=Exprimez%20vos%20besoins%20:%20trouvez%20votre%20futur%20logement,%20terrain%20ou%20véhicule%20en%20quelques%20clics."
+                    target="_blank" rel="noopener noreferrer"
+                    class="btn-primary relative text-xs sm:text-sm md:text-base">
+                    77 526 68 64
+                </a>
             </div>
 
-            <!-- Phrases animées -->
-            <div class="text-center relative">
-                <transition name="fade" mode="out-in">
-                    <span v-if="phrases.length > 0" :key="currentPhrase" class="text-sm sm:text-base italic block">
-                        {{ phrases[currentPhrase] }}
-                    </span>
-                </transition>
+
+            <!-- Phrases sans transition -->
+            <div class="text-center">
+                <span class="text-sm sm:text-base italic block">
+                    {{ phrases[currentPhrase] }}
+                </span>
             </div>
 
             <!-- Icônes des réseaux sociaux -->
             <div class="flex items-center gap-4">
                 <a v-for="(icon, index) in socialIcons" :key="index" :href="icon.href" target="_blank"
                     rel="noopener noreferrer" class="hover:opacity-80 transition">
-                    <i :class="icon.class"></i>
+                    <i :class="icon.class" class="text-sm sm:text-base md:text-lg"></i>
                 </a>
             </div>
+
         </div>
     </div>
 </template>
@@ -33,45 +37,38 @@ export default {
     data() {
         return {
             phrases: [
-                "Bienvenue sur notre site !",
+                "Bienvenue sur Noflayhub !",
                 "Trouvez votre logement idéal.",
                 "Achetez ou louez votre voiture.",
-                "Contactez-nous pour plus d'informations.",
+                "Contactez-nous pour plus d'infos.",
             ],
             currentPhrase: 0,
             intervalId: null,
             socialIcons: [
-                { href: "https://www.facebook.com/profile.php?id=61569677924703", class: "fab fa-facebook-f" },
+                { href: "https://www.facebook.com", class: "fab fa-facebook-f" },
                 { href: "https://twitter.com", class: "fab fa-twitter" },
-                { href: "https://www.instagram.com/noflayhub/", class: "fab fa-instagram" },
-                { href: "https://www.linkedin.com/company/98545491/admin/dashboard/", class: "fab fa-linkedin-in" },
+                { href: "https://www.instagram.com", class: "fab fa-instagram" },
+                { href: "https://www.linkedin.com", class: "fab fa-linkedin-in" },
             ],
         };
     },
     mounted() {
-        this.rotatePhrases();
+        this.startPhraseRotation();
     },
-    beforeDestroy() {
-        clearInterval(this.intervalId);
+    beforeUnmount() {
+        this.stopPhraseRotation();
     },
     methods: {
-        rotatePhrases() {
+        startPhraseRotation() {
             this.intervalId = setInterval(() => {
                 this.currentPhrase = (this.currentPhrase + 1) % this.phrases.length;
-            }, 4000);
+            }, 4000); // 4-second interval
+        },
+        stopPhraseRotation() {
+            if (this.intervalId) {
+                clearInterval(this.intervalId);
+            }
         },
     },
 };
 </script>
-
-<style scoped>
-.fade-enter-active,
-.fade-leave-active {
-    transition: opacity 1s ease-in-out;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-    opacity: 0;
-}
-</style>
