@@ -82,7 +82,7 @@ const props = defineProps({
                                 </a>
                             </li>
                             <li class="relative group">
-                                <a href="https://wa.me/221778650096?text=Exprimez%20vos%20besoins%20:%20trouvez%20votre%20futur%20logement,%20terrain%20ou%20véhicule%20en%20quelques%20clics."
+                                <a href="https://wa.me/221 775266864?text=Exprimez%20vos%20besoins%20:%20trouvez%20votre%20futur%20logement,%20terrain%20ou%20véhicule%20en%20quelques%20clics."
                                     target="_blank" rel="noopener noreferrer" class="btn-primary relative">
                                     Contact Us
                                     <span
@@ -166,7 +166,7 @@ const props = defineProps({
 
                                 <!-- Contact Us -->
                                 <li>
-                                    <a href="https://wa.me/221778650096?text=Exprimez%20vos%20besoins%20:%20trouvez%20votre%20futur%20logement,%20terrain%20ou%20véhicule%20en%20quelques%20clics."
+                                    <a href="https://wa.me/221 775266864?text=Exprimez%20vos%20besoins%20:%20trouvez%20votre%20futur%20logement,%20terrain%20ou%20véhicule%20en%20quelques%20clics."
                                         target="_blank" rel="noopener noreferrer"
                                         class="relative group text-lg text- hover:text-green-600 transition-all duration-300 ease-in-out">
                                         <i class="fas fa-phone-alt mr-2"></i> Contact Us
@@ -188,8 +188,8 @@ const props = defineProps({
                         <template v-else>
                             <li>
                                 <a :href="route('home')"
-                                    class="btn-primary  relative group text-lg text-blue-400 hover:text-blue-600 transition-all duration-300 ease-in-out">
-                                    <i class="fas fa-home mr-2"></i> Accueil
+                                    class="btn-primary  relative group text-lg text-secondaire hover:text-blue-600 transition-all duration-300 ease-in-out">
+                                    <i class="fas fa-home mr-2 text-principal"></i> Accueil
                                     <span
                                         class="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-principal via-secondaire to-principal scale-x-0 group-hover:scale-x-100 transition-all duration-300"></span>
                                 </a>
@@ -197,17 +197,17 @@ const props = defineProps({
 
                             <li>
                                 <a href="https://sn.noflayhub.com/#Services" target="_blank"
-                                    class="btn-primary relative group text-lg text-blue-400 hover:text-blue-600 transition-all duration-300 ease-in-out">
-                                    <i class="fas fa-cogs mr-2"></i> Services
+                                    class="btn-primary relative group text-lg text-secondaire hover:text-blue-600 transition-all duration-300 ease-in-out">
+                                    <i class="fas fa-cogs mr-2 text-principal"></i> Services
                                     <span
                                         class="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-principal via-secondaire to-principal scale-x-0 group-hover:scale-x-100 transition-all duration-300"></span>
                                 </a>
                             </li>
 
                             <li>
-                                <a href="https://wa.me/221778650096?text=Exprimez%20vos%20besoins%20:%20trouvez%20votre%20futur%20logement,%20terrain%20ou%20véhicule%20en%20quelques%20clics."
+                                <a href="https://wa.me/221 775266864?text=Exprimez%20vos%20besoins%20:%20trouvez%20votre%20futur%20logement,%20terrain%20ou%20véhicule%20en%20quelques%20clics."
                                     target="_blank" rel="noopener noreferrer"
-                                    class="btn-primary text-lg text-green-400 hover:text-green-600 transition-all duration-300 ease-in-out">
+                                    class="btn-primary text-lg text-principal hover:text-green-600 transition-all duration-300 ease-in-out">
                                     <i class="fas fa-phone-alt mr-2"></i> Contact Us
                                 </a>
                                 <SwitchBtn />
@@ -216,12 +216,16 @@ const props = defineProps({
                             <li>
                                 <a :href="route('login')"
                                     class="btn-secondary text-lg text-yellow-400 hover:text-yellow-600 transition-all duration-300 ease-in-out">
-                                    <button class="sign">
-                                        <i class="fas fa-sign-in-alt mr-2"></i> Se connecter
-                                        <div class="arrow-wrapper">
-                                            <div class="arrow"></div>
+                                    <button
+                                        class="sign flex items-center justify-center gap-2 relative px-6 py-3 text-principal font-bold bg-principal border-2 border-principale rounded-lg hover:bg-blue-700 hover:border-blue-900 hover:shadow-lg transition-all duration-300">
+                                        <i class="fas fa-sign-in-alt"></i> Se connecter
+                                        <div class="arrow-wrapper absolute right-4 top-1/2 -translate-y-1/2">
+                                            <div
+                                                class="arrow w-2.5 h-2.5 border-r-2 border-b-2 border-principale transform rotate-45 transition-transform duration-300">
+                                            </div>
                                         </div>
                                     </button>
+
                                 </a>
                             </li>
                         </template>
