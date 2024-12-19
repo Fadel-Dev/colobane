@@ -8,7 +8,7 @@
                 <div class="text-center lg:text-left">
                     <img width="100" class="m-0 p-0 mx-auto lg:mx-0 bg-gray-100 p-1"
                         :src="'/storage/slide/NoflayHub.png'" alt="Image logo">
-                    <p class="mt-4 text-sm text-white max-w-xs mx-auto lg:mx-0">
+                    <p class="mt-4 text-lg text-white max-w-xs mx-auto lg:mx-0">
                         Découvrez notre plateforme pour l'achat et la vente de biens immobiliers et de véhicules.
                         Simplifiez vos transactions avec nous.
                     </p>
@@ -36,7 +36,7 @@
                 <!-- Navigation Links -->
                 <div class="lg:col-span-2 grid gap-8 sm:grid-cols-2 lg:grid-cols-4 text-center lg:text-left">
                     <div>
-                        <p class="font-semibold text-gray-500">Entreprise</p>
+                        <p class="font-semibold text-lg text-principal">Entreprise</p>
                         <ul class="mt-4 space-y-2 text-sm">
                             <li><a href="#" class="hover:text-gray-800">À propos de nous</a></li>
                             <li><a href="#" class="hover:text-gray-800">Carrières</a></li>
@@ -45,7 +45,7 @@
                     </div>
 
                     <div>
-                        <p class="font-semibold text-gray-500">Support</p>
+                        <p class="font-semibold text-lg  text-principal">Support</p>
                         <ul class="mt-4 space-y-2 text-sm">
                             <li><a href="#" class="hover:text-gray-800">Centre d'aide</a></li>
                             <li><a href="#" class="hover:text-gray-800">Sécurité</a></li>
@@ -54,7 +54,7 @@
                     </div>
 
                     <div>
-                        <p class="font-semibold text-gray-500">Légal</p>
+                        <p class="font-semibold text-lg  text-principal">Légal</p>
                         <ul class="mt-4 space-y-2 text-sm">
                             <li><a href="#" class="hover:text-gray-800">Conditions d'utilisation</a></li>
                             <li><a href="#" class="hover:text-gray-800">Politique de confidentialité</a></li>
