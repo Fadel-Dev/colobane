@@ -1,0 +1,1 @@
+import{l as o,o as a,c as r,w as e,b as n,f as s,u as c,s as _}from"./app-99aca3ad.js";const f={__name:"AuthenticationCardLogo",setup(l){return(p,u)=>{const t=o("router-link");return a(),r(c(_),{href:"/"},{default:e(()=>[n(t,{to:"/publier",class:"text-2xl text-principal"},{default:e(()=>[s("Noflay")]),_:1})]),_:1})}}};export{f as _};
