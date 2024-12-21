@@ -1,4 +1,5 @@
 <template>
+
     <div class="bg-gradient-to-r from-principal via-secondaire to-principal text-white py-2">
         <div class="container mx-auto flex justify-between items-center px-4">
             <!-- Numéro de téléphone -->
@@ -32,6 +33,8 @@
 </template>
 
 <script>
+
+
 export default {
     name: "TopBanner",
     data() {
@@ -45,10 +48,10 @@ export default {
             currentPhrase: 0,
             intervalId: null,
             socialIcons: [
-                { href: "https://www.facebook.com", class: "fab fa-facebook-f" },
+                { href: "https://www.facebook.com/profile.php?id=61569677924703", class: "fab fa-facebook-f" },
                 { href: "https://twitter.com", class: "fab fa-twitter" },
-                { href: "https://www.instagram.com", class: "fab fa-instagram" },
-                { href: "https://www.linkedin.com", class: "fab fa-linkedin-in" },
+                { href: "https://www.instagram.com/noflayhub/", class: "fab fa-instagram" },
+                { href: "https://www.linkedin.com/company/9854549/", class: "fab fa-linkedin-in" },
             ],
         };
     },

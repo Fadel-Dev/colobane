@@ -28,8 +28,8 @@ Route::get('/ShowArticle', function () {
     return Inertia::render('ShowArticle');
 });
 
-Route::get('/test', function () {
-    return Inertia::render('teste');
+Route::get('/tt', function () {
+    return Inertia::render('Contact');
 });
 
 
@@ -161,6 +161,8 @@ Route::get('/statusVehicule/{id}',[AdminController::class,'DetailsVehicule'])->n
 Route::put('/rv/update/{id}',[AdminController::class,'Update']);
 // for vehicule
 Route::put('/rvVoiture/update/{id}',[AdminController::class,'UpdateVoiture']);
+
+
 
 
 

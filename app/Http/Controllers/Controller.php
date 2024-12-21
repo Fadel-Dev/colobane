@@ -15,6 +15,8 @@ use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Auth;
+
 
 
 class Controller extends BaseController
@@ -89,7 +91,16 @@ class Controller extends BaseController
 
     public function publier()
     {
-        return Inertia::render('Publier');
+            $user=Auth::user();
+
+            if( $user->role=="admin") 
+            {
+              return Inertia::render('Publier');
+            }else
+            {
+                 return Inertia::render('Contact');
+            }
+                
     }
 
 
