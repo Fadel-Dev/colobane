@@ -21,8 +21,8 @@ return new class extends Migration
             $table->boolean('vendu')->default(false); // Colonne pour marquer si l'article est boosté ou non
             $table->string('marque');
             $table->string('model');
-            $table->string('description');
-            $table->bigInteger('prix');
+            $table->text('description');
+            $table->string('prix');
             $table->string('boiteVitesse');
             $table->integer('kilometrage');
             $table->string('carburant');

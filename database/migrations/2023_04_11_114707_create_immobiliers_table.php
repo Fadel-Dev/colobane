@@ -21,8 +21,8 @@ return new class extends Migration
 
             $table->string('type');
             $table->string('nom');
-            $table->string('description');
-            $table->bigInteger('prix');
+            $table->text('description');
+            $table->string('prix');
             $table->string('npiece');
             $table->string('image1');
             $table->string('image2');
