@@ -24,7 +24,7 @@ return new class extends Migration
             $table->text('description');
             $table->string('prix');
             $table->string('boiteVitesse');
-            $table->integer('kilometrage');
+            $table->string('kilometrage');
             $table->string('carburant');
             $table->string('place');
             $table->string('image1');
