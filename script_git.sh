@@ -20,8 +20,8 @@ log_message "Mise à jour du dépôt dans $(pwd)"
 
 # Exécuter les commandes Git avec sudo
 sudo bash -c "
-    git reset --hard
-    git pull origin master
+    sudo  git reset --hard
+    sudo  git pull origin master
     echo 'Mise à jour du dépôt Git terminée.' >> $LOG_FILE
 "
 
