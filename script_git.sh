@@ -6,7 +6,7 @@ DATE=$(date "+%Y-%m-%d_%H-%M-%S")
 
 # Fonction pour afficher les messages de log
 log_message() {
-    echo "[$(date)] - $1" >> $LOG_FILE
+    echo "[$(date)] - $1" | sudo tee -a $LOG_FILE > /dev/null
 }
 
 # Vérifier si le répertoire courant est bien un dépôt Git
@@ -20,8 +20,9 @@ log_message "Mise à jour du dépôt dans $(pwd)"
 
 # Exécuter les commandes Git avec sudo
 sudo bash -c "
-    sudo  git reset --hard
-    sudo  git pull origin master
+    cd $(pwd)
+    git reset --hard
+    git pull origin master
     echo 'Mise à jour du dépôt Git terminée.' >> $LOG_FILE
 "
 
