@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BoostController;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\ControllerForAdmin;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ImmobilierController;
 use App\Http\Controllers\AdminController;
@@ -162,6 +163,10 @@ Route::put('/rv/update/{id}',[AdminController::class,'Update']);
 // for vehicule
 Route::put('/rvVoiture/update/{id}',[AdminController::class,'UpdateVoiture']);
 
+
+// for admin
+
+Route::get('/users/u/1', [ControllerForAdmin::class, 'ForUser'])->name('users.index');
 
 
 
