@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title inertia>{{ config('app.name', 'Laravel') }}</title>
+    @PwaHead
     <link rel="icon" type="image/png" href="{{ asset('storage/n.png') }}">
 
 
@@ -57,6 +58,8 @@
 
 <body class="font-sans antialiased">
     @inertia
+    @RegisterServiceWorkerScript
+
 </body>
 
 </html>

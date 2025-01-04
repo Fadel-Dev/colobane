@@ -1,4 +1,15 @@
 <?php return array (
+  'erag/laravel-pwa' => 
+  array (
+    'aliases' => 
+    array (
+      'Pwa' => 'EragLaravelPwa\\Facades\\Pwa',
+    ),
+    'providers' => 
+    array (
+      0 => 'EragLaravelPwa\\EragLaravelPwaServiceProvider',
+    ),
+  ),
   'inertiajs/inertia-laravel' => 
   array (
     'providers' => 

@@ -30,6 +30,7 @@ class ComposerStaticInitb3242d5f7fd7e7dfb7767771cfdc0aaa
         'c964ee0ededf28c96ebd9db5099ef910' => __DIR__ . '/..' . '/guzzlehttp/promises/src/functions_include.php',
         '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
         '801c31d8ed748cfa537fa45402288c95' => __DIR__ . '/..' . '/psy/psysh/src/functions.php',
+        'f641c05521a842027754f9adafba3d7e' => __DIR__ . '/..' . '/erag/laravel-pwa/src/Pwahelpers.php',
         '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
         '98caa11a197f6516a8e48aa4abb5ccc6' => __DIR__ . '/..' . '/inertiajs/inertia-laravel/helpers.php',
         'a1cfe24d14977df6878b9bf804af2d1c' => __DIR__ . '/..' . '/nunomaduro/collision/src/Adapters/Phpunit/Autoload.php',
@@ -157,6 +158,7 @@ class ComposerStaticInitb3242d5f7fd7e7dfb7767771cfdc0aaa
         ),
         'E' => 
         array (
+            'EragLaravelPwa\\' => 15,
             'Egulias\\EmailValidator\\' => 23,
         ),
         'D' => 
@@ -502,6 +504,10 @@ class ComposerStaticInitb3242d5f7fd7e7dfb7767771cfdc0aaa
         array (
             0 => __DIR__ . '/..' . '/fakerphp/faker/src/Faker',
         ),
+        'EragLaravelPwa\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/erag/laravel-pwa/src',
+        ),
         'Egulias\\EmailValidator\\' => 
         array (
             0 => __DIR__ . '/..' . '/egulias/email-validator/src',
@@ -598,6 +604,7 @@ class ComposerStaticInitb3242d5f7fd7e7dfb7767771cfdc0aaa
         'App\\Http\\Controllers\\AdminController' => __DIR__ . '/../..' . '/app/Http/Controllers/AdminController.php',
         'App\\Http\\Controllers\\BoostController' => __DIR__ . '/../..' . '/app/Http/Controllers/BoostController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
+        'App\\Http\\Controllers\\ControllerForAdmin' => __DIR__ . '/../..' . '/app/Http/Controllers/ControllerForAdmin.php',
         'App\\Http\\Controllers\\DashboardController' => __DIR__ . '/../..' . '/app/Http/Controllers/DashboardController.php',
         'App\\Http\\Controllers\\ImmobilierController' => __DIR__ . '/../..' . '/app/Http/Controllers/ImmobilierController.php',
         'App\\Http\\Controllers\\PostController' => __DIR__ . '/../..' . '/app/Http/Controllers/PostController.php',
@@ -647,6 +654,7 @@ class ComposerStaticInitb3242d5f7fd7e7dfb7767771cfdc0aaa
         'App\\Providers\\FortifyServiceProvider' => __DIR__ . '/../..' . '/app/Providers/FortifyServiceProvider.php',
         'App\\Providers\\JetstreamServiceProvider' => __DIR__ . '/../..' . '/app/Providers/JetstreamServiceProvider.php',
         'App\\Providers\\RouteServiceProvider' => __DIR__ . '/../..' . '/app/Providers/RouteServiceProvider.php',
+        'App\\Providers\\TelescopeServiceProvider' => __DIR__ . '/../..' . '/app/Providers/TelescopeServiceProvider.php',
         'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
         'BaconQrCode\\Common\\BitArray' => __DIR__ . '/..' . '/bacon/bacon-qr-code/src/Common/BitArray.php',
         'BaconQrCode\\Common\\BitMatrix' => __DIR__ . '/..' . '/bacon/bacon-qr-code/src/Common/BitMatrix.php',
@@ -1036,6 +1044,10 @@ class ComposerStaticInitb3242d5f7fd7e7dfb7767771cfdc0aaa
         'Egulias\\EmailValidator\\Warning\\QuotedString' => __DIR__ . '/..' . '/egulias/email-validator/src/Warning/QuotedString.php',
         'Egulias\\EmailValidator\\Warning\\TLD' => __DIR__ . '/..' . '/egulias/email-validator/src/Warning/TLD.php',
         'Egulias\\EmailValidator\\Warning\\Warning' => __DIR__ . '/..' . '/egulias/email-validator/src/Warning/Warning.php',
+        'EragLaravelPwa\\Commands\\PWACommand' => __DIR__ . '/..' . '/erag/laravel-pwa/src/Commands/PWACommand.php',
+        'EragLaravelPwa\\Commands\\PwaPublishCommand' => __DIR__ . '/..' . '/erag/laravel-pwa/src/Commands/PwaPublishCommand.php',
+        'EragLaravelPwa\\EragLaravelPwaServiceProvider' => __DIR__ . '/..' . '/erag/laravel-pwa/src/EragLaravelPwaServiceProvider.php',
+        'EragLaravelPwa\\Services\\PWAService' => __DIR__ . '/..' . '/erag/laravel-pwa/src/Services/PWAService.php',
         'Faker\\Calculator\\Ean' => __DIR__ . '/..' . '/fakerphp/faker/src/Faker/Calculator/Ean.php',
         'Faker\\Calculator\\Iban' => __DIR__ . '/..' . '/fakerphp/faker/src/Faker/Calculator/Iban.php',
         'Faker\\Calculator\\Inn' => __DIR__ . '/..' . '/fakerphp/faker/src/Faker/Calculator/Inn.php',
