@@ -16,7 +16,12 @@ const props = defineProps({
     canRegister: Boolean,
     laravelVersion: String,
     phpVersion: String,
+    urlActuelle: Object,
 });
+// /encode the urlActuelle
+const encodeUrlActuelle = encodeURIComponent(props.urlActuelle);
+
+
 </script>
 
 <template>
@@ -55,6 +60,15 @@ const props = defineProps({
                     </i>
 
 
+                </div>
+
+                <!-- share the current post to facebook -->
+                <div class="md:flex md:items-center">
+                    <a href="https://www.facebook.com/sharer/sharer.php?u={{ encodeUrlActuelle }}"
+                        class="text-white bg-principal hover:bg-secondaire focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center mr-2 mb-2">
+                        <i class="bi bi-facebook text-2xl mr-2"></i>
+                        Partager
+                    </a>
                 </div>
 
 
@@ -404,6 +418,17 @@ export default {
     //   },
     components: {
         Head
+    },
+    props: {
+        urlActuelle: {
+            type: String,
+            required: true,
+        },
+    },
+    computed: {
+        encodeUrlActuelle() {
+            return encodeURIComponent(this.urlActuelle);
+        },
     },
     data() {
         return {
