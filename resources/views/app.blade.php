@@ -7,7 +7,8 @@
 
     <title inertia>{{ config('app.name', 'Laravel') }}</title>
     <link rel="icon" type="image/png" href="{{ asset('storage/n.png') }}">
-
+    {{-- pwa --}}
+    @PwaHead
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -57,6 +58,7 @@
 
 <body class="font-sans antialiased">
     @inertia
+    @RegisterServiceWorkerScript
 </body>
 
 </html>
