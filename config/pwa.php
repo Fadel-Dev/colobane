@@ -19,12 +19,12 @@ return [
     */
 
     'manifest' => [
-        'name' => 'Laravel PWA',
-        'short_name' => 'LPT',
-        'background_color' => '#6777ef',
+        'name' => 'NoflayHub',
+        'short_name' => 'noflayhub',
+        'background_color' => '#eb2d53',
         'display' => 'fullscreen',
-        'description' => 'A Progressive Web Application setup for Laravel projects.',
-        'theme_color' => '#6777ef',
+        'description' => 'Trouvez votre maison ou voiture, facilement',
+        'theme_color' => '#eb2d53',
         'icons' => [
             [
                 'src' => 'logo.png',

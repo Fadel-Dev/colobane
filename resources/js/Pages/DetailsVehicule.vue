@@ -354,7 +354,46 @@ const props = defineProps({
                 </div>
             </div>
 
+            <div class="ixed bottom-0 w-full bg-transparent text-white p-4 flex mx-auto justify-around md:hidden">
+                <button @click="ouvrirWhatsApp" class="flex items-center bg-principal text-white text-sm font-medium rounded hover:bg-gray-900
+                focus:outline-none focus:bg-black px-4 py-2">
+                    <i class="bi bi-whatsapp text-2xl text-green-100  mr-2"></i> WhatsApp
+                </button>
+
+                <div>
+                    <button
+                        class="flex items-center bg-principal text-white text-sm font-medium rounded hover:bg-gray-900 focus:outline-none focus:bg-black px-4 py-2"
+                        @click="afficherNumero">
+                        <i class="bi bi-telephone text-2xl mr-2"></i>Telephone
+                    </button>
+                    <div v-if="afficherPopup"
+                        class="fixed inset-0 flex justify-center items-center bg-gray-800 bg-opacity-75 z-50">
+                        <div class="bg-white rounded-lg p-8 w-2/4 relative">
+                            <!-- Titre -->
+                            <span class="text-3xl text-principal">NB</span><br>
+
+                            <!-- Contenu -->
+                            <span class="text-3xl">Évitez les demandes de paiement anticipé : Soyez prudents
+                                face aux demandes
+                                de paiement anticipé avant d'avoir reçu le produit ou visité la propriété.
+                                Les vendeurs
+                                légitimes seront compréhensifs envers vos préoccupations.</span><br>
+
+                            <!-- Numéro du vendeur -->
+                            <span class="text-3xl"><span class="text-principal">Numéro du Vendeur</span>: {{
+                                phoneSeler }}</span>
+
+                            <!-- Bouton de fermeture -->
+                            <button @click="fermerPopup"
+                                class="absolute top-0 right-0 mt-2 mr-2 text-3xl text-principal hover:text-gray-800 focus:outline-none">X</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
+
+
     </main>
 
 
