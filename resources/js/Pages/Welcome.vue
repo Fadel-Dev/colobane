@@ -446,8 +446,8 @@ let items = [
     },
     {
         "id": 2,
-        "icon": "car", // FontAwesome icon name
-        "name": "Appartement"
+        "icon": "car", // FontAwesome icon name for Vehicule
+        "name": "Vehicule"
     },
     {
         "id": 3,
@@ -471,8 +471,9 @@ let items = [
     },
     {
         "id": 7,
-        "icon": "car", // FontAwesome icon name for Vehicule
-        "name": "Vehicule"
+        "icon": "city", // FontAwesome icon name
+        "name": "Appartement"
+
     },
     {
         "id": 8,

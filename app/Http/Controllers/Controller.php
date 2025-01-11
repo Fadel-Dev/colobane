@@ -93,13 +93,13 @@ class Controller extends BaseController
     {
             $user=Auth::user();
 
-            if( $user->role=="boss")
-            {
+            // if( $user->role=="boss")
+            // {
               return Inertia::render('Publier');
-            }else
-            {
-                 return Inertia::render('Contact');
-            }
+            // }else
+            // {
+            //      return Inertia::render('Contact');
+            // }
 
     }
 
