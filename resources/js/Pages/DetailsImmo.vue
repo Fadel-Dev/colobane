@@ -276,32 +276,35 @@ const props = defineProps({
             <!-- Nb -->
 
             <div v-if="afficherPopup"
-                class="fixed inset-0 flex justify-center items-center bg-gray-800 bg-opacity-75 z-50">
-                <div class="bg-white rounded-lg p-8 w-11/12 sm:w-8/12 md:w-6/12 lg:w-4/12 relative">
+                class="fixed inset-0 flex justify-center mt-[30%] items-center bg-gray-800 bg-opacity-75 z-50">
+                <div class="bg-white rounded-lg p-8 w-5/6 max-w-lg relative">
+                    <!-- Bouton de fermeture -->
+                    <button @click="fermerPopup"
+                        class="absolute top-2 right-2 text-3xl text-principal hover:text-gray-800 focus:outline-none">
+                        &times;
+                    </button>
+
                     <!-- Titre du popup -->
                     <span class="text-3xl text-principal font-semibold">
                         NB
                     </span>
                     <br>
-                    <!-- Contenu du popup -->
-                    <span class="text-lg text-black">
-                        Évitez les demandes de paiement anticipé : Soyez prudents face aux demandes de paiement anticipé
-                        avant d'avoir reçu le produit ou visité la propriété. Les vendeurs légitimes seront
-                        compréhensifs envers vos préoccupations.
-                    </span>
-                    <br><br>
-                    <hr class="my-4">
-                    <!-- Détails du numéro -->
-                    <span class="text-lg text-black">Numéro du Vendeur :</span>
-                    <span class="text-principal">{{ phoneSeler }}</span>
 
-                    <!-- Bouton de fermeture -->
-                    <button @click="fermerPopup"
-                        class="absolute top-2 right-2 text-xl text-gray-600 hover:text-gray-800 focus:outline-none">
-                        <i class="bi bi-x-circle"></i> <!-- Utilisation d'une icône de fermeture -->
-                    </button>
+                    <!-- Contenu du popup -->
+                    <span class="w-full text-secondaire">
+                        Évitez les demandes de paiement anticipé : Soyez prudents face aux demandes
+                        de paiement anticipé avant d'avoir reçu le produit ou visité la propriété.
+                        Les vendeurs légitimes seront compréhensifs envers vos préoccupations.
+                    </span>
+                    <br>
+
+                    <!-- Numéro du vendeur -->
+                    <span class="text-1xl">
+                        <span class="text-principal">Numéro du Vendeur</span>: {{ phoneSeler }}
+                    </span>
                 </div>
             </div>
+
 
 
         </div>

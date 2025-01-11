@@ -368,19 +368,20 @@ const props = defineProps({
                     </button>
                     <div v-if="afficherPopup"
                         class="fixed inset-0 flex justify-center items-center bg-gray-800 bg-opacity-75 z-50">
-                        <div class="bg-white rounded-lg p-8 w-2/4 relative">
+                        <div class="bg-white rounded-lg p-8 w-5/6 relative">
                             <!-- Titre -->
                             <span class="text-3xl text-principal">NB</span><br>
 
                             <!-- Contenu -->
-                            <span class="text-3xl">Évitez les demandes de paiement anticipé : Soyez prudents
+                            <span class="w-full text-secondaire">Évitez les demandes de paiement anticipé : Soyez
+                                prudents
                                 face aux demandes
                                 de paiement anticipé avant d'avoir reçu le produit ou visité la propriété.
                                 Les vendeurs
                                 légitimes seront compréhensifs envers vos préoccupations.</span><br>
 
                             <!-- Numéro du vendeur -->
-                            <span class="text-3xl"><span class="text-principal">Numéro du Vendeur</span>: {{
+                            <span class="text-1xl"><span class="text-principal">Numéro du Vendeur</span>: {{
                                 phoneSeler }}</span>
 
                             <!-- Bouton de fermeture -->
