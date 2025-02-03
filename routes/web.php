@@ -175,6 +175,10 @@ Route::get('/google4828757441d16d0e.html', function () {
     return response()->file(public_path('google4828757441d16d0e.html'));
 });
 
+Route::get('/sitemap.xml', function () {
+    return response()->file(public_path('sitemap.xml'));
+});
+
 
 
 

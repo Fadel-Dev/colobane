@@ -16,12 +16,19 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Auth;
+use Spatie\Sitemap\SitemapGenerator;
+
 
 
 
 class Controller extends BaseController
 {
     use AuthorizesRequests, ValidatesRequests;
+
+SitemapGenerator::create('https://tonsite.com')
+    ->writeToFile(public_path('sitemap.xml'));
+
+
     // HOME
 
  public function Home()
