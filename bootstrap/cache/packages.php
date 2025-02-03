@@ -113,6 +113,13 @@
       'Flare' => 'Spatie\\LaravelIgnition\\Facades\\Flare',
     ),
   ),
+  'spatie/laravel-sitemap' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Spatie\\Sitemap\\SitemapServiceProvider',
+    ),
+  ),
   'tightenco/ziggy' => 
   array (
     'providers' => 
