@@ -171,6 +171,9 @@ Route::get('/users/u/1', [ControllerForAdmin::class, 'ForUser'])->name('users.in
 
 
 
+Route::get('/google4828757441d16d0e.html', function () {
+    return response()->file(public_path('google4828757441d16d0e.html'));
+});
 
 
 
