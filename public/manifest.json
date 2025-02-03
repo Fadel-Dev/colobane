@@ -1,9 +1,9 @@
 {
-    "name": "Laravel PWA",
-    "short_name": "LPT",
+    "name": "NoflayHub",
+    "short_name": "noflayhub",
     "background_color": "#eb2d53",
     "display": "fullscreen",
-    "description": "A Progressive Web Application setup for Laravel projects.",
+    "description": "Trouvez votre maison ou voiture, facilement",
     "theme_color": "#eb2d53",
     "start_url": "/",
     "icons": [
