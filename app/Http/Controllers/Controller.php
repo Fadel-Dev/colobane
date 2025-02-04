@@ -25,8 +25,8 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, ValidatesRequests;
 
-SitemapGenerator::create('https://tonsite.com')
-    ->writeToFile(public_path('sitemap.xml'));
+// SitemapGenerator::create('https://tonsite.com')
+//     ->writeToFile(public_path('sitemap.xml'));
 
 
     // HOME

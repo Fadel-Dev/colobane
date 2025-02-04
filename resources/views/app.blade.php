@@ -7,7 +7,16 @@
 
     <title inertia>{{ config('app.name', 'Laravel') }}</title>
     @PwaHead
-    <link rel="icon" type="image/png" href="{{ asset('storage/n.png') }}">
+
+    {{-- <link rel="icon" type="image/png" href="{{ asset('storage/slide/n.png') }}"> --}}
+    <link rel="icon" href="{{ asset('favicon.ico') }}">
+
+    <link rel="icon" type="image/png" href="/https://noflayhub.com/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/https://noflayhub.com/favicon.svg" />
+    <link rel="shortcut icon" href="/https://noflayhub.com/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/https://noflayhub.com/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="Noflayhub" />
+    <link rel="manifest" href="/https://noflayhub.com/site.webmanifest" />
 
 
     <!-- Fonts -->

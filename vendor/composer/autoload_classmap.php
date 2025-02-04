@@ -18,6 +18,7 @@ return array(
     'App\\Actions\\Jetstream\\InviteTeamMember' => $baseDir . '/app/Actions/Jetstream/InviteTeamMember.php',
     'App\\Actions\\Jetstream\\RemoveTeamMember' => $baseDir . '/app/Actions/Jetstream/RemoveTeamMember.php',
     'App\\Actions\\Jetstream\\UpdateTeamName' => $baseDir . '/app/Actions/Jetstream/UpdateTeamName.php',
+    'App\\Console\\Commands\\GenerateSitemap' => $baseDir . '/app/Console/Commands/GenerateSitemap.php',
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
     'App\\Exceptions\\Handler' => $baseDir . '/app/Exceptions/Handler.php',
     'App\\Http\\Controllers\\AdminController' => $baseDir . '/app/Http/Controllers/AdminController.php',
