@@ -67,6 +67,23 @@ const props = defineProps({
         </div>
         <!-- Bouton add -->
 
+        <div
+            class="bg-transparent border border-principal my-5 rounded-[20px] w-[90%] mx-[5%] h-[10vh] flex items-center justify-center">
+            <div class="text-center">
+                <div class="txt flex items-center mx-auto">
+                    <span class="text-secondaire text-lg md:text-3xl">C'est le moment de vendre</span>
+
+                    <div class="flex items-center border-2 border-principal rounded-[10px] p-1 mx-2">
+                        <i class="fas fa-plus text-principal px-1"></i>
+                        <a :href="route('publier')" class="text-secondaire text-sm md:text-lg ml-1 md:ml-2">
+                            Déposer une annonce
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
 
 
 
