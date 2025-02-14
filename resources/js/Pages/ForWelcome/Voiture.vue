@@ -1,5 +1,4 @@
 <script setup>
-
 const props = defineProps({
     voitures: Object,
     voituresBoost: Object,
@@ -12,64 +11,11 @@ const props = defineProps({
     chambres: Object,
     chambresBoost: Object,
 });
-
-
 </script>
 
 <template>
-
     <div class="swiper">
-        <!-- <div class="swiper-wrapper">
-            <div v-for="voitureBoost in voituresBoost.data" :key="voitureBoost.id"
-                @click="navigateToDetailVehi(voitureBoost.id)"
-                class="swiper-slide w-full sm:w-2/4 md:w-1/4 lg:w-1/6 xl:w-1/6 p-1  ">
-                <div class="card" id="card">
-                    <div class="aspect-square overflow-hidden">
-                        <img :src="'/storage/' + voitureBoost.image1" :alt="voitureBoost.imageAlt"
-                            class="h-full w-full object-cover transition-all duration-300 group-hover:scale-125">
-                    </div>
-                    <div class="absolute top-0 m-2 rounded-full ">
-                        <p
-                            class="rounded-full bg-principal p-1 text-[8px] font-bold uppercase tracking-wide text-white sm:py-1 sm:px-3">
-                            {{ voitureBoost.affaire }}</p>
-                    </div>
-
-                    <div class="my-2 mx- text-center flex-col items-start justify-between">
-                        <span class="mr-3 text-xl font-semibold text-secondaire align-center">{{
-                            voitureBoost.nom.substring(0, 20) }}</span>
-
-                        <div>
-
-                            <span class=" text-troisieme  text-sm font-semibold truncate">
-                                {{
-                                voitureBoost.prix
-                                }} Xof
-
-
-                            </span>
-                        </div>
-                        <h3 class="text-sm text-secondaire  w-full border-b-[1px] border-gray-200 ">
-                            {{
-                            voitureBoost.region }} ,Senegal</h3>
-
-                        .
-
-                    </div>
-                    <div class="pb-3">
-                        <button
-                            class="  bg-principal w-[80%]  group mx-auto mt-[-15%] flex h-8  items-stretch overflow-hidden hover:text-secondaire rounded-md text-white">
-                            <div
-                                class="flex w-full items-center justify-center bg-principal text-xs uppercase transition  group-hover:text-secondaire">
-                                contacter</div>
-
-                        </button>
-
-                    </div>
-
-
-                </div>
-            </div>
-        </div> -->
+        <!-- Section des voitures boostées -->
         <div class="swiper-wrapper grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-6">
             <div v-for="voitureBoost in voituresBoost.data" :key="voitureBoost.id"
                 @click="navigateToDetailVehi(voitureBoost.id)" class="swiper-slide w-full p-1">
@@ -117,7 +63,7 @@ const props = defineProps({
             </div>
         </div>
 
-
+        <!-- Section "Déposer une annonce" -->
         <div
             class="bg-transparent border border-principal my-5 rounded-[20px] w-[90%] mx-[5%] h-[10vh] flex items-center justify-center">
             <div class="text-center">
@@ -134,27 +80,29 @@ const props = defineProps({
             </div>
         </div>
 
+        <!-- Section des marques populaires -->
 
-
-        <section class=" py-1 text-secondaire sm:py-16 lg:py-1" id="transparent">
+        <!-- Section des dernières annonces -->
+        <section class="py-1 text-secondaire sm:py-16 lg:py-1" id="transparent">
             <div class="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
                 <div class="mx-auto max-w-md text-center">
-                    <h2 class="font-serif text-2xl font-bold sm:text-2xl">Dernières Annonces au
-                        Sénégal
-                    </h2>
+                    <h2 class="font-serif text-2xl font-bold sm:text-2xl">Dernières Annonces au Sénégal</h2>
                 </div>
-                <div class="region-filter ">
-                    <label for="region">Trie</label>
-                    <select v-model="selectedRegion" id="region">
-                        <option v-for="region in regions" :key="region" :value="region">
-                            {{ region }}
+                <div class="region-filter mb-8">
+                    <label for="marque" class="block text-sm font-medium text-principal mb-2">Filtrer par marque</label>
+                    <select v-model="selectedMarque" id="marque"
+                        class="w-full p-2 border border-principal rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-secondaire focus:border-secondaire transition-all duration-300">
+                        <option v-for="marque in marquesPopulaires" :key="marque" :value="marque"
+                            class="text-principal">
+                            {{ marque }}
                         </option>
                     </select>
                 </div>
 
-                <!-- Grid For Vehicules -->
-                <div class="mt-10 grid grid-cols-2 gap-6 sm:grid-cols-4 sm:gap-4 lg:mt-16">
-                    <article v-for="voiture in voitures.data" :key="voiture.id"
+                <!-- Grille des voitures filtrées -->
+                <div v-if="filteredVoitures.length > 0"
+                    class="mt-10 grid grid-cols-2 gap-6 sm:grid-cols-4 sm:gap-4 lg:mt-16">
+                    <article v-for="voiture in filteredVoitures" :key="voiture.id"
                         @click="navigateToDetailVehi(voiture.id)"
                         class="relative flex flex-col overflow-hidden rounded-lg border hover:shadow-lg transition-shadow duration-300">
                         <div class="card">
@@ -203,22 +151,26 @@ const props = defineProps({
                     </article>
                 </div>
 
-
-
-
+                <!-- Message si aucune voiture n'est trouvée -->
+                <div v-else class="mt-10 text-center">
+                    <p class="text-secondaire text-lg font-semibold">Aucune voiture trouvée pour la marque <span
+                            class="text-principal"> "{{
+                                selectedMarque }}"
+                        </span> n'a pas été publié .</p>
+                </div>
             </div>
         </section>
     </div>
-
 </template>
 
 <script>
 export default {
     data() {
         return {
-            activeTab: 'immobilier',
-            showMenu: false,
-            regions: [
+
+            selectedRegion: 'tous', // Par défaut, "tous"
+            selectedMarque: 'tous', // Nouvelle propriété pour la marque sélectionnée
+            marquesPopulaires: [ // Liste des marques populaires
                 "tous",
                 "volvo",
                 "renault",
@@ -233,9 +185,8 @@ export default {
                 "toyota",
                 "ford",
                 "Jeep",
-                "autres"
+                "Fiat",
             ],
-            selectedRegion: 'tous' // Par défaut, "tous"
         };
     },
     props: {
@@ -248,10 +199,18 @@ export default {
             required: true,
         },
     },
+    computed: {
+        filteredVoitures() {
+            if (this.selectedMarque === 'tous') {
+                return this.voitures.data; // Retourne toutes les voitures si "tous" est sélectionné
+            }
+            return this.voitures.data.filter(voiture => voiture.marque === this.selectedMarque);
+        },
+    },
     methods: {
         navigateToDetailVehi(id) {
             this.$inertia.visit(`/detailVehi/${id}`);
         },
     },
-}
+};
 </script>
