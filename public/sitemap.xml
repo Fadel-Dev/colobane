@@ -1,8 +1,26 @@
+<?xml-stylesheet type="text/xsl" href="sitemap.xsl"?>
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
-    <url>
-        <loc>http://localhost/</loc>
-            <changefreq>daily</changefreq>
-        <priority>0.8</priority>
-            </url>
-</urlset>
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+    <xsl:template match="/">
+        <html>
+        <head><title>Mon Sitemap</title></head>
+        <body>
+        <h1>Plan du site</h1>
+        <table border="1">
+            <tr bgcolor="#cccccc">
+                <th>URL</th>
+                <th>Date de modification</th>
+                <th>Priorité</th>
+            </tr>
+            <xsl:for-each select="urlset/url">
+                <tr>
+                    <td><xsl:value-of select="loc"/></td>
+                    <td><xsl:value-of select="lastmod"/></td>
+                    <td><xsl:value-of select="priority"/></td>
+                </tr>
+            </xsl:for-each>
+        </table>
+        </body>
+        </html>
+    </xsl:template>
+</xsl:stylesheet>
