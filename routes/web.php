@@ -13,6 +13,8 @@ use App\Http\Controllers\VehiculeController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use Spatie\Sitemap\Sitemap;
+use Spatie\Sitemap\Tags\Url;
 
 /*
 |--------------------------------------------------------------------------
@@ -170,15 +172,14 @@ Route::get('/users/u/1', [ControllerForAdmin::class, 'ForUser'])->name('users.in
 
 
 
-
-Route::get('/google4828757441d16d0e.html', function () {
-    return response()->file(public_path('google4828757441d16d0e.html'));
-});
-
 Route::get('/sitemap.xml', function () {
-    return response()->file(public_path('sitemap.xml'));
-});
+    $sitemap = Sitemap::create()
+        ->add(Url::create('/')->setPriority(1.0)->setChangeFrequency('daily'))
+        ->add(Url::create('/immobilier')->setPriority(0.8)->setChangeFrequency('weekly'))
+        ->add(Url::create('/voitures')->setPriority(0.8)->setChangeFrequency('weekly'));
 
+    return response($sitemap->render())->header('Content-Type', 'application/xml');
+});
 
 
 

@@ -25,45 +25,7 @@ const props = defineProps({
             <div v-for="immeubleBoost in immeublesBoost.data" :key="immeubleBoost.id"
                 @click="navigateToDetail(immeubleBoost.id)"
                 class="swiper-slide w-full sm:w-1/4 md:w-1/4 lg:w-1/6 xl:w-1/6 p-1">
-                <!-- Immobilier Card -->
-                <!-- <div class="card">
-                    <div class="aspect-square overflow-hidden">
-                        <img :src="'/storage/' + immeubleBoost.image1" :alt="immeubleBoost.imageAlt"
-                            class="h-full w-full object-cover transition-all duration-300 group-hover:scale-125">
-                    </div>
-                    <div class="absolute top-0 m-2 rounded-full ">
-                        <p
-                            class="rounded-full bg-principal p-1 text-[8px] font-bold uppercase tracking-wide text-white sm:py-1 sm:px-3">
-                            {{ immeubleBoost.affaire }}</p>
-                    </div>
 
-                    <div class="my-2 mx-auto flex w-10/12 flex-col items-start justify-between">
-                        <p class="mr-3 text-sm font-semibold text-principal align-center">{{
-                            immeubleBoost.prix }} <span class="text-secondaire mr-3">Fcfa</span>
-                        </p>
-
-                        <div class="mb-2 flex">
-
-                            <p class="mr-3 text-secondaire  text-sm font-semibold truncate">{{
-                                immeubleBoost.nom.substring(0, 20) }}</p>
-                        </div>
-                        <h3 class="text-sm text-principal pt-[-8%] w-full border-b-[1px] border-gray-200 ">
-                            {{
-                                immeubleBoost.region }} ,Senegal</h3>
-
-                        .
-
-                    </div>
-                    <button
-                        class="  bg-principal group mx-auto mt-[-10%] flex h-8 w-full items-stretch overflow-hidden hover:text-secondaire rounded-md text-white">
-                        <div
-                            class="flex w-full items-center justify-center bg-principal text-xs uppercase transition  group-hover:text-secondaire">
-                            contacter</div>
-
-                    </button>
-
-
-                </div> -->
                 <div class="card relative overflow-hidden rounded-lg border">
                     <!-- Image -->
                     <div class="aspect-square overflow-hidden">
