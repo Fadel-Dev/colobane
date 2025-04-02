@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Lead;
+
 use App\Models\User;
 use App\Models\Immobiliers;
-use App\Models\Services;
 use App\Models\Voitures;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Validation\ValidatesRequests;
