@@ -129,8 +129,10 @@ const submit = () => {
       </button> -->
                                         <!-- <div class="w-full bg-red-300 hover:border-2   hover:bg-principal   p-2 text-center rounded-lg my-9 text-white"> -->
 
-                                        <Link class="text-red-500 hover:text-principal" :href="route('register')">Cree
-                                        Un Compte</Link>
+                                        <Link class="text-red-500 hover:text-principal"
+                                            :href="route('register').replace('http://', 'https://')">Crée Un Compte
+                                        </Link>
+
 
                                         <!-- </div> -->
                                     </div>
