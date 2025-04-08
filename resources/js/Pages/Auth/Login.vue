@@ -130,7 +130,7 @@ const submit = () => {
                                         <!-- <div class="w-full bg-red-300 hover:border-2   hover:bg-principal   p-2 text-center rounded-lg my-9 text-white"> -->
 
                                         <a class="text-red-500 hover:text-principal"
-                                            href="https://noflay.com/register       ">Crée Un Compte
+                                            href="https://noflayhub.com/register       ">Crée Un Compte
                                         </a>
 
 
