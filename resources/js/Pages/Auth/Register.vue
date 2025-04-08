@@ -137,11 +137,11 @@ const submit = () => {
                                         </PrimaryButton>
                                     </div>
                                     <div class="mt-2">
-                                        <Link :href="route('login')"
+                                        <a :href="route('login')"
                                             class=" text-sm text-gray-600  hover:text-principal rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                        Deja un Compte ? <span class="text-principal hover:underline"> Se
-                                            connecter</span>
-                                        </Link>
+                                            Deja un Compte ? <span class="text-principal hover:underline"> Se
+                                                connecter</span>
+                                        </a>
                                     </div>
 
 
