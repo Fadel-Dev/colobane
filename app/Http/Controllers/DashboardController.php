@@ -33,113 +33,96 @@ class DashboardController extends Controller
     public function Dash()
     {
         // Vérifier le rôle administrateur
-        if (auth()->user()->role == 'admin') {
-            // Statistiques générales
-            $totalUsers = User::count();
-            $totalImmobiliers = Immobiliers::count();
-            $totalVoitures = Voitures::count();
-            $totalBoosted = Immobiliers::where('booster', 1)->count() + Voitures::where('booster', 1)->count();
-            
+     if (auth()->user()->role == 'admin') {
             // Récupérer les immobiliers avec les utilisateurs associés
             $immobiliers = Immobiliers::where('booster', 1)
                 ->where('status', 'pending')
-                ->with('user:id,name,phone,email,id')
-                ->latest()
+                ->with('user:id,name,phone,email,id') // Charger la relation user avec seulement l'id et le nom
                 ->get();
 
-            // Récupérer les immobiliers déjà boostés
-            $immobilliersBoosted = Immobiliers::where('status', 'null')
+                //recuperer les deja booster et terminer hiatorque
+
+                $immobilliersBoosted = Immobiliers::
+                where('status', 'null')
                 ->where('onceBooster', true)
-                ->with('user:id,name,phone,email,id')
-                ->latest()
+                ->with('user:id,name,phone,email,id') // Charger la relation user avec seulement l'id et le nom
                 ->get();
 
-            // Récupérer les immobiliers en cours de boost
-            $immobilliersBoosting = Immobiliers::where('booster', 1)
+                //recuperer les en cours de  boost
+
+                $immobilliersBoosting = Immobiliers::where('booster', 1)
                 ->where('status', 'accepter')
-                ->with('user:id,name,phone,email,id')
-                ->latest()
+                ->with('user:id,name,phone,email,id') // Charger la relation user avec seulement l'id et le nom
                 ->get();
 
             // Récupérer les voitures avec les utilisateurs associés
             $voitures = Voitures::where('booster', 1)
                 ->where('status', 'pending')
-                ->with('user:id,name,phone,email,id')
-                ->latest()
+                ->with('user:id,name,phone,email,id') // Charger la relation user avec seulement l'id et le nom
                 ->get();
 
-            // Récupérer les voitures déjà boostées
-            $voituresBoosted = Voitures::where('status', 'null')
-                ->where('onceBooster', true)
-                ->with('user:id,name,phone,email,id')
-                ->latest()
+                // recuprer les deja booster
+                $voituresBoosted = Voitures::
+                where('status', 'null')
+               -> where('onceBooster', true)
+                ->with('user:id,name,phone,email,id') // Charger la relation user avec seulement l'id et le nom
                 ->get();
 
-            // Récupérer les voitures en cours de boost
-            $voituresBoosting = Voitures::where('status', 'accepter')
-                ->with('user:id,name,phone,email,id')
-                ->latest()
+                // recuprer les en cours de boost
+
+                  $voituresBoosting = Voitures::
+                where('status', 'accepter')
+                ->with('user:id,name,phone,email,id') // Charger la relation user avec seulement l'id et le nom
                 ->get();
 
-            // Statistiques des boost en cours
-            $activeBoosts = [
-                'immobiliers' => $immobilliersBoosting->count(),
-                'voitures' => $voituresBoosting->count(),
-                'total' => $immobilliersBoosting->count() + $voituresBoosting->count()
-            ];
+            // Tableau pour stocker les informations
+            $articles = [];
+            $userIds = []; // Tableau pour stocker les user_id
 
-            // Statistiques des boost en attente
-            $pendingBoosts = [
-                'immobiliers' => $immobiliers->count(),
-                'voitures' => $voitures->count(),
-                'total' => $immobiliers->count() + $voitures->count()
-            ];
+            // Parcourir les immobiliers et stocker les informations
+            foreach ($immobiliers as $immobilier) {
+                $articles[] = [
+                    'type' => 'immobilier',
+                    'article_id' => $immobilier->id,
+                    'user_id' => $immobilier->user->id,
+                    'user_name' => $immobilier->user->name,
+                    'user_phone' => $immobilier->user->phone,
+                    'user_email' => $immobilier->user->email,
+                ];
 
-            // Statistiques des boost terminés
-            $completedBoosts = [
-                'immobiliers' => $immobilliersBoosted->count(),
-                'voitures' => $voituresBoosted->count(),
-                'total' => $immobilliersBoosted->count() + $voituresBoosted->count()
-            ];
+                // Stocker le user_id dans un tableau
+                $userIds[] = $immobilier->user->id;
+            }
 
-            // Dernières activités (combinaison des derniers boost et modifications)
-            $latestActivities = collect()
-                ->merge($immobiliers->map(function($item) {
-                    return [
-                        'type' => 'immobilier',
-                        'action' => 'Nouveau boost demandé',
-                        'item' => $item,
-                        'date' => $item->created_at
-                    ];
-                }))
-                ->merge($voitures->map(function($item) {
-                    return [
-                        'type' => 'voiture',
-                        'action' => 'Nouveau boost demandé',
-                        'item' => $item,
-                        'date' => $item->created_at
-                    ];
-                }))
-                ->sortByDesc('date')
-                ->take(10);
+            // Parcourir les voitures et stocker les informations
+            foreach ($voitures as $voiture) {
+                $articles[] = [
+                    'type' => 'voiture',
+                    'article_id' => $voiture->id,
+                    'user_id' => $voiture->user->id,
+                    'user_name' => $voiture->user->name,
+                    'user_phone' => $voiture->user->phone,
+                    'user_email' => $voiture->user->email,
+                ];
+
+                // Stocker le user_id dans un tableau
+                $userIds[] = $voiture->user->id;
+            }
+
+            // Supprimer les doublons de userIds
+            $userIds = array_unique($userIds);
+
+            // Récupérer les utilisateurs
+            $users = User::whereIn('id', $userIds)->get(['id', 'name']);
 
             return Inertia::render('DashboardAdmin', [
-                'statistics' => [
-                    'totalUsers' => $totalUsers,
-                    'totalImmobiliers' => $totalImmobiliers,
-                    'totalVoitures' => $totalVoitures,
-                    'totalBoosted' => $totalBoosted,
-                    'activeBoosts' => $activeBoosts,
-                    'pendingBoosts' => $pendingBoosts,
-                    'completedBoosts' => $completedBoosts
-                ],
                 'voitures' => $voitures,
                 'immobiliers' => $immobiliers,
-                'immobilliersBoosted' => $immobilliersBoosted,
-                'voituresBoosted' => $voituresBoosted,
-                'immobilliersBoosting' => $immobilliersBoosting,
-                'voituresBoosting' => $voituresBoosting,
-                'latestActivities' => $latestActivities
+                'users' => $users, // Passer les utilisateurs récupérés
+                'immobilliersBoosted'=> $immobilliersBoosted,
+                'voituresBoosted'=> $voituresBoosted,
+                'immobilliersBoosting'=> $immobilliersBoosting,
+                'voituresBoosting'=> $voituresBoosting
             ]);
         }
 
