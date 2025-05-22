@@ -8,7 +8,9 @@ const props = defineProps({
     voitures: Array,
     voituresBoosted: Array,
     immobilliersBoosted: Array,
-    users: Object
+    users: Object,
+    statistics: Object,
+    latestActivities: Array
 });
 
 const data = reactive({
@@ -66,294 +68,165 @@ const navigateUpdateVenduImmobilier = (id) => {
 </style>
 
 <template>
-    <AppLayout title="Dashboard">
+    <AppLayout title="Dashboard Admin">
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Dashboard
+                Dashboard Administrateur
             </h2>
         </template>
-        <div>
-            <div class="left-0 px-5 h-full bg-[#f8f4f3] p-4 z-50 sidebar-menu transition-transform"></div>
-        </div>
-        <div class="custom-grid">
-            <!-- All Articles -->
-            <div class="flex flex-wrap justify-center mt-20 text-gray-800">
-                <div v-for="immobilier in immobiliers" :key="immobilier.id" @click="navigateToDetail(immobilier.id)"
-                    class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 p-2">
-                    <div class="bg-secondaire rounded-2xl shadow-2xl relative mt-4">
-                        <div class="w-full h-full">
-                            <img :src="'/storage/' + immobilier.image1" :alt="immobilier.imageAlt"
-                                class="w-full h-full object-fill rounded-2xl shadow-lg">
+
+        <div class="py-12">
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                <!-- Statistiques générales -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                    <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
+                        <div class="flex items-center">
+                            <div class="p-3 rounded-full bg-blue-100 text-blue-500">
+                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                                </svg>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-lg font-semibold text-gray-700">Utilisateurs</h3>
+                                <p class="text-2xl font-bold text-gray-900">{{ statistics.totalUsers }}</p>
+                            </div>
                         </div>
-                        <img class="mb-3 w-[4rem] h-[4rem] rounded-full shadow-2xl absolute bottom-1/3 right-0"
-                            src="https://flowbite.com/docs/images/people/profile-picture-3.jpg" alt="Profile image">
-                        <div class="p-4">
-                            <h3 class="text-lg font-semibold text-white">{{ immobilier.nom }} : <span
-                                    class="text-green-300 text-xs">{{
-                                        immobilier.affaire
-                                    }}</span> </h3>
+                    </div>
 
-                            <p class="text-principal text-lg">{{ immobilier.prix }}<span
-                                    class="text-principal text-opacity-60">
-                                    Fcfa</span></p>
+                    <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
+                        <div class="flex items-center">
+                            <div class="p-3 rounded-full bg-green-100 text-green-500">
+                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                                </svg>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-lg font-semibold text-gray-700">Immobiliers</h3>
+                                <p class="text-2xl font-bold text-gray-900">{{ statistics.totalImmobiliers }}</p>
+                            </div>
+                        </div>
+                    </div>
 
+                    <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
+                        <div class="flex items-center">
+                            <div class="p-3 rounded-full bg-purple-100 text-purple-500">
+                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+                                </svg>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-lg font-semibold text-gray-700">Voitures</h3>
+                                <p class="text-2xl font-bold text-gray-900">{{ statistics.totalVoitures }}</p>
+                            </div>
+                        </div>
+                    </div>
 
-                            <span class="text-principal">name : <span class="text-gray-300">{{ immobilier.user.name
-                                    }} <span class="text-principal">Id {{ immobilier.user.id
-                                        }}</span></span></span> <br>
-
-                            <span class="text-principal">phone :<span class="text-gray-300">{{ immobilier.user.phone
-                                    }}</span></span> <br>
-
-
-                            <span class="text-principal">email:<span class="text-gray-300">{{ immobilier.user.email
-                                    }}</span></span> <br>
-
-
-                            <span class="text-principal">.boosted_at : <span class="text-gray-300">{{
-                                immobilier.boosted_at
-                                    }}</span></span> br
-
-                            <span class="text-principal">Duree : <span class="text-gray-300">{{ immobilier.duration
-                                    }}</span></span>
-
-
-
-                            <span v-if="immobilier.duration == 2880">
-                                hello word
-                            </span>
-
-
-
-
+                    <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
+                        <div class="flex items-center">
+                            <div class="p-3 rounded-full bg-yellow-100 text-yellow-500">
+                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                                </svg>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-lg font-semibold text-gray-700">Total Boostés</h3>
+                                <p class="text-2xl font-bold text-gray-900">{{ statistics.totalBoosted }}</p>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-            </div>
-
-
-        </div>
-        <!-- ---------------------------------------------------------------------------------------------------------- -->
-        <div class="custom-grid">
-
-            <div class="flex flex-wrap justify-center mt-20 text-gray-800">
-                <div v-for="voiture in voitures" :key="voiture.id" @click="navigateToDetailVoiture(voiture.id)"
-                    class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 p-2">
-                    <div class="bg-secondaire rounded-2xl shadow-2xl relative mt-4">
-                        <div class="w-full h-full">
-                            <img :src="'/storage/' + voiture.image1" :alt="voiture.imageAlt"
-                                class="w-full h-full object-fill rounded-2xl shadow-lg">
-                        </div>
-                        <img class="mb-3 w-[4rem] h-[4rem] rounded-full shadow-2xl absolute bottom-1/3 right-0"
-                            src="https://flowbite.com/docs/images/people/profile-picture-3.jpg" alt="Profile image">
-                        <div class="p-4">
-                            <h3 class="text-lg font-semibold text-white">{{ voiture.nom }}</h3>
-                            <p class="text-gray-300">{{ voiture.affaire }}</p>
-                            <p class="text-principal text-lg">{{ voiture.prix }}<span
-                                    class="text-principal text-opacity-60">
-                                    Fcfa</span></p>
-                            <span class="text-principal">name : <span class="text-gray-300">{{ voiture.user.name
-                                    }} <span class="text-principal">Id {{ voiture.user.id
-                                        }}</span></span></span> <br>
-
-                            <span class="text-principal">phone :<span class="text-gray-300">{{ voiture.user.phone
-                                    }}</span></span> <br>
-
-
-                            <span class="text-principal">email:<span class="text-gray-300">{{ voiture.user.email
-                                    }}</span></span> <br>
-
-
-                            <span class="text-principal">.boosted_at : <span class="text-gray-300">{{ voiture.boosted_at
-                                    }}</span></span> br
-
-                            <span class="text-principal">Duree : <span v-if="voiture.duration == 2880"
-                                    class="text-gray-300">
-                                    48H</span></span>
-                            <!-- <span v-if="voiture.duration == 2880">
-                                48h
-                            </span> -->
-
-
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-
-
-
-        </div>
-
-        <!-- Popup -->
-        <div v-if="data.popupVisible" class="popup">
-            <div class="popup-content">
-                <p>Are you sure?</p>
-                <button @click="confirmAction">Yes</button>
-                <button @click="cancelAction">No</button>
-            </div>
-        </div>
-
-        <!--IMMOBILIER DEJA BOOSTER -->
-
-
-        <div class="custom-grid">
-            <!-- All Articles -->
-            <h1>articles qui ont ete deja bosster et terminer(historique)</h1>
-            <div class="flex flex-wrap justify-center mt-20 text-gray-800">
-                <div v-for="immobilierBoosted in immobilliersBoosted" :key="immobilierBoosted.id"
-                    @click="navigateToDetail(immobilierBoosted.id)"
-                    class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 p-2">
-
-
-                    <div class=" bg-secondaire rounded-2xl shadow-2xl relative mt-4">
-                        <div class="w-full h-full">
-                            <img :src="'/storage/' + immobilierBoosted.image1" :alt="immobilierBoosted.imageAlt"
-                                class="w-full h-full object-fill rounded-2xl shadow-lg">
-                        </div>
-                        <img class="mb-3 w-[4rem] h-[4rem] rounded-full shadow-2xl absolute bottom-1/3 right-0"
-                            src="https://flowbite.com/docs/images/people/profile-picture-3.jpg" alt="Profile image">
-                        <div class="p-4">
-                            <h3 class="text-lg font-semibold text-white">{{ immobilierBoosted.nom }} : <span
-                                    class="text-green-300 text-xs">{{
-                                        immobilierBoosted.affaire
-                                    }}</span> </h3>
-
-                            <p class="text-principal text-lg">{{ immobilierBoosted.prix }}<span
-                                    class="text-principal text-opacity-60">
-                                    Fcfa</span></p>
-
-
-                            <span class="text-principal">name : <span class="text-gray-300">{{
-                                immobilierBoosted.user.name
-                                    }} <span class="text-principal">Id {{ immobilierBoosted.user.id
-                                        }}</span></span></span> <br>
-
-                            <span class="text-principal">phone :<span class="text-gray-300">{{
-                                immobilierBoosted.user.phone
-                                    }}</span></span> <br>
-
-
-                            <span class="text-principal">email:<span class="text-gray-300">{{
-                                immobilierBoosted.user.email
-                                    }}</span></span> <br>
-
-
-                            <!-- <span class="text-principal">Date Boost : <span class="text-gray-300">{{
-                                immobilierBoosted.boosted_at
-                                    }}</span></span> br -->
-
-                            <!-- date de boost -->
-
-                            <span class="text-principal">Debut : <span class="text-gray-300">{{
-                                immobilierBoosted.updated_at
-                                    }}</span></span> <br>
-                            <!-- dater fin boost -->
-                            <span class="text-principal">fin : <span class="text-gray-300">{{
-                                immobilierBoosted.date_fin_booster
-                                    }}</span></span>
-
-
-
-
-
-
-
-
+                <!-- État des boosts -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+                    <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
+                        <h3 class="text-lg font-semibold text-gray-700 mb-4">Boosts en cours</h3>
+                        <div class="space-y-4">
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-600">Immobiliers</span>
+                                <span class="text-lg font-semibold text-blue-600">{{ statistics.activeBoosts.immobiliers }}</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-600">Voitures</span>
+                                <span class="text-lg font-semibold text-blue-600">{{ statistics.activeBoosts.voitures }}</span>
+                            </div>
+                            <div class="border-t pt-2 mt-2">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-800 font-medium">Total</span>
+                                    <span class="text-xl font-bold text-blue-700">{{ statistics.activeBoosts.total }}</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-
-                </div>
-
-            </div>
-
-
-        </div>
-        <!-- VOITURES DEJA BOOSTER -->
-        <div class="custom-grid">
-            <!-- All Articles -->
-            <div class="flex flex-wrap justify-center mt-20 text-gray-800">
-                <div v-for="voitureBoosted in voituresBoosted" :key="voitureBoosted.id"
-                    @click="navigateToDetail(voitureBoosted.id)" class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 p-2">
-
-
-                    <div class=" bg-secondaire rounded-2xl shadow-2xl relative mt-4">
-                        <div class="w-full h-full">
-                            <img :src="'/storage/' + voitureBoosted.image1" :alt="voitureBoosted.imageAlt"
-                                class="w-full h-full object-fill rounded-2xl shadow-lg">
-                        </div>
-                        <img class="mb-3 w-[4rem] h-[4rem] rounded-full shadow-2xl absolute bottom-1/3 right-0"
-                            src="https://flowbite.com/docs/images/people/profile-picture-3.jpg" alt="Profile image">
-                        <div class="p-4">
-                            <h3 class="text-lg font-semibold text-white">{{ voitureBoosted.nom }} : <span
-                                    class="text-green-300 text-xs">{{
-                                        voitureBoosted.affaire
-                                    }}</span> </h3>
-
-                            <p class="text-principal text-lg">{{ voitureBoosted.prix }}<span
-                                    class="text-principal text-opacity-60">
-                                    Fcfa</span></p>
-
-
-                            <span class="text-principal">name : <span class="text-gray-300">{{
-                                voitureBoosted.user.name
-                                    }} <span class="text-principal">Id {{ voitureBoosted.user.id
-                                        }}</span></span></span> <br>
-
-                            <span class="text-principal">phone :<span class="text-gray-300">{{
-                                voitureBoosted.user.phone
-                                    }}</span></span> <br>
-
-
-                            <span class="text-principal">email:<span class="text-gray-300">{{
-                                voitureBoosted.user.email
-                                    }}</span></span> <br>
-
-
-                            <!-- <span class="text-principal">Date Boost : <span class="text-gray-300">{{
-                                voitureBoosted.boosted_at
-                                    }}</span></span> br -->
-
-                            <!-- date de boost -->
-
-                            <span class="text-principal">Debut : <span class="text-gray-300">{{
-                                voitureBoosted.updated_at
-                                    }}</span></span> <br>
-                            <!-- dater fin boost -->
-                            <span class="text-principal">fin : <span class="text-gray-300">{{
-                                voitureBoosted.date_fin_booster
-                                    }}</span></span>
-
-
-
-
-
-
-
-
+                    <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
+                        <h3 class="text-lg font-semibold text-gray-700 mb-4">Boosts en attente</h3>
+                        <div class="space-y-4">
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-600">Immobiliers</span>
+                                <span class="text-lg font-semibold text-yellow-600">{{ statistics.pendingBoosts.immobiliers }}</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-600">Voitures</span>
+                                <span class="text-lg font-semibold text-yellow-600">{{ statistics.pendingBoosts.voitures }}</span>
+                            </div>
+                            <div class="border-t pt-2 mt-2">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-800 font-medium">Total</span>
+                                    <span class="text-xl font-bold text-yellow-700">{{ statistics.pendingBoosts.total }}</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-
+                    <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
+                        <h3 class="text-lg font-semibold text-gray-700 mb-4">Boosts terminés</h3>
+                        <div class="space-y-4">
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-600">Immobiliers</span>
+                                <span class="text-lg font-semibold text-green-600">{{ statistics.completedBoosts.immobiliers }}</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-600">Voitures</span>
+                                <span class="text-lg font-semibold text-green-600">{{ statistics.completedBoosts.voitures }}</span>
+                            </div>
+                            <div class="border-t pt-2 mt-2">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-800 font-medium">Total</span>
+                                    <span class="text-xl font-bold text-green-700">{{ statistics.completedBoosts.total }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
+                <!-- Dernières activités -->
+                <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
+                    <h3 class="text-lg font-semibold text-gray-700 mb-4">Dernières activités</h3>
+                    <div class="space-y-4">
+                        <div v-for="activity in latestActivities" :key="activity.date" class="flex items-center p-4 bg-gray-50 rounded-lg">
+                            <div class="flex-shrink-0">
+                                <div :class="{
+                                    'bg-blue-100 text-blue-500': activity.type === 'immobilier',
+                                    'bg-purple-100 text-purple-500': activity.type === 'voiture'
+                                }" class="p-2 rounded-full">
+                                    <svg v-if="activity.type === 'immobilier'" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                                    </svg>
+                                    <svg v-else class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-sm font-medium text-gray-900">{{ activity.action }}</p>
+                                <p class="text-sm text-gray-500">{{ formatDate(activity.date) }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-
-
         </div>
-
-
-
-
     </AppLayout>
-
-    <!-- SHOW THE ALREADY BOOST ARTICLE -->
-
-
-
-
 </template>
 
 <script>
@@ -375,6 +248,16 @@ export default {
 
         navigateToDetailVoiture(id) {
             this.$inertia.visit(`/statusVehicule/${id}`);
+        },
+
+        formatDate(date) {
+            return new Date(date).toLocaleDateString('fr-FR', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            })
         }
     },
 }
