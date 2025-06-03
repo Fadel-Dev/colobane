@@ -1,4 +1,5 @@
 <template>
+
     <Head title="Accueil" />
 
     <Navbar class="relative" />
@@ -12,26 +13,30 @@
                 <div class="swiper w-full lg:w-4/4 lg:mt-[10px]" id="cat">
                     <div class="swiper-wrapper pt-10 pb-4">
                         <div v-for="item in items" :key="item.id"
-                             class="swiper-slide w-1/4 sm:w-1/4 md:w-1/6 lg:w-6/6 xl:w-1/6 flex flex-col">
+                            class="swiper-slide w-1/4 sm:w-1/4 md:w-1/6 lg:w-6/6 xl:w-1/6 flex flex-col">
                             <div :id="item.id"
-                                 class="text-center transform hover:scale-110 transition-all duration-300 cursor-pointer group"
-                                 @click="activeTab = item.name">
-                                <div
-                                    class="p-4 rounded-2xl bg-white/80 backdrop-blur-sm shadow-lg hover:shadow-xl transition-all duration-300 relative overflow-hidden"
+                                class="text-center transform hover:scale-110 transition-all duration-300 cursor-pointer group"
+                                @click="activeTab = item.name">
+                                <div class="p-4 rounded-2xl bg-white/80 backdrop-blur-sm shadow-lg hover:shadow-xl transition-all duration-300 relative overflow-hidden"
                                     :class="{
                                         'ring-4 ring-principal ring-opacity-60 shadow-2xl scale-105': activeTab === item.name
-                                    }"
-                                >
+                                    }">
                                     <!-- Effet de fond animé -->
-                                    <div class="absolute inset-0 bg-gradient-to-br from-principal/10 to-secondaire/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                                    <div
+                                        class="absolute inset-0 bg-gradient-to-br from-principal/10 to-secondaire/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                                    </div>
 
                                     <!-- Icône avec animation -->
                                     <div class="relative z-10">
-                                        <div class="inline-flex items-center justify-center w-16 h-16 mx-auto mb-3 rounded-full bg-principal/10 group-hover:bg-principal/20 transition-colors duration-300">
-                                            <i :class="`fas fa-${item.icon} text-3xl text-principal group-hover:text-principal-dark transition-colors duration-300`"></i>
+                                        <div
+                                            class="inline-flex items-center justify-center w-16 h-16 mx-auto mb-3 rounded-full bg-principal/10 group-hover:bg-principal/20 transition-colors duration-300">
+                                            <i
+                                                :class="`fas fa-${item.icon} text-3xl text-principal group-hover:text-principal-dark transition-colors duration-300`"></i>
                                         </div>
                                         <div class="mt-2">
-                                            <span class="font-semibold text-secondaire group-hover:text-principal transition-colors duration-300">{{ item.name }}</span>
+                                            <span
+                                                class="font-semibold text-secondaire group-hover:text-principal transition-colors duration-300">{{
+                                                item.name }}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -57,23 +62,27 @@
                             <div class="swiper">
                                 <div class="swiper-wrapper">
                                     <div v-for="immobillierBoost in immobilliersBoost.data" :key="immobillierBoost.id"
-                                         @click="navigateToDetail(immobillierBoost.id)"
-                                         class="swiper-slide w-full sm:w-1/4 md:w-1/4 lg:w-1/6 xl:w-1/6 p-2">
+                                        @click="navigateToDetail(immobillierBoost.id)"
+                                        class="swiper-slide w-full sm:w-1/4 md:w-1/4 lg:w-1/6 xl:w-1/6 p-2">
                                         <!-- Card améliorée -->
-                                        <div class="card group relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 h-full flex flex-col">
+                                        <div
+                                            class="card group relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 h-full flex flex-col">
                                             <!-- Badge Boost -->
                                             <div class="absolute top-4 right-4 z-10">
-                                                <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-yellow-400 to-yellow-500 text-white shadow-md">
+                                                <span
+                                                    class="inline-flex items-center px-2 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-yellow-400 to-yellow-500 text-white shadow-md">
                                                     <i class="fas fa-bolt mr-1"></i> Boost
                                                 </span>
                                             </div>
 
                                             <div class="aspect-square overflow-hidden relative">
                                                 <img :src="'/storage/' + immobillierBoost.image1"
-                                                     :alt="immobillierBoost.imageAlt"
-                                                     class="h-full w-full object-cover transition-all duration-500 group-hover:scale-110">
+                                                    :alt="immobillierBoost.imageAlt"
+                                                    class="h-full w-full object-cover transition-all duration-500 group-hover:scale-110">
                                                 <!-- Overlay au hover -->
-                                                <div class="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                                                <div
+                                                    class="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                                </div>
                                             </div>
 
                                             <div class="p-4 space-y-2 flex-grow">
@@ -86,13 +95,15 @@
                                                     {{ immobillierBoost.nom.substring(0, 20) }}
                                                 </p>
 
-                                                <div class="flex items-center text-sm text-principal border-t border-gray-100 pt-2 mt-2">
+                                                <div
+                                                    class="flex items-center text-sm text-principal border-t border-gray-100 pt-2 mt-2">
                                                     <i class="fas fa-map-marker-alt mr-2"></i>
                                                     {{ immobillierBoost.region }}, Senegal
                                                 </div>
                                             </div>
 
-                                            <button class="w-full bg-gradient-to-r from-principal to-principal-dark text-white py-3 px-4 transform transition-all duration-300 hover:opacity-90 group-hover:translate-y-0 flex items-center justify-center space-x-2">
+                                            <button
+                                                class="w-full bg-gradient-to-r from-principal to-principal-dark text-white py-3 px-4 transform transition-all duration-300 hover:opacity-90 group-hover:translate-y-0 flex items-center justify-center space-x-2">
                                                 <i class="fas fa-phone-alt"></i>
                                                 <span>Contacter</span>
                                             </button>
@@ -103,20 +114,23 @@
                         </div>
 
                         <!-- Call to Action amélioré -->
-                        <div class="bg-gradient-to-r from-principal/10 to-secondaire/10 backdrop-blur-sm border border-principal/20 my-8 rounded-3xl p-8 relative overflow-hidden">
+                        <div
+                            class="bg-gradient-to-r from-principal/10 to-secondaire/10 backdrop-blur-sm border border-principal/20 my-8 rounded-3xl p-8 relative overflow-hidden">
                             <div class="absolute -right-10 -top-10 w-32 h-32 bg-principal/5 rounded-full"></div>
                             <div class="absolute -left-10 -bottom-10 w-40 h-40 bg-secondaire/5 rounded-full"></div>
 
                             <div class="text-center relative z-10">
-                                <div class="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-6">
+                                <div
+                                    class="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-6">
                                     <div>
-                                        <span class="text-secondaire text-2xl md:text-3xl font-bold inline-flex items-center">
+                                        <span
+                                            class="text-secondaire text-2xl md:text-3xl font-bold inline-flex items-center">
                                             <i class="fas fa-rocket mr-3 text-principal"></i>
                                             C'est le moment de vendre
                                         </span>
                                     </div>
                                     <a :href="route('publier')"
-                                       class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-principal to-secondaire text-white rounded-xl hover:opacity-90 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
+                                        class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-principal to-secondaire text-white rounded-xl hover:opacity-90 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
                                         <i class="fas fa-plus mr-2"></i>
                                         <span>Déposer une annonce</span>
                                     </a>
@@ -132,28 +146,25 @@
                                         <i class="fas fa-home mr-3 text-principal"></i>
                                         Dernières Annonces au Sénégal
                                     </h2>
-                                    <div class="w-24 h-1 bg-gradient-to-r from-principal to-secondaire mx-auto mt-4 rounded-full"></div>
+                                    <div
+                                        class="w-24 h-1 bg-gradient-to-r from-principal to-secondaire mx-auto mt-4 rounded-full">
+                                    </div>
                                 </div>
 
                                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
 
-                                    <article
-                                        v-for="maison in maisons.data"
-                                        :key="maison.id"
+                                    <article v-for="maison in maisons.data" :key="maison.id"
                                         @click="navigateToDetail(maison.id)"
-                                        class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition duration-300 h-full flex flex-col"
-                                    >
+                                        class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition duration-300 h-full flex flex-col">
                                         <div class="relative">
-                                            <img
-                                                :src="'/storage/' + maison.image1"
+                                            <img :src="'/storage/' + maison.image1"
                                                 :alt="maison.imageAlt || 'Image du bien immobilier'"
-                                                class="w-full h-64 object-cover"
-                                                loading="lazy"
-                                            >
+                                                class="w-full h-64 object-cover" loading="lazy">
                                             <div class="absolute top-4 left-4">
-      <span class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-sm font-semibold">
-        {{ maison.affaire }}
-      </span>
+                                                <span
+                                                    class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-sm font-semibold">
+                                                    {{ maison.affaire }}
+                                                </span>
                                             </div>
                                         </div>
 
@@ -161,7 +172,8 @@
                                             <div class="flex justify-between items-start">
                                                 <div>
                                                     <h3 class="text-xl font-bold mb-1 text-principal">
-                                                        {{ maison.nom.substring(0, 20) }}{{ maison.nom.length > 20 ? '...' : '' }}
+                                                        {{ maison.nom.substring(0, 20) }}{{ maison.nom.length > 20 ?
+                                                        '...' : '' }}
                                                     </h3>
                                                     <p class="text-gray-600 mb-2">
                                                         <i class="fas fa-map-marker-alt text-[#eb2d53] mr-2"></i>
@@ -170,28 +182,28 @@
                                                 </div>
                                             </div>
 
-                                            <div class="flex justify-between items-center mt-4 border-b-2 border-gray-300">
+                                            <div
+                                                class="flex justify-between items-center mt-4 border-b-2 border-gray-300">
                                                 <div>
                                                     <span class="text-gray-500 text-sm">Prix:</span>
                                                     <span class="text-lg font-bold text-[#eb2d53]">
-          {{ maison.prix }} FCFA
-          <span class="text-sm text-gray-500">{{ maison.type }}</span>
-        </span>
+                                                        {{ maison.prix }} FCFA
+                                                        <span class="text-sm text-gray-500">{{ maison.type }}</span>
+                                                    </span>
                                                 </div>
-                                                <button class="text-[#eb2d53] hover:text-indigo-800" aria-label="Ajouter aux favoris">
+                                                <button class="text-[#eb2d53] hover:text-indigo-800"
+                                                    aria-label="Ajouter aux favoris">
                                                     <i class="far fa-heart text-xl"></i>
                                                 </button>
                                             </div>
 
                                             <div v-if="maison.status == 'accepter'" class="mt-6 ">
-                                                <a
-                                                    href="#"
-                                                    class="block text-center bg-[#eb2d53] hover:bg-[#d12648] text-white py-2 rounded-lg transition duration-300"
-                                                >
-        <span class="flex items-center justify-center space-x-2">
-          <i class="fas fa-phone-alt"></i>
-          <span>Contacter</span>
-        </span>
+                                                <a href="#"
+                                                    class="block text-center bg-[#eb2d53] hover:bg-[#d12648] text-white py-2 rounded-lg transition duration-300">
+                                                    <span class="flex items-center justify-center space-x-2">
+                                                        <i class="fas fa-phone-alt"></i>
+                                                        <span>Contacter</span>
+                                                    </span>
                                                 </a>
                                             </div>
                                         </div>
@@ -224,6 +236,7 @@
             </div>
         </div>
     </div>
+    <Footer />
 </template>
 
 <style scoped>
@@ -267,11 +280,11 @@ button:hover {
 }
 
 /* Animation pour les catégories */
-.swiper-slide > div {
+.swiper-slide>div {
     transition: all 0.3s ease;
 }
 
-.swiper-slide:hover > div {
+.swiper-slide:hover>div {
     transform: translateY(-5px);
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
 }
