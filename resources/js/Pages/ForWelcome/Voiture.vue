@@ -1,5 +1,7 @@
 <script setup>
 
+import Action from "../BoutCode/Action.vue";
+
 const props = defineProps({
     voitures: Object,
     voituresBoost: Object,
@@ -55,19 +57,7 @@ const props = defineProps({
             </div>
         </div>
 
-        <div class="bg-transparent border border-principal my-5 rounded-[20px] w-full h-[10vh] flex items-center justify-center">
-            <div class="text-center">
-                <div class="txt flex items-center">
-                    <span class="text-secondaire text-3xl">C'est le moment de vendre</span>
-                    <div class="flex items-center border-2 border-principal rounded-[10px] p-1 mx-2">
-                        <i class="fas fa-plus text-principal px-1"></i>
-                        <a :href="route('publier')" class="text-secondaire text-lg ml-2">
-                            Déposer une annonce
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
+       <Action/>
 
         <!-- Section annonces -->
         <section class="py-8" id="transparent">
