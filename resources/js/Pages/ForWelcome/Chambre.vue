@@ -1,5 +1,7 @@
 <script setup>
 
+import Action from "../BoutCode/Action.vue";
+
 const props = defineProps({
     voitures: Object,
     voituresBoost: Object,
@@ -56,6 +58,8 @@ const props = defineProps({
         </div>
 
         <!-- Section annonces -->
+        <Action/>
+
         <section class="py-8" id="transparent">
             <div class="mx-auto max-w-screen-xl px-4">
                 <div class="text-center mb-12 relative">
