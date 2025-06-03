@@ -153,7 +153,7 @@ const props = defineProps({
 
                 <!-- Grid For Vehicules -->
                 <div class="mt-10 grid grid-cols-2 gap-6 sm:grid-cols-4 sm:gap-4 lg:mt-16">
-                    <article v-for="voiture in voitures.data" :key="voiture.id"
+                    <article v-for="voiture in filteredVoitures" :key="voiture.id"
                         @click="navigateToDetailVehi(voiture.id)"
                         class="relative flex flex-col overflow-hidden rounded-lg border hover:shadow-lg transition-shadow duration-300">
                         <div class="card">
@@ -246,6 +246,18 @@ export default {
             type: Object,
             required: true,
         },
+    },
+    computed: {
+        filteredVoitures() {
+            if (this.selectedRegion === 'tous') {
+                return this.voitures.data;
+            }
+            // On filtre par marque (insensible à la casse)
+            return this.voitures.data.filter(voiture => {
+                if (!voiture.marque) return false;
+                return voiture.marque.toLowerCase() === this.selectedRegion.toLowerCase();
+            });
+        }
     },
     methods: {
         navigateToDetailVehi(id) {
