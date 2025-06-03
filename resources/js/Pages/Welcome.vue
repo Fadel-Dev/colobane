@@ -1,418 +1,305 @@
 <template>
-    <!-- <AppLayout title="Acceuil"> -->
-
     <Head title="Accueil" />
 
     <Navbar class="relative" />
-    <div id="principal">
-
-
-
-        <div class=" lg:w-8/12 mx-auto mx-0 px-0 ">
-            <!-- Navigation -->
-
-
-            <!-- Banner -->
-
-
-
-
-
-
+    <div id="principal" class="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100">
+        <div class="lg:w-8/12 mx-auto px-4">
             <!-- Slide -->
-
             <SlidePub />
 
-
-            <!-- slide nav -->
-
-            <div class="mt-0">
-
-                <div class="swiper  w-full lg:w-4/4  lg:mt-[10px] " id="cat">
-                    <div class="swiper-wrapper pt-10 ">
+            <!-- Navigation Categories - Style amélioré -->
+            <div class="mt-8">
+                <div class="swiper w-full lg:w-4/4 lg:mt-[10px]" id="cat">
+                    <div class="swiper-wrapper pt-10 pb-4">
                         <div v-for="item in items" :key="item.id"
-                            class="swiper-slide w-1/4 sm:w-1/4 md:w-1/6 lg:w-6/6 xl:w-1/6  flex  flex-col ">
+                             class="swiper-slide w-1/4 sm:w-1/4 md:w-1/6 lg:w-6/6 xl:w-1/6 flex flex-col">
+                            <div :id="item.id"
+                                 class="text-center transform hover:scale-110 transition-all duration-300 cursor-pointer group"
+                                 @click="activeTab = item.name">
+                                <div
+                                    class="p-4 rounded-2xl bg-white/80 backdrop-blur-sm shadow-lg hover:shadow-xl transition-all duration-300 relative overflow-hidden"
+                                    :class="{
+                                        'ring-4 ring-principal ring-opacity-60 shadow-2xl scale-105': activeTab === item.name
+                                    }"
+                                >
+                                    <!-- Effet de fond animé -->
+                                    <div class="absolute inset-0 bg-gradient-to-br from-principal/10 to-secondaire/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
-                            <div id="{{ item.id }}" class="text-center" @click="activeTab = item.name">
-                                <i :class="`fas fa-${item.icon} text-3xl text-principal`"></i>
+                                    <!-- Icône avec animation -->
+                                    <div class="relative z-10">
+                                        <div class="inline-flex items-center justify-center w-16 h-16 mx-auto mb-3 rounded-full bg-principal/10 group-hover:bg-principal/20 transition-colors duration-300">
+                                            <i :class="`fas fa-${item.icon} text-3xl text-principal group-hover:text-principal-dark transition-colors duration-300`"></i>
+                                        </div>
+                                        <div class="mt-2">
+                                            <span class="font-semibold text-secondaire group-hover:text-principal transition-colors duration-300">{{ item.name }}</span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-
-                            <div class="text-center">
-                                <span class="  font-semibold text-secondaire">{{ item.name }}</span>
-
-                            </div>
-
                         </div>
                     </div>
                 </div>
 
-
-
-                <!-- bouton vendre -->
-
-
+                <!-- Content Section -->
                 <div class="lg:max-w-[80vw] max-w-[970vw] mx-auto mt-8">
                     <!-- Immobilier Tab -->
-                    <div v-if="activeTab === 'immobilier'" class="">
-                        <div class="swiper">
-                            <div class="swiper-wrapper">
-                                <div v-for="immobillierBoost in immobilliersBoost.data" :key="immobillierBoost.id"
-                                    @click="navigateToDetail(immobillierBoost.id)"
-                                    class="swiper-slide w-full sm:w-1/4 md:w-1/4 lg:w-1/6 xl:w-1/6 p-1">
-                                    <!-- Immobilier Card -->
-                                    <div class="card">
-                                        <div class="aspect-square overflow-hidden">
-                                            <img :src="'/storage/' + immobillierBoost.image1"
-                                                :alt="immobillierBoost.imageAlt"
-                                                class="h-full w-full object-cover transition-all duration-300 group-hover:scale-125">
-                                        </div>
-                                        <div class="absolute top-0 m-2 rounded-full ">
-                                            <p
-                                                class="rounded-full bg-principal p-1 text-[8px] font-bold uppercase tracking-wide text-white sm:py-1 sm:px-3">
-                                                {{ immobillierBoost.affaire }}</p>
-                                        </div>
+                    <div v-if="activeTab === 'Immobilier'" class="space-y-8">
+                        <!-- Section Boostée -->
+                        <div class="mb-10">
+                            <h3 class="text-xl font-bold text-secondaire mb-6 flex items-center">
+                                <span class="w-4 h-4 bg-principal rounded-full mr-2"></span>
+                                Annonces en vedette
+                                <span class="ml-auto text-sm font-normal text-principal flex items-center">
+                                    <i class="fas fa-bolt mr-1"></i> Boostées
+                                </span>
+                            </h3>
 
-                                        <div class="my-2 mx-auto flex w-10/12 flex-col items-start justify-between">
-                                            <p class="mr-3 text-sm font-semibold text-principal align-center">{{
-                                                immobillierBoost.prix }} <span class="text-secondaire mr-3">Fcfa</span>
-                                            </p>
-
-                                            <div class="mb-2 flex">
-
-                                                <p class="mr-3 text-secondaire  text-sm font-semibold truncate">{{
-                                                    immobillierBoost.nom.substring(0, 20) }}</p>
+                            <div class="swiper">
+                                <div class="swiper-wrapper">
+                                    <div v-for="immobillierBoost in immobilliersBoost.data" :key="immobillierBoost.id"
+                                         @click="navigateToDetail(immobillierBoost.id)"
+                                         class="swiper-slide w-full sm:w-1/4 md:w-1/4 lg:w-1/6 xl:w-1/6 p-2">
+                                        <!-- Card améliorée -->
+                                        <div class="card group relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 h-full flex flex-col">
+                                            <!-- Badge Boost -->
+                                            <div class="absolute top-4 right-4 z-10">
+                                                <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-yellow-400 to-yellow-500 text-white shadow-md">
+                                                    <i class="fas fa-bolt mr-1"></i> Boost
+                                                </span>
                                             </div>
-                                            <h3
-                                                class="text-sm text-principal pt-[-8%] w-full border-b-[1px] border-gray-200 ">
-                                                {{
-                                                    immobillierBoost.region }} ,Senegal </h3>
 
-                                            .
+                                            <div class="aspect-square overflow-hidden relative">
+                                                <img :src="'/storage/' + immobillierBoost.image1"
+                                                     :alt="immobillierBoost.imageAlt"
+                                                     class="h-full w-full object-cover transition-all duration-500 group-hover:scale-110">
+                                                <!-- Overlay au hover -->
+                                                <div class="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                                            </div>
 
+                                            <div class="p-4 space-y-2 flex-grow">
+                                                <p class="text-lg font-bold text-principal">
+                                                    {{ immobillierBoost.prix }}
+                                                    <span class="text-sm text-secondaire">Fcfa</span>
+                                                </p>
+
+                                                <p class="text-secondaire font-medium truncate">
+                                                    {{ immobillierBoost.nom.substring(0, 20) }}
+                                                </p>
+
+                                                <div class="flex items-center text-sm text-principal border-t border-gray-100 pt-2 mt-2">
+                                                    <i class="fas fa-map-marker-alt mr-2"></i>
+                                                    {{ immobillierBoost.region }}, Senegal
+                                                </div>
+                                            </div>
+
+                                            <button class="w-full bg-gradient-to-r from-principal to-principal-dark text-white py-3 px-4 transform transition-all duration-300 hover:opacity-90 group-hover:translate-y-0 flex items-center justify-center space-x-2">
+                                                <i class="fas fa-phone-alt"></i>
+                                                <span>Contacter</span>
+                                            </button>
                                         </div>
-                                        <button
-                                            class="  bg-principal group mx-auto mt-[-10%] flex h-8 w-full items-stretch overflow-hidden hover:text-secondaire rounded-md text-white">
-                                            <div
-                                                class="flex w-full items-center justify-center bg-principal text-xs uppercase transition  group-hover:text-secondaire">
-                                                contacter</div>
-
-                                        </button>
-
-
                                     </div>
                                 </div>
                             </div>
-                            <!-- Bouton add -->
-
-
-
-
-
-
-                            <section class=" py-1 text-secondaire sm:py-16 lg:py-1" id="transparent">
-                                <div class="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
-                                    <div class="mx-auto max-w-md text-center">
-                                        <h2 class="font-serif text-2xl font-bold sm:text-2xl">Dernières Annonces au
-                                            Sénégal
-                                        </h2>
-                                    </div>
-                                    <!-- <div class="region-filter flex flex-col">
-                                        <label for="marque">Trieeee</label>
-                                        <select v-model="selectedRegion" id="region">
-                                            <option v-for="region in regions" :key="region" :value="region">
-                                                {{ region }}
-                                            </option>
-                                        </select>
-                                    </div> -->
-                                    <!-- Grid For Vehicules -->
-
-                                    <div class="mt-10 grid grid-cols-2 gap-6 sm:grid-cols-4 sm:gap-4 lg:mt-16">
-                                        <article v-for="maison in maisons.data" :key="maison.id"
-                                            @click="navigateToDetail(maison.id)"
-                                            class="relative flex flex-col overflow-hidden rounded-lg border justify-center items-center">
-                                            <!-- Centering Flex -->
-                                            <div class="card w-full"> <!-- Ensure full width -->
-                                                <div
-                                                    class="aspect-square overflow-hidden flex justify-center items-center">
-                                                    <!-- Center the image -->
-                                                    <img :src="'/storage/' + maison.image1" :alt="maison.imageAlt"
-                                                        class="h-full w-full object-cover transition-all duration-300 group-hover:scale-125">
-                                                </div>
-                                                <div class="absolute top-0 m-2 rounded-full">
-                                                    <p
-                                                        class="rounded-full bg-principal p-1 text-[8px] font-bold uppercase tracking-wide text-white sm:py-1 sm:px-3">
-                                                        {{ maison.affaire }}
-                                                    </p>
-                                                </div>
-
-                                                <div
-                                                    class="my-2 mx-auto flex w-10/12 flex-col items-center justify-between">
-                                                    <!-- Centered flex -->
-                                                    <p class="text-center text-sm font-semibold text-principal">{{
-                                                        maison.prix }}{{
-                                                            maison.type }} <span class="text-secondaire mr-3">Fcfa</span>
-                                                    </p>
-
-                                                    <div class="mb-2 flex justify-center"> <!-- Center the name -->
-                                                        <p class="text-secondaire text-sm font-semibold truncate">{{
-                                                            maison.nom.substring(0, 20) }}</p>
-                                                    </div>
-
-                                                    <h3
-                                                        class="text-sm text-principal w-full border-b-[1px] border-gray-200 text-center">
-                                                        <!-- Centered text -->
-                                                        {{ maison.region }}, Senegal
-                                                    </h3>
-                                                </div>
-
-                                                <div v-if="maison.status == 'accepter'"
-                                                    class="bg-principal group mx-auto mt-[-5%] flex h-8 w-full items-center justify-center rounded-md text-white">
-                                                    <div class="w-full flex justify-center">
-                                                        <!-- Center the button -->
-                                                        <div
-                                                            class="bg-principal text-xs uppercase transition group-hover:text-secondaire">
-                                                            Contacter
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div v-else
-                                                    class="group mx-auto mt-[-10%] flex h-8 w-full items-center justify-center overflow-hidden rounded-md text-white">
-                                                </div>
-                                            </div>
-                                        </article>
-                                    </div>
-
-                                </div>
-                            </section>
                         </div>
 
+                        <!-- Call to Action amélioré -->
+                        <div class="bg-gradient-to-r from-principal/10 to-secondaire/10 backdrop-blur-sm border border-principal/20 my-8 rounded-3xl p-8 relative overflow-hidden">
+                            <div class="absolute -right-10 -top-10 w-32 h-32 bg-principal/5 rounded-full"></div>
+                            <div class="absolute -left-10 -bottom-10 w-40 h-40 bg-secondaire/5 rounded-full"></div>
+
+                            <div class="text-center relative z-10">
+                                <div class="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-6">
+                                    <div>
+                                        <span class="text-secondaire text-2xl md:text-3xl font-bold inline-flex items-center">
+                                            <i class="fas fa-rocket mr-3 text-principal"></i>
+                                            C'est le moment de vendre
+                                        </span>
+                                    </div>
+                                    <a :href="route('publier')"
+                                       class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-principal to-secondaire text-white rounded-xl hover:opacity-90 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
+                                        <i class="fas fa-plus mr-2"></i>
+                                        <span>Déposer une annonce</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Latest Listings Section améliorée -->
+                        <section class="py-8" id="transparent">
+                            <div class="mx-auto max-w-screen-xl px-4">
+                                <div class="text-center mb-12 relative">
+                                    <h2 class="text-3xl font-bold text-secondaire inline-flex items-center">
+                                        <i class="fas fa-home mr-3 text-principal"></i>
+                                        Dernières Annonces au Sénégal
+                                    </h2>
+                                    <div class="w-24 h-1 bg-gradient-to-r from-principal to-secondaire mx-auto mt-4 rounded-full"></div>
+                                </div>
+
+                                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+
+                                    <article
+                                        v-for="maison in maisons.data"
+                                        :key="maison.id"
+                                        @click="navigateToDetail(maison.id)"
+                                        class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition duration-300 h-full flex flex-col"
+                                    >
+                                        <div class="relative">
+                                            <img
+                                                :src="'/storage/' + maison.image1"
+                                                :alt="maison.imageAlt || 'Image du bien immobilier'"
+                                                class="w-full h-64 object-cover"
+                                                loading="lazy"
+                                            >
+                                            <div class="absolute top-4 left-4">
+      <span class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-sm font-semibold">
+        {{ maison.affaire }}
+      </span>
+                                            </div>
+                                        </div>
+
+                                        <div class="p-6 flex-grow">
+                                            <div class="flex justify-between items-start">
+                                                <div>
+                                                    <h3 class="text-xl font-bold mb-1 text-principal">
+                                                        {{ maison.nom.substring(0, 20) }}{{ maison.nom.length > 20 ? '...' : '' }}
+                                                    </h3>
+                                                    <p class="text-gray-600 mb-2">
+                                                        <i class="fas fa-map-marker-alt text-[#eb2d53] mr-2"></i>
+                                                        {{ maison.region }}, Sénégal
+                                                    </p>
+                                                </div>
+                                            </div>
+
+                                            <div class="flex justify-between items-center mt-4 border-b-2 border-gray-300">
+                                                <div>
+                                                    <span class="text-gray-500 text-sm">Prix:</span>
+                                                    <span class="text-lg font-bold text-[#eb2d53]">
+          {{ maison.prix }} FCFA
+          <span class="text-sm text-gray-500">{{ maison.type }}</span>
+        </span>
+                                                </div>
+                                                <button class="text-[#eb2d53] hover:text-indigo-800" aria-label="Ajouter aux favoris">
+                                                    <i class="far fa-heart text-xl"></i>
+                                                </button>
+                                            </div>
+
+                                            <div v-if="maison.status == 'accepter'" class="mt-6 ">
+                                                <a
+                                                    href="#"
+                                                    class="block text-center bg-[#eb2d53] hover:bg-[#d12648] text-white py-2 rounded-lg transition duration-300"
+                                                >
+        <span class="flex items-center justify-center space-x-2">
+          <i class="fas fa-phone-alt"></i>
+          <span>Contacter</span>
+        </span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </article>
+                                </div>
+                            </div>
+                        </section>
                     </div>
 
-
-                    <!-- Vehicule Tab -->
-                    <div id="VoitureSection" v-else-if="activeTab == 'Vehicule'" class="bg-transparent">
-
+                    <!-- Other Tabs -->
+                    <div v-else-if="activeTab == 'Vehicule'" class="bg-transparent">
                         <Voiture :voitures="voitures" :voituresBoost="voituresBoost" :marques="marques" />
-
                     </div>
-                    <!-- Chambre -->
-                    <div id="maisons" v-else-if="activeTab == 'Chambre'" class="bg-transparent">
+                    <div v-else-if="activeTab == 'Chambre'" class="bg-transparent">
                         <Chambre :chambres="chambres" :chambresBoost="chambresBoost" />
                     </div>
-
-
-                    <!-- Villa -->
                     <div v-else-if="activeTab == 'Villa'" class="bg-transparent">
                         <Villa :villas="villas" :villasBoost="villasBoost" />
-
                     </div>
-
-                    <!-- Immeubles -->
                     <div v-else-if="activeTab == 'Immeuble'" class="bg-transparent">
-                        <!-- <h1>mes Immeubless</h1> -->
                         <Immeuble :immeubles="immeubles" :immeublesBoost="immeublesBoost" />
                     </div>
-
-                    <!-- Terrain -->
                     <div v-else-if="activeTab == 'Terrain'" class="bg-transparent">
-                        <!-- <h1>mes Terrain</h1> -->
                         <Terrain :terrains="terrains" :terrainsBoost="terrainsBoost" />
                     </div>
-
-                    <!-- Verger -->
                     <div v-else-if="activeTab == 'Verger'" class="bg-transparent">
-                        <!-- <h1>mes Vergers</h1> -->
                         <Verger :vergers="vergers" :vergersBoost="vergersBoost" />
                     </div>
                 </div>
             </div>
-            <div>
-            </div>
-
-
-            <!-- <footer /> -->
-
-            <!-- Footer -->
-
-        </div>
-        <div class="mt-20">
-            <Footer />
         </div>
     </div>
-
-
-
-    <!-- </AppLayout> -->
-
 </template>
 
 <style scoped>
 #principal {
-    margin: 0;
-    padding: 0;
-    min-height: 105vh;
-    /* background: url('https://cdn.pixabay.com/photo/2023/06/11/01/24/flowers-8055013_1280.jpg'); */
-    background-size: cover;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f6f8fc 0%, #f1f4f9 100%);
 }
 
-#card,
-#cat,
-#transparent {
-    background-color: #ffffff30;
-    backdrop-filter: blur(16px) saturate(180%);
-}
-
-
-.pub {
-    /*  background: url('https://images.unsplash.com/photo-1496181133206-80ce9b88a853?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80'); */
-}
-
-
-.nav {
-    z-index: 50;
-}
-
-/* === removing default button style ===*/
-.button {
-    margin: 0;
-    height: auto;
-    background: transparent;
-    padding: 0;
-    border: none;
-    cursor: pointer;
-}
-
-/* button styling */
-.button {
-    --border-right: 6px;
-    --text-stroke-color: rgba(255, 255, 255, 0.6);
-    --animation-color:
-        rgb(235 45 83 / var(--tw-text-opacity));
-
-    --fs-size: 1.5em;
-    /* letter-spacing: 3px; */
-    text-decoration: none;
-    font-size: var(--fs-size);
-    font-family: "Arial";
-    position: relative;
-    /* text-transform: uppercase; */
-    color: transparent;
-    -webkit-text-stroke: 1px var(--text-stroke-color);
-}
-
-/* this is the text, when you hover on button */
-.hover-text {
-    position: absolute;
-    box-sizing: border-box;
-    content: attr(data-text);
-    color: var(--animation-color);
-    width: 0%;
-    inset: 0;
-    border-right: var(--border-right) solid var(--animation-color);
-    overflow: hidden;
-    transition: 0.5s;
-    -webkit-text-stroke: 1px var(--animation-color);
-}
-
-/* hover */
-.button:hover .hover-text {
-    width: 100%;
-    filter: drop-shadow(0 0 23px var(--animation-color))
-}
-
+/* Animation pour les cartes */
 .card {
-    background-color: #ffffff;
-    border-radius: 1rem;
-    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.1);
+    @apply bg-white rounded-2xl overflow-hidden shadow-lg transition-all duration-300;
 }
 
-.fixed-size {
-    width: 300px;
-    /* Width of the images */
-    height: 200px;
-    /* Height of the images */
-    object-fit: cover;
-    /* Ensures the images cover the space without distorting */
+.card:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
 
-#swiper {
-    margin-top: 10%;
+/* Effet de glassmorphisme */
+.backdrop-blur-sm {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
 }
 
-/* button sign */
-
-.sign {
-
-    border: 0.3px dotted white;
-
-
-
-
-
-
-    --primary-color: #625bff;
-    --secondary-color: #fff;
-    --hover-color: #eb2d53;
-    --arrow-width: 10px;
-    --arrow-stroke: 2px;
-    box-sizing: border-box;
-    /* border: 0; */
-    border-radius: 20px;
-    color: var(--secondary-color);
-    padding: 2px 1.8em;
-    /* background: var(--primary-color); */
-    display: flex;
-    transition: 0.2s background;
-    align-items: center;
-    gap: 0.6em;
-    font-weight: bold;
+/* Animation pour les images */
+.aspect-square img {
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.sign .arrow-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.aspect-square:hover img {
+    transform: scale(1.1);
 }
 
-.sign .arrow {
-    margin-top: 1px;
-    width: var(--arrow-width);
-    background: var(--primary-color);
-    height: var(--arrow-stroke);
+/* Style pour les boutons */
+button {
+    @apply transition-all duration-300;
+}
+
+button:hover {
+    transform: translateY(-2px);
+}
+
+/* Animation pour les catégories */
+.swiper-slide > div {
+    transition: all 0.3s ease;
+}
+
+.swiper-slide:hover > div {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+/* Effet de hover sur les titres */
+h2 {
     position: relative;
-    transition: 0.2s;
 }
 
-.sign .arrow::before {
-    content: "";
-    box-sizing: border-box;
-    position: absolute;
-    border: solid var(--secondary-color);
-    border-width: 0 var(--arrow-stroke) var(--arrow-stroke) 0;
-    display: inline-block;
-    top: -3px;
-    right: 3px;
-    transition: 0.2s;
-    padding: 3px;
-    transform: rotate(-45deg);
+/* Animation des icônes */
+.fa-icon {
+    transition: transform 0.3s ease;
 }
 
-.sign:hover {
-    background-color: var(--hover-color);
+.group:hover .fa-icon {
+    transform: scale(1.1);
 }
 
-.sign:hover .arrow {
-    background: var(--secondary-color);
-}
-
-.sign:hover .arrow:before {
-    right: 0;
+/* Gradient text pour les éléments importants */
+.text-gradient {
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    background-image: linear-gradient(to right, var(--color-principal), var(--color-secondaire));
 }
 </style>
 
 <script setup>
-
 import { Head, Link } from '@inertiajs/vue3';
 import { Inertia } from '@inertiajs/inertia';
 import AppLayout from '@/Layouts/AppLayout.vue';
@@ -441,49 +328,45 @@ const props = defineProps({
 let items = [
     {
         "id": 1,
-        "icon": "home", // FontAwesome icon name
+        "icon": "home",
         "name": "Villa"
     },
     {
         "id": 2,
-        "icon": "car", // FontAwesome icon name
-        "name": "Appartement"
+        "icon": "car",
+        "name": "Vehicule"
     },
     {
         "id": 3,
-        "icon": "building", // FontAwesome icon name
+        "icon": "map-marked",
         "name": "Terrain"
     },
     {
         "id": 4,
-        "icon": "bed", // FontAwesome icon name for Chambre
+        "icon": "bed",
         "name": "Chambre"
     },
     {
         "id": 5,
-        "icon": "building", // FontAwesome icon name for Immeuble
+        "icon": "building",
         "name": "Immeuble"
     },
     {
         "id": 6,
-        "icon": "apple-alt", // FontAwesome icon name for Verger
+        "icon": "apple-alt",
         "name": "Verger"
     },
     {
         "id": 7,
-        "icon": "car", // FontAwesome icon name for Vehicule
-        "name": "Vehicule"
+        "icon": "city",
+        "name": "Appartement"
     },
     {
         "id": 8,
-        "icon": "home", // FontAwesome icon name for Immobilier
+        "icon": "key",
         "name": "Immobilier"
     },
-
-
 ];
-
-
 </script>
 
 <script>
@@ -500,11 +383,10 @@ import Verger from './ForWelcome/Verger.vue';
 import Footer from '../Components/Footer.vue';
 import Navbar from '../Components/Navbar.vue';
 
-
 export default {
     data() {
         return {
-            activeTab: 'immobilier',
+            activeTab: 'Vehicule',
             showMenu: false,
             marques: [
                 "tous",
@@ -524,18 +406,14 @@ export default {
                 "autres"
             ],
             selectedMarque: 'dakar'
-
-
         };
     },
     methods: {
         navigateToDetail(id) {
             this.$inertia.visit(`/detail/${id}`);
         },
-
     },
     mounted() {
-        // Initialize Swiper
         new Swiper('.swiper', {
             slidesPerView: 'auto',
             spaceBetween: 20,
@@ -549,7 +427,6 @@ export default {
             },
         });
 
-        // Initialize progress bar
         InertiaProgress.init({
             delay: 200,
             color: '#eb2d53',

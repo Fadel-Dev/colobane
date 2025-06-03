@@ -95,10 +95,10 @@ class Controller extends BaseController
 
             if( $user->role=="boss")
             {
-              return Inertia::render('Publier');
+              return Inertia::render('Contact');
             }else
             {
-                 return Inertia::render('Contact');
+                 return Inertia::render('Publier');
             }
 
     }
