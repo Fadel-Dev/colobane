@@ -13,7 +13,7 @@ const props = defineProps({
 </script>
 
 <template>
-    <nav class="fixed top-0 left-0 w-full z-50 backdrop-blur-lg bg-white/30 border-b border-white/20">
+    <nav class="fixed top-0 left-0 w-full z-50 backdrop-blur-lg bg-white/30 border-b border-white/20 border-b-gray-300 border bottom-1 ">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-20">
                 <!-- Logo -->
