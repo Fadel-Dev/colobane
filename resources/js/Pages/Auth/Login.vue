@@ -9,9 +9,6 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import Navbar from '@/Components/Navbar.vue'
 
-
-
-
 defineProps({
     canResetPassword: Boolean,
     status: String,
@@ -34,142 +31,139 @@ const submit = () => {
 </script>
 
 <template>
-
     <Head>
-        <title>Se connecter</title>
+        <title>Se connecter - Noflay</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </Head>
 
     <header>
         <Navbar />
     </header>
 
-    <div class="">
-        <div class="min-w-screen  flex  justify-center px-5 py-2 my-0">
-            <div class="bg-gray-100 h-full my-auto  text-gray-500 rounded-3xl shadow-xl w-full overflow-hidden"
-                style="max-width:1000px">
-                <div class="md:flex w-full h-screen" id="main">
-                    <div class="hidden md:block w-1/2  bg-red-300 h-full" id="pic">
-
-                        <h2 class=" text-center text-3xl mt-10 w-3/5 text-principal mx-auto">
-                            Noflay est une plateforme de ...
-                        </h2>
+    <main class="min-h-[90vh] flex items-center justify-center bg-gradient-to-br from-blue-50 to-gray-100 p-4 md:p-8">
+        <div class="w-full max-w-6xl bg-white rounded-2xl shadow-lg overflow-hidden">
+            <div class="flex flex-col md:flex-row">
+                <!-- Image Section -->
+                <div class="hidden md:block md:w-1/2 relative bg-blue-600 min-h-[500px]">
+                    <div class="absolute inset-0 bg-[url('https://cdn.pixabay.com/photo/2022/04/18/04/31/house-7139392_1280.png')] bg-cover bg-center opacity-90"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-blue-900/70 to-blue-600/50"></div>
+                    <div class="relative h-full flex items-center justify-center p-8">
+                        <div class="text-center text-white">
+                            <h2 class="text-3xl lg:text-4xl font-bold mb-6 leading-tight">
+                                Noflay simplifie votre quotidien
+                            </h2>
+                            <p class="text-lg opacity-90">
+                                Une plateforme innovante pour gérer vos projets en toute simplicité
+                            </p>
+                        </div>
                     </div>
-                    <div class="w-full md:w-1/2 py-10 px-5 md:px-10">
+                </div>
 
-                        <!-- FOR THE FORM -->
+                <!-- Form Section -->
+                <div class="w-full md:w-1/2 p-6 sm:p-8 lg:p-10">
+                    <div class="max-w-md mx-auto">
+                        <div class="text-center mb-8">
+                            <AuthenticationCardLogo class="mx-auto h-16 w-auto" />
+                            <h1 class="mt-4 text-2xl font-bold text-gray-900">Connectez-vous à votre compte</h1>
+                            <p class="mt-2 text-sm text-gray-600">
+                                Ou <Link :href="route('register')" class="font-medium text-principal hover:text-troisieme">créez un compte</Link>
+                            </p>
+                        </div>
 
+                        <div v-if="status" class="mb-4 text-sm font-medium text-green-600">
+                            {{ status }}
+                        </div>
 
-                        <div
-                            class="container mx-auto   max-w-sm bg-gradient-to-b from-white to-[#F4F7FB] rounded-[40px] p-6 border-4 border-white shadow-[0_30px_30px_-20px_rgba(133,189,215,0.878)]">
-                            <div class="heading text-center font-black text-[30px] text-[#1089D3]">
-                                <AuthenticationCardLogo />
+                        <form @submit.prevent="submit" class="space-y-6">
+                            <div>
+                                <InputLabel for="email" value="Email" class="sr-only" />
+                                <TextInput
+                                    id="email"
+                                    v-model="form.email"
+                                    type="email"
+                                    class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-blue-500 transition-all duration-200"
+                                    required
+                                    autofocus
+                                    autocomplete="username"
+                                    placeholder="Adresse email"
+                                />
+                                <InputError class="mt-1 text-sm text-red-600" :message="form.errors.email" />
                             </div>
 
+                            <div>
+                                <InputLabel for="password" value="Mot de passe" class="sr-only" />
+                                <TextInput
+                                    id="password"
+                                    v-model="form.password"
+                                    type="password"
+                                    class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-blue-500 transition-all duration-200"
+                                    required
+                                    autocomplete="current-password"
+                                    placeholder="Mot de passe"
+                                />
+                                <InputError class="mt-1 text-sm text-red-600" :message="form.errors.password" />
+                            </div>
 
+                            <div class="flex items-center justify-between">
+                                <label class="flex items-center">
+                                    <Checkbox v-model:checked="form.remember" name="remember" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" />
+                                    <span class="ml-2 text-sm text-gray-600">Se souvenir de moi</span>
+                                </label>
 
-
-
-
-
-
-                            <form @submit.prevent="submit" class="">
-                                <!-- <InputLabel for="email" value="Mail" /> -->
-                                <input id="email" v-model="form.email" type="email" class="w-full bg-white border-none p-4 rounded-[20px] mt-4 shadow-[0_10px_10px_-5px_#101634] border-2 border-transparent placeholder-gray-500 focus:outline-none
-         focus:border-white focus:ring focus:ring-white focus:ring-opacity-50
-        " required autofocus autocomplete="username" placeholder="Votre adresse email" />
-                                <InputError class="mt-2 text-sm text-red-500" :message="form.errors.email" />
-                                <!-- </div> -->
-
-                                <!-- Password Input -->
-                                <!-- <div class="bg-gray-100 rounded-lg p-4 mb-4"> -->
-                                <!-- <InputLabel for="password" value="Mots de passe" /> -->
-                                <input id="password" v-model="form.password" type="password" required class="w-full bg-white border-none p-4 rounded-[20px] mt-4 shadow-[0_10px_10px_-5px_#101634] border-2 border-transparent placeholder-gray-500 focus:outline-none
-         focus:border-white focus:ring focus:ring-white focus:ring-opacity-50
-        " autocomplete="current-password" placeholder="Votre mot de passe" />
-                                <InputError class="mt-2 text-sm text-red-500" :message="form.errors.password" />
-                                <!-- </div> -->
-
-                                <!-- Remember Me and Forgot Password Links -->
-                                <div class="flex items-center justify-between mt-4">
-                                    <label class="flex items-center cursor-pointer">
-                                        <Checkbox v-model:checked="form.remember" name="remember"
-                                            class="text-principal focus:ring-principal" />
-                                        <span class="ml-2 text-sm text-gray-600 hover:text-principal">Se
-                                            souvenir de
-                                            moi</span>
-                                    </label>
-
-                                    <Link v-if="canResetPassword" :href="route('password.request')"
-                                        class="text-sm text-gray-600">
+                                <Link v-if="canResetPassword" :href="route('password.request')" class="text-sm text-principal hover:text-troisieme hover:underline">
                                     Mot de passe oublié ?
-                                    </Link>
-                                </div>
+                                </Link>
+                            </div>
 
-                                <!-- Submit Button -->
-                                <div class="flex items-center justify-center">
-                                    <PrimaryButton class="
-
-
-    login-button justify-center block w-full font-bold bg-gradient-to-r from-[#eb2d53] to-[#101634] text-white py-4 mt-5 rounded-[50px] shadow-[0_20px_10px_-15px_rgba(133,189,215,0.878)] border-none transition-transform duration-200 ease-in-out transform hover:scale-105 active:scale-95
-
-    text-center bg-principal hover:bg-secondaire" :class="{ 'opacity-25': form.processing }"
-                                        :disabled="form.processing">
-                                        {{ form.processing ? 'Connexion en cours...' : 'Se connecter' }}
-                                    </PrimaryButton>
-                                </div>
-
-                                <div class="social-account-container mt-6">
-                                    <span class="title block text-center text-xs text-gray-500">Ou S inscrire
+                            <div>
+                                <PrimaryButton
+                                    class="w-full flex justify-center py-3 px-4 border border-transparent rounded-xl shadow-sm text-sm font-medium text-white bg-gradient-to-r from-red-400 to-red-500 hover:from-red-600 hover:to-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-all duration-200"
+                                    :class="{ 'opacity-50 cursor-not-allowed': form.processing }"
+                                    :disabled="form.processing"
+                                >
+                                    <span v-if="form.processing" class="flex items-center">
+                                        <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                        </svg>
+                                        Connexion en cours...
                                     </span>
-                                    <div class="social-accounts flex justify-center gap-4 mt-1">
-                                        <!-- <button class="social-button bg-gradient-to-r from-black to-gray-500 border-4 border-white p-1.5 rounded-full w-10 h-10 flex items-center justify-center shadow-[0_12px_10px_-8px_rgba(133,189,215,0.878)] transition-transform duration-200 ease-in-out transform hover:scale-120 active:scale-90">
-        <svg class="svg w-6 h-6 fill-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 488 512">
-          <path d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"></path>
-        </svg>
-      </button> -->
-                                        <!-- <div class="w-full bg-red-300 hover:border-2   hover:bg-principal   p-2 text-center rounded-lg my-9 text-white"> -->
+                                    <span v-else>
+                                        Se connecter
+                                    </span>
+                                </PrimaryButton>
+                            </div>
+                        </form>
 
-                                        <Link class="text-red-500 hover:text-principal" :href="route('register')">Cree
-                                        Un Compte</Link>
-
-                                        <!-- </div> -->
-                                    </div>
+                        <div class="mt-6">
+                            <div class="relative">
+                                <div class="absolute inset-0 flex items-center">
+                                    <div class="w-full border-t border-gray-300"></div>
                                 </div>
+                                <div class="relative flex justify-center text-sm">
+                                    <span class="px-2 bg-white text-gray-500">
+                                        Nouveau sur Noflayhub ?
+                                    </span>
+                                </div>
+                            </div>
 
-                            </form>
-
-
+                            <div class="mt-4 text-center hover:text-principal">
+                                <Link :href="route('register')" class="w-full flex justify-center py-2 px-4 border border-gray-300 rounded-xl shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-200 transition-all duration-200">
+                                    Créer un compte
+                                </Link>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </main>
 </template>
 
-
-<script>
-import { Head } from '@inertiajs/vue3';
-
-export default {
-    components: {
-        Head
-    }
-
+<style scoped>
+@media (max-width: 767px) {
+    .min-h-[90vh] {
+    min-height: calc(100vh - 80px);
 }
-
-</script>
-
-<style>
-#main {
-    max-height: 75vh;
-    margin: 0;
-    align-content: center;
-    align-items: center;
-}
-
-#pic {
-    background: url('https://cdn.pixabay.com/photo/2018/03/21/22/31/pin-up-3248548_1280.png');
-    background-size: cover;
 }
 </style>

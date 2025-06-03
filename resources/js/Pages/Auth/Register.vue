@@ -7,8 +7,7 @@ import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
-import Navbar from '@/Components/Navbar.vue'
-
+import Navbar from '@/Components/Navbar.vue';
 
 const form = useForm({
     name: '',
@@ -27,150 +26,169 @@ const submit = () => {
 </script>
 
 <template>
-
     <Head>
-        <title>S inscrire</title>
+        <title>S'inscrire - Noflay</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </Head>
+
     <header>
         <Navbar />
     </header>
 
-    <div class="main max-h-1/4">
-        <div class="min-w-screen min-h-screen bg-secondaire flex items-center justify-center px-5 py-5">
-            <div class="bg-gray-100 text-gray-500 rounded-3xl shadow-xl w-full  overflow-hidden"
-                style="max-width:1000px">
-                <div class="md:flex w-full  h-screen" id="main">
-                    <div class="hidden md:block w-1/2  bg-indigo-500 h-full" id="pic">
-
-
+    <main class="min-h-[90vh] flex items-center justify-center bg-gradient-to-br from-blue-50 to-gray-100 p-4 md:p-8">
+        <div class="w-full max-w-6xl bg-white rounded-2xl shadow-lg overflow-hidden">
+            <div class="flex flex-col md:flex-row">
+                <!-- Image Section -->
+                <div class="hidden md:block md:w-1/2 relative bg-red-600 min-h-[600px]">
+                    <div class="absolute inset-0 bg-[url('https://cdn.pixabay.com/photo/2022/04/18/04/31/house-7139392_1280.png')] bg-cover bg-center opacity-90"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-red-900/70 to-red-600/50"></div>
+                    <div class="relative h-full flex items-center justify-center p-8">
+                        <div class="text-center text-white">
+                            <h2 class="text-3xl lg:text-4xl font-bold mb-6 leading-tight">
+                                Rejoignez la communauté Noflay
+                            </h2>
+                            <p class="text-lg opacity-90">
+                                Créez votre compte en quelques secondes et découvrez toutes nos fonctionnalités
+                            </p>
+                        </div>
                     </div>
-                    <div class="w-full  md:w-1/2 py-5 px-5 md:px-10">
-                        <AuthenticationCard>
-                            <!-- <template #logo >
-        <AuthenticationCardLogo  />
-    </template> -->
-                            <Link :href="'/'">
-                            <!-- <span>  </span> -->
-                            <router-link to="/publier" class="text-2xl text-principal"></router-link>
-                            <img class="w-2/4 mx-auto lg:mx-auto  mx-auto lg:mx-0  p-1"
-                                :src="'/storage/slide/NoflayHub.png'" alt="Image logo">
+                </div>
 
-                            </Link>
-                            <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
-                                {{ status }}
+                <!-- Form Section -->
+                <div class="w-full md:w-1/2 p-6 sm:p-8 lg:p-10">
+                    <div class="max-w-md mx-auto">
+                        <div class="text-center mb-8">
+                            <img class="w-48 mx-auto" src="/storage/slide/NoflayHub.png" alt="Logo Noflay">
+                            <h1 class="mt-4 text-2xl font-bold text-gray-900">Créez votre compte</h1>
+                            <p class="mt-2 text-sm text-gray-600">
+                                Déjà membre ? <Link :href="route('login')" class="font-medium text-red-400 hover:text-troisieme">Connectez-vous</Link>
+                            </p>
+                        </div>
+
+                        <div v-if="status" class="mb-4 text-sm font-medium text-green-600">
+                            {{ status }}
+                        </div>
+
+                        <form @submit.prevent="submit" class="space-y-4">
+                            <div>
+                                <InputLabel for="name" value="Nom complet" class="sr-only" />
+                                <TextInput
+                                    id="name"
+                                    v-model="form.name"
+                                    type="text"
+                                    class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-blue-500 transition-all duration-200"
+                                    required
+                                    autofocus
+                                    autocomplete="name"
+                                    placeholder="Nom complet"
+                                />
+                                <InputError class="mt-1 text-sm text-red-600" :message="form.errors.name" />
                             </div>
 
-                            <form @submit.prevent="submit">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div>
-                                    <!-- <input for="name" value="Nom" /> -->
-                                    <input id="name" v-model="form.name" type="text" class="w-full  bg-white border-none p-4 rounded-[20px] mt-4 shadow-[0_10px_10px_-5px_#101634] border-2 border-transparent placeholder-gray-500 focus:outline-none
-         focus:border-white focus:ring focus:ring-white focus:ring-opacity-50
-        " required autofocus placeholder="Votre Nom" autocomplete="name" />
-                                    <InputError class="mt-2" :message="form.errors.name" />
-                                </div>
-                                <!-- Phone -->
-                                <div class="lg:grid grid-cols-7 gap-2">
-
-                                    <div class="col-span-3 ">
-                                        <!-- <InputLabel for="phone" value="Telephone" /> -->
-                                        <input id="phone" v-model="form.phone" type="number" class="w-full   bg-white border-none p-4 rounded-[20px] mt-4 shadow-[0_10px_10px_-5px_#101634] border-2 border-transparent placeholder-gray-500 focus:outline-none
-         focus:border-white focus:ring focus:ring-white focus:ring-opacity-50
-        " placeholder="Votre Telephone" required autofocus autocomplete="phone" />
-                                        <InputError class="mt-2" :message="form.errors.phone" />
-                                    </div>
-
-                                    <div class="col-span-4">
-                                        <!-- <InputLabel for="email" value="Email" /> -->
-                                        <input id="email" v-model="form.email" type="email" class="w-full  bg-white border-none p-4 rounded-[20px] mt-4 shadow-[0_10px_10px_-5px_#101634] border-2 border-transparent placeholder-gray-500 focus:outline-none
-         focus:border-white focus:ring focus:ring-white focus:ring-opacity-50
-        " required placeholder="Votre Mail" autocomplete="username" />
-                                        <InputError class="mt-2" :message="form.errors.email" />
-                                    </div>
-
+                                    <InputLabel for="phone" value="Téléphone" class="sr-only" />
+                                    <TextInput
+                                        id="phone"
+                                        v-model="form.phone"
+                                        type="tel"
+                                        class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-blue-500 transition-all duration-200"
+                                        required
+                                        autocomplete="tel"
+                                        placeholder="Téléphone"
+                                    />
+                                    <InputError class="mt-1 text-sm text-red-600" :message="form.errors.phone" />
                                 </div>
 
-                                <div class="mt-4">
-                                    <!-- <InputLabel for="password" value="Mots de Passe" /> -->
-                                    <input id="password" v-model="form.password" type="password" class="w-full  bg-white border-none p-4 rounded-[20px] mt-4 shadow-[0_10px_10px_-5px_#101634] border-2 border-transparent placeholder-gray-500 focus:outline-none
-         focus:border-white focus:ring focus:ring-white focus:ring-opacity-50
-        " required placeholder="Votre Mots de passe" autocomplete="new-password" />
-                                    <InputError class="mt-2" :message="form.errors.password" />
+                                <div>
+                                    <InputLabel for="email" value="Email" class="sr-only" />
+                                    <TextInput
+                                        id="email"
+                                        v-model="form.email"
+                                        type="email"
+                                        class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-blue-500 transition-all duration-200"
+                                        required
+                                        autocomplete="email"
+                                        placeholder="Email"
+                                    />
+                                    <InputError class="mt-1 text-sm text-red-600" :message="form.errors.email" />
                                 </div>
+                            </div>
 
-                                <div class="mt-4">
-                                    <!-- <InputLabel for="password_confirmation" value="Confirmation de Mots de passe" /> -->
-                                    <input id="password_confirmation" v-model="form.password_confirmation"
-                                        type="password" class="w-full  bg-white border-none p-4 rounded-[20px] mt-4 shadow-[0_10px_10px_-5px_#101634] border-2 border-transparent placeholder-gray-500 focus:outline-none
-         focus:border-white focus:ring focus:ring-white focus:ring-opacity-50
-        " required placeholder="Entrez a Nouveau" autocomplete="new-password" />
-                                    <InputError class="mt-2" :message="form.errors.password_confirmation" />
-                                </div>
+                            <div>
+                                <InputLabel for="password" value="Mot de passe" class="sr-only" />
+                                <TextInput
+                                    id="password"
+                                    v-model="form.password"
+                                    type="password"
+                                    class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-blue-500 transition-all duration-200"
+                                    required
+                                    autocomplete="new-password"
+                                    placeholder="Mot de passe"
+                                />
+                                <InputError class="mt-1 text-sm text-red-600" :message="form.errors.password" />
+                            </div>
 
-                                <div v-if="$page.props.jetstream.hasTermsAndPrivacyPolicyFeature" class="mt-4">
-                                    <InputLabel for="terms">
-                                        <div class="flex items-center">
-                                            <Checkbox id="terms" v-model:checked="form.terms" name="terms" required />
+                            <div>
+                                <InputLabel for="password_confirmation" value="Confirmation" class="sr-only" />
+                                <TextInput
+                                    id="password_confirmation"
+                                    v-model="form.password_confirmation"
+                                    type="password"
+                                    class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-blue-500 transition-all duration-200"
+                                    required
+                                    autocomplete="new-password"
+                                    placeholder="Confirmez le mot de passe"
+                                />
+                                <InputError class="mt-1 text-sm text-red-600" :message="form.errors.password_confirmation" />
+                            </div>
 
-                                            <div class="ml-2">
-                                                I agree to the <a target="_blank" :href="route('terms.show')"
-                                                    class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Terms
-                                                    of Service</a> and <a target="_blank" :href="route('policy.show')"
-                                                    class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Privacy
-                                                    Policy</a>
-                                            </div>
-                                        </div>
-                                        <InputError class="mt-2" :message="form.errors.terms" />
-                                    </InputLabel>
-                                </div>
+                            <div v-if="$page.props.jetstream.hasTermsAndPrivacyPolicyFeature" class="mt-4">
+                                <label class="flex items-start">
+                                    <Checkbox
+                                        id="terms"
+                                        v-model:checked="form.terms"
+                                        name="terms"
+                                        class="h-4 w-4 text-red-400 focus:ring-blue-500 border-gray-300 rounded mt-1"
+                                        required
+                                    />
+                                    <span class="ml-2 text-sm text-gray-600">
+                                        J'accepte les <a :href="route('terms.show')" target="_blank" class="text-red-400 hover:text-red-500 hover:underline">Conditions d'utilisation</a> et la <a :href="route('policy.show')" target="_blank" class="text-red-400 hover:text-blue-500 hover:underline">Politique de confidentialité</a>
+                                    </span>
+                                </label>
+                                <InputError class="mt-1 text-sm text-red-600" :message="form.errors.terms" />
+                            </div>
 
-                                <div class="text-center">
-
-
-
-                                    <div class="w-full ">
-
-                                        <PrimaryButton class=" login-button justify-center block w-full  font-bold bg-gradient-to-r from-[#eb2d53] to-[#101634] text-white py-4 mt-5 rounded-[50px] shadow-[0_20px_10px_-15px_rgba(133,189,215,0.878)] border-none transition-transform duration-200 ease-in-out transform hover:scale-105 active:scale-95
-
-    text-center bg-principal hover:bg-secondaire" :class="{ 'opacity-25': form.processing }"
-                                            :disabled="form.processing">
-                                            S inscrire
-                                        </PrimaryButton>
-                                    </div>
-                                    <div class="mt-2">
-                                        <Link :href="route('login')"
-                                            class=" text-sm text-gray-600  hover:text-principal rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                        Deja un Compte ? <span class="text-principal hover:underline"> Se
-                                            connecter</span>
-                                        </Link>
-                                    </div>
-
-
-
-                                </div>
-                            </form>
-                        </AuthenticationCard>
+                            <div class="pt-2">
+                                <PrimaryButton
+                                    class="w-full flex justify-center py-3 px-4 border border-transparent rounded-xl shadow-sm text-sm font-medium text-white bg-gradient-to-r from-red-400 to-red-500 hover:from-red-500 hover:to-principal focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-secondaire transition-all duration-200"
+                                    :class="{ 'opacity-50 cursor-not-allowed': form.processing }"
+                                    :disabled="form.processing"
+                                >
+                                    <span v-if="form.processing" class="flex items-center">
+                                        <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                        </svg>
+                                        Création en cours...
+                                    </span>
+                                    <span v-else>
+                                        S'inscrire
+                                    </span>
+                                </PrimaryButton>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </main>
 </template>
 
-<style>
-#pic {
-    background: url('https://cdn.pixabay.com/photo/2018/03/21/22/31/pin-up-3248548_1280.png');
-    background-size: cover;
+<style scoped>
+@media (max-width: 767px) {
+    .min-h-[90vh] {
+    min-height: calc(100vh - 80px);
+}
 }
 </style>
-
-<script>
-import { Head } from '@inertiajs/vue3';
-
-export default {
-    components: {
-        Head
-    }
-
-}
-
-</script>
