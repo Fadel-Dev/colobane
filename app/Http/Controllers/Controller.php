@@ -58,8 +58,13 @@ class Controller extends BaseController
     $villas=Immobiliers::where('type','Villa')->get();
     $villasBoost =Immobiliers::where('type','Villa')->get();
     // For Immeuble
-    $immeubles=Immobiliers::where('type','Immeuble')->get();
-    $immeublesBoost =Immobiliers::where('type','Immeuble')->get();
+    $immeubles = Immobiliers::where('type','Immeuble')
+        ->orderBy('created_at', 'desc')
+        ->paginate(12);
+    $immeublesBoost = Immobiliers::where('type','Immeuble')
+        ->where('status', 'accepter')
+        ->orderBy('created_at', 'desc')
+        ->paginate(12);
      // ForTerrain
     $terrains = Immobiliers::where('type','Terrain')->orderBy('created_at', 'desc')->paginate(12);
     $terrainsBoost = Immobiliers::where([

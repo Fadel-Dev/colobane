@@ -1,24 +1,60 @@
-<script setup>
-
+<script>
 import Action from "../BoutCode/Action.vue";
+import { ref, computed } from 'vue';
+import { router } from '@inertiajs/vue3';
 
-const props = defineProps({
-    voitures: Object,
-    voituresBoost: Object,
-    immobilliersBoost: Object,
-    maisons: Object,
-    canLogin: Boolean,
-    canRegister: Boolean,
-    laravelVersion: String,
-    phpVersion: String,
-    maison: Object,
-    chambres: Object,
-    chambresBoost: Object,
-    immeubles: Object,
-    immeublesBoost: Object,
-});
-
-
+export default {
+    components: {
+        Action
+    },
+    props: {
+        immeubles: {
+            type: Object,
+            required: true
+        },
+        immeublesBoost: {
+            type: Object,
+            required: true
+        },
+    },
+    setup(props) {
+        const selectedRegion = ref('Toutes les régions');
+        
+        // Liste des régions disponibles (à adapter selon tes besoins)
+        const regions = computed(() => {
+            const allRegions = props.immeubles.data.map(immeuble => immeuble.region);
+            return ['Toutes les régions', ...new Set(allRegions)].filter(Boolean);
+        });
+        
+        // Filtrage des immeubles par région
+        const filteredImmeubles = computed(() => {
+            if (selectedRegion.value === 'Toutes les régions') {
+                return props.immeubles.data;
+            }
+            return props.immeubles.data.filter(immeuble => immeuble.region === selectedRegion.value);
+        });
+        
+        // Navigation vers les détails
+        const navigateToDetail = (id) => {
+            router.visit(`/detail/${id}`);
+        };
+        
+        // Navigation entre les pages
+        const goToPage = (url) => {
+            if (url) {
+                router.visit(url, { preserveScroll: true });
+            }
+        };
+        
+        return {
+            selectedRegion,
+            regions,
+            filteredImmeubles,
+            navigateToDetail,
+            goToPage
+        };
+    }
+};
 </script>
 
 <template>
@@ -62,15 +98,26 @@ const props = defineProps({
         <!-- Section annonces -->
         <section class="py-8" id="transparent">
             <div class="mx-auto max-w-screen-xl px-4">
-                <div class="text-center mb-12 relative">
+                <div class="mx-auto max-w-md text-center mb-12 relative">
                     <h2 class="text-3xl font-bold text-secondaire inline-flex items-center">
                         <i class="fas fa-building mr-3 text-principal"></i>
-                        Derniers Immeubles au Sénégal
+                        Immeubles au Sénégal
                     </h2>
                     <div class="w-24 h-1 bg-gradient-to-r from-principal to-secondaire mx-auto mt-4 rounded-full"></div>
                 </div>
+                
+                <!-- Filtre par région -->
+                <div class="region-filter mb-6 flex justify-end">
+                    <label for="region" class="mr-2 font-semibold text-secondaire">Filtrer par région :</label>
+                    <select v-model="selectedRegion" id="region" class="border rounded px-2 py-1">
+                        <option v-for="region in regions" :key="region" :value="region">
+                            {{ region }}
+                        </option>
+                    </select>
+                </div>
+                
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <article v-for="immeuble in immeubles" :key="immeuble.id" @click="navigateToDetail(immeuble.id)"
+                    <article v-for="immeuble in filteredImmeubles" :key="immeuble.id" @click="navigateToDetail(immeuble.id)"
                         class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition duration-300 h-full flex flex-col cursor-pointer">
                         <div class="relative">
                             <img :src="'/storage/' + immeuble.image1" :alt="immeuble.imageAlt || 'Image de l\'immeuble'"
@@ -115,32 +162,20 @@ const props = defineProps({
                         </div>
                     </article>
                 </div>
+                
+                <!-- Pagination -->
+                <div v-if="immeubles.links && immeubles.links.length > 1" class="flex justify-center mt-8 space-x-2">
+                    <button 
+                        v-for="link in immeubles.links" 
+                        :key="link.label"
+                        :disabled="!link.url"
+                        @click.prevent="goToPage(link.url)"
+                        v-html="link.label"
+                        class="px-3 py-1 rounded border text-principal hover:bg-principal hover:text-white transition disabled:opacity-50 disabled:cursor-not-allowed"
+                        :class="{'bg-principal text-white': link.active}">
+                    </button>
+                </div>
             </div>
         </section>
     </div>
 </template>
-
-
-
-
-
-
-<script>
-export default {
-    props: {
-        immeubles: {
-            type: Object,
-            required: true,
-        },
-        immeublesBoost: {
-            type: Object,
-            required: true,
-        },
-    },
-    methods: {
-        navigateToDetail(id) {
-            this.$inertia.visit(`/detail/${id}`);
-        },
-    },
-}
-</script>
