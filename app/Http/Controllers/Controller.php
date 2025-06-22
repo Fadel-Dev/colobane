@@ -89,6 +89,15 @@ class Controller extends BaseController
         ->orderBy('created_at', 'desc')
         ->paginate(12);
 
+    // For Studio
+    $studios = Immobiliers::where('type', 'studio')
+        ->orderBy('created_at', 'desc')
+        ->paginate(12);
+    $studiosBoost = Immobiliers::where('type', 'studio')
+        ->where('status', 'accepter')
+        ->orderBy('created_at', 'desc')
+        ->paginate(12);
+
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
@@ -108,8 +117,10 @@ class Controller extends BaseController
         'terrainsBoost' => $terrainsBoost,
         'appartements' => $appartements,
         'appartementsBoost' => $appartementsBoost,
-        'vergers'=>$vergers,
-        'vergersBoost'=>$vergersBoost
+        'studios' => $studios,
+        'studiosBoost' => $studiosBoost,
+        'vergers' => $vergers,
+        'vergersBoost' => $vergersBoost
     ]);
 }
 
