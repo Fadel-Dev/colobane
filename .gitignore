@@ -2,6 +2,9 @@
 /node_modules
 /public/hot
 # /public/storage
+/storage/logs/laravel.log
+/storage/logs/*.log
+
 /storage/*.key
 !/storage/logs
 
