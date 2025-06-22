@@ -41,11 +41,10 @@ class Controller extends BaseController
         //For chambre
 
     // Récupérer les enregistrements mis à jour
-    $voitures = Voitures::orderBy('created_at', 'desc')->paginate(99999999);
-    $voituresBoost = Voitures::where('status', 'accepter')->paginate(99999999);
-    $immobilliersBoost = Immobiliers::where('status', 'accepter')->paginate(99999999);
-
-    $maisons = Immobiliers::orderBy('created_at', 'desc')->paginate(9999999);
+    $voitures = Voitures::orderBy('created_at', 'desc')->paginate(12);
+    $voituresBoost = Voitures::where('status', 'accepter')->paginate(12);
+    $immobilliersBoost = Immobiliers::where('status', 'accepter')->paginate(12);
+    $maisons = Immobiliers::orderBy('created_at', 'desc')->paginate(12);
 
 // FOR CHAMBRE
     $chambres=Immobiliers::where('type','Chambre')->get();
@@ -57,8 +56,11 @@ class Controller extends BaseController
     $immeubles=Immobiliers::where('type','Immeuble')->get();
     $immeublesBoost =Immobiliers::where('type','Immeuble')->get();
      // ForTerrain
-    $terrains=Immobiliers::where('type','Terrain')->get();
-    $terrainsBoost =Immobiliers::where('type','Terrain')->get();
+    $terrains = Immobiliers::where('type','Terrain')->orderBy('created_at', 'desc')->paginate(12);
+    $terrainsBoost = Immobiliers::where([
+        'type' => 'Terrain',
+        'status' => 'accepter'
+    ])->orderBy('created_at', 'desc')->paginate(12);
      // For Verger
     $vergers=Immobiliers::where('type','Verger')->get();
     $vergersBoost =Immobiliers::where('type','Verger')->get();
@@ -119,7 +121,7 @@ class Controller extends BaseController
         // Requête pour obtenir d'autres produits avec la même marque
         $suggestions = Immobiliers::where('type', $typeImmo)
             ->where('id', '!=', $id) // Exclure le produit actuel
-            ->limit(4) // Limiter le nombre de suggestions à 5
+            ->limit(12) // Limiter le nombre de suggestions à 5
             ->get();
 
         // $user = User::findOrFail($id);
@@ -177,7 +179,7 @@ class Controller extends BaseController
         // Requête pour obtenir d'autres produits avec la même marque
         $suggestions = Voitures::where('marque', $marqueVoiture)
             ->where('id', '!=', $id) // Exclure le produit actuel
-            ->limit(4) // Limiter le nombre de suggestions à 5
+            ->limit(12) // Limiter le nombre de suggestions à 5
             ->get();
 
         $nomUtilisateur = DB::table('users')
@@ -229,7 +231,7 @@ class Controller extends BaseController
         // Requête pour obtenir d'autres produits avec la même marque
         $suggestions = Voitures::where('marque', $marqueVoiture)
             ->where('id', '!=', $id) // Exclure le produit actuel
-            ->limit(4) // Limiter le nombre de suggestions à 5
+            ->limit(12) // Limiter le nombre de suggestions à 5
             ->get();
 
         $nomUtilisateur = DB::table('users')

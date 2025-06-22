@@ -13,7 +13,8 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // \App\Models\User::factory(10)->create();
-        \App\Models\Immobiliers::factory(2)->create();
+        // enregistrer 100 record immobiliers
+        \App\Models\Immobiliers::factory(5000)->create();
         \App\Models\Voitures::factory(2)->create();
 
         // \App\Models\User::factory()->create([

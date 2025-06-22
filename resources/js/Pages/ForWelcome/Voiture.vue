@@ -77,8 +77,9 @@ const props = defineProps({
                         </option>
                     </select>
                 </div>
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <article v-for="voiture in filteredVoitures" :key="voiture.id" @click="navigateToDetailVehi(voiture.id)"
+                <div class="mt-10 grid grid-cols-2 gap-6 sm:grid-cols-4 sm:gap-4 lg:mt-16">
+                    <article v-for="voiture in filteredVoitures" :key="voiture.id"
+                        @click="navigateToDetailVehi(voiture.id)"
                         class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition duration-300 h-full flex flex-col cursor-pointer">
                         <div class="relative">
                             <img :src="'/storage/' + voiture.image1" :alt="voiture.imageAlt || 'Image du véhicule'"
@@ -125,6 +126,15 @@ const props = defineProps({
                             </div>
                         </div>
                     </article>
+                </div>
+                <!-- Pagination -->
+                <div v-if="voitures.links && voitures.links.length > 1" class="flex justify-center mt-8 space-x-2">
+                    <button v-for="link in voitures.links" :key="link.label"
+                        :disabled="!link.url"
+                        @click.prevent="goToPage(link.url)"
+                        v-html="link.label"
+                        class="px-3 py-1 rounded border text-principal hover:bg-principal hover:text-white transition disabled:opacity-50 disabled:cursor-not-allowed"
+                        :class="{'bg-principal text-white': link.active}"></button>
                 </div>
             </div>
         </section>
@@ -183,6 +193,11 @@ export default {
     methods: {
         navigateToDetailVehi(id) {
             this.$inertia.visit(`/detailVehi/${id}`);
+        },
+        goToPage(url) {
+            if (url) {
+                this.$inertia.visit(url, { preserveScroll: true });
+            }
         },
     },
 }
