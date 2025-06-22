@@ -72,8 +72,13 @@ class Controller extends BaseController
         'status' => 'accepter'
     ])->orderBy('created_at', 'desc')->paginate(12);
      // For Verger
-    $vergers=Immobiliers::where('type','Verger')->get();
-    $vergersBoost =Immobiliers::where('type','Verger')->get();
+    $vergers = Immobiliers::where('type','Verger')
+        ->orderBy('created_at', 'desc')
+        ->paginate(12);
+    $vergersBoost = Immobiliers::where('type','Verger')
+        ->where('status', 'accepter')
+        ->orderBy('created_at', 'desc')
+        ->paginate(12);
 
 
     return Inertia::render('Welcome', [
