@@ -47,8 +47,13 @@ class Controller extends BaseController
     $maisons = Immobiliers::orderBy('created_at', 'desc')->paginate(12);
 
 // FOR CHAMBRE
-    $chambres=Immobiliers::where('type','Chambre')->get();
-    $chambresBoost =Immobiliers::where('type','Chambre')->get();
+    $chambres = Immobiliers::where('type','Chambre')
+        ->orderBy('created_at', 'desc')
+        ->paginate(12);
+    $chambresBoost = Immobiliers::where('type','Chambre')
+        ->where('status', 'accepter')
+        ->orderBy('created_at', 'desc')
+        ->paginate(12);
     // FOR Villa
     $villas=Immobiliers::where('type','Villa')->get();
     $villasBoost =Immobiliers::where('type','Villa')->get();
