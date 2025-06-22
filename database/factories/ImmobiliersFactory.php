@@ -25,7 +25,7 @@ class ImmobiliersFactory extends Factory
             'date_fin_booster' =>$this->faker->date($format = 'Y-m-d', $max = 'now'),
                     //    'booster' => $this->faker->randomElement([0,0]),
             'vendu' => 0,
-            'type' =>$this->faker->randomElement(['ferme', 'terrain', 'verger','chambre','immeuble','villa']),
+            'type' =>$this->faker->randomElement(['ferme', 'terrain', 'verger','chambre','immeuble','villa','appartement']),
             'nom' => $this->faker->words(3, true),
             'description' => $this->faker->paragraphs(1, true),
             'prix' => $this->faker->numberBetween(100000, 10000000),

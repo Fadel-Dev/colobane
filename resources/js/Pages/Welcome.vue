@@ -209,6 +209,9 @@
                     <div v-else-if="activeTab == 'Verger'" class="bg-transparent">
                         <Verger :vergers="vergers" :vergersBoost="vergersBoost" />
                     </div>
+                    <div v-else-if="activeTab == 'Appartement'" class="bg-transparent">
+                        <Appartement :appartements="appartements" :appartements-boost="appartementsBoost" />
+                    </div>
                 </div>
             </div>
         </div>
@@ -313,6 +316,8 @@ const props = defineProps({
     terrainsBoost: Object,
     vergers: Object,
     vergersBoost: Object,
+    appartements: Object,
+    appartementsBoost: Object,
 });
 
 let items = [
@@ -371,6 +376,7 @@ import Villa from './ForWelcome/Villa.vue';
 import Immeuble from './ForWelcome/Immeuble.vue';
 import Terrain from './ForWelcome/Terrain.vue';
 import Verger from './ForWelcome/Verger.vue';
+import Appartement from './ForWelcome/Appartement.vue';
 import Footer from '../Components/Footer.vue';
 import Navbar from '../Components/Navbar.vue';
 
