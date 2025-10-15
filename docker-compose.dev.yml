@@ -1,0 +1,51 @@
+# Configuration pour le développement
+# Utiliser avec: docker-compose -f docker-compose.yml -f docker-compose.dev.yml up
+
+services:
+  app:
+    volumes:
+      # Montage du code source pour le hot reload
+      - ./:/var/www/html
+      # Exclure node_modules et vendor pour de meilleures performances
+      - /var/www/html/node_modules
+      - /var/www/html/vendor
+    environment:
+      - APP_ENV=local
+      - APP_DEBUG=true
+      - LOG_LEVEL=debug
+    ports:
+      - "8001:80"
+      - "9000:9000"  # PHP-FPM pour le debug
+
+  mysql:
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: colobane
+      MYSQL_USER: colobane_user
+      MYSQL_PASSWORD: colobane_password
+
+  redis:
+    ports:
+      - "6380:6379"
+
+  # Service de développement pour les assets
+  node:
+    image: node:18-alpine
+    container_name: colobane_node
+    working_dir: /var/www/html
+    volumes:
+      - ./:/var/www/html
+      - /var/www/html/node_modules
+    command: sh -c "npm install && npm run dev"
+    ports:
+      - "5173:5173"  # Vite dev server
+    depends_on:
+      - app
+    networks:
+      - colobane_network
+
+networks:
+  colobane_network:
+    driver: bridge

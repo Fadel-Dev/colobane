@@ -1,0 +1,110 @@
+services:
+  # Base de données MySQL
+  mysql:
+    image: mysql:8.0
+    container_name: colobane_mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: colobane
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_USER: colobane_user
+      MYSQL_PASSWORD: colobane_password
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./docker/mysql/init:/docker-entrypoint-initdb.d
+    networks:
+      - colobane_network
+
+  # Application Laravel
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: colobane_app
+    restart: unless-stopped
+    ports:
+      - "8001:80"
+    volumes:
+      - ./:/var/www/html
+      - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
+    environment:
+      - APP_ENV=production
+      - APP_DEBUG=false
+      - DB_CONNECTION=mysql
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_DATABASE=colobane
+      - DB_USERNAME=colobane_user
+      - DB_PASSWORD=colobane_password
+    depends_on:
+      - mysql
+    networks:
+      - colobane_network
+
+  # Redis pour le cache et les sessions
+  redis:
+    image: redis:7-alpine
+    container_name: colobane_redis
+    restart: unless-stopped
+    ports:
+      - "6380:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - colobane_network
+
+  # Nginx (optionnel, pour la production) - Désactivé car Apache est déjà dans le conteneur app
+  # nginx:
+  #   image: nginx:alpine
+  #   container_name: colobane_nginx
+  #   restart: unless-stopped
+  #   ports:
+  #     - "80:80"
+  #     - "443:443"
+  #   volumes:
+  #     - ./:/var/www/html
+  #     - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+  #     - ./docker/nginx/ssl:/etc/nginx/ssl
+  #   depends_on:
+  #     - app
+  #   networks:
+  #     - colobane_network
+
+  # Mailhog pour le développement (simulation SMTP)
+  mailhog:
+    image: mailhog/mailhog
+    container_name: colobane_mailhog
+    restart: unless-stopped
+    ports:
+      - "1025:1025"  # SMTP
+      - "8025:8025"  # Interface web
+    networks:
+      - colobane_network
+
+  # phpMyAdmin pour la gestion de la base de données
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: colobane_phpmyadmin
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    environment:
+      PMA_HOST: mysql
+      PMA_USER: root
+      PMA_PASSWORD: root_password
+    depends_on:
+      - mysql
+    networks:
+      - colobane_network
+
+volumes:
+  mysql_data:
+    driver: local
+  redis_data:
+    driver: local
+
+networks:
+  colobane_network:
+    driver: bridge
