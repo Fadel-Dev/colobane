@@ -5,6 +5,7 @@ namespace Laravel\Fortify\Actions;
 use Illuminate\Validation\ValidationException;
 use Laravel\Fortify\Contracts\TwoFactorAuthenticationProvider;
 use Laravel\Fortify\Events\TwoFactorAuthenticationConfirmed;
+use Laravel\Fortify\Fortify;
 
 class ConfirmTwoFactorAuthentication
 {
@@ -37,7 +38,7 @@ class ConfirmTwoFactorAuthentication
     {
         if (empty($user->two_factor_secret) ||
             empty($code) ||
-            ! $this->provider->verify(decrypt($user->two_factor_secret), $code)) {
+            ! $this->provider->verify(Fortify::currentEncrypter()->decrypt($user->two_factor_secret), $code)) {
             throw ValidationException::withMessages([
                 'code' => [__('The provided two factor authentication code was invalid.')],
             ])->errorBag('confirmTwoFactorAuthentication');

@@ -17,6 +17,7 @@ use function implode;
 use function ini_get;
 use function ini_set;
 use function is_array;
+use function is_bool;
 use function is_float;
 use function is_object;
 use function is_resource;
@@ -34,17 +35,6 @@ use SebastianBergmann\RecursionContext\Context;
 use SplObjectStorage;
 use UnitEnum;
 
-/**
- * A nifty utility for visualizing PHP variables.
- *
- * <code>
- * <?php
- * use SebastianBergmann\Exporter\Exporter;
- *
- * $exporter = new Exporter;
- * print $exporter->export(new Exception);
- * </code>
- */
 final class Exporter
 {
     /**
@@ -65,7 +55,7 @@ final class Exporter
         return $this->recursiveExport($value, $indentation);
     }
 
-    public function shortenedRecursiveExport(array &$data, Context $context = null): string
+    public function shortenedRecursiveExport(array &$data, ?Context $context = null): string
     {
         $result   = [];
         $exporter = new self;
@@ -84,10 +74,7 @@ final class Exporter
                 if ($context->contains($data[$key]) !== false) {
                     $result[] = '*RECURSION*';
                 } else {
-                    $result[] = sprintf(
-                        'array(%s)',
-                        $this->shortenedRecursiveExport($data[$key], $context)
-                    );
+                    $result[] = sprintf('[%s]', $this->shortenedRecursiveExport($data[$key], $context));
                 }
             } else {
                 $result[] = $exporter->shortenedExport($value);
@@ -123,7 +110,7 @@ final class Exporter
                 '%s Enum (%s, %s)',
                 $value::class,
                 $value->name,
-                $this->export($value->value)
+                $this->export($value->value),
             );
         }
 
@@ -131,7 +118,7 @@ final class Exporter
             return sprintf(
                 '%s Enum (%s)',
                 $value::class,
-                $value->name
+                $value->name,
             );
         }
 
@@ -139,14 +126,14 @@ final class Exporter
             return sprintf(
                 '%s Object (%s)',
                 $value::class,
-                count($this->toArray($value)) > 0 ? '...' : ''
+                count($this->toArray($value)) > 0 ? '...' : '',
             );
         }
 
         if (is_array($value)) {
             return sprintf(
-                'Array (%s)',
-                count($value) > 0 ? '...' : ''
+                '[%s]',
+                count($value) > 0 ? '...' : '',
             );
         }
 
@@ -174,10 +161,10 @@ final class Exporter
             }
 
             // properties are transformed to keys in the following way:
-            // private   $property => "\0Classname\0property"
-            // protected $property => "\0*\0property"
-            // public    $property => "property"
-            if (preg_match('/^\0.+\0(.+)$/', (string) $key, $matches)) {
+            // private   $propertyName => "\0ClassName\0propertyName"
+            // protected $propertyName => "\0*\0propertyName"
+            // public    $propertyName => "propertyName"
+            if (preg_match('/\0.+\0(.+)/', (string) $key, $matches)) {
                 $key = $matches[1];
             }
 
@@ -189,7 +176,7 @@ final class Exporter
             $array[$key] = $val;
         }
 
-        // Some internal classes like SplObjectStorage don't work with the
+        // Some internal classes like SplObjectStorage do not work with the
         // above (fast) mechanism nor with reflection in Zend.
         // Format the output similarly to print_r() in this case
         if ($value instanceof SplObjectStorage) {
@@ -199,26 +186,21 @@ final class Exporter
                     'inf' => $value->getInfo(),
                 ];
             }
+
+            $value->rewind();
         }
 
         return $array;
     }
 
-    /**
-     * Recursive implementation of export.
-     */
     private function recursiveExport(mixed &$value, int $indentation, ?Context $processed = null): string
     {
         if ($value === null) {
             return 'null';
         }
 
-        if ($value === true) {
-            return 'true';
-        }
-
-        if ($value === false) {
-            return 'false';
+        if (is_bool($value)) {
+            return $value ? 'true' : 'false';
         }
 
         if (is_float($value)) {
@@ -226,17 +208,15 @@ final class Exporter
 
             ini_set('precision', '-1');
 
-            try {
-                $valueStr = (string) $value;
+            $valueAsString = @(string) $value;
 
-                if ((string) (int) $value === $valueStr) {
-                    return $valueStr . '.0';
-                }
+            ini_set('precision', $precisionBackup);
 
-                return $valueStr;
-            } finally {
-                ini_set('precision', $precisionBackup);
+            if ((string) @(int) $value === $valueAsString) {
+                return $valueAsString . '.0';
             }
+
+            return $valueAsString;
         }
 
         if (gettype($value) === 'resource (closed)') {
@@ -246,8 +226,8 @@ final class Exporter
         if (is_resource($value)) {
             return sprintf(
                 'resource(%d) of type (%s)',
-                $value,
-                get_resource_type($value)
+                (int) $value,
+                get_resource_type($value),
             );
         }
 
@@ -257,7 +237,7 @@ final class Exporter
                 $value::class,
                 spl_object_id($value),
                 $value->name,
-                $this->export($value->value, $indentation)
+                $this->export($value->value, $indentation),
             );
         }
 
@@ -266,12 +246,12 @@ final class Exporter
                 '%s Enum #%d (%s)',
                 $value::class,
                 spl_object_id($value),
-                $value->name
+                $value->name,
             );
         }
 
         if (is_string($value)) {
-            // Match for most non printable chars somewhat taking multibyte chars into account
+            // Match for most non-printable chars somewhat taking multibyte chars into account
             if (preg_match('/[^\x09-\x0d\x1b\x20-\xff]/', $value)) {
                 return 'Binary String: 0x' . bin2hex($value);
             }
@@ -283,8 +263,8 @@ final class Exporter
                 str_replace(
                     ["\r\n", "\n\r", "\r", "\n"],
                     ['\r\n<lf>', '\n\r<lf>', '\r<lf>', '\n<lf>'],
-                    $value
-                )
+                    $value,
+                ),
             ) .
             "'";
         }
@@ -306,25 +286,26 @@ final class Exporter
 
             if (count($array) > 0) {
                 foreach ($array as $k => $v) {
-                    $values .= sprintf(
-                        '%s    %s => %s' . "\n",
-                        $whitespace,
-                        $this->recursiveExport($k, $indentation),
+                    $values .=
+                        $whitespace
+                        . '    ' .
+                        $this->recursiveExport($k, $indentation)
+                        . ' => ' .
                         $this->recursiveExport($value[$k], $indentation + 1, $processed)
-                    );
+                        . ",\n";
                 }
 
                 $values = "\n" . $values . $whitespace;
             }
 
-            return sprintf('Array &%s (%s)', $key, $values);
+            return 'Array &' . (string) $key . ' [' . $values . ']';
         }
 
         if (is_object($value)) {
             $class = $value::class;
 
-            if ($processed->contains($value)) {
-                return sprintf('%s Object #%d', $class, spl_object_id($value));
+            if ($processed->contains($value) !== false) {
+                return $class . ' Object #' . spl_object_id($value);
             }
 
             $processed->add($value);
@@ -333,18 +314,19 @@ final class Exporter
 
             if (count($array) > 0) {
                 foreach ($array as $k => $v) {
-                    $values .= sprintf(
-                        '%s    %s => %s' . "\n",
-                        $whitespace,
-                        $this->recursiveExport($k, $indentation),
+                    $values .=
+                        $whitespace
+                        . '    ' .
+                        $this->recursiveExport($k, $indentation)
+                        . ' => ' .
                         $this->recursiveExport($v, $indentation + 1, $processed)
-                    );
+                        . ",\n";
                 }
 
                 $values = "\n" . $values . $whitespace;
             }
 
-            return sprintf('%s Object #%d (%s)', $class, spl_object_id($value), $values);
+            return $class . ' Object #' . spl_object_id($value) . ' (' . $values . ')';
         }
 
         return var_export($value, true);

@@ -46,6 +46,8 @@ class SymfonySessionDecorator implements SessionInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @return void
      */
     public function setId(string $id)
     {
@@ -62,6 +64,8 @@ class SymfonySessionDecorator implements SessionInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @return void
      */
     public function setName(string $name)
     {
@@ -71,7 +75,7 @@ class SymfonySessionDecorator implements SessionInterface
     /**
      * {@inheritdoc}
      */
-    public function invalidate(int $lifetime = null): bool
+    public function invalidate(?int $lifetime = null): bool
     {
         $this->store->invalidate();
 
@@ -81,7 +85,7 @@ class SymfonySessionDecorator implements SessionInterface
     /**
      * {@inheritdoc}
      */
-    public function migrate(bool $destroy = false, int $lifetime = null): bool
+    public function migrate(bool $destroy = false, ?int $lifetime = null): bool
     {
         $this->store->migrate($destroy);
 
@@ -90,6 +94,8 @@ class SymfonySessionDecorator implements SessionInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @return void
      */
     public function save()
     {
@@ -114,6 +120,8 @@ class SymfonySessionDecorator implements SessionInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @return void
      */
     public function set(string $name, mixed $value)
     {
@@ -130,6 +138,8 @@ class SymfonySessionDecorator implements SessionInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @return void
      */
     public function replace(array $attributes)
     {
@@ -146,6 +156,8 @@ class SymfonySessionDecorator implements SessionInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @return void
      */
     public function clear()
     {
@@ -162,6 +174,8 @@ class SymfonySessionDecorator implements SessionInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @return void
      */
     public function registerBag(SessionBagInterface $bag)
     {

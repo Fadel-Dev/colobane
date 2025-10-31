@@ -236,11 +236,21 @@ class TestCommand extends Command
                 && ! Str::startsWith($option, '--min');
         }));
 
+        return array_merge($this->commonArguments(), ['--configuration='.$this->getConfigurationFile()], $options);
+    }
+
+    /**
+     * Get the configuration file.
+     *
+     * @return string
+     */
+    protected function getConfigurationFile()
+    {
         if (! file_exists($file = base_path('phpunit.xml'))) {
             $file = base_path('phpunit.xml.dist');
         }
 
-        return array_merge($this->commonArguments(), ["--configuration=$file"], $options);
+        return $file;
     }
 
     /**
@@ -266,16 +276,12 @@ class TestCommand extends Command
                 && ! Str::startsWith($option, '--without-databases');
         }));
 
-        if (! file_exists($file = base_path('phpunit.xml'))) {
-            $file = base_path('phpunit.xml.dist');
-        }
-
         $options = array_merge($this->commonArguments(), [
-            "--configuration=$file",
+            '--configuration='.$this->getConfigurationFile(),
             "--runner=\Illuminate\Testing\ParallelRunner",
         ], $options);
 
-        $inputDefinition = new InputDefinition();
+        $inputDefinition = new InputDefinition;
         Options::setInputDefinition($inputDefinition);
         $input = new ArgvInput($options, $inputDefinition);
 
@@ -373,7 +379,7 @@ class TestCommand extends Command
 
         $vars = [];
 
-        foreach ((new Parser())->parse($content) as $entry) {
+        foreach ((new Parser)->parse($content) as $entry) {
             $vars[] = $entry->getName();
         }
 
@@ -388,21 +394,5 @@ class TestCommand extends Command
     protected function isParallelDependenciesInstalled()
     {
         return class_exists(\ParaTest\ParaTestCommand::class);
-    }
-
-    /**
-     * Get the composer command for the environment.
-     *
-     * @return string
-     */
-    protected function findComposer()
-    {
-        $composerPath = getcwd().'/composer.phar';
-
-        if (file_exists($composerPath)) {
-            return '"'.PHP_BINARY.'" '.$composerPath;
-        }
-
-        return 'composer';
     }
 }

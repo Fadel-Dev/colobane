@@ -49,6 +49,18 @@ class TrustProxies
     {
         $trustedIps = $this->proxies() ?: config('trustedproxy.proxies');
 
+        if (is_null($trustedIps) &&
+            (laravel_cloud() ||
+             str_ends_with($request->host(), '.on-forge.com') ||
+             str_ends_with($request->host(), '.on-vapor.com'))) {
+            $trustedIps = '*';
+        }
+
+        if (str_ends_with($request->host(), '.on-forge.com') ||
+            str_ends_with($request->host(), '.on-vapor.com')) {
+            $request->headers->remove('X-Forwarded-Host');
+        }
+
         if ($trustedIps === '*' || $trustedIps === '**') {
             return $this->setTrustedProxyIpAddressesToTheCallingIp($request);
         }
@@ -92,14 +104,18 @@ class TrustProxies
      */
     protected function getTrustedHeaderNames()
     {
+        if (is_int($this->headers)) {
+            return $this->headers;
+        }
+
         return match ($this->headers) {
-            'HEADER_X_FORWARDED_AWS_ELB', Request::HEADER_X_FORWARDED_AWS_ELB => Request::HEADER_X_FORWARDED_AWS_ELB,
-            'HEADER_FORWARDED', Request::HEADER_FORWARDED => Request::HEADER_FORWARDED,
-            'HEADER_X_FORWARDED_FOR', Request::HEADER_X_FORWARDED_FOR => Request::HEADER_X_FORWARDED_FOR,
-            'HEADER_X_FORWARDED_HOST', Request::HEADER_X_FORWARDED_HOST => Request::HEADER_X_FORWARDED_HOST,
-            'HEADER_X_FORWARDED_PORT', Request::HEADER_X_FORWARDED_PORT => Request::HEADER_X_FORWARDED_PORT,
-            'HEADER_X_FORWARDED_PROTO', Request::HEADER_X_FORWARDED_PROTO => Request::HEADER_X_FORWARDED_PROTO,
-            'HEADER_X_FORWARDED_PREFIX', Request::HEADER_X_FORWARDED_PREFIX => Request::HEADER_X_FORWARDED_PREFIX,
+            'HEADER_X_FORWARDED_AWS_ELB' => Request::HEADER_X_FORWARDED_AWS_ELB,
+            'HEADER_FORWARDED' => Request::HEADER_FORWARDED,
+            'HEADER_X_FORWARDED_FOR' => Request::HEADER_X_FORWARDED_FOR,
+            'HEADER_X_FORWARDED_HOST' => Request::HEADER_X_FORWARDED_HOST,
+            'HEADER_X_FORWARDED_PORT' => Request::HEADER_X_FORWARDED_PORT,
+            'HEADER_X_FORWARDED_PROTO' => Request::HEADER_X_FORWARDED_PROTO,
+            'HEADER_X_FORWARDED_PREFIX' => Request::HEADER_X_FORWARDED_PREFIX,
             default => Request::HEADER_X_FORWARDED_FOR | Request::HEADER_X_FORWARDED_HOST | Request::HEADER_X_FORWARDED_PORT | Request::HEADER_X_FORWARDED_PROTO | Request::HEADER_X_FORWARDED_PREFIX | Request::HEADER_X_FORWARDED_AWS_ELB,
         };
     }

@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace Nette\Utils;
 
 use Nette;
+use function array_key_exists, class_exists, explode, gettype, interface_exists, is_callable, is_float, is_int, is_iterable, is_numeric, is_object, is_string, preg_match, str_ends_with, str_replace, str_starts_with, strlen, strtolower, substr, trait_exists, var_export;
 
 
 /**
@@ -102,7 +103,7 @@ class Validators
 			$translate = ['boolean' => 'bool', 'integer' => 'int', 'double' => 'float', 'NULL' => 'null'];
 			$type = $translate[gettype($value)] ?? gettype($value);
 			if (is_int($value) || is_float($value) || (is_string($value) && strlen($value) < 40)) {
-				$type .= ' ' . var_export($value, true);
+				$type .= ' ' . var_export($value, return: true);
 			} elseif (is_object($value)) {
 				$type .= ' ' . $value::class;
 			}
@@ -212,6 +213,7 @@ class Validators
 
 	/**
 	 * Checks if the value is an integer or a float.
+	 * @return ($value is int|float ? true : false)
 	 */
 	public static function isNumber(mixed $value): bool
 	{
@@ -221,6 +223,7 @@ class Validators
 
 	/**
 	 * Checks if the value is an integer or a integer written in a string.
+	 * @return ($value is non-empty-string ? bool : ($value is int ? true : false))
 	 */
 	public static function isNumericInt(mixed $value): bool
 	{
@@ -230,6 +233,7 @@ class Validators
 
 	/**
 	 * Checks if the value is a number or a number written in a string.
+	 * @return ($value is non-empty-string ? bool : ($value is int|float ? true : false))
 	 */
 	public static function isNumeric(mixed $value): bool
 	{
@@ -242,7 +246,7 @@ class Validators
 	 */
 	public static function isCallable(mixed $value): bool
 	{
-		return $value && is_callable($value, true);
+		return $value && is_callable($value, syntax_only: true);
 	}
 
 
@@ -257,6 +261,7 @@ class Validators
 
 	/**
 	 * Checks if the value is 0, '', false or null.
+	 * @return ($value is 0|''|false|null ? true : false)
 	 */
 	public static function isNone(mixed $value): bool
 	{
@@ -274,6 +279,7 @@ class Validators
 	/**
 	 * Checks if a variable is a zero-based integer indexed array.
 	 * @deprecated  use Nette\Utils\Arrays::isList
+	 * @return ($value is list ? true : false)
 	 */
 	public static function isList(mixed $value): bool
 	{

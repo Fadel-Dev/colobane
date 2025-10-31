@@ -46,6 +46,8 @@ class CacheAttributeListener implements EventSubscriberInterface
 
     /**
      * Handles HTTP validation headers.
+     *
+     * @return void
      */
     public function onKernelControllerArguments(ControllerArgumentsEvent $event)
     {
@@ -90,6 +92,8 @@ class CacheAttributeListener implements EventSubscriberInterface
 
     /**
      * Modifies the response to apply HTTP cache headers when needed.
+     *
+     * @return void
      */
     public function onKernelResponse(ResponseEvent $event)
     {
@@ -119,7 +123,9 @@ class CacheAttributeListener implements EventSubscriberInterface
 
         unset($this->lastModified[$request]);
         unset($this->etags[$request]);
-        $hasVary = $response->headers->has('Vary');
+        // Check if the response has a Vary header that should be considered, ignoring cases where
+        // it's only 'Accept-Language' and the request has the '_vary_by_language' attribute
+        $hasVary = ['Accept-Language'] === $response->getVary() ? !$request->attributes->get('_vary_by_language') : $response->hasVary();
 
         foreach (array_reverse($attributes) as $cache) {
             if (null !== $cache->smaxage && !$response->headers->hasCacheControlDirective('s-maxage')) {

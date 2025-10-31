@@ -6,7 +6,6 @@ use App\Http\Middleware\HandleInertiaRequests;
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\Compilers\BladeCompiler;
@@ -37,7 +36,7 @@ class JetstreamServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(__DIR__.'/../config/jetstream.php', 'jetstream');
 
-        $this->app->afterResolving(BladeCompiler::class, function () {
+        $this->callAfterResolving(BladeCompiler::class, function () {
             if (config('jetstream.stack') === 'livewire' && class_exists(Livewire::class)) {
                 Livewire::component('navigation-menu', NavigationMenu::class);
                 Livewire::component('profile.update-profile-information-form', UpdateProfileInformationForm::class);

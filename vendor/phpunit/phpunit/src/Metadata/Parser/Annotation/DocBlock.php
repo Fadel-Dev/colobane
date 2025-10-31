@@ -34,6 +34,8 @@ use ReflectionMethod;
  * allowing us to ask meaningful questions about a specific
  * reflection symbol.
  *
+ * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
+ *
  * @internal This class is not covered by the backward compatibility promise for PHPUnit
  */
 final class DocBlock
@@ -112,6 +114,8 @@ final class DocBlock
     }
 
     /**
+     * @throws InvalidVersionRequirementException
+     *
      * @psalm-return array{
      *   __OFFSET: array<string, int>&array{__FILE: string},
      *   setting?: array<string, string>,
@@ -173,7 +177,7 @@ final class DocBlock
                     throw new InvalidVersionRequirementException(
                         $e->getMessage(),
                         $e->getCode(),
-                        $e
+                        $e,
                     );
                 }
             }
@@ -211,8 +215,8 @@ final class DocBlock
                 [
                     'setting'            => $recordedSettings,
                     'extension_versions' => $extensionVersions,
-                ]
-            )
+                ],
+            ),
         );
     }
 
@@ -250,14 +254,14 @@ final class DocBlock
                 $annotations,
                 ...array_map(
                     static fn (ReflectionClass $trait): array => self::parseDocBlock((string) $trait->getDocComment()),
-                    array_values($reflector->getTraits())
-                )
+                    array_values($reflector->getTraits()),
+                ),
             );
         }
 
         return array_merge(
             $annotations,
-            self::parseDocBlock((string) $reflector->getDocComment())
+            self::parseDocBlock((string) $reflector->getDocComment()),
         );
     }
 }

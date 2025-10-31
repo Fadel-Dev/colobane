@@ -3,10 +3,10 @@
 namespace Laravel\Fortify\Http\Responses;
 
 use Illuminate\Http\JsonResponse;
-use Laravel\Fortify\Contracts\PasswordUpdateResponse as PasswordUpdateResponseContract;
+use Laravel\Fortify\Contracts\RecoveryCodesGeneratedResponse as RecoveryCodesGeneratedResponseContract;
 use Laravel\Fortify\Fortify;
 
-class RecoveryCodesGeneratedResponse implements PasswordUpdateResponseContract
+class RecoveryCodesGeneratedResponse implements RecoveryCodesGeneratedResponseContract
 {
     /**
      * Create an HTTP response that represents the object.
@@ -17,7 +17,7 @@ class RecoveryCodesGeneratedResponse implements PasswordUpdateResponseContract
     public function toResponse($request)
     {
         return $request->wantsJson()
-                    ? new JsonResponse('', 200)
-                    : back()->with('status', Fortify::RECOVERY_CODES_GENERATED);
+            ? new JsonResponse('', 200)
+            : back()->with('status', Fortify::RECOVERY_CODES_GENERATED);
     }
 }
