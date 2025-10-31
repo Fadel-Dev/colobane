@@ -13,7 +13,7 @@ const props = defineProps({
 </script>
 
 <template>
-    <nav class="fixed top-0 left-0 w-full z-50 backdrop-blur-lg bg-white/30 border-b border-white/20 border-b-gray-300 border bottom-1 ">
+    <nav class="fixed top-0 left-0 w-full z-50 bg-white border-b border-gray-200 border-bottom-1">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-20">
                 <!-- Logo -->
@@ -98,7 +98,7 @@ const props = defineProps({
 
         <!-- Mobile menu -->
         <div v-show="showMenu"
-             class="md:hidden absolute top-20 left-0 w-full bg-white/95 backdrop-blur-lg border-b border-white/20">
+             class="md:hidden absolute top-20 left-0 w-full bg-white border-b border-gray-200">
             <div class="px-4 pt-2 pb-3 space-y-1">
                 <template v-if="$page.props.auth.user">
                     <a :href="route('home')"
