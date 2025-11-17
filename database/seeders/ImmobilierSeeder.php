@@ -21,6 +21,18 @@ class ImmobilierSeeder extends Seeder
         $cities = ['Dakar', 'Thiès', 'Kaolack', 'Tambacounda', 'Saint-Louis', 'Ziguinchor', 'Kolda', 'Louga'];
         $quartiers = ['Plateau', 'Fann', 'Sacré-Cœur', 'Ouakam', 'Almadies', 'Yoff', 'Liberté', 'Mermoz', 'Ngor', 'Grand-Yoff'];
 
+        // Images Unsplash - URLs directes pour stockage
+        $images = [
+            'https://images.unsplash.com/photo-1570129477492-45a003537e1f?w=500&h=300&fit=crop',
+            'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=500&h=300&fit=crop',
+            'https://images.unsplash.com/photo-1512917774080-9b274b3f5798?w=500&h=300&fit=crop',
+            'https://images.unsplash.com/photo-1468036882921-7aae196d8af6?w=500&h=300&fit=crop',
+            'https://images.unsplash.com/photo-1567605004555-e3ef3a3f747f?w=500&h=300&fit=crop',
+            'https://images.unsplash.com/photo-1542321066-7deced3b7c0f?w=500&h=300&fit=crop',
+            'https://images.unsplash.com/photo-1482012182733-540ce549b4eb?w=500&h=300&fit=crop',
+            'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=500&h=300&fit=crop',
+        ];
+
         // Créer 250 annonces immobilières
         for ($i = 0; $i < 250; $i++) {
             $type = $faker->randomElement($types);
@@ -38,16 +50,8 @@ class ImmobilierSeeder extends Seeder
                 "Cozy {$type} parfait pour couple ou petit famille. Situation centrale à {$ville}.",
             ];
 
-            $images = [
-                'https://images.unsplash.com/photo-1570129477492-45a003537e1f?w=500&h=300&fit=crop',
-                'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=500&h=300&fit=crop',
-                'https://images.unsplash.com/photo-1512917774080-9b274b3f5798?w=500&h=300&fit=crop',
-                'https://images.unsplash.com/photo-1468036882921-7aae196d8af6?w=500&h=300&fit=crop',
-                'https://images.unsplash.com/photo-1567605004555-e3ef3a3f747f?w=500&h=300&fit=crop',
-                'https://images.unsplash.com/photo-1542321066-7deced3b7c0f?w=500&h=300&fit=crop',
-                'https://images.unsplash.com/photo-1482012182733-540ce549b4eb?w=500&h=300&fit=crop',
-                'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=500&h=300&fit=crop',
-            ];
+            // Sélectionner 3 images aléatoires
+            $selectedImages = $faker->randomElements($images, 3);
 
             Immobiliers::create([
                 'user_id' => $users->random()->id,
@@ -60,16 +64,16 @@ class ImmobilierSeeder extends Seeder
                 'surface' => (string) $surface,
                 'region' => $ville,
                 'affaire' => $faker->randomElement(['Neuf', 'Ancien', 'En construction']),
-                'image1' => $faker->randomElement($images),
-                'image2' => $faker->randomElement($images),
-                'image3' => $faker->randomElement($images),
+                'image1' => $selectedImages[0],
+                'image2' => $selectedImages[1],
+                'image3' => $selectedImages[2],
                 'booster' => $faker->boolean(30),
                 'vendu' => $faker->boolean(20),
                 'onceBooster' => $faker->boolean(40),
-                'status' => $faker->randomElement(['Disponible', 'Vendu', 'En attente']),
+                'status' => $faker->randomElement(['accepter', 'Vendu', 'En attente']),
             ]);
         }
 
-        $this->command->info('✅ 250 annonces immobilières créées avec succès !');
+        $this->command->info('✅ 250 annonces immobilières créées avec images Unsplash !');
     }
 }

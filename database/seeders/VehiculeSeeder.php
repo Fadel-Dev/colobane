@@ -46,6 +46,9 @@ class VehiculeSeeder extends Seeder
 
         // Créer 125 annonces de VOITURES À LA VENTE
         for ($i = 0; $i < 125; $i++) {
+            // Sélectionner 3 images aléatoires
+            $selectedImages = $faker->randomElements($images_voiture, 3);
+            
             Voitures::create([
                 'user_id' => $users->random()->id,
                 'nom' => $faker->randomElement($marques) . ' ' . $faker->randomElement($modeles),
@@ -58,9 +61,9 @@ class VehiculeSeeder extends Seeder
                 'description' => $faker->sentence(15),
                 'boiteVitesse' => $faker->randomElement(['Manuelle', 'Automatique']),
                 'place' => (string) $faker->numberBetween(4, 8),
-                'image1' => $faker->randomElement($images_voiture),
-                'image2' => $faker->randomElement($images_voiture),
-                'image3' => $faker->randomElement($images_voiture),
+                'image1' => $selectedImages[0],
+                'image2' => $selectedImages[1],
+                'image3' => $selectedImages[2],
                 'region' => $faker->randomElement($cities),
                 'etat' => $faker->randomElement(['Neuf', 'Bon état', 'Occasion']),
                 'affaire' => $faker->randomElement(['Bonne affaire', 'Normale', 'Premium']),
@@ -68,12 +71,15 @@ class VehiculeSeeder extends Seeder
                 'booster' => $faker->boolean(30),
                 'vendu' => $faker->boolean(15),
                 'onceBooster' => $faker->boolean(40),
-                'status' => $faker->randomElement(['Disponible', 'Vendu', 'En réparation']),
+                'status' => $faker->randomElement(['accepter', 'Vendu', 'En réparation']),
             ]);
         }
 
         // Créer 125 annonces de VOITURES EN LOCATION
         for ($i = 0; $i < 125; $i++) {
+            // Sélectionner 3 images aléatoires
+            $selectedImages = $faker->randomElements($images_voiture, 3);
+            
             Voiturelocation::create([
                 'user_id' => $users->random()->id,
                 'nom' => $faker->randomElement($marques) . ' ' . $faker->randomElement($modeles) . ' - Location',
@@ -82,9 +88,9 @@ class VehiculeSeeder extends Seeder
                 'prix' => $faker->numberBetween(25000, 150000), // FCFA par jour
                 'carburant' => $faker->randomElement(['Essence', 'Diesel']),
                 'place' => (string) $faker->numberBetween(4, 7),
-                'image1' => $faker->randomElement($images_voiture),
-                'image2' => $faker->randomElement($images_voiture),
-                'image3' => $faker->randomElement($images_voiture),
+                'image1' => $selectedImages[0],
+                'image2' => $selectedImages[1],
+                'image3' => $selectedImages[2],
                 'region' => $faker->randomElement($cities),
                 'affaire' => $faker->randomElement(['Bonne affaire', 'Normale', 'Premium']),
                 'boiteVitesse' => $faker->randomElement(['Manuelle', 'Automatique']),
@@ -92,6 +98,6 @@ class VehiculeSeeder extends Seeder
             ]);
         }
 
-        $this->command->info('✅ 250 annonces véhicules (125 vente + 125 location) créées avec succès !');
+        $this->command->info('✅ 250 annonces véhicules (125 vente + 125 location) créées avec images Unsplash !');
     }
 }
