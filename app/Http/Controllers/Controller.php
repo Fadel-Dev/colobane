@@ -28,11 +28,6 @@ class Controller extends BaseController
 {
     $now = now(); // Date et heure actuelles
 
-    // Mettre à jour le statut des Voitures
-    Voitures::where('status', 'accepter')
-        ->where('date_fin_booster', $now) // Comparaison exacte avec la date de fin
-        ->update(['status' => 'pending']);
-
     // Mettre à jour le statut des Immobiliers
     Immobiliers::where('status', 'accepter')
         ->where('date_fin_booster', $now) // Comparaison exacte avec la date de fin
@@ -41,8 +36,6 @@ class Controller extends BaseController
         //For chambre
 
     // Récupérer les enregistrements mis à jour
-    $voitures = Voitures::orderBy('created_at', 'desc')->paginate(12);
-    $voituresBoost = Voitures::where('status', 'accepter')->paginate(12);
     $immobilliersBoost = Immobiliers::where('status', 'accepter')->paginate(12);
     $maisons = Immobiliers::orderBy('created_at', 'desc')->paginate(12);
 
@@ -103,9 +96,7 @@ class Controller extends BaseController
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
-        'voitures' => $voitures,
         'maisons' => $maisons,
-        'voituresBoost' => $voituresBoost,
         'immobilliersBoost' => $immobilliersBoost,
         'chambres'=>$chambres,
         'chambresBoost'=>$chambresBoost,
@@ -181,6 +172,13 @@ class Controller extends BaseController
 
         $urlActuelle = URL::current();
 
+        // Vérifier si le bien est dans les favoris de l'utilisateur connecté
+        $isFavorite = false;
+        if (Auth::check()) {
+            $isFavorite = \App\Models\Favori::where('user_id', Auth::id())
+                ->where('immobilier_id', $id)
+                ->exists();
+        }
 
         $maison = Immobiliers::findOrFail($id);
         return Inertia::render('DetailsImmo', [
@@ -196,6 +194,7 @@ class Controller extends BaseController
             // 'user' => $user,
             'suggestions' => $suggestions,
             'urlActuelle' => $urlActuelle,
+            'isFavorite' => $isFavorite,
 
         ]);
     }

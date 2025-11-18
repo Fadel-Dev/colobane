@@ -83,4 +83,27 @@ public function Immobiliers()
 {
     return $this->hasMany(Immobiliers::class);
 }
+
+// Favoris
+public function favoris()
+{
+    return $this->hasMany(Favori::class);
+}
+
+public function favorisImmobiliers()
+{
+    return $this->belongsToMany(Immobiliers::class, 'favoris', 'user_id', 'immobilier_id')
+        ->withTimestamps();
+}
+
+// Notifications
+public function notifications()
+{
+    return $this->hasMany(\App\Models\Notification::class)->orderBy('created_at', 'desc');
+}
+
+public function unreadNotifications()
+{
+    return $this->hasMany(\App\Models\Notification::class)->where('read', false)->orderBy('created_at', 'desc');
+}
 }

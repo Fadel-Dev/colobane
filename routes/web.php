@@ -6,6 +6,8 @@ use App\Http\Controllers\ControllerForAdmin;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ImmobilierController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\FavoriController;
+use App\Http\Controllers\NotificationController;
 
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ServiceController;
@@ -142,6 +144,24 @@ Route::put('/vehiculeBoost/{id}', [ImmobilierController::class, 'StoreBoostVehic
 
 Route::get('/infos', function () {
     return Inertia::render('infos');
+});
+
+// Favoris
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get('/favoris', [FavoriController::class, 'index'])->name('favoris');
+    Route::post('/favoris/add/{id}', [FavoriController::class, 'add'])->name('favoris.add');
+    Route::delete('/favoris/remove/{id}', [FavoriController::class, 'remove'])->name('favoris.remove');
+    Route::post('/favoris/toggle/{id}', [FavoriController::class, 'toggle'])->name('favoris.toggle');
+    Route::get('/favoris/check/{id}', [FavoriController::class, 'check'])->name('favoris.check');
+});
+
+// Notifications
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications');
+    Route::post('/notifications/{id}/read', [NotificationController::class, 'markAsRead'])->name('notifications.read');
+    Route::post('/notifications/read-all', [NotificationController::class, 'markAllAsRead'])->name('notifications.read-all');
+    Route::delete('/notifications/{id}', [NotificationController::class, 'destroy'])->name('notifications.destroy');
+    Route::get('/notifications/count', [NotificationController::class, 'count'])->name('notifications.count');
 });
 
 

@@ -68,17 +68,34 @@
                                         <div
                                             class="card group relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 h-full flex flex-col">
                                             <!-- Badge Boost -->
-                                            <div class="absolute top-4 right-4 z-10">
+                                            <div class="absolute top-4 right-4 z-10 flex items-center gap-2">
+                                                <button
+                                                    @click.stop="toggleFavorite(immobillierBoost.id)"
+                                                    :class="[
+                                                        'bg-white rounded-full p-2 shadow-md hover:shadow-lg transition-all duration-300',
+                                                        isFavorite(immobillierBoost.id)
+                                                            ? 'text-red-500'
+                                                            : 'text-gray-400 hover:text-red-400'
+                                                    ]"
+                                                    aria-label="Ajouter aux favoris"
+                                                >
+                                                    <i :class="isFavorite(immobillierBoost.id) ? 'fas fa-heart' : 'far fa-heart'" class="text-sm"></i>
+                                                </button>
                                                 <span
                                                     class="inline-flex items-center px-2 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-yellow-400 to-yellow-500 text-white shadow-md">
                                                     <i class="fas fa-bolt mr-1"></i> Boost
                                                 </span>
                                             </div>
 
-                                            <div class="aspect-square overflow-hidden relative">
-                                                <img :src="'/storage/' + immobillierBoost.image1"
-                                                    :alt="immobillierBoost.imageAlt"
-                                                    class="h-full w-full object-cover transition-all duration-500 group-hover:scale-110">
+                                            <div class="aspect-square overflow-hidden relative bg-gray-200">
+                                                <!-- Image directement depuis la base de données (image1, image2, ou image3) -->
+                                                <img :src="getFirstAvailableImage(immobillierBoost)"
+                                                    :alt="immobillierBoost.nom || 'Image du bien'"
+                                                    :title="immobillierBoost.nom"
+                                                    class="h-full w-full object-cover transition-all duration-500 group-hover:scale-110"
+                                                    @error="handleImageError($event)"
+                                                    loading="lazy"
+                                                    @load="() => {}">
                                                 <!-- Overlay au hover -->
                                                 <div
                                                     class="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -133,10 +150,15 @@
                                     <article v-for="maison in maisons.data" :key="maison.id"
                                         @click="navigateToDetail(maison.id)"
                                         class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition duration-300 h-full flex flex-col">
-                                        <div class="relative">
-                                            <img :src="'/storage/' + maison.image1"
-                                                :alt="maison.imageAlt || 'Image du bien immobilier'"
-                                                class="w-full h-64 object-cover" loading="lazy">
+                                        <div class="relative bg-gray-200">
+                                            <!-- Image directement depuis la base de données (image1, image2, ou image3) -->
+                                            <img :src="getFirstAvailableImage(maison)"
+                                                :alt="maison.nom || 'Image du bien immobilier'"
+                                                :title="maison.nom"
+                                                class="w-full h-64 object-cover" 
+                                                loading="lazy"
+                                                @error="handleImageError($event)"
+                                                @load="() => {}">
                                             <div class="absolute top-4 left-4">
                                                 <span
                                                     class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-sm font-semibold">
@@ -168,9 +190,17 @@
                                                         <span class="text-sm text-gray-500">{{ maison.type }}</span>
                                                     </span>
                                                 </div>
-                                                <button class="text-[#eb2d53] hover:text-indigo-800"
-                                                    aria-label="Ajouter aux favoris">
-                                                    <i class="far fa-heart text-xl"></i>
+                                                <button 
+                                                    @click.stop="toggleFavorite(maison.id)"
+                                                    :class="[
+                                                        'transition-colors duration-300',
+                                                        isFavorite(maison.id)
+                                                            ? 'text-red-500 hover:text-red-600'
+                                                            : 'text-[#eb2d53] hover:text-indigo-800'
+                                                    ]"
+                                                    aria-label="Ajouter aux favoris"
+                                                >
+                                                    <i :class="isFavorite(maison.id) ? 'fas fa-heart' : 'far fa-heart'" class="text-xl"></i>
                                                 </button>
                                             </div>
 
@@ -191,9 +221,6 @@
                     </div>
 
                     <!-- Other Tabs -->
-                    <div v-else-if="activeTab == 'Vehicule'" class="bg-transparent">
-                        <Voiture :voitures="voitures" :voituresBoost="voituresBoost" :marques="marques" />
-                    </div>
                     <div v-else-if="activeTab == 'Chambre'" class="bg-transparent">
                         <Chambre :chambres="chambres" :chambresBoost="chambresBoost" />
                     </div>
@@ -220,6 +247,14 @@
         </div>
     </div>
     <Footer />
+    
+    <!-- Toast Notification -->
+    <Toast 
+        :show="showToast" 
+        :message="toastMessage" 
+        :type="toastType"
+        @close="closeToast"
+    />
 </template>
 
 <style scoped>
@@ -301,8 +336,6 @@ import { Inertia } from '@inertiajs/inertia';
 import AppLayout from '@/Layouts/AppLayout.vue';
 
 const props = defineProps({
-    voitures: Object,
-    voituresBoost: Object,
     immobilliersBoost: Object,
     maisons: Object,
     canLogin: Boolean,
@@ -333,11 +366,6 @@ let items = [
     },
     {
         "id": 2,
-        "icon": "car",
-        "name": "Vehicule"
-    },
-    {
-        "id": 3,
         "icon": "map-marked",
         "name": "Terrain"
     },
@@ -379,7 +407,6 @@ import { InertiaProgress } from '@inertiajs/progress';
 import SwitchBtn from './BoutCode/SwitchBtn.vue';
 import SlidePub from './BoutCode/SlidePub.vue';
 import Action from './BoutCode/Action.vue';
-import Voiture from './ForWelcome/Voiture.vue';
 import Chambre from './ForWelcome/Chambre.vue';
 import Immobilier from './Categories/immobilier.vue';
 import Villa from './ForWelcome/Villa.vue';
@@ -390,35 +417,145 @@ import Appartement from './ForWelcome/Appartement.vue';
 import Studio from './ForWelcome/Studio.vue';
 import Footer from '../Components/Footer.vue';
 import Navbar from '../Components/Navbar.vue';
+import Toast from '../Components/Toast.vue';
 
 export default {
+    components: {
+        Toast,
+    },
     data() {
         return {
-            activeTab: 'Vehicule',
+            activeTab: 'Immobilier',
             showMenu: false,
-            marques: [
-                "tous",
-                "volvo",
-                "renault",
-                "peugeot",
-                "citroen",
-                "mitsubishi",
-                "bmw",
-                "audi",
-                "nissan",
-                "mercedes-benz",
-                "volkswagen",
-                "Toyota",
-                "ford",
-                "Jeep",
-                "autres"
-            ],
-            selectedMarque: 'dakar'
+            favorites: new Set(), // Set pour stocker les IDs des favoris
+            showToast: false,
+            toastMessage: '',
+            toastType: 'success',
         };
+    },
+    mounted() {
+        // Charger les favoris de l'utilisateur si connecté
+        if (this.$page.props.auth?.user) {
+            this.loadFavorites();
+        }
     },
     methods: {
         navigateToDetail(id) {
             this.$inertia.visit(`/detail/${id}`);
+        },
+        async toggleFavorite(id) {
+            if (!this.$page.props.auth?.user) {
+                this.$inertia.visit('/login');
+                return;
+            }
+
+            try {
+                const response = await fetch(`/favoris/toggle/${id}`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content || '',
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                    },
+                });
+
+                const data = await response.json();
+                
+                if (data.status === 'added') {
+                    this.favorites.add(id);
+                    this.toastMessage = 'Bien ajouté aux favoris avec succès!';
+                    this.toastType = 'success';
+                    this.showToast = true;
+                } else if (data.status === 'removed') {
+                    this.favorites.delete(id);
+                    this.toastMessage = 'Bien retiré des favoris';
+                    this.toastType = 'info';
+                    this.showToast = true;
+                }
+            } catch (error) {
+                console.error('Erreur lors de l\'ajout aux favoris:', error);
+                this.toastMessage = 'Erreur lors de l\'opération';
+                this.toastType = 'error';
+                this.showToast = true;
+            }
+        },
+        closeToast() {
+            this.showToast = false;
+        },
+        isFavorite(id) {
+            return this.favorites.has(id);
+        },
+        async loadFavorites() {
+            if (!this.$page.props.auth?.user) return;
+
+            // Charger les favoris pour tous les biens affichés
+            const allIds = [
+                ...(this.immobilliersBoost?.data || []).map(m => m.id),
+                ...(this.maisons?.data || []).map(m => m.id),
+            ];
+
+            for (const id of allIds) {
+                try {
+                    const response = await fetch(`/favoris/check/${id}`, {
+                        headers: {
+                            'Accept': 'application/json',
+                        },
+                    });
+                    const data = await response.json();
+                    if (data.isFavorite) {
+                        this.favorites.add(id);
+                    }
+                } catch (error) {
+                    // Ignorer les erreurs silencieusement
+                }
+            }
+        },
+        getImageUrl(imagePath) {
+            // Debug: vérifier que l'image vient bien de la base de données
+            if (process.env.NODE_ENV === 'development') {
+                console.log('Image path from DB:', imagePath);
+            }
+            
+            if (!imagePath || imagePath === 'null' || imagePath === '') {
+                // Image par défaut si aucune image
+                return 'https://via.placeholder.com/500x300?text=Image+non+disponible';
+            }
+            
+            // Si c'est une URL externe (http:// ou https://), retourner tel quel
+            // Ces URLs viennent directement de la base de données (seeders ou uploads)
+            if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
+                return imagePath;
+            }
+            
+            // Si c'est un chemin local (uploadé par l'utilisateur), ajouter /storage/
+            // Vérifier si le chemin commence déjà par storage/
+            if (imagePath.startsWith('storage/') || imagePath.startsWith('/storage/')) {
+                return imagePath.startsWith('/') ? imagePath : '/' + imagePath;
+            }
+            
+            // Sinon, ajouter /storage/ devant (format: topics/filename.jpg)
+            return '/storage/' + imagePath;
+        },
+        // Fonction pour obtenir la première image disponible (image1, image2, ou image3)
+        getFirstAvailableImage(article) {
+            if (article.image1 && article.image1 !== '' && article.image1 !== 'null') {
+                return this.getImageUrl(article.image1);
+            }
+            if (article.image2 && article.image2 !== '' && article.image2 !== 'null') {
+                return this.getImageUrl(article.image2);
+            }
+            if (article.image3 && article.image3 !== '' && article.image3 !== 'null') {
+                return this.getImageUrl(article.image3);
+            }
+            return 'https://via.placeholder.com/500x300?text=Image+non+disponible';
+        },
+        handleImageError(event) {
+            // Remplacer par une image placeholder en cas d'erreur
+            if (event.target && !event.target.dataset.errorHandled) {
+                event.target.dataset.errorHandled = 'true';
+                event.target.src = 'https://via.placeholder.com/500x300?text=Image+non+disponible';
+                event.target.onerror = null; // Éviter les boucles infinies
+            }
         },
     },
     mounted() {

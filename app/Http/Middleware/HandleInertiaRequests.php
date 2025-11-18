@@ -36,10 +36,29 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        $user = $request->user();
+        
+        // Charger les relations nécessaires pour Jetstream
+        if ($user) {
+            $user->load('currentTeam');
+        }
+        
+        // Compter les notifications non lues
+        $unreadNotificationsCount = 0;
+        if ($user) {
+            $unreadNotificationsCount = \App\Models\Notification::where('user_id', $user->id)
+                ->where('read', false)
+                ->count();
+        }
+        
         return array_merge(parent::share($request), [
+            'auth' => [
+                'user' => $user,
+            ],
             'flash' => [
                 'message'=>session('message')
-            ]
+            ],
+            'unreadNotificationsCount' => $unreadNotificationsCount,
         ]);
     }
 }

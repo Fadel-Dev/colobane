@@ -11,15 +11,75 @@ class ImmobilierController extends Controller
 {
    public function storeVente()
 {
-    // Stockage des images
-    $image1 = Request::file('image1')->store('topics', 'public');
-    $image2 = Request::file('image2')->store('topics', 'public');
-    $image3 = Request::file('image3')->store('topics', 'public');
-
-    // Redimensionnement proportionnel des images
+    // Gérer les images (peut être un tableau ou des fichiers individuels)
+    $image1 = null;
+    $image2 = null;
+    $image3 = null;
+    $allImages = []; // Tableau pour toutes les images
+    
+    // Si images est un tableau (nouveau format)
+    if (Request::hasFile('images')) {
+        $images = Request::file('images');
+        if (is_array($images)) {
+            // Traiter toutes les images du tableau
+            foreach ($images as $index => $image) {
+                if ($image && $image->isValid()) {
+                    $storedPath = $image->store('topics', 'public');
+                    if ($storedPath && file_exists(public_path("storage/{$storedPath}"))) {
+                        $this->resizeImage(public_path("storage/{$storedPath}"));
+                        $allImages[] = $storedPath;
+                        
+                        // Garder les 3 premières pour image1, image2, image3 (compatibilité)
+                        if ($index === 0) {
+                            $image1 = $storedPath;
+                        } elseif ($index === 1) {
+                            $image2 = $storedPath;
+                        } elseif ($index === 2) {
+                            $image3 = $storedPath;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    // Fallback sur l'ancien format (image1, image2, image3 individuels)
+    if (!$image1 && Request::hasFile('image1')) {
+        $file1 = Request::file('image1');
+        if ($file1->isValid()) {
+            $image1 = $file1->store('topics', 'public');
+            if ($image1 && file_exists(public_path("storage/{$image1}"))) {
     $this->resizeImage(public_path("storage/{$image1}"));
+                if (!in_array($image1, $allImages)) {
+                    $allImages[] = $image1;
+                }
+            }
+        }
+    }
+    if (!$image2 && Request::hasFile('image2')) {
+        $file2 = Request::file('image2');
+        if ($file2->isValid()) {
+            $image2 = $file2->store('topics', 'public');
+            if ($image2 && file_exists(public_path("storage/{$image2}"))) {
     $this->resizeImage(public_path("storage/{$image2}"));
+                if (!in_array($image2, $allImages)) {
+                    $allImages[] = $image2;
+                }
+            }
+        }
+    }
+    if (!$image3 && Request::hasFile('image3')) {
+        $file3 = Request::file('image3');
+        if ($file3->isValid()) {
+            $image3 = $file3->store('topics', 'public');
+            if ($image3 && file_exists(public_path("storage/{$image3}"))) {
     $this->resizeImage(public_path("storage/{$image3}"));
+                if (!in_array($image3, $allImages)) {
+                    $allImages[] = $image3;
+                }
+            }
+        }
+    }
 
     // Création de l'entrée en base de données
     auth()->user()->Immobiliers()->create([
@@ -30,9 +90,10 @@ class ImmobilierController extends Controller
         'region' => Request::input('region'),
         'affaire' => Request::input('affaire'),
         'npiece' => Request::input('npiece'),
-        'image1' => $image1,
-        'image2' => $image2,
-        'image3' => $image3,
+        'image1' => $image1 ?? '',
+        'image2' => $image2 ?? '',
+        'image3' => $image3 ?? '',
+        'images' => !empty($allImages) ? json_encode($allImages) : null, // Toutes les images en JSON
         'categorie' => 'immobilier',
         'surface' => 0,
     ]);
@@ -45,26 +106,95 @@ class ImmobilierController extends Controller
  */
 private function resizeImage($path)
 {
+    if (!file_exists($path) || !is_readable($path)) {
+        \Log::error("Image file not found or not readable: {$path}");
+        return;
+    }
+    
+    try {
     Image::make($path)
         ->resize(1200, null, function ($constraint) {
             $constraint->aspectRatio(); // Maintenir le ratio
             $constraint->upsize();     // Éviter d'agrandir les petites images
         })
         ->save();
+    } catch (\Exception $e) {
+        \Log::error("Error resizing image {$path}: " . $e->getMessage());
+    }
 }
 
 // TERRAIN VERGER
 public function storeVente2()
 {
-    // Stockage des images
-    $image1 = Request::file('image1')->store('topics', 'public');
-    $image2 = Request::file('image2')->store('topics', 'public');
-    $image3 = Request::file('image3')->store('topics', 'public');
-
-    // Redimensionnement des images avec la méthode de redimensionnement proportionnel
+    // Gérer les images (peut être un tableau ou des fichiers individuels)
+    $image1 = null;
+    $image2 = null;
+    $image3 = null;
+    $allImages = []; // Tableau pour toutes les images
+    
+    // Si images est un tableau (nouveau format)
+    if (Request::hasFile('images')) {
+        $images = Request::file('images');
+        if (is_array($images)) {
+            // Traiter toutes les images du tableau
+            foreach ($images as $index => $image) {
+                if ($image && $image->isValid()) {
+                    $storedPath = $image->store('topics', 'public');
+                    if ($storedPath && file_exists(public_path("storage/{$storedPath}"))) {
+                        $this->resizeImage(public_path("storage/{$storedPath}"));
+                        $allImages[] = $storedPath;
+                        
+                        // Garder les 3 premières pour image1, image2, image3 (compatibilité)
+                        if ($index === 0) {
+                            $image1 = $storedPath;
+                        } elseif ($index === 1) {
+                            $image2 = $storedPath;
+                        } elseif ($index === 2) {
+                            $image3 = $storedPath;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    // Fallback sur l'ancien format (image1, image2, image3 individuels)
+    if (!$image1 && Request::hasFile('image1')) {
+        $file1 = Request::file('image1');
+        if ($file1->isValid()) {
+            $image1 = $file1->store('topics', 'public');
+            if ($image1 && file_exists(public_path("storage/{$image1}"))) {
     $this->resizeImage(public_path("storage/{$image1}"));
+                if (!in_array($image1, $allImages)) {
+                    $allImages[] = $image1;
+                }
+            }
+        }
+    }
+    if (!$image2 && Request::hasFile('image2')) {
+        $file2 = Request::file('image2');
+        if ($file2->isValid()) {
+            $image2 = $file2->store('topics', 'public');
+            if ($image2 && file_exists(public_path("storage/{$image2}"))) {
     $this->resizeImage(public_path("storage/{$image2}"));
+                if (!in_array($image2, $allImages)) {
+                    $allImages[] = $image2;
+                }
+            }
+        }
+    }
+    if (!$image3 && Request::hasFile('image3')) {
+        $file3 = Request::file('image3');
+        if ($file3->isValid()) {
+            $image3 = $file3->store('topics', 'public');
+            if ($image3 && file_exists(public_path("storage/{$image3}"))) {
     $this->resizeImage(public_path("storage/{$image3}"));
+                if (!in_array($image3, $allImages)) {
+                    $allImages[] = $image3;
+                }
+            }
+        }
+    }
 
     // Création de l'entrée en base de données
     auth()->user()->Immobiliers()->create([
@@ -75,9 +205,10 @@ public function storeVente2()
         'region' => Request::input('region'),
         'affaire' => Request::input('affaire'),
         'surface' => Request::input('surface'),
-        'image1' => $image1,
-        'image2' => $image2,
-        'image3' => $image3,
+        'image1' => $image1 ?? '',
+        'image2' => $image2 ?? '',
+        'image3' => $image3 ?? '',
+        'images' => !empty($allImages) ? json_encode($allImages) : null, // Toutes les images en JSON
         'categorie' => 'immobilier',
         'npiece' => 0,
     ]);
@@ -93,15 +224,75 @@ public function storeVente2()
     // TERRAIN FERME
 public function storeVente3()
 {
-    // Stockage des images
-    $image1 = Request::file('image1')->store('topics', 'public');
-    $image2 = Request::file('image2')->store('topics', 'public');
-    $image3 = Request::file('image3')->store('topics', 'public');
-
-    // Redimensionnement des images avec la méthode de redimensionnement proportionnel
+    // Gérer les images (peut être un tableau ou des fichiers individuels)
+    $image1 = null;
+    $image2 = null;
+    $image3 = null;
+    $allImages = []; // Tableau pour toutes les images
+    
+    // Si images est un tableau (nouveau format)
+    if (Request::hasFile('images')) {
+        $images = Request::file('images');
+        if (is_array($images)) {
+            // Traiter toutes les images du tableau
+            foreach ($images as $index => $image) {
+                if ($image && $image->isValid()) {
+                    $storedPath = $image->store('topics', 'public');
+                    if ($storedPath && file_exists(public_path("storage/{$storedPath}"))) {
+                        $this->resizeImage(public_path("storage/{$storedPath}"));
+                        $allImages[] = $storedPath;
+                        
+                        // Garder les 3 premières pour image1, image2, image3 (compatibilité)
+                        if ($index === 0) {
+                            $image1 = $storedPath;
+                        } elseif ($index === 1) {
+                            $image2 = $storedPath;
+                        } elseif ($index === 2) {
+                            $image3 = $storedPath;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    // Fallback sur l'ancien format (image1, image2, image3 individuels)
+    if (!$image1 && Request::hasFile('image1')) {
+        $file1 = Request::file('image1');
+        if ($file1->isValid()) {
+            $image1 = $file1->store('topics', 'public');
+            if ($image1 && file_exists(public_path("storage/{$image1}"))) {
     $this->resizeImage(public_path("storage/{$image1}"));
+                if (!in_array($image1, $allImages)) {
+                    $allImages[] = $image1;
+                }
+            }
+        }
+    }
+    if (!$image2 && Request::hasFile('image2')) {
+        $file2 = Request::file('image2');
+        if ($file2->isValid()) {
+            $image2 = $file2->store('topics', 'public');
+            if ($image2 && file_exists(public_path("storage/{$image2}"))) {
     $this->resizeImage(public_path("storage/{$image2}"));
+                if (!in_array($image2, $allImages)) {
+                    $allImages[] = $image2;
+                }
+            }
+        }
+    }
+    if (!$image3 && Request::hasFile('image3')) {
+        $file3 = Request::file('image3');
+        if ($file3->isValid()) {
+            $image3 = $file3->store('topics', 'public');
+            if ($image3 && file_exists(public_path("storage/{$image3}"))) {
     $this->resizeImage(public_path("storage/{$image3}"));
+                if (!in_array($image3, $allImages)) {
+                    $allImages[] = $image3;
+                }
+            }
+        }
+    }
 
     // Création de l'entrée en base de données
     auth()->user()->Immobiliers()->create([
@@ -112,9 +303,10 @@ public function storeVente3()
         'region' => Request::input('region'),
         'affaire' => Request::input('affaire'),
         'surface' => Request::input('surface'),
-        'image1' => $image1,
-        'image2' => $image2,
-        'image3' => $image3,
+        'image1' => $image1 ?? '',
+        'image2' => $image2 ?? '',
+        'image3' => $image3 ?? '',
+        'images' => !empty($allImages) ? json_encode($allImages) : null, // Toutes les images en JSON
         'categorie' => 'immobilier',
         'npiece' => 0,
     ]);
@@ -170,18 +362,180 @@ public function venduArticle($id)
 }
 
 // MODIFIER immobillier
-public function storeEdit($id )
-    {
-
-
-        auth()->user()->Immobiliers()->where('id', $id)->update([
-            // 'type' => Request::input('type'),
+public function storeEdit($id)
+{
+    $immobilier = auth()->user()->Immobiliers()->findOrFail($id);
+    
+    // Récupérer les images existantes
+    $existingImages = [];
+    if ($immobilier->images) {
+        $existingImages = is_array($immobilier->images) 
+            ? $immobilier->images 
+            : json_decode($immobilier->images, true) ?? [];
+    }
+    
+    // Ajouter image1, image2, image3 si elles existent
+    if ($immobilier->image1 && !in_array($immobilier->image1, $existingImages)) {
+        $existingImages[] = $immobilier->image1;
+    }
+    if ($immobilier->image2 && !in_array($immobilier->image2, $existingImages)) {
+        $existingImages[] = $immobilier->image2;
+    }
+    if ($immobilier->image3 && !in_array($immobilier->image3, $existingImages)) {
+        $existingImages[] = $immobilier->image3;
+    }
+    
+    // Gérer les nouvelles images uploadées
+    $image1 = $immobilier->image1;
+    $image2 = $immobilier->image2;
+    $image3 = $immobilier->image3;
+    $allImages = $existingImages;
+    
+    // Si images est un tableau (nouveau format)
+    if (Request::hasFile('images')) {
+        $images = Request::file('images');
+        if (is_array($images)) {
+            foreach ($images as $index => $image) {
+                if ($image && $image->isValid()) {
+                    $storedPath = $image->store('topics', 'public');
+                    if ($storedPath && file_exists(public_path("storage/{$storedPath}"))) {
+                        $this->resizeImage(public_path("storage/{$storedPath}"));
+                        $allImages[] = $storedPath;
+                        
+                        // Mettre à jour image1, image2, image3 si nécessaire
+                        if ($index === 0) {
+                            $image1 = $storedPath;
+                        } elseif ($index === 1) {
+                            $image2 = $storedPath;
+                        } elseif ($index === 2) {
+                            $image3 = $storedPath;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    // Fallback sur l'ancien format (image1, image2, image3 individuels)
+    if (Request::hasFile('image1')) {
+        $file1 = Request::file('image1');
+        if ($file1->isValid()) {
+            $image1 = $file1->store('topics', 'public');
+            if ($image1 && file_exists(public_path("storage/{$image1}"))) {
+                $this->resizeImage(public_path("storage/{$image1}"));
+                if (!in_array($image1, $allImages)) {
+                    $allImages[] = $image1;
+                }
+            }
+        }
+    }
+    if (Request::hasFile('image2')) {
+        $file2 = Request::file('image2');
+        if ($file2->isValid()) {
+            $image2 = $file2->store('topics', 'public');
+            if ($image2 && file_exists(public_path("storage/{$image2}"))) {
+                $this->resizeImage(public_path("storage/{$image2}"));
+                if (!in_array($image2, $allImages)) {
+                    $allImages[] = $image2;
+                }
+            }
+        }
+    }
+    if (Request::hasFile('image3')) {
+        $file3 = Request::file('image3');
+        if ($file3->isValid()) {
+            $image3 = $file3->store('topics', 'public');
+            if ($image3 && file_exists(public_path("storage/{$image3}"))) {
+                $this->resizeImage(public_path("storage/{$image3}"));
+                if (!in_array($image3, $allImages)) {
+                    $allImages[] = $image3;
+                }
+            }
+        }
+    }
+    
+    // Gérer la suppression d'images existantes (si deletedImages est envoyé)
+    if (Request::has('deletedImages') && is_array(Request::input('deletedImages'))) {
+        $deletedImages = Request::input('deletedImages');
+        
+        // Normaliser tous les chemins d'images existants pour comparaison
+        $normalizedExistingImages = [];
+        foreach ($allImages as $img) {
+            // Normaliser le chemin (enlever storage/ ou /storage/)
+            $normalized = $img;
+            if (strpos($img, 'storage/') === 0) {
+                $normalized = substr($img, 8); // Enlever "storage/"
+            } elseif (strpos($img, '/storage/') !== false) {
+                $normalized = str_replace('/storage/', '', $img);
+            }
+            $normalizedExistingImages[$normalized] = $img;
+        }
+        
+        // Pour chaque image à supprimer, normaliser et retirer
+        foreach ($deletedImages as $deletedUrl) {
+            // Normaliser l'URL supprimée
+            $normalizedDeleted = $deletedUrl;
+            if (strpos($deletedUrl, '/storage/') !== false) {
+                $normalizedDeleted = str_replace('/storage/', '', $deletedUrl);
+            } elseif (strpos($deletedUrl, 'storage/') === 0) {
+                $normalizedDeleted = substr($deletedUrl, 8);
+            }
+            
+            // Retirer de normalizedExistingImages si trouvé
+            if (isset($normalizedExistingImages[$normalizedDeleted])) {
+                unset($normalizedExistingImages[$normalizedDeleted]);
+            }
+            
+            // Aussi comparer avec basename pour être sûr
+            $deletedBasename = basename($normalizedDeleted);
+            foreach ($normalizedExistingImages as $normalized => $original) {
+                if (basename($normalized) === $deletedBasename) {
+                    unset($normalizedExistingImages[$normalized]);
+                }
+            }
+        }
+        
+        // Reconstruire allImages avec les images restantes
+        $allImages = array_values($normalizedExistingImages);
+        
+        // Mettre à jour image1, image2, image3 si elles ont été supprimées
+        if (empty($allImages)) {
+            $image1 = '';
+            $image2 = '';
+            $image3 = '';
+        } else {
+            $image1 = $allImages[0] ?? '';
+            $image2 = isset($allImages[1]) ? $allImages[1] : '';
+            $image3 = isset($allImages[2]) ? $allImages[2] : '';
+        }
+    }
+    
+    // Préparer les données de mise à jour
+    $updateData = [
             'nom' => Request::input('nom'),
             'prix' => Request::input('prix'),
-            'description' => Request::input('description')
-        ]);
+        'description' => Request::input('description'),
+        'region' => Request::input('region'),
+        'categorie' => Request::input('categorie'),
+        'affaire' => Request::input('affaire'),
+        'image1' => $image1 ?? '',
+        'image2' => $image2 ?? '',
+        'image3' => $image3 ?? '',
+        'images' => !empty($allImages) ? json_encode($allImages) : null,
+    ];
+    
+    // Ajouter npiece ou surface selon le type
+    if (Request::has('npiece')) {
+        $updateData['npiece'] = Request::input('npiece');
+    }
+    if (Request::has('surface')) {
+        $updateData['surface'] = Request::input('surface');
+    }
+    
+    // Mettre à jour l'immobilier
+    $immobilier->update($updateData);
 
-        return redirect()->route('dashboard')->with('message', 'Annone publiee avec success Intervention');
+    return redirect()->route('dashboard')->with('message', 'Annonce modifiée avec succès');
     }
 
     // Vendu Vehicule

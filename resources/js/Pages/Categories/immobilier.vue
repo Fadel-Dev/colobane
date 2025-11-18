@@ -2,15 +2,14 @@
 import { ref, computed } from 'vue';
 import { useForm } from "@inertiajs/vue3";
 import AppLayout from '@/Layouts/AppLayout.vue';
+import { Head } from '@inertiajs/vue3';
 
 const lead = useForm({
     nom: null,
     description: null,
     prix: null,
     region: null,
-    image1: null,
-    image2: null,
-    image3: null,
+    images: [], // Tableau pour toutes les images
     type: null,
     npiece: null,
     surface: null,
@@ -18,6 +17,9 @@ const lead = useForm({
 });
 
 const currentStep = ref(1);
+
+// Image previews - tableau dynamique
+const imagePreviews = ref([]);
 
 function nextStep() {
     if (currentStep.value < 3) currentStep.value++;
@@ -27,24 +29,87 @@ function prevStep() {
     if (currentStep.value > 1) currentStep.value--;
 }
 
+function handleMultipleImages(event) {
+    const files = Array.from(event.target.files);
+    addFiles(files);
+    
+    // Réinitialiser l'input pour permettre de sélectionner les mêmes fichiers
+    if (event.target) {
+        event.target.value = '';
+    }
+}
+
+function addFiles(files) {
+    // Limiter à maxImages images maximum
+    const remainingSlots = maxImages - imagePreviews.value.length;
+    const filesToAdd = files.slice(0, remainingSlots);
+    
+    filesToAdd.forEach(file => {
+        if (file.type.startsWith('image/')) {
+            const preview = URL.createObjectURL(file);
+            imagePreviews.value.push({
+                file: file,
+                preview: preview,
+                id: Date.now() + Math.random()
+            });
+            lead.images.push(file);
+        }
+    });
+}
+
+function handleDrop(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    
+    const files = Array.from(event.dataTransfer.files);
+    addFiles(files);
+}
+
+function handleDragOver(event) {
+    event.preventDefault();
+    event.stopPropagation();
+}
+
+function removeImage(index) {
+    // Révocquer l'URL de l'objet
+    if (imagePreviews.value[index].preview) {
+        URL.revokeObjectURL(imagePreviews.value[index].preview);
+    }
+    
+    // Retirer de l'array
+    imagePreviews.value.splice(index, 1);
+    lead.images.splice(index, 1);
+}
+
 function handleSubmit() {
+    // Préparer les données pour l'envoi
+    // Les 3 premières images seront envoyées comme image1, image2, image3 pour compatibilité
+    if (lead.images.length > 0) {
+        lead.image1 = lead.images[0] || null;
+        lead.image2 = lead.images.length > 1 ? lead.images[1] : null;
+        lead.image3 = lead.images.length > 2 ? lead.images[2] : null;
+    }
+    
     let url = '/immobilier/save';
     if (lead.type === 'Verger') {
         url = '/immobilier2/save';
     } else if (lead.type === 'Ferme') {
         url = '/immobilier3/save';
     }
+    
+    // Envoyer le formulaire avec les images
+    // Inertia.js gère automatiquement les fichiers dans le form
     lead.post(url);
 }
 
 const images = [
-    { id: 1, src: "/storage/slide/villa.png", alt: "Image 1", titre: "Villa" },
-    { id: 2, src: "/storage/slide/appartement.png", alt: "Image 2", titre: "Appartement" },
-    { id: 3, src: "/storage/slide/terrain.png", alt: "Image 3", titre: "Terrain" },
-    { id: 4, src: "/storage/slide/chambre.png", alt: "Image 4", titre: "Chambre" },
-    { id: 5, src: "/storage/slide/immeuble.png", alt: "Image 5", titre: "Immeuble" },
-    { id: 6, src: "/storage/slide/verger.png", alt: "Image 6", titre: "Verger" },
-    { id: 7, src: "/storage/slide/ferme.png", alt: "Image 7", titre: "Ferme" }
+    { id: 1, src: "/storage/slide/villa.png", alt: "Image 1", titre: "Villa", icon: "bi-house-door" },
+    { id: 2, src: "/storage/slide/appartement.png", alt: "Image 2", titre: "Appartement", icon: "bi-building" },
+    { id: 3, src: "/storage/slide/terrain.png", alt: "Image 3", titre: "Terrain", icon: "bi-map" },
+    { id: 4, src: "/storage/slide/chambre.png", alt: "Image 4", titre: "Chambre", icon: "bi-door-open" },
+    { id: 5, src: "/storage/slide/immeuble.png", alt: "Image 5", titre: "Immeuble", icon: "bi-buildings" },
+    { id: 6, src: "/storage/slide/verger.png", alt: "Image 6", titre: "Verger", icon: "bi-tree" },
+    { id: 7, src: "/storage/slide/ferme.png", alt: "Image 7", titre: "Ferme", icon: "bi-barn" }
 ];
 
 const isStepOneValid = computed(() => {
@@ -58,219 +123,450 @@ const isStepTwoValid = computed(() => {
         return lead.surface && lead.affaire;
     }
 });
+
+const totalSteps = 3;
+const maxImages = 10;
 </script>
 
 <template>
-    <app-layout>
-        <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight text-center">
-                Publication
-            </h2>
-        </template>
+    <AppLayout title="Publier un bien immobilier">
+        <Head title="Publier un bien immobilier" />
 
-        <div class="w-11/12 my-7 m-auto rounded-2xl lg:w-2/5 border-2 shadow-lg border-slate-400">
-            <h2 class="text-2xl font-bold mb-4 text-center">Sélectionnez une image</h2>
-            <div class="grid grid-cols-3 md:grid-cols-3 lg:grid-cols-3 gap-4">
-                <div class="flex flex-col items-center justify-center" v-for="image in images" :key="image.id">
-                    <label class="flex flex-col items-center">
-                        <input type="radio" class="text-principal focus:border-white focus:ring-white"
-                            :value="image.titre" v-model="lead.type">
-                        <h3 class="text-center mt-2">{{ image.titre }}</h3>
-                        <img :src="image.src" :alt="image.alt" class="w-2/5 rounded-lg shadow-lg mt-2">
-                    </label>
+        <div class="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-50 py-8">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <!-- Header -->
+                <div class="text-center mb-8">
+                    <h1 class="text-3xl font-bold text-gray-900 mb-2">
+                        Publier un bien immobilier
+                    </h1>
+                    <p class="text-gray-600">
+                        Remplissez le formulaire ci-dessous pour publier votre annonce
+                    </p>
                 </div>
 
-            </div>
-        </div>
-
-        <div v-if="lead.type" class="p-6">
-            <div class="w-full p-3 m-auto rounded-2xl border-2 shadow-lg border-slate-200 lg:w-2/5">
-                <h2 class="button my-5 text-center bg-principal text-white rounded-full py-3">Ecrivez votre annonce {{
-                    lead.type.toLowerCase() }}</h2>
-
-                <form @submit.prevent="handleSubmit">
-                    <div v-if="currentStep === 1">
-                        <!-- NOM -->
-                        <div class="mb-4">
-                            <!-- <label class="block text-gray-700 font-bold mb-2" for="nom">Titre</label> -->
-                            <input class="w-full bg-white border-none p-4 rounded-[20px] mt-4 shadow-[0_10px_10px_-5px_#101634] border-2 border-transparent placeholder-gray-500 focus:outline-none
-         focus:border-white focus:ring focus:ring-white focus:ring-opacity-50
-        " id="nom" name="nom" type="text" placeholder="Entrez le titre de votre annonce" v-model="lead.nom" required>
+                <!-- Step Indicator -->
+                <div v-if="lead.type" class="mb-8">
+                    <div class="flex items-center justify-between">
+                        <div
+                            v-for="step in totalSteps"
+                            :key="step"
+                            class="flex items-center flex-1"
+                        >
+                            <div class="flex items-center flex-1">
+                                <div
+                                    :class="[
+                                        'w-10 h-10 rounded-full flex items-center justify-center font-bold transition-all',
+                                        currentStep >= step
+                                            ? 'bg-principal text-white'
+                                            : 'bg-gray-200 text-gray-500'
+                                    ]"
+                                >
+                                    <i
+                                        v-if="currentStep > step"
+                                        class="bi bi-check-lg"
+                                    ></i>
+                                    <span v-else>{{ step }}</span>
+                                </div>
+                                <div
+                                    v-if="step < totalSteps"
+                                    :class="[
+                                        'flex-1 h-1 mx-2 transition-all',
+                                        currentStep > step ? 'bg-principal' : 'bg-gray-200'
+                                    ]"
+                                ></div>
+                            </div>
                         </div>
-
-                        <!-- PRIX -->
-                        <div class="mb-4">
-                            <!-- <label class="block text-gray-700 font-bold mb-2" for="prix">Prix</label> -->
-                            <input class="w-full bg-white border-none p-4 rounded-[20px] mt-4 shadow-[0_10px_10px_-5px_#101634] border-2 border-transparent placeholder-gray-500 focus:outline-none
-         focus:border-white focus:ring focus:ring-white focus:ring-opacity-50
-        " id="prix" type="text" placeholder="Entrez le prix" name="prix" v-model="lead.prix" required>
-                        </div>
-
-                        <!-- DESCRIPTION -->
-                        <div class="mb-4">
-                            <!-- <label class="block text-gray-700 font-bold mb-2" for="description">Description</label> -->
-                            <textarea class="w-full bg-white border-none p-4 rounded-[20px] mt-4 shadow-[0_10px_10px_-5px_#101634] border-2 border-transparent placeholder-gray-500 focus:outline-none
-         focus:border-white focus:ring focus:ring-white focus:ring-opacity-50
-        " id="description" rows="5" name="description" v-model="lead.description" placeholder="Entrez la description"
-                                required></textarea>
-                        </div>
-
-                        <button type="button" @click="nextStep" class="bg-principal text-white px-5 py-1 rounded-2xl"
-                            :disabled="!isStepOneValid">Suivant</button>
                     </div>
+                    <div class="flex justify-between mt-2 text-sm text-gray-600">
+                        <span :class="currentStep >= 1 ? 'text-principal font-semibold' : ''">Informations</span>
+                        <span :class="currentStep >= 2 ? 'text-principal font-semibold' : ''">Détails</span>
+                        <span :class="currentStep >= 3 ? 'text-principal font-semibold' : ''">Finalisation</span>
+                    </div>
+                </div>
 
-                    <div v-if="currentStep === 2">
-                        <!-- SPECIFIC FIELD BASED ON TYPE -->
-                        <div v-if="lead.type === 'Villa' || lead.type === 'Appartement' || lead.type === 'Immeuble' || lead.type === 'Chambre'"
-                            class="mb-4">
-                            <label class="block text-gray-700 font-bold mb-2" for="npiece">Nombre de pièce</label>
+                <!-- Type Selection -->
+                <div v-if="!lead.type" class="bg-white rounded-2xl shadow-xl border border-gray-200 p-8">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-6 text-center">
+                        Sélectionnez le type de bien
+                    </h2>
+                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                        <label
+                            v-for="image in images"
+                            :key="image.id"
+                            :class="[
+                                'relative cursor-pointer rounded-xl border-2 p-4 transition-all duration-300 hover:shadow-lg',
+                                lead.type === image.titre
+                                    ? 'border-principal bg-principal/5 shadow-md scale-105'
+                                    : 'border-gray-200 hover:border-principal/50'
+                            ]"
+                        >
                             <input
-                                class="shadow appearance-none focus:border-gray-500 focus:ring-gray-500 border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                id="npiece" name="npiece" type="text" placeholder="Entrez le nombre de pièce"
-                                v-model="lead.npiece" required>
-                        </div>
-
-                        <div v-else class="mb-4">
-                            <!-- <label class="block text-gray-700 font-bold mb-2" for="surface">Surface</label> -->
-                            <input class="w-full bg-white border-none p-4 rounded-[20px] mt-4 shadow-[0_10px_10px_-5px_#101634] border-2 border-transparent placeholder-gray-500 focus:outline-none
-         focus:border-white focus:ring focus:ring-white focus:ring-opacity-50
-        " id="surface" name="surface" type="text" placeholder="Entrez la surface" v-model="lead.surface" required>
-                        </div>
-
-                        <!-- AFFAIRE -->
-                        <!-- <label class="block text-gray-700 font-bold mb-2" for="affaire">Location ou vente</label> -->
-                        <select class="w-full bg-white border-none p-4 rounded-[20px] mt-4 shadow-[0_10px_10px_-5px_#101634] border-2 border-transparent placeholder-gray-500 focus:outline-none
-         focus:border-white focus:ring focus:ring-white focus:ring-opacity-50
-        " id="affaire" name="affaire" v-model="lead.affaire">
-                            <option value="vente">Vente</option>
-                            <option value="location">Location</option>
-                        </select>
-
-                        <button type="button" @click="prevStep"
-                            class="bg-gray-500 mt-5 text-white px-5 py-1 rounded-2xl">Précédent</button>
-                        <button type="button" @click="nextStep"
-                            class="bg-principal mt-5 text-white px-5 py-1 rounded-2xl"
-                            :disabled="!isStepTwoValid">Suivant</button>
+                                type="radio"
+                                class="sr-only"
+                                :value="image.titre"
+                                v-model="lead.type"
+                            />
+                            <div class="text-center">
+                                <div
+                                    :class="[
+                                        'w-16 h-16 mx-auto mb-3 rounded-xl flex items-center justify-center transition-all',
+                                        lead.type === image.titre
+                                            ? 'bg-principal text-white'
+                                            : 'bg-gray-100 text-gray-600'
+                                    ]"
+                                >
+                                    <i :class="`bi ${image.icon} text-2xl`"></i>
+                                </div>
+                                <h3 class="font-semibold text-gray-900">{{ image.titre }}</h3>
+                            </div>
+                            <div
+                                v-if="lead.type === image.titre"
+                                class="absolute top-2 right-2 w-6 h-6 bg-principal rounded-full flex items-center justify-center"
+                            >
+                                <i class="bi bi-check text-white text-sm"></i>
+                            </div>
+                        </label>
                     </div>
+                </div>
 
-                    <div v-if="currentStep === 3">
-                        <!-- IMAGES -->
-                        <div class="images mb-4">
-                            <!-- <label
-              class="block text-gray-700 font-bold mb-2"
-              for="image1">Image 1</label> -->
-                            <input type="file" @change="event => lead.image1 = event.target.files[0]" class="w-full bg-white border-none p-4 rounded-[20px] mt-4 shadow-[0_10px_10px_-5px_#101634] border-2 border-transparent placeholder-gray-500 focus:outline-none
-         focus:border-white focus:ring focus:ring-white focus:ring-opacity-50
-        " />
-                            <progress v-if="lead.progress" :value="lead.progress.percentage" max="100">{{
-                                lead.progress.percentage }}%</progress>
+                <!-- Form -->
+                <div v-if="lead.type" class="bg-white rounded-2xl shadow-xl border border-gray-200 p-8">
+                    <form @submit.prevent="handleSubmit">
+                        <!-- Step 1: Basic Info -->
+                        <div v-if="currentStep === 1" class="space-y-6">
+                            <div>
+                                <h2 class="text-2xl font-bold text-gray-900 mb-6">
+                                    Informations de base
+                                </h2>
+                            </div>
 
-                            <!-- <label class="block text-gray-700 font-bold mb-2" for="image2">Image 2</label> -->
-                            <input type="file" @change="event => lead.image2 = event.target.files[0]" class="w-full bg-white border-none p-4 rounded-[20px] mt-4 shadow-[0_10px_10px_-5px_#101634] border-2 border-transparent placeholder-gray-500 focus:outline-none
-         focus:border-white focus:ring focus:ring-white focus:ring-opacity-50
-        " />
-                            <progress v-if="lead.progress" :value="lead.progress.percentage" max="100">{{
-                                lead.progress.percentage }}%</progress>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                    Titre de l'annonce <span class="text-red-500">*</span>
+                                </label>
+                                <input
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-principal focus:border-transparent transition-all"
+                                    id="nom"
+                                    name="nom"
+                                    type="text"
+                                    placeholder="Ex: Belle villa 4 chambres à Dakar"
+                                    v-model="lead.nom"
+                                    required
+                                />
+                            </div>
 
-                            <!-- <label class="block text-gray-700 font-bold mb-2" for="image3">Image 3</label> -->
-                            <input type="file" @change="event => lead.image3 = event.target.files[0]" class="w-full bg-white border-none p-4 rounded-[20px] mt-4 shadow-[0_10px_10px_-5px_#101634] border-2 border-transparent placeholder-gray-500 focus:outline-none
-         focus:border-white focus:ring focus:ring-white focus:ring-opacity-50
-        " />
-                            <progress v-if="lead.progress" :value="lead.progress.percentage" max="100">{{
-                                lead.progress.percentage }}%</progress>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                    Prix (FCFA) <span class="text-red-500">*</span>
+                                </label>
+                                <input
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-principal focus:border-transparent transition-all"
+                                    id="prix"
+                                    type="text"
+                                    placeholder="Ex: 5000000"
+                                    name="prix"
+                                    v-model="lead.prix"
+                                    required
+                                />
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                    Description <span class="text-red-500">*</span>
+                                </label>
+                                <textarea
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-principal focus:border-transparent transition-all resize-none"
+                                    id="description"
+                                    rows="5"
+                                    name="description"
+                                    v-model="lead.description"
+                                    placeholder="Décrivez votre bien en détail..."
+                                    required
+                                ></textarea>
+                            </div>
+
+                            <div class="flex justify-end pt-4">
+                                <button
+                                    type="button"
+                                    @click="nextStep"
+                                    :disabled="!isStepOneValid"
+                                    :class="[
+                                        'px-6 py-3 rounded-xl font-semibold transition-all',
+                                        isStepOneValid
+                                            ? 'bg-principal text-white hover:bg-principal-dark shadow-lg hover:shadow-xl'
+                                            : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                                    ]"
+                                >
+                                    Suivant
+                                    <i class="bi bi-arrow-right ml-2"></i>
+                                </button>
+                            </div>
                         </div>
 
-                        <!-- REGION -->
-                        <div class="mb-4">
-                            <select
-                                class="border border-gray-300 rounded-full text-gray-600 h-10 pl-5 pr-10 bg-white hover:border-gray-400 focus:outline-none appearance-none"
-                                v-model="lead.region" required>
-                                <option value="" disabled selected hidden>Région</option>
-                                <option value="dakar">dakar</option>
-                                <option value="diourbel">diourbel</option>
-                                <option value="fatick">fatick</option>
-                                <option value="kaffrine">kaffrine</option>
-                                <option value="kaolack">kaolack</option>
-                                <option value="kédougou">kédougou</option>
-                                <option value="kolda">kolda</option>
-                                <option value="louga">louga</option>
-                                <option value="matam">matam</option>
-                                <option value="saint-louis">saint-louis</option>
-                                <option value="sédhiou">sédhiou</option>
-                                <option value="tambacounda">tambacounda</option>
-                                <option value="thiès">thiès</option>
-                                <option value="ziguinchor">ziguinchor</option>
-                            </select>
+                        <!-- Step 2: Details -->
+                        <div v-if="currentStep === 2" class="space-y-6">
+                            <div>
+                                <h2 class="text-2xl font-bold text-gray-900 mb-6">
+                                    Détails du bien
+                                </h2>
+                            </div>
+
+                            <div v-if="['Villa', 'Appartement', 'Immeuble', 'Chambre'].includes(lead.type)">
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                    Nombre de pièces <span class="text-red-500">*</span>
+                                </label>
+                                <input
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-principal focus:border-transparent transition-all"
+                                    id="npiece"
+                                    name="npiece"
+                                    type="text"
+                                    placeholder="Ex: 4"
+                                    v-model="lead.npiece"
+                                    required
+                                />
+                            </div>
+
+                            <div v-else>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                    Surface (m²) <span class="text-red-500">*</span>
+                                </label>
+                                <input
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-principal focus:border-transparent transition-all"
+                                    id="surface"
+                                    name="surface"
+                                    type="text"
+                                    placeholder="Ex: 500"
+                                    v-model="lead.surface"
+                                    required
+                                />
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                    Type d'affaire <span class="text-red-500">*</span>
+                                </label>
+                                <select
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-principal focus:border-transparent transition-all bg-white"
+                                    id="affaire"
+                                    name="affaire"
+                                    v-model="lead.affaire"
+                                    required
+                                >
+                                    <option value="" disabled selected>Sélectionnez...</option>
+                                    <option value="Vente">Vente</option>
+                                    <option value="Location">Location</option>
+                                </select>
+                            </div>
+
+                            <div class="flex justify-between pt-4">
+                                <button
+                                    type="button"
+                                    @click="prevStep"
+                                    class="px-6 py-3 bg-gray-200 text-gray-700 rounded-xl font-semibold hover:bg-gray-300 transition-all"
+                                >
+                                    <i class="bi bi-arrow-left mr-2"></i>
+                                    Précédent
+                                </button>
+                                <button
+                                    type="button"
+                                    @click="nextStep"
+                                    :disabled="!isStepTwoValid"
+                                    :class="[
+                                        'px-6 py-3 rounded-xl font-semibold transition-all',
+                                        isStepTwoValid
+                                            ? 'bg-principal text-white hover:bg-principal-dark shadow-lg hover:shadow-xl'
+                                            : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                                    ]"
+                                >
+                                    Suivant
+                                    <i class="bi bi-arrow-right ml-2"></i>
+                                </button>
+                            </div>
                         </div>
 
-                        <button type="button" @click="prevStep"
-                            class="bg-gray-500 text-white px-5 py-1 rounded-2xl">Précédent</button>
-                        <button type="submit" class="bg-principal text-white px-5 py-1 rounded-2xl">Soumettre</button>
-                    </div>
-                </form>
+                        <!-- Step 3: Images & Region -->
+                        <div v-if="currentStep === 3" class="space-y-6">
+                            <div>
+                                <h2 class="text-2xl font-bold text-gray-900 mb-6">
+                                    Photos et localisation
+                                </h2>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                    Photos du bien <span class="text-red-500">*</span>
+                                </label>
+                                <p class="text-xs text-gray-500 mb-4">
+                                    Sélectionnez plusieurs photos à la fois (maximum {{ maxImages }} photos)
+                                    <span v-if="imagePreviews.length > 0" class="text-principal font-semibold">
+                                        - {{ imagePreviews.length }}/{{ maxImages }} sélectionnées
+                                    </span>
+                                </p>
+                                
+                                <!-- Upload Multiple with Drag & Drop -->
+                                <div class="mb-6">
+                                    <label
+                                        v-if="imagePreviews.length < maxImages"
+                                        @drop="handleDrop"
+                                        @dragover="handleDragOver"
+                                        @dragenter="handleDragOver"
+                                        class="block w-full border-2 border-dashed border-principal rounded-xl cursor-pointer hover:bg-principal/5 transition-colors p-8 text-center"
+                                    >
+                                        <div>
+                                            <i class="bi bi-cloud-upload text-5xl text-principal mb-3"></i>
+                                            <p class="text-lg font-semibold text-gray-900 mb-1">
+                                                Cliquez pour sélectionner des photos
+                                            </p>
+                                            <p class="text-sm text-gray-600">
+                                                ou glissez-déposez vos images ici
+                                            </p>
+                                            <p class="text-xs text-gray-500 mt-2">
+                                                Formats acceptés: JPG, PNG, WEBP (max {{ maxImages }} photos)
+                                            </p>
+                                        </div>
+                                        <input
+                                            type="file"
+                                            @change="handleMultipleImages"
+                                            class="hidden"
+                                            accept="image/*"
+                                            multiple
+                                        />
+                                    </label>
+                                </div>
+
+                                <!-- Images Preview Grid -->
+                                <div v-if="imagePreviews.length > 0" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                                    <div
+                                        v-for="(image, index) in imagePreviews"
+                                        :key="image.id"
+                                        class="relative group"
+                                    >
+                                        <div class="aspect-square rounded-xl overflow-hidden border-2 border-gray-200">
+                                            <img
+                                                :src="image.preview"
+                                                :alt="`Preview ${index + 1}`"
+                                                class="w-full h-full object-cover"
+                                            />
+                                        </div>
+                                        <button
+                                            type="button"
+                                            @click="removeImage(index)"
+                                            class="absolute top-2 right-2 bg-red-500 text-white rounded-full p-2 hover:bg-red-600 transition-colors shadow-lg"
+                                            title="Supprimer cette photo"
+                                        >
+                                            <i class="bi bi-x-lg"></i>
+                                        </button>
+                                        <div class="absolute bottom-2 left-2 bg-black/70 text-white px-2 py-1 rounded text-xs font-semibold">
+                                            Photo {{ index + 1 }}
+                                        </div>
+                                        <div v-if="index < 3" class="absolute top-2 left-2 bg-principal text-white px-2 py-1 rounded text-xs font-semibold">
+                                            Principale
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Add More Button -->
+                                <div v-if="imagePreviews.length > 0 && imagePreviews.length < maxImages" class="mt-4">
+                                    <label class="inline-flex items-center px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl cursor-pointer transition-colors">
+                                        <i class="bi bi-plus-circle mr-2"></i>
+                                        Ajouter plus de photos ({{ maxImages - imagePreviews.length }} restantes)
+                                        <input
+                                            type="file"
+                                            @change="handleMultipleImages"
+                                            class="hidden"
+                                            accept="image/*"
+                                            multiple
+                                        />
+                                    </label>
+                                </div>
+
+                                <progress
+                                    v-if="lead.progress"
+                                    :value="lead.progress.percentage"
+                                    max="100"
+                                    class="w-full mt-4 h-2 rounded-full"
+                                >
+                                    {{ lead.progress.percentage }}%
+                                </progress>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                    Région <span class="text-red-500">*</span>
+                                </label>
+                                <select
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-principal focus:border-transparent transition-all bg-white"
+                                    v-model="lead.region"
+                                    required
+                                >
+                                    <option value="" disabled selected>Sélectionnez une région</option>
+                                    <option value="Dakar">Dakar</option>
+                                    <option value="Diourbel">Diourbel</option>
+                                    <option value="Fatick">Fatick</option>
+                                    <option value="Kaffrine">Kaffrine</option>
+                                    <option value="Kaolack">Kaolack</option>
+                                    <option value="Kédougou">Kédougou</option>
+                                    <option value="Kolda">Kolda</option>
+                                    <option value="Louga">Louga</option>
+                                    <option value="Matam">Matam</option>
+                                    <option value="Saint-Louis">Saint-Louis</option>
+                                    <option value="Sédhiou">Sédhiou</option>
+                                    <option value="Tambacounda">Tambacounda</option>
+                                    <option value="Thiès">Thiès</option>
+                                    <option value="Ziguinchor">Ziguinchor</option>
+                                </select>
+                            </div>
+
+                            <div class="flex justify-between pt-4">
+                                <button
+                                    type="button"
+                                    @click="prevStep"
+                                    class="px-6 py-3 bg-gray-200 text-gray-700 rounded-xl font-semibold hover:bg-gray-300 transition-all"
+                                >
+                                    <i class="bi bi-arrow-left mr-2"></i>
+                                    Précédent
+                                </button>
+                                <button
+                                    type="submit"
+                                    :disabled="lead.processing || imagePreviews.length === 0"
+                                    :class="[
+                                        'px-8 py-3 rounded-xl font-semibold transition-all',
+                                        lead.processing || imagePreviews.length === 0
+                                            ? 'bg-gray-400 cursor-not-allowed'
+                                            : 'bg-principal text-white hover:bg-principal-dark shadow-lg hover:shadow-xl'
+                                    ]"
+                                >
+                                    <span v-if="lead.processing">
+                                        <i class="bi bi-hourglass-split animate-spin mr-2"></i>
+                                        Publication...
+                                    </span>
+                                    <span v-else>
+                                        <i class="bi bi-check-circle mr-2"></i>
+                                        Publier l'annonce ({{ imagePreviews.length }} photo{{ imagePreviews.length > 1 ? 's' : '' }})
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-    </app-layout>
+    </AppLayout>
 </template>
 
 <style scoped>
-.images {
-    display: grid;
-    grid-template-columns: 32% 32% 32%;
-    grid-gap: 3%;
+progress {
+    -webkit-appearance: none;
+    appearance: none;
 }
 
-/* ecrivez une annonce */
-
-.button {
-    min-width: 120px;
-
-    position: relative;
-    cursor: pointer;
-
-    padding: 12px 17px;
-    border: 0;
-    border-radius: 7px;
-
-    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
-    background: radial-gradient(ellipse at bottom,
-            rgba(235, 45, 83, 1) 0%,
-            rgba(235, 45, 83, 1) 45%);
-
-    color: white;
-
-    transition: all 1s cubic-bezier(0.15, 0.83, 0.66, 1);
+progress::-webkit-progress-bar {
+    background-color: #e5e7eb;
+    border-radius: 9999px;
 }
 
-.button::before {
-    content: "";
-    width: 70%;
-    height: 1px;
-
-    position: absolute;
-    bottom: 0;
-    left: 15%;
-
-    background: rgb(255, 255, 255);
-}
-
-.element {
-    background: linear-gradient(90deg,
-            rgba(235, 45, 83, 1) 0%,
-            rgba(235, 45, 83, 1) 50%,
-            rgba(235, 45, 83, 1) 100%);
-    opacity: 0.2;
-
-
-    transition: all 1s cubic-bezier(0.15, 0.83, 0.66, 1);
-}
-
-.button:hover {
-    color: rgb(255, 255, 255, 1);
-    transform: scale(1.1) translateY(-3px);
-}
-
-.button:hover::before {
-    opacity: 1;
+progress::-webkit-progress-value {
+    background-color: #eb2d53;
+    border-radius: 9999px;
 }
 </style>

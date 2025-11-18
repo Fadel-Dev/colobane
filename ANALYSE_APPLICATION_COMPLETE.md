@@ -10,6 +10,129 @@
 
 **Colobane** est une plateforme web complète de gestion et publication d'annonces immobilières et de véhicules, développée avec Laravel 10 et Vue.js 3 via Inertia.js.
 
+### 🏗️ STRUCTURE BINAIRE DE L'APPLICATION
+
+L'application est organisée en **deux parties principales distinctes** :
+
+#### 🏠 **PARTIE 1 : IMMOBILIER**
+- **Modèle:** `Immobiliers` (app/Models/Immobiliers.php)
+- **Contrôleur:** `ImmobilierController` (app/Http/Controllers/ImmobilierController.php)
+- **Types supportés:** Maison, Appartement, Studio, Villa, Terrain, Duplex, Immeuble, Locaux commerciaux, Chambre, Verger
+- **Fonctionnalités:**
+  - ✅ Création annonces (3 types de formulaires)
+  - ✅ Upload 3 images par annonce
+  - ✅ Gestion prix, surface, pièces, chambres
+  - ✅ Localisation (région, adresse)
+  - ✅ Statuts (accepter, Vendu, En attente)
+  - ✅ Système de boost
+  - ✅ Marquer comme vendu
+- **Routes principales:**
+  - `POST /immobilier/save` - Créer type 1
+  - `POST /immobilier2/save` - Créer type 2
+  - `POST /immobilier3/save` - Créer type 3
+  - `PUT /immobilier/{id}` - Modifier
+  - `PUT /immobilierVendu/{id}` - Marquer vendu
+  - `PUT /immobilierBoost/{id}` - Booster
+  - `GET /detail/{id}` - Détails
+- **Pages Vue:**
+  - `DetailsImmo.vue` - Détails immobilier
+  - `ModifiImmobilierArticle.vue` - Édition
+  - `ModifiImmobilierVendu.vue` - Marquer vendu
+  - `BoostImmo.vue` - Page boost
+  - `Categories/immobilier.vue` - Catégorie
+  - `ForWelcome/` - Composants par type (Villa, Chambre, etc.)
+
+#### 🚗 **PARTIE 2 : VOITURES**
+- **Modèles:** 
+  - `Voitures` (app/Models/Voitures.php) - Vente
+  - `Voiturelocation` (app/Models/Voiturelocation.php) - Location
+- **Contrôleur:** `VehiculeController` (app/Http/Controllers/VehiculeController.php)
+- **Types supportés:**
+  - **Vente:** Voitures à vendre
+  - **Location:** Voitures en location
+- **Fonctionnalités:**
+  - ✅ Création annonces vente
+  - ✅ Création annonces location
+  - ✅ Détails techniques (marque, modèle, année)
+  - ✅ Carburant, boîte de vitesse, kilométrage
+  - ✅ Upload 3 images par annonce
+  - ✅ Statuts (accepter, Vendu, En réparation)
+  - ✅ Système de boost
+  - ✅ Marquer comme vendu
+- **Routes principales:**
+  - `POST /voitureVente/save` - Créer vente
+  - `POST /voitureLocation/save` - Créer location
+  - `PUT /vehicule/{id}` - Modifier
+  - `PUT /vehiculeVendu/{id}` - Marquer vendu
+  - `PUT /vehiculeBoost/{id}` - Booster
+  - `GET /detailVehi/{id}` - Détails
+- **Pages Vue:**
+  - `DetailsVehicule.vue` - Détails véhicule
+  - `ModifiVehiculeArticle.vue` - Édition
+  - `ModifiVehiculeVendu.vue` - Marquer vendu
+  - `BoostVehi.vue` - Page boost
+  - `Categories/voiture.vue` - Catégorie
+  - `ForWelcome/Voiture.vue` - Composant véhicules
+
+### 🔄 **PARTIES COMMUNES**
+Les deux parties partagent :
+- ✅ **Authentification** (Jetstream)
+- ✅ **Dashboard utilisateur** (gestion des annonces)
+- ✅ **Panel Admin** (modération)
+- ✅ **Système de boost** (même logique)
+- ✅ **Upload images** (même système)
+- ✅ **Statuts** (même workflow)
+- ✅ **Design** (même UI/UX)
+
+### 📊 **DIAGRAMME DE STRUCTURE**
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    APPLICATION COLOBANE                      │
+└─────────────────────────────────────────────────────────────┘
+                            │
+            ┌───────────────┴───────────────┐
+            │                               │
+    ┌───────▼────────┐            ┌─────────▼────────┐
+    │   IMMOBILIER   │            │    VOITURES     │
+    │   (Partie 1)   │            │   (Partie 2)    │
+    └───────┬────────┘            └─────────┬────────┘
+            │                               │
+    ┌───────┴────────┐            ┌─────────┴────────┐
+    │                │            │                  │
+    │ Modèle:        │            │ Modèles:         │
+    │ Immobiliers    │            │ • Voitures       │
+    │                │            │ • Voiturelocation│
+    │ Contrôleur:    │            │                  │
+    │ Immobilier     │            │ Contrôleur:      │
+    │ Controller     │            │ Vehicule         │
+    │                │            │ Controller       │
+    │ Types:         │            │                  │
+    │ • Maison       │            │ Types:           │
+    │ • Appartement  │            │ • Vente          │
+    │ • Studio       │            │ • Location        │
+    │ • Villa        │            │                  │
+    │ • Terrain      │            │                  │
+    │ • Duplex       │            │                  │
+    │ • Immeuble     │            │                  │
+    │ • Chambre      │            │                  │
+    │ • Verger       │            │                  │
+    └────────────────┘            └──────────────────┘
+            │                               │
+            └───────────────┬───────────────┘
+                            │
+            ┌───────────────▼───────────────┐
+            │     PARTIES COMMUNES          │
+            │                               │
+            │ • Authentification (Jetstream)│
+            │ • Dashboard utilisateur       │
+            │ • Panel Admin                 │
+            │ • Système de boost            │
+            │ • Upload images               │
+            │ • Design UI/UX                │
+            └───────────────────────────────┘
+```
+
 ### Caractéristiques principales:
 - ✅ **Plateforme de marketplace** pour biens immobiliers et véhicules
 - ✅ **Système d'authentification** complet (Jetstream + Sanctum)
@@ -390,7 +513,9 @@ config('jetstream.auth_session')  // Session Jetstream
 
 ## 🚀 FONCTIONNALITÉS PRINCIPALES
 
-### 1. Gestion Immobilière
+> **Note:** L'application est structurée en **deux parties distinctes** : Immobilier et Voitures. Chaque partie a ses propres modèles, contrôleurs, routes et pages Vue, mais partage les fonctionnalités communes (auth, dashboard, admin, boost).
+
+### 🏠 PARTIE 1 : GESTION IMMOBILIÈRE
 
 **Types supportés:**
 - Maison, Appartement, Studio
@@ -407,7 +532,7 @@ config('jetstream.auth_session')  // Session Jetstream
 - ✅ Système de boost
 - ✅ Marquer comme vendu
 
-### 2. Gestion Véhicules
+### 🚗 PARTIE 2 : GESTION VÉHICULES
 
 **Types:**
 - Véhicules à la vente
@@ -422,7 +547,9 @@ config('jetstream.auth_session')  // Session Jetstream
 - ✅ Système de boost
 - ✅ Marquer comme vendu
 
-### 3. Système de Boost
+### ⚡ FONCTIONNALITÉS COMMUNES
+
+#### 3. Système de Boost
 
 **Fonctionnement:**
 - Boost temporaire des annonces
@@ -436,7 +563,7 @@ config('jetstream.auth_session')  // Session Jetstream
 - `PUT /immobilierBoost/{id}` - Activer boost
 - `PUT /vehiculeBoost/{id}` - Activer boost
 
-### 4. Panel Administrateur
+#### 4. Panel Administrateur
 
 **Fonctionnalités:**
 - ✅ Gestion utilisateurs
@@ -445,7 +572,7 @@ config('jetstream.auth_session')  // Session Jetstream
 - ✅ Modification annonces
 - ✅ Statistiques
 
-### 5. PWA (Progressive Web App)
+#### 5. PWA (Progressive Web App)
 
 **Configuration:**
 - Service Worker activé

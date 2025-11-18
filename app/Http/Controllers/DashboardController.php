@@ -10,7 +10,6 @@ use App\Models\Lead;
 use App\Models\User;
 use App\Models\Immobiliers;
 use App\Models\Services;
-use App\Models\Voitures;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
@@ -25,7 +24,7 @@ class DashboardController extends Controller
 {
     /**
      * Renvoie la page de dashboard pour les utilisateurs
-     * Récupère les immobiliers et les voitures de l'utilisateur
+     * Récupère les immobiliers de l'utilisateur
      * ainsi que les utilisateurs qui ont des articles en cours de vente
      * et les utilisateurs qui ont des articles vendus
      * @return \Inertia\Response
@@ -55,25 +54,6 @@ class DashboardController extends Controller
                 ->with('user:id,name,phone,email,id') // Charger la relation user avec seulement l'id et le nom
                 ->get();
 
-            // Récupérer les voitures avec les utilisateurs associés
-            $voitures = Voitures::where('booster', 1)
-                ->where('status', 'pending')
-                ->with('user:id,name,phone,email,id') // Charger la relation user avec seulement l'id et le nom
-                ->get();
-
-                // recuprer les deja booster
-                $voituresBoosted = Voitures::
-                where('status', 'null')
-               -> where('onceBooster', true)
-                ->with('user:id,name,phone,email,id') // Charger la relation user avec seulement l'id et le nom
-                ->get();
-
-                // recuprer les en cours de boost
-
-                  $voituresBoosting = Voitures::
-                where('status', 'accepter')
-                ->with('user:id,name,phone,email,id') // Charger la relation user avec seulement l'id et le nom
-                ->get();
 
             // Tableau pour stocker les informations
             $articles = [];
@@ -94,20 +74,6 @@ class DashboardController extends Controller
                 $userIds[] = $immobilier->user->id;
             }
 
-            // Parcourir les voitures et stocker les informations
-            foreach ($voitures as $voiture) {
-                $articles[] = [
-                    'type' => 'voiture',
-                    'article_id' => $voiture->id,
-                    'user_id' => $voiture->user->id,
-                    'user_name' => $voiture->user->name,
-                    'user_phone' => $voiture->user->phone,
-                    'user_email' => $voiture->user->email,
-                ];
-
-                // Stocker le user_id dans un tableau
-                $userIds[] = $voiture->user->id;
-            }
 
             // Supprimer les doublons de userIds
             $userIds = array_unique($userIds);
@@ -116,13 +82,10 @@ class DashboardController extends Controller
             $users = User::whereIn('id', $userIds)->get(['id', 'name']);
 
             return Inertia::render('DashboardAdmin', [
-                'voitures' => $voitures,
                 'immobiliers' => $immobiliers,
                 'users' => $users, // Passer les utilisateurs récupérés
                 'immobilliersBoosted'=> $immobilliersBoosted,
-                'voituresBoosted'=> $voituresBoosted,
-                'immobilliersBoosting'=> $immobilliersBoosting,
-                'voituresBoosting'=> $voituresBoosting
+                'immobilliersBoosting'=> $immobilliersBoosting
             ]);
         }
 
@@ -130,14 +93,9 @@ class DashboardController extends Controller
 
         $user_id = auth()->id();
         $immobiliers = Immobiliers::where('user_id', $user_id)->get()->toArray();
-        $voitures = Voitures::where('user_id', $user_id)->get()->toArray();
 
         // Logique pour séparer les articles vendus et en cours de vente
         $immobiliersVendu = Immobiliers::where('user_id', $user_id)
-            ->where('vendu', 1)
-            ->get()
-            ->toArray();
-        $voituresVendu = Voitures::where('user_id', $user_id)
             ->where('vendu', 1)
             ->get()
             ->toArray();
@@ -146,28 +104,33 @@ class DashboardController extends Controller
             ->where('vendu', 0)
             ->get()
             ->toArray();
-        $voituresActuel = Voitures::where('user_id', $user_id)
-            ->where('vendu', 0)
-            ->get()
-            ->toArray();
+
+        // Calculer le total vendu somme (seulement immobiliers)
+        $immobiliersVenduForSum = Immobiliers::where('user_id', $user_id)
+            ->where('vendu', 1)
+            ->get();
+        
+        $totalVenduSomme = $immobiliersVenduForSum->sum(function($item) {
+            return (float) $item->prix;
+        });
+        
+        $sommeHabitatVendu = $totalVenduSomme;
 
         return Inertia::render('Dashboard', [
-            'vehicules' => $voitures,
             'habitats' => $immobiliers,
-            'total' => count($voitures) + count($immobiliers),
+            'total' => count($immobiliers),
             'totalImmobilier' => count($immobiliers),
-            'totalVehicule' => count($voitures),
-            'resultsVendu' => array_merge($voituresVendu, $immobiliersVendu),
+            'resultsVendu' => $immobiliersVendu,
             'totalImmobilierVendu' => count($immobiliersVendu),
-            'totalVehiculeVendu' => count($voituresVendu),
-            'totalVendu' => count($voituresVendu) + count($immobiliersVendu),
-            'resultsActuel' => array_merge($voituresActuel, $immobiliersActuel),
+            'totalVendu' => count($immobiliersVendu),
+            'resultsActuel' => $immobiliersActuel,
             'totalImmobilierActuel' => count($immobiliersActuel),
-            'totalVehiculeActuel' => count($voituresActuel),
-            'totalActuel' => count($voituresActuel) + count($immobiliersActuel),
-            'restantVoiture' => count($voitures) - count($voituresVendu),
+            'totalActuel' => count($immobiliersActuel),
             'restantImmobilier' => count($immobiliers) - count($immobiliersVendu),
-            'totalRestant' => count($voitures) - count($voituresVendu) + count($immobiliers) - count($immobiliersVendu),
+            'totalRestant' => count($immobiliers) - count($immobiliersVendu),
+            'totalVenduSomme' => $totalVenduSomme,
+            'sommeHabitatVendu' => $sommeHabitatVendu,
+            'totalArticles' => count($immobiliers),
         ]);
     }
 
