@@ -26,17 +26,58 @@ export default {
 
 </script> -->
 <template>
-    <div class="custom-slider-container w-full mx-auto bg-secondaire shadow-md rounded-xl overflow-hidden">
+    <section class="custom-slider-container w-full mx-auto bg-secondaire shadow-md rounded-xl overflow-hidden" 
+             role="region" 
+             aria-label="Carrousel de publicités"
+             @mouseenter="stopAutoplay"
+             @mouseleave="startAutoplay">
         <div class="custom-slider" :style="{ transform: `translateX(-${currentSlide * 100}%)` }">
-            <div v-for="(slide, index) in newSlides" :key="index" class="custom-slide">
-                <img :src="slide" alt="Slide image" class="w-full h-full object-cover custom-image">
+            <div v-for="(slide, index) in newSlides" 
+                 :key="index" 
+                 class="custom-slide"
+                 :aria-hidden="index !== currentSlide">
+                <img :src="slide" 
+                     :alt="`Slide ${index + 1} de ${newSlides.length}`" 
+                     class="w-full h-full object-cover custom-image"
+                     loading="eager"
+                     decoding="async"
+                     :fetchpriority="index === 0 ? 'high' : 'low'">
             </div>
         </div>
 
         <!-- Boutons de navigation spécifiques -->
-        <button class="custom-prev" @click="prevSlide">‹</button>
-        <button class="custom-next" @click="nextSlide">›</button>
-    </div>
+        <button 
+            class="custom-prev" 
+            @click="prevSlide"
+            @keydown.enter="prevSlide"
+            @keydown.space.prevent="prevSlide"
+            aria-label="Slide précédent"
+            aria-controls="carousel-slides">
+            <span aria-hidden="true">‹</span>
+        </button>
+        <button 
+            class="custom-next" 
+            @click="nextSlide"
+            @keydown.enter="nextSlide"
+            @keydown.space.prevent="nextSlide"
+            aria-label="Slide suivant"
+            aria-controls="carousel-slides">
+            <span aria-hidden="true">›</span>
+        </button>
+
+        <!-- Indicateurs de slide -->
+        <div class="custom-indicators" role="tablist" aria-label="Indicateurs de slides">
+            <button
+                v-for="(slide, index) in newSlides"
+                :key="index"
+                :class="['custom-indicator', { 'active': index === currentSlide }]"
+                @click="goToSlide(index)"
+                :aria-label="`Aller au slide ${index + 1}`"
+                :aria-selected="index === currentSlide"
+                role="tab"
+            ></button>
+        </div>
+    </section>
 </template>
 
 <script>
@@ -60,11 +101,20 @@ export default {
             this.currentSlide =
                 (this.currentSlide - 1 + this.newSlides.length) % this.newSlides.length;
         },
+        goToSlide(index) {
+            this.currentSlide = index;
+        },
         startAutoplay() {
+            if (this.autoplay) {
+                clearInterval(this.autoplay);
+            }
             this.autoplay = setInterval(this.nextSlide, 4000); // Change every 4 seconds
         },
         stopAutoplay() {
-            clearInterval(this.autoplay);
+            if (this.autoplay) {
+                clearInterval(this.autoplay);
+                this.autoplay = null;
+            }
         }
     },
     mounted() {
@@ -117,5 +167,57 @@ export default {
 .custom-prev:hover,
 .custom-next:hover {
     background-color: rgba(0, 0, 0, 0.8);
+}
+
+.custom-prev:focus,
+.custom-next:focus {
+    outline: 2px solid white;
+    outline-offset: 2px;
+}
+
+/* Indicateurs de slide */
+.custom-indicators {
+    position: absolute;
+    bottom: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 0.5rem;
+    z-index: 10;
+}
+
+.custom-indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid white;
+    background-color: transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 0;
+}
+
+.custom-indicator:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+    transform: scale(1.2);
+}
+
+.custom-indicator.active {
+    background-color: white;
+    transform: scale(1.3);
+}
+
+.custom-indicator:focus {
+    outline: 2px solid white;
+    outline-offset: 2px;
+}
+
+/* Amélioration de la transition */
+.custom-slider {
+    will-change: transform;
+}
+
+.custom-image {
+    will-change: transform;
 }
 </style>
