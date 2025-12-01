@@ -17,4 +17,5 @@ use App\Http\Controllers\SearchController;
 
 Route::middleware('web')->group(function () {
     Route::get('/search/suggestions', [SearchController::class, 'suggestions'])->name('api.search.suggestions');
+    Route::post('/chatbot/message', [\App\Http\Controllers\ChatBotController::class, 'processMessage'])->name('api.chatbot.message');
 });

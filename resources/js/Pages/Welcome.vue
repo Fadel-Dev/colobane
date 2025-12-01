@@ -534,6 +534,9 @@
     
     <!-- Bannière de consentement aux cookies -->
     <CookieBanner />
+    
+    <!-- Chatbot -->
+    <ChatBot />
 </template>
 
 <style scoped>
@@ -840,6 +843,7 @@ import Footer from '../Components/Footer.vue';
 import Navbar from '../Components/Navbar.vue';
 import Toast from '../Components/Toast.vue';
 import CookieBanner from '../Components/CookieBanner.vue';
+import ChatBot from '../Components/ChatBot.vue';
 
 export default {
     components: {
@@ -847,6 +851,7 @@ export default {
         Footer,
         Navbar,
         CookieBanner,
+        ChatBot,
     },
     data() {
         return {
