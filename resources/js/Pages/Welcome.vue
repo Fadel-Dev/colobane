@@ -35,15 +35,52 @@
                 <form @submit.prevent="handleSearch" class="relative">
                     <div class="bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl p-2 flex flex-col md:flex-row gap-2">
                         <div class="flex-1 relative">
-                            <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 text-xl"></i>
+                            <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 text-xl z-10"></i>
                             <input 
                                 type="text" 
                                 v-model="searchQuery"
+                                @input="handleSearchInput"
+                                @focus="showSuggestions = true"
+                                @blur="hideSuggestions"
+                                @keydown.arrow-down.prevent="navigateSuggestions('down')"
+                                @keydown.arrow-up.prevent="navigateSuggestions('up')"
+                                @keydown.enter.prevent="selectedSuggestionIndex >= 0 ? selectSuggestion(selectedSuggestionIndex) : handleSearch()"
                                 placeholder="Rechercher parmi tous les biens"
                                 class="w-full pl-14 pr-4 py-4 md:py-5 text-gray-900 rounded-xl focus:outline-none focus:ring-2 focus:ring-principal text-lg"
                                 aria-label="Rechercher un bien"
+                                autocomplete="off"
                             />
                             <p class="text-xs text-gray-500 mt-1 ml-4">Ville, zone ou quartier</p>
+                            
+                            <!-- Suggestions dropdown -->
+                            <div 
+                                v-if="showSuggestions && searchSuggestions.length > 0"
+                                class="absolute top-full left-0 right-0 mt-2 bg-white rounded-xl shadow-2xl border border-gray-200 z-50 max-h-96 overflow-y-auto"
+                            >
+                                <div 
+                                    v-for="(suggestion, index) in searchSuggestions" 
+                                    :key="index"
+                                    @click="selectSuggestion(index)"
+                                    @mouseenter="selectedSuggestionIndex = index"
+                                    :class="[
+                                        'px-4 py-3 cursor-pointer transition-colors flex items-center gap-3',
+                                        selectedSuggestionIndex === index ? 'bg-principal/10' : 'hover:bg-gray-50'
+                                    ]"
+                                >
+                                    <i :class="[
+                                        'fas',
+                                        suggestion.icon === 'map-marker-alt' ? 'fa-map-marker-alt' :
+                                        suggestion.icon === 'home' ? 'fa-home' :
+                                        'fa-building',
+                                        'text-principal'
+                                    ]"></i>
+                                    <div class="flex-1">
+                                        <div class="font-semibold text-gray-900">{{ suggestion.label }}</div>
+                                        <div class="text-xs text-gray-500 capitalize">{{ suggestion.type }}</div>
+                                    </div>
+                                    <i class="fas fa-chevron-right text-gray-400 text-sm"></i>
+                                </div>
+                            </div>
                         </div>
                         <button 
                             type="submit"
@@ -282,10 +319,10 @@
                                     </h2>
                     <p class="text-gray-600 text-lg">Découvrez les dernières annonces disponibles</p>
                                     </div>
-                <a href="/p/immobilier" class="text-principal hover:text-principal/80 font-semibold hidden md:flex items-center gap-2 transition-all duration-300 hover:gap-3">
+                <Link href="/p/immobilier" class="text-principal hover:text-principal/80 font-semibold hidden md:flex items-center gap-2 transition-all duration-300 hover:gap-3 group">
                     <span>Voir toutes les annonces</span>
-                    <i class="fas fa-arrow-right"></i>
-                </a>
+                    <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                </Link>
                                 </div>
 
             <div v-if="maisons?.data?.length > 0" class="relative">
@@ -764,7 +801,7 @@ html {
 </style>
 
 <script setup>
-import { Head } from '@inertiajs/vue3';
+import { Head, Link } from '@inertiajs/vue3';
 import SeoHead from '../Components/SeoHead.vue';
 
 import { computed } from 'vue';
@@ -815,6 +852,10 @@ export default {
             toastType: 'success',
             searchQuery: '',
             showAlertForm: false,
+            searchSuggestions: [],
+            showSuggestions: false,
+            selectedSuggestionIndex: -1,
+            searchTimeout: null,
             categoryItems: [
                 { id: 1, icon: 'home', name: 'Villa', type: 'Villa', slug: 'villa' },
                 { id: 2, icon: 'building', name: 'Appartements', type: 'appartement', slug: 'appartements' },
@@ -961,8 +1002,85 @@ export default {
         },
         handleSearch() {
             if (this.searchQuery.trim()) {
+                this.showSuggestions = false;
                 this.$inertia.visit(`/p/immobilier?search=${encodeURIComponent(this.searchQuery)}`);
             }
+        },
+        async handleSearchInput() {
+            // Réinitialiser l'index de sélection
+            this.selectedSuggestionIndex = -1;
+            
+            // Annuler le timeout précédent
+            if (this.searchTimeout) {
+                clearTimeout(this.searchTimeout);
+            }
+            
+            // Si la requête est trop courte, ne pas chercher
+            if (this.searchQuery.length < 2) {
+                this.searchSuggestions = [];
+                this.showSuggestions = false;
+                return;
+            }
+            
+            // Attendre 300ms avant de faire la requête (debounce)
+            this.searchTimeout = setTimeout(async () => {
+                try {
+                    const response = await fetch(`/api/search/suggestions?q=${encodeURIComponent(this.searchQuery)}`, {
+                        headers: {
+                            'Accept': 'application/json',
+                            'X-Requested-With': 'XMLHttpRequest'
+                        }
+                    });
+                    
+                    if (response.ok) {
+                        const data = await response.json();
+                        this.searchSuggestions = data.suggestions || [];
+                        this.showSuggestions = this.searchSuggestions.length > 0;
+                    }
+                } catch (error) {
+                    console.error('Erreur lors de la recherche de suggestions:', error);
+                    this.searchSuggestions = [];
+                }
+            }, 300);
+        },
+        selectSuggestion(index) {
+            if (index >= 0 && index < this.searchSuggestions.length) {
+                const suggestion = this.searchSuggestions[index];
+                this.showSuggestions = false;
+                if (suggestion.url) {
+                    this.$inertia.visit(suggestion.url);
+                } else {
+                    this.searchQuery = suggestion.value;
+                    this.handleSearch();
+                }
+            } else if (this.selectedSuggestionIndex >= 0 && this.selectedSuggestionIndex < this.searchSuggestions.length) {
+                // Si index n'est pas fourni, utiliser selectedSuggestionIndex
+                const suggestion = this.searchSuggestions[this.selectedSuggestionIndex];
+                this.showSuggestions = false;
+                if (suggestion.url) {
+                    this.$inertia.visit(suggestion.url);
+                } else {
+                    this.searchQuery = suggestion.value;
+                    this.handleSearch();
+                }
+            }
+        },
+        navigateSuggestions(direction) {
+            if (this.searchSuggestions.length === 0) return;
+            
+            if (direction === 'down') {
+                this.selectedSuggestionIndex = (this.selectedSuggestionIndex + 1) % this.searchSuggestions.length;
+            } else if (direction === 'up') {
+                this.selectedSuggestionIndex = this.selectedSuggestionIndex <= 0 
+                    ? this.searchSuggestions.length - 1 
+                    : this.selectedSuggestionIndex - 1;
+            }
+        },
+        hideSuggestions() {
+            // Délai pour permettre le clic sur une suggestion
+            setTimeout(() => {
+                this.showSuggestions = false;
+            }, 200);
         },
         searchByCity(city) {
             this.searchQuery = city;
