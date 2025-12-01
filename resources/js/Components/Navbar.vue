@@ -55,6 +55,10 @@ const props = defineProps({
                            class="nav-link group relative text-gray-700 hover:text-principal transition-colors duration-300 flex items-center">
                             <i class="bi bi-heart mr-1"></i>
                             Favoris
+                            <span v-if="$page.props.favoritesCount > 0"
+                                  class="ml-1 bg-red-500 text-white text-xs rounded-full px-2 py-0.5 font-bold">
+                                {{ $page.props.favoritesCount }}
+                            </span>
                             <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-principal group-hover:w-full transition-all duration-300"></span>
                         </a>
                         <a :href="route('notifications')"

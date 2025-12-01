@@ -1234,24 +1234,23 @@ export default {
             if (!this.$page.props.auth?.user) return;
 
             try {
-                const response = await fetch('/favoris', {
-                        headers: {
-                            'Accept': 'application/json',
-                        },
-                    });
+                const response = await fetch('/favoris/all', {
+                    headers: {
+                        'Accept': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                });
                 
                 if (response.ok) {
                     const data = await response.json();
                     if (data.favoris && Array.isArray(data.favoris)) {
-                        data.favoris.forEach(favori => {
-                            if (favori.immobilier_id) {
-                                this.favorites.add(favori.immobilier_id);
-                            }
+                        data.favoris.forEach(id => {
+                            this.favorites.add(id);
                         });
                     }
-                    }
-                } catch (error) {
-                    // Ignorer les erreurs silencieusement
+                }
+            } catch (error) {
+                console.error('Erreur lors du chargement des favoris:', error);
             }
         },
         getImageUrl(imagePath) {

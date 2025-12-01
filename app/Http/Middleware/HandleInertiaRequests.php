@@ -51,6 +51,12 @@ class HandleInertiaRequests extends Middleware
                 ->count();
         }
         
+        // Compter les favoris
+        $favoritesCount = 0;
+        if ($user) {
+            $favoritesCount = \App\Models\Favori::where('user_id', $user->id)->count();
+        }
+        
         return array_merge(parent::share($request), [
             'auth' => [
                 'user' => $user,
@@ -59,6 +65,7 @@ class HandleInertiaRequests extends Middleware
                 'message'=>session('message')
             ],
             'unreadNotificationsCount' => $unreadNotificationsCount,
+            'favoritesCount' => $favoritesCount,
         ]);
     }
 }

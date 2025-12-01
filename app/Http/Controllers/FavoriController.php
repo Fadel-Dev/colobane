@@ -189,4 +189,38 @@ class FavoriController extends Controller
 
         return response()->json(['isFavorite' => $isFavorite]);
     }
+
+    /**
+     * Récupérer tous les IDs des favoris de l'utilisateur
+     */
+    public function getAll()
+    {
+        $user = Auth::user();
+        
+        if (!$user) {
+            return response()->json(['favoris' => []]);
+        }
+
+        $favoris = Favori::where('user_id', $user->id)
+            ->pluck('immobilier_id')
+            ->toArray();
+
+        return response()->json(['favoris' => $favoris]);
+    }
+
+    /**
+     * Compter le nombre de favoris de l'utilisateur
+     */
+    public function count()
+    {
+        $user = Auth::user();
+        
+        if (!$user) {
+            return response()->json(['count' => 0]);
+        }
+
+        $count = Favori::where('user_id', $user->id)->count();
+
+        return response()->json(['count' => $count]);
+    }
 }

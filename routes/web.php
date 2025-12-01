@@ -198,6 +198,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::delete('/favoris/remove/{id}', [FavoriController::class, 'remove'])->name('favoris.remove');
     Route::post('/favoris/toggle/{id}', [FavoriController::class, 'toggle'])->name('favoris.toggle');
     Route::get('/favoris/check/{id}', [FavoriController::class, 'check'])->name('favoris.check');
+    Route::get('/favoris/all', [FavoriController::class, 'getAll'])->name('favoris.all');
+    Route::get('/favoris/count', [FavoriController::class, 'count'])->name('favoris.count');
 });
 
 // Notifications
