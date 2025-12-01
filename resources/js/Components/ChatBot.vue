@@ -107,6 +107,11 @@ const sendMessage = async () => {
                     scrollToBottom();
                 }, 500);
             }
+
+            // Si la réponse contient des liens vers des pages (inscription, connexion, etc.)
+            if (data.message.includes('S\'inscrire') || data.message.includes('inscription')) {
+                // On pourrait ajouter un bouton d'action ici si nécessaire
+            }
         } else {
             messages.value.push({
                 id: Date.now() + 1,
