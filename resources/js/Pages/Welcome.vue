@@ -531,6 +531,9 @@
         :type="toastType"
         @close="closeToast"
     />
+    
+    <!-- Bannière de consentement aux cookies -->
+    <CookieBanner />
 </template>
 
 <style scoped>
@@ -836,12 +839,14 @@ import { Inertia } from '@inertiajs/inertia';
 import Footer from '../Components/Footer.vue';
 import Navbar from '../Components/Navbar.vue';
 import Toast from '../Components/Toast.vue';
+import CookieBanner from '../Components/CookieBanner.vue';
 
 export default {
     components: {
         Toast,
         Footer,
         Navbar,
+        CookieBanner,
     },
     data() {
         return {

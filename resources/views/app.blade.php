@@ -69,6 +69,28 @@
 <body class="font-sans antialiased">
     @inertia
     @RegisterServiceWorkerScript
+    
+    <!-- Script pour gérer les cookies -->
+    <script>
+        // Fonction utilitaire pour vérifier le consentement aux cookies
+        window.hasCookieConsent = function() {
+            const consent = localStorage.getItem('cookie_consent');
+            return consent === 'accepted' || consent === 'custom';
+        };
+        
+        // Fonction pour obtenir les préférences de cookies
+        window.getCookiePreferences = function() {
+            const prefs = localStorage.getItem('cookie_preferences');
+            if (prefs) {
+                try {
+                    return JSON.parse(prefs);
+                } catch (e) {
+                    return null;
+                }
+            }
+            return null;
+        };
+    </script>
 </body>
 
 </html>
