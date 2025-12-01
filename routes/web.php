@@ -9,6 +9,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\FavoriController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\SitemapController;
+use App\Http\Controllers\ContactController;
 
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ServiceController;
@@ -47,6 +48,8 @@ Route::get('/about', function () {
 Route::get('/contact', function () {
     return Inertia::render('Contact');
 })->name('contact');
+
+Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
 
 Route::get('/aide', function () {
     return Inertia::render('HelpCenter');

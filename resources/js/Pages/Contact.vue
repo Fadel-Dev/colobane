@@ -197,14 +197,24 @@
     </div>
 
     <Footer />
+    
+    <!-- Toast Notification -->
+    <Toast 
+        :show="showToast" 
+        :message="toastMessage" 
+        :type="toastType"
+    />
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import { Head } from '@inertiajs/vue3';
+import { ref, onMounted } from 'vue';
+import { Head, router, usePage } from '@inertiajs/vue3';
 import Navbar from '../Components/Navbar.vue';
 import Footer from '../Components/Footer.vue';
 import SeoHead from '../Components/SeoHead.vue';
+import Toast from '../Components/Toast.vue';
+
+const page = usePage();
 
 const form = ref({
     name: '',
@@ -215,20 +225,58 @@ const form = ref({
 });
 
 const isSubmitting = ref(false);
+const showToast = ref(false);
+const toastMessage = ref('');
+const toastType = ref('success');
 
 const submitForm = async () => {
     isSubmitting.value = true;
-    // TODO: Implémenter l'envoi du formulaire
-    setTimeout(() => {
-        alert('Merci pour votre message ! Nous vous répondrons dans les plus brefs délais.');
-        form.value = {
-            name: '',
-            email: '',
-            phone: '',
-            subject: '',
-            message: ''
-        };
-        isSubmitting.value = false;
-    }, 1000);
+    
+    router.post('/contact', form.value, {
+        preserveScroll: true,
+        onSuccess: () => {
+            showToast.value = true;
+            toastMessage.value = 'Votre message a été envoyé avec succès ! Nous vous répondrons dans les plus brefs délais.';
+            toastType.value = 'success';
+            
+            // Réinitialiser le formulaire
+            form.value = {
+                name: '',
+                email: '',
+                phone: '',
+                subject: '',
+                message: ''
+            };
+            
+            isSubmitting.value = false;
+            
+            // Masquer le toast après 5 secondes
+            setTimeout(() => {
+                showToast.value = false;
+            }, 5000);
+        },
+        onError: (errors) => {
+            showToast.value = true;
+            toastMessage.value = 'Une erreur est survenue. Veuillez vérifier vos informations et réessayer.';
+            toastType.value = 'error';
+            isSubmitting.value = false;
+            
+            setTimeout(() => {
+                showToast.value = false;
+            }, 5000);
+        }
+    });
 };
+
+onMounted(() => {
+    // Afficher le message de succès s'il existe
+    if (page.props.flash?.success) {
+        showToast.value = true;
+        toastMessage.value = page.props.flash.success;
+        toastType.value = 'success';
+        setTimeout(() => {
+            showToast.value = false;
+        }, 5000);
+    }
+});
 </script>
