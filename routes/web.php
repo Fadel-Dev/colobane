@@ -8,6 +8,7 @@ use App\Http\Controllers\ImmobilierController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\FavoriController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\SitemapController;
 
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ServiceController;
@@ -38,6 +39,11 @@ Route::get('/tt', function () {
 
 Route::get('/', [Controller::class, 'Home'])->name('home');
 
+// Sitemap routes
+Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap.index');
+Route::get('/sitemap-pages.xml', [SitemapController::class, 'pages'])->name('sitemap.pages');
+Route::get('/sitemap-immobilier.xml', [SitemapController::class, 'immobilier'])->name('sitemap.immobilier');
+
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
@@ -66,6 +72,9 @@ Route::get('/publier', [Controller::class, 'publier'])->name('publier')->middlew
 
 // ******************************************************FOR MAIN SECTION POST
 Route::get('/p/{section}', [PostController::class, 'Section'])->name('section');
+
+// ******************************************************FOR CATEGORY PAGES
+Route::get('/categorie/{category}', [Controller::class, 'Category'])->name('category');
 
 // ******************************************************FOR MAIN ARTICLE
 Route::get('/publication/{article}', [PostController::class, 'Article'])->name('article');

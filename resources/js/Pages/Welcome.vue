@@ -1,288 +1,490 @@
 <template>
-
-    <Head title="Accueil" />
+    <SeoHead 
+        :title="'NoflayHub - Location immobilière au Sénégal | Trouvez votre logement idéal'"
+        :description="`Trouvez votre logement idéal au Sénégal. ${totalAnnonces ? formatNumber(totalAnnonces) + ' annonces' : 'Des milliers d\'annonces'} de villas, appartements, chambres, studios et terrains à louer dans toutes les régions du Sénégal.`"
+        :keywords="'location Sénégal, immobilier Sénégal, villa à louer Dakar, appartement à louer, chambre à louer, studio à louer, terrain à louer, location immobilière Sénégal'"
+        :og-type="'website'"
+        :og-image="ogImage"
+        :structured-data="structuredData"
+    />
 
     <Navbar class="relative" />
-    <div id="principal" class="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100" role="main">
-        <div class="lg:w-8/12 mx-auto px-4">
-            <!-- Slide -->
-            <SlidePub />
-
-            <!-- Navigation Categories - Style amélioré -->
-            <nav class="mt-8" aria-label="Navigation par catégories">
-                <div class="swiper w-full lg:w-4/4 lg:mt-[10px]" id="cat">
-                    <div class="swiper-wrapper pt-10 pb-4">
-                        <div v-for="item in items" :key="item.id"
-                            class="swiper-slide w-1/4 sm:w-1/4 md:w-1/6 lg:w-6/6 xl:w-1/6 flex flex-col">
-                            <button 
-                                :id="item.id"
-                                :aria-label="`Afficher les annonces de type ${item.name}`"
-                                :aria-pressed="activeTab === item.name"
-                                class="text-center transform hover:scale-110 transition-all duration-300 cursor-pointer group w-full focus:outline-none focus:ring-2 focus:ring-principal focus:ring-offset-2 rounded-2xl"
-                                @click="activeTab = item.name"
-                                @keydown.enter="activeTab = item.name"
-                                @keydown.space.prevent="activeTab = item.name">
-                                <div class="p-4 rounded-2xl bg-white/80 backdrop-blur-sm shadow-lg hover:shadow-xl transition-all duration-300 relative overflow-hidden"
-                                    :class="{
-                                        'ring-4 ring-principal ring-opacity-60 shadow-2xl scale-105': activeTab === item.name
-                                    }">
-                                    <!-- Effet de fond animé -->
-                                    <div
-                                        class="absolute inset-0 bg-gradient-to-br from-principal/10 to-secondaire/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                                        aria-hidden="true">
+    
+    <!-- Hero Section avec image de fond -->
+    <section class="relative min-h-[70vh] flex items-center justify-center bg-gradient-to-br from-principal via-principal/90 to-secondaire overflow-hidden">
+        <!-- Image de fond avec overlay -->
+        <div class="absolute inset-0 bg-cover bg-center bg-no-repeat" 
+             style="background-image: url('https://images.unsplash.com/photo-1513694203232-719a280e022f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80');">
+            <div class="absolute inset-0 bg-gradient-to-b from-black/50 via-black/40 to-black/60"></div>
                                     </div>
 
-                                    <!-- Icône avec animation -->
-                                    <div class="relative z-10">
-                                        <div
-                                            class="inline-flex items-center justify-center w-16 h-16 mx-auto mb-3 rounded-full bg-principal/10 group-hover:bg-principal/20 transition-colors duration-300"
-                                            aria-hidden="true">
-                                            <i
-                                                :class="`fas fa-${item.icon} text-3xl text-principal group-hover:text-principal-dark transition-colors duration-300`"
-                                                aria-hidden="true"></i>
+        <!-- Contenu du Hero -->
+        <div class="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+            <!-- Compteur d'annonces dans une boîte semi-transparente -->
+            <div class="text-center mb-8">
+                <div class="inline-block bg-white/90 backdrop-blur-md rounded-2xl px-8 py-6 shadow-2xl">
+                    <h1 class="text-4xl md:text-6xl font-bold text-secondaire mb-2">
+                        {{ formatNumber(totalAnnonces || 0) }} biens disponibles
+                    </h1>
+                    <p class="text-lg md:text-xl text-gray-600">Trouvez votre logement idéal au Sénégal</p>
+                </div>
+            </div>
+
+            <!-- Barre de recherche principale -->
+            <div class="max-w-4xl mx-auto">
+                <form @submit.prevent="handleSearch" class="relative">
+                    <div class="bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl p-2 flex flex-col md:flex-row gap-2">
+                        <div class="flex-1 relative">
+                            <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 text-xl"></i>
+                            <input 
+                                type="text" 
+                                v-model="searchQuery"
+                                placeholder="Rechercher parmi tous les biens"
+                                class="w-full pl-14 pr-4 py-4 md:py-5 text-gray-900 rounded-xl focus:outline-none focus:ring-2 focus:ring-principal text-lg"
+                                aria-label="Rechercher un bien"
+                            />
+                            <p class="text-xs text-gray-500 mt-1 ml-4">Ville, zone ou quartier</p>
+                        </div>
+                        <button 
+                            type="submit"
+                            class="bg-principal hover:bg-principal/90 text-white px-8 md:px-12 py-4 md:py-5 rounded-xl font-semibold transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-principal text-lg shadow-lg hover:shadow-xl transform hover:scale-105">
+                            Rechercher
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Catégories -->
+    <section class="py-12 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-2xl md:text-3xl font-bold text-secondaire mb-8 text-center">
+                De quel type de location avez-vous besoin?
+            </h2>
+            <div class="flex flex-wrap justify-center gap-4">
+                <button 
+                    v-for="item in categoryItems" 
+                    :key="item.id"
+                    @click="navigateToCategory(item.slug)"
+                    :class="[
+                        'px-6 py-4 rounded-xl transition-all duration-300 font-semibold text-secondaire border-2 flex items-center gap-3 min-w-[160px] justify-center',
+                        'bg-white border-gray-200 hover:border-principal hover:shadow-md hover:bg-principal hover:text-white'
+                    ]">
+                    <i :class="`fas fa-${item.icon} text-xl`"></i>
+                    <span>{{ item.name }}</span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Villes Populaires -->
+    <section class="py-12 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-2xl md:text-3xl font-bold text-secondaire mb-8">
+                Villes populaires pour louer des logements
+            </h2>
+            
+            <!-- Carousel Swiper pour les villes -->
+            <div class="relative">
+                <div class="swiper villes-swiper" id="villes-swiper">
+                    <div class="swiper-wrapper">
+                        <div 
+                            v-for="ville in villesPopulairesAvecCount" 
+                            :key="ville.nom"
+                            class="swiper-slide">
+                            <button 
+                                @click="filterByCity(ville.nom)"
+                                :class="[
+                                    'bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 text-left group border-2 transform hover:-translate-y-1 w-full h-full flex flex-col',
+                                    selectedCity === ville.nom 
+                                        ? 'border-principal shadow-lg scale-105' 
+                                        : 'border-transparent hover:border-principal'
+                                ]">
+                                <!-- Image de la ville -->
+                                <div class="relative h-48 w-full overflow-hidden bg-gradient-to-br from-gray-200 to-gray-300">
+                                    <img 
+                                        :src="ville.image" 
+                                        :alt="`Image de ${ville.nom}`"
+                                        class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                                        @error="handleCityImageError($event)"
+                                        loading="lazy"
+                                    />
+                                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
+                                    <div class="absolute bottom-4 left-4 right-4 text-white">
+                                        <div class="font-bold text-xl mb-1 drop-shadow-lg">
+                                            {{ ville.nom }}
                                         </div>
-                                        <div class="mt-2">
-                                            <span
-                                                class="font-semibold text-secondaire group-hover:text-principal transition-colors duration-300">{{
-                                                item.name }}</span>
+                                        <div class="text-sm text-white/90 drop-shadow-md">
+                                            {{ formatNumber(ville.count) }} {{ ville.count > 1 ? 'biens' : 'bien' }}
                                         </div>
                                     </div>
                                 </div>
                             </button>
+                            </div>
                         </div>
+
+                    <!-- Navigation buttons -->
+                    <div class="swiper-button-next villes-next"></div>
+                    <div class="swiper-button-prev villes-prev"></div>
+                    
+                    <!-- Pagination -->
+                    <div class="swiper-pagination villes-pagination"></div>
                     </div>
                 </div>
-            </nav>
 
-            <!-- Content Section -->
-            <div class="lg:max-w-[80vw] max-w-[970vw] mx-auto mt-8">
-                    <!-- Immobilier Tab -->
-                    <div v-if="activeTab === 'Immobilier'" class="space-y-8">
+            <!-- Bouton pour réinitialiser le filtre -->
+            <div v-if="selectedCity" class="mt-6 text-center">
+                <button 
+                    @click="clearCityFilter"
+                    class="inline-flex items-center gap-2 px-6 py-3 bg-principal text-white rounded-xl hover:bg-principal/90 transition-all duration-300 shadow-md hover:shadow-lg">
+                    <i class="fas fa-times"></i>
+                    <span>Effacer le filtre ({{ selectedCity }})</span>
+                </button>
+                    </div>
+                </div>
+    </section>
+
+    <!-- Contenu réactif selon la catégorie sélectionnée -->
+    <section class="py-12 bg-gray-50" v-if="getCurrentData()?.length > 0 || getBoostedData()?.length > 0">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                         <!-- Section Boostée -->
-                        <section class="mb-10" aria-labelledby="featured-heading">
-                            <h3 id="featured-heading" class="text-xl font-bold text-secondaire mb-6 flex items-center">
-                                <span class="w-4 h-4 bg-principal rounded-full mr-2" aria-hidden="true"></span>
-                                Annonces en vedette
-                                <span class="ml-auto text-sm font-normal text-principal flex items-center">
-                                    <i class="fas fa-bolt mr-1" aria-hidden="true"></i> Boostées
-                                </span>
-                            </h3>
+            <div v-if="getBoostedData()?.length > 0" class="mb-10">
+                            <div class="flex items-center justify-between mb-6">
+                                <h3 class="text-xl font-bold text-secondaire flex items-center">
+                                    <span class="w-4 h-4 bg-principal rounded-full mr-2" aria-hidden="true"></span>
+                                    Annonces en vedette
+                                    <span class="ml-3 text-sm font-normal text-principal flex items-center">
+                                        <i class="fas fa-bolt mr-1" aria-hidden="true"></i> Boostées
+                                    </span>
+                                </h3>
+                                <a 
+                                    :href="getBoostedLink()"
+                                    class="text-principal hover:text-principal/80 font-semibold flex items-center gap-2 transition-all duration-300 hover:gap-3 group">
+                                    <span>Voir tout</span>
+                                    <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                                </a>
+                            </div>
 
-                            <div v-if="immobilliersBoost?.data?.length > 0" class="swiper" role="region" aria-label="Annonces boostées">
-                                <div class="swiper-wrapper">
-                                    <article v-for="immobillierBoost in immobilliersBoost.data" :key="immobillierBoost.id"
-                                        class="swiper-slide w-full sm:w-1/4 md:w-1/4 lg:w-1/6 xl:w-1/6 p-2">
-                                        <!-- Card améliorée -->
-                                        <div
-                                            class="card group relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 h-full flex flex-col cursor-pointer focus-within:ring-2 focus-within:ring-principal focus-within:ring-offset-2"
-                                            @click="navigateToDetail(immobillierBoost.id)"
-                                            @keydown.enter="navigateToDetail(immobillierBoost.id)"
-                                            tabindex="0"
-                                            role="article"
-                                            :aria-label="`${immobillierBoost.nom} - ${immobillierBoost.prix} FCFA`">
-                                            <!-- Badge Boost -->
-                                            <div class="absolute top-4 right-4 z-10 flex items-center gap-2">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                    <article 
+                        v-for="item in getBoostedData().slice(0, 8)" 
+                        :key="item.id"
+                        @click="navigateToDetail(item.id)"
+                        class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 h-full flex flex-col cursor-pointer focus-within:ring-2 focus-within:ring-principal focus-within:ring-offset-2 group"
+                        @keydown.enter="navigateToDetail(item.id)"
+                        tabindex="0"
+                        role="article"
+                        :aria-label="`${item.nom} - ${item.prix} FCFA`">
+                        
+                        <div class="relative bg-gray-200 overflow-hidden h-64">
+                            <span class="absolute top-4 left-4 z-10 inline-flex items-center px-2 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-yellow-400 to-yellow-500 text-white shadow-md">
+                                <i class="fas fa-bolt mr-1" aria-hidden="true"></i> Boost
+                            </span>
+                            
+                            <img :src="getFirstAvailableImage(item)"
+                                :alt="`Image de ${item.nom || 'bien immobilier'}`"
+                                :title="item.nom"
+                                class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" 
+                                loading="lazy"
+                                decoding="async"
+                                @error="handleImageError($event)">
+                            
+                            <div class="absolute top-4 right-4">
                                                 <button
-                                                    @click.stop="toggleFavorite(immobillierBoost.id)"
+                                    @click.stop="toggleFavorite(item.id)"
                                                     :class="[
-                                                        'bg-white rounded-full p-2 shadow-md hover:shadow-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-principal focus:ring-offset-2',
-                                                        isFavorite(immobillierBoost.id)
+                                                        'bg-white rounded-full p-2 shadow-md hover:shadow-lg transition-all duration-300',
+                                        isFavorite(item.id)
                                                             ? 'text-red-500'
                                                             : 'text-gray-400 hover:text-red-400'
                                                     ]"
-                                                    :aria-label="isFavorite(immobillierBoost.id) ? 'Retirer des favoris' : 'Ajouter aux favoris'"
-                                                    :aria-pressed="isFavorite(immobillierBoost.id)"
-                                                >
-                                                    <i :class="isFavorite(immobillierBoost.id) ? 'fas fa-heart' : 'far fa-heart'" class="text-sm" aria-hidden="true"></i>
+                                    :aria-label="isFavorite(item.id) ? 'Retirer des favoris' : 'Ajouter aux favoris'">
+                                    <i :class="isFavorite(item.id) ? 'fas fa-heart' : 'far fa-heart'" class="text-sm"></i>
                                                 </button>
-                                                <span
-                                                    class="inline-flex items-center px-2 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-yellow-400 to-yellow-500 text-white shadow-md"
-                                                    aria-label="Annonce boostée">
-                                                    <i class="fas fa-bolt mr-1" aria-hidden="true"></i> Boost
-                                                </span>
+                            </div>
                                             </div>
 
-                                            <div class="aspect-square overflow-hidden relative bg-gray-200">
-                                                <!-- Image directement depuis la base de données (image1, image2, ou image3) -->
-                                                <img :src="getFirstAvailableImage(immobillierBoost)"
-                                                    :alt="`Image de ${immobillierBoost.nom || 'bien immobilier'}`"
-                                                    :title="immobillierBoost.nom"
-                                                    class="h-full w-full object-cover transition-all duration-500 group-hover:scale-110"
-                                                    @error="handleImageError($event)"
-                                                    loading="lazy"
-                                                    decoding="async"
-                                                    @load="onImageLoad">
-                                                <!-- Overlay au hover -->
-                                                <div
-                                                    class="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                                                    aria-hidden="true">
-                                                </div>
-                                            </div>
-
-                                            <div class="p-4 space-y-2 flex-grow">
-                                                <p class="text-lg font-bold text-principal">
-                                                    <span class="sr-only">Prix: </span>
-                                                    {{ immobillierBoost.prix }}
-                                                    <span class="text-sm text-secondaire">Fcfa</span>
-                                                </p>
-
-                                                <h4 class="text-secondaire font-medium truncate">
-                                                    {{ immobillierBoost.nom.substring(0, 20) }}
-                                                </h4>
-
-                                                <div
-                                                    class="flex items-center text-sm text-principal border-t border-gray-100 pt-2 mt-2">
-                                                    <i class="fas fa-map-marker-alt mr-2" aria-hidden="true"></i>
-                                                    <span>{{ immobillierBoost.region }}, Senegal</span>
-                                                </div>
-                                            </div>
-
-                                            <button
-                                                class="w-full bg-gradient-to-r from-principal to-principal-dark text-white py-3 px-4 transform transition-all duration-300 hover:opacity-90 group-hover:translate-y-0 flex items-center justify-center space-x-2 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-principal"
-                                                @click.stop="navigateToDetail(immobillierBoost.id)"
-                                                aria-label="Contacter le propriétaire">
-                                                <i class="fas fa-phone-alt" aria-hidden="true"></i>
-                                                <span>Contacter</span>
-                                            </button>
-                                        </div>
-                                    </article>
+                        <div class="p-5 flex-grow flex flex-col">
+                            <div class="flex-grow">
+                                <h3 class="text-lg font-bold mb-2 text-secondaire line-clamp-2">
+                                    {{ item.nom }}
+                                </h3>
+                                <div class="flex items-center text-sm text-gray-600 mb-3">
+                                    <i class="fas fa-map-marker-alt text-principal mr-2" aria-hidden="true"></i>
+                                    <span>{{ item.region }}, Sénégal</span>
                                 </div>
-                            </div>
-                            <div v-else class="text-center py-12 text-gray-500" role="status">
-                                <i class="fas fa-inbox text-4xl mb-4" aria-hidden="true"></i>
-                                <p>Aucune annonce boostée disponible pour le moment.</p>
-                            </div>
-                        </section>
+                                <div class="flex items-center gap-2 mb-3 text-sm text-gray-500">
+                                    <span v-if="item.surface">{{ item.surface }}m²</span>
+                                    <span v-if="item.npiece">{{ item.npiece }} pièce{{ item.npiece > 1 ? 's' : '' }}</span>
+                                    <span>{{ item.type }}</span>
+                                                </div>
+                                            </div>
 
-                        <!-- Call to Action amélioré -->
-<Action />
-                        <!-- Latest Listings Section améliorée -->
-                        <section class="py-8" id="transparent" aria-labelledby="latest-heading">
-                            <div class="mx-auto max-w-screen-xl px-4">
-                                <div class="text-center mb-12 relative">
-                                    <h2 id="latest-heading" class="text-3xl font-bold text-secondaire inline-flex items-center">
-                                        <i class="fas fa-home mr-3 text-principal" aria-hidden="true"></i>
-                                        Dernières Annonces au Sénégal
-                                    </h2>
-                                    <div
-                                        class="w-24 h-1 bg-gradient-to-r from-principal to-secondaire mx-auto mt-4 rounded-full"
-                                        aria-hidden="true">
+                            <div class="border-t border-gray-200 pt-3 mt-auto">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <span class="text-2xl font-bold text-principal">
+                                            {{ formatPrice(item.prix) }}
+                                        </span>
+                                        <span class="text-sm text-gray-500 ml-1">FCFA</span>
                                     </div>
                                 </div>
-
-                                <div v-if="maisons?.data?.length > 0" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" role="list">
-
-                                    <article v-for="maison in maisons.data" :key="maison.id"
-                                        class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition duration-300 h-full flex flex-col cursor-pointer focus-within:ring-2 focus-within:ring-principal focus-within:ring-offset-2"
-                                        @click="navigateToDetail(maison.id)"
-                                        @keydown.enter="navigateToDetail(maison.id)"
-                                        tabindex="0"
-                                        role="listitem"
-                                        :aria-label="`${maison.nom} - ${maison.prix} FCFA`">
-                                        <div class="relative bg-gray-200">
-                                            <!-- Image directement depuis la base de données (image1, image2, ou image3) -->
-                                            <img :src="getFirstAvailableImage(maison)"
-                                                :alt="`Image de ${maison.nom || 'bien immobilier'}`"
-                                                :title="maison.nom"
-                                                class="w-full h-64 object-cover" 
-                                                loading="lazy"
-                                                decoding="async"
-                                                @error="handleImageError($event)"
-                                                @load="onImageLoad">
-                                            <div class="absolute top-4 left-4">
-                                                <span
-                                                    class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-sm font-semibold"
-                                                    :aria-label="`Type: ${maison.affaire}`">
-                                                    {{ maison.affaire }}
-                                                </span>
-                                            </div>
-                                        </div>
-
-                                        <div class="p-6 flex-grow">
-                                            <div class="flex justify-between items-start">
-                                                <div>
-                                                    <h3 class="text-xl font-bold mb-1 text-principal">
-                                                        {{ maison.nom.substring(0, 20) }}{{ maison.nom.length > 20 ?
-                                                        '...' : '' }}
-                                                    </h3>
-                                                    <p class="text-gray-600 mb-2">
-                                                        <i class="fas fa-map-marker-alt text-[#eb2d53] mr-2" aria-hidden="true"></i>
-                                                        <span>{{ maison.region }}, Sénégal</span>
-                                                    </p>
-                                                </div>
-                                            </div>
-
-                                            <div
-                                                class="flex justify-between items-center mt-4 border-b-2 border-gray-300">
-                                                <div>
-                                                    <span class="text-gray-500 text-sm">Prix:</span>
-                                                    <span class="text-lg font-bold text-[#eb2d53]">
-                                                        {{ maison.prix }} FCFA
-                                                        <span class="text-sm text-gray-500">{{ maison.type }}</span>
-                                                    </span>
-                                                </div>
-                                                <button 
-                                                    @click.stop="toggleFavorite(maison.id)"
-                                                    :class="[
-                                                        'transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-principal focus:ring-offset-2 rounded-full p-1',
-                                                        isFavorite(maison.id)
-                                                            ? 'text-red-500 hover:text-red-600'
-                                                            : 'text-[#eb2d53] hover:text-indigo-800'
-                                                    ]"
-                                                    :aria-label="isFavorite(maison.id) ? 'Retirer des favoris' : 'Ajouter aux favoris'"
-                                                    :aria-pressed="isFavorite(maison.id)"
-                                                >
-                                                    <i :class="isFavorite(maison.id) ? 'fas fa-heart' : 'far fa-heart'" class="text-xl" aria-hidden="true"></i>
-                                                </button>
-                                            </div>
-
-                                            <div v-if="maison.status == 'accepter'" class="mt-6">
-                                                <button
-                                                    class="w-full text-center bg-[#eb2d53] hover:bg-[#d12648] text-white py-2 rounded-lg transition duration-300 focus:outline-none focus:ring-2 focus:ring-[#eb2d53] focus:ring-offset-2"
-                                                    @click.stop="navigateToDetail(maison.id)"
-                                                    aria-label="Contacter le propriétaire">
-                                                    <span class="flex items-center justify-center space-x-2">
-                                                        <i class="fas fa-phone-alt" aria-hidden="true"></i>
-                                                        <span>Contacter</span>
-                                                    </span>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </article>
-                                </div>
-                                <div v-else class="text-center py-12 text-gray-500" role="status">
-                                    <i class="fas fa-inbox text-4xl mb-4" aria-hidden="true"></i>
-                                    <p>Aucune annonce disponible pour le moment.</p>
-                                </div>
                             </div>
-                        </section>
-                    </div>
+                        </div>
+                    </article>
+                                                </div>
+                                            </div>
+        </div>
+    </section>
 
-                    <!-- Other Tabs -->
-                    <div v-else-if="activeTab == 'Chambre'" class="bg-transparent">
-                        <Chambre :chambres="chambres" :chambresBoost="chambresBoost" />
+    <!-- Section Créer une alerte -->
+    <section class="py-16 bg-gradient-to-br from-principal/10 via-principal/5 to-secondaire/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-white rounded-2xl shadow-xl p-8 md:p-12">
+                <div class="flex flex-col lg:flex-row items-center justify-between gap-8">
+                    <div class="flex-1 text-left">
+                        <h2 class="text-3xl md:text-4xl font-bold text-secondaire mb-4">
+                            Créer une alerte gratuite
+                        </h2>
+                        <p class="text-lg md:text-xl text-gray-700 leading-relaxed max-w-3xl">
+                            Laissez-nous trouver votre prochain logement. Créez un Agent de recherche gratuit et recevez des alertes e-mail instantanées pour les nouvelles annonces correspondant à vos critères afin d'être toujours parmi les premiers informés.
+                        </p>
                     </div>
-                    <div v-else-if="activeTab == 'Villa'" class="bg-transparent">
-                        <Villa :villas="villas" :villasBoost="villasBoost" />
-                    </div>
-                    <div v-else-if="activeTab == 'Immeuble'" class="bg-transparent">
-                        <Immeuble :immeubles="immeubles" :immeublesBoost="immeublesBoost" />
-                    </div>
-                    <div v-else-if="activeTab == 'Terrain'" class="bg-transparent">
-                        <Terrain :terrains="terrains" :terrainsBoost="terrainsBoost" />
-                    </div>
-                    <div v-else-if="activeTab == 'Verger'" class="bg-transparent">
-                        <Verger :vergers="vergers" :vergersBoost="vergersBoost" />
-                    </div>
-                    <div v-else-if="activeTab == 'Appartement'" class="bg-transparent">
-                        <Appartement :appartements="appartements" :appartements-boost="appartementsBoost" />
-                    </div>
-                    <div v-else-if="activeTab == 'Studio'" class="bg-transparent">
-                        <Studio :studios="studios" :studios-boost="studiosBoost" />
+                    <div class="flex-shrink-0">
+                        <button 
+                            v-if="!$page.props.auth?.user"
+                            @click="$inertia.visit('/register')"
+                            class="bg-principal hover:bg-principal/90 text-white px-12 py-5 rounded-xl font-semibold transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-principal focus:ring-offset-2 shadow-lg hover:shadow-xl transform hover:scale-105 text-lg inline-flex items-center gap-2 whitespace-nowrap">
+                            <i class="fas fa-bell"></i>
+                            <span>Créer une alerte</span>
+                        </button>
+                        <button 
+                            v-else
+                            @click="showAlertForm = true"
+                            class="bg-principal hover:bg-principal/90 text-white px-12 py-5 rounded-xl font-semibold transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-principal focus:ring-offset-2 shadow-lg hover:shadow-xl transform hover:scale-105 text-lg inline-flex items-center gap-2 whitespace-nowrap">
+                            <i class="fas fa-bell"></i>
+                            <span>Créer une alerte</span>
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
+    </section>
+
+    <!-- Section Locations récemment ajoutées -->
+    <section class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="mb-10 flex items-center justify-between">
+                                                <div>
+                    <h2 class="text-2xl md:text-3xl font-bold text-secondaire mb-3">
+                        Locations récemment ajoutées
+                    </h2>
+                    <p class="text-gray-600 text-lg">Découvrez les dernières annonces disponibles</p>
+                                                </div>
+                <a href="/p/immobilier" class="text-principal hover:text-principal/80 font-semibold hidden md:flex items-center gap-2 transition-all duration-300 hover:gap-3">
+                    <span>Voir toutes les annonces</span>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+                                            </div>
+
+            <div v-if="maisons?.data?.length > 0" class="relative">
+                <div class="swiper recent-annonces-swiper" id="recent-annonces-swiper">
+                    <div class="swiper-wrapper">
+                        <div 
+                            v-for="maison in maisons.data.slice(0, 12)" 
+                            :key="maison.id"
+                            class="swiper-slide">
+                            <article 
+                                @click="navigateToDetail(maison.id)"
+                                class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 h-full flex flex-col cursor-pointer focus-within:ring-2 focus-within:ring-principal focus-within:ring-offset-2 group"
+                                @keydown.enter="navigateToDetail(maison.id)"
+                                tabindex="0"
+                                role="article"
+                                :aria-label="`${maison.nom} - ${maison.prix} FCFA`">
+                                
+                                <div class="relative bg-gray-200 overflow-hidden h-64 group/image-container">
+                                    <!-- Badge Nouveau -->
+                                    <span v-if="isNew(maison.created_at)" 
+                                        class="absolute top-4 right-4 z-20 bg-principal text-white px-3 py-1 rounded-full text-xs font-bold">
+                                        Nouveau !
+                                                    </span>
+                                    
+                                    <!-- Carousel d'images pour chaque propriété -->
+                                    <div class="relative w-full h-full property-image-carousel" :data-property-id="maison.id">
+                                        <div class="swiper property-images-swiper" :id="`property-images-${maison.id}`">
+                                            <div class="swiper-wrapper">
+                                                <div v-if="maison.image1 && maison.image1 !== '' && maison.image1 !== 'null'" class="swiper-slide">
+                                                    <img :src="getImageUrl(maison.image1)"
+                                                        :alt="`Image 1 de ${maison.nom || 'bien immobilier'}`"
+                                                        class="w-full h-full object-cover" 
+                                                        loading="lazy"
+                                                        decoding="async"
+                                                        @error="handleImageError($event)">
+                                                </div>
+                                                <div v-if="maison.image2 && maison.image2 !== '' && maison.image2 !== 'null'" class="swiper-slide">
+                                                    <img :src="getImageUrl(maison.image2)"
+                                                        :alt="`Image 2 de ${maison.nom || 'bien immobilier'}`"
+                                                        class="w-full h-full object-cover" 
+                                                        loading="lazy"
+                                                        decoding="async"
+                                                        @error="handleImageError($event)">
+                                                </div>
+                                                <div v-if="maison.image3 && maison.image3 !== '' && maison.image3 !== 'null'" class="swiper-slide">
+                                                    <img :src="getImageUrl(maison.image3)"
+                                                        :alt="`Image 3 de ${maison.nom || 'bien immobilier'}`"
+                                                        class="w-full h-full object-cover" 
+                                                        loading="lazy"
+                                                        decoding="async"
+                                                        @error="handleImageError($event)">
+                                                </div>
+                                                <!-- Image par défaut si aucune image -->
+                                                <div v-if="!hasAnyImage(maison)" class="swiper-slide">
+                                                    <img :src="getFirstAvailableImage(maison)"
+                                                        :alt="`Image de ${maison.nom || 'bien immobilier'}`"
+                                                        class="w-full h-full object-cover" 
+                                                        loading="lazy"
+                                                        decoding="async"
+                                                        @error="handleImageError($event)">
+                                                </div>
+                                            </div>
+                                            
+                                            <!-- Navigation pour les images (flèches blanches) -->
+                                            <div v-if="hasMultipleImages(maison)" :class="`swiper-button-next property-image-next-${maison.id}`"></div>
+                                            <div v-if="hasMultipleImages(maison)" :class="`swiper-button-prev property-image-prev-${maison.id}`"></div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Bouton favoris -->
+                                    <div class="absolute top-4 left-4 z-20">
+                                                <button 
+                                                    @click.stop="toggleFavorite(maison.id)"
+                                                    :class="[
+                                                'bg-white rounded-full p-2 shadow-md hover:shadow-lg transition-all duration-300',
+                                                        isFavorite(maison.id)
+                                                    ? 'text-red-500'
+                                                    : 'text-gray-400 hover:text-red-400'
+                                                    ]"
+                                            :aria-label="isFavorite(maison.id) ? 'Retirer des favoris' : 'Ajouter aux favoris'">
+                                            <i :class="isFavorite(maison.id) ? 'fas fa-heart' : 'far fa-heart'" class="text-sm"></i>
+                                                </button>
+                                    </div>
+                                            </div>
+
+                                <div class="p-5 flex-grow flex flex-col">
+                                    <div class="flex-grow">
+                                        <!-- Format comme dans l'image : "1 chambre appartement de XXm²" -->
+                                        <div class="text-base font-semibold text-secondaire mb-2">
+                                            <span v-if="maison.npiece">{{ maison.npiece }} chambre{{ maison.npiece > 1 ? 's' : '' }}</span>
+                                            <span class="lowercase">{{ maison.type || 'appartement' }}</span>
+                                            <span v-if="maison.surface"> de {{ maison.surface }}m²</span>
+                                            </div>
+                                        
+                                        <!-- Localisation complète -->
+                                        <div class="text-sm text-gray-600 mb-3 line-clamp-1">
+                                            {{ maison.region || 'Sénégal' }}{{ maison.ville ? ', ' + maison.ville : '' }}
+                                        </div>
+                    </div>
+
+                                    <div class="border-t border-gray-200 pt-3 mt-auto flex items-center justify-between">
+                                        <div>
+                                            <span class="text-xl font-bold text-principal">
+                                                {{ formatPrice(maison.prix) }}
+                                            </span>
+                                            <span class="text-sm text-gray-500 ml-1">FCFA</span>
+                    </div>
+                                        <button 
+                                            @click.stop="toggleFavorite(maison.id)"
+                                            :class="[
+                                                'transition-colors duration-300',
+                                                isFavorite(maison.id)
+                                                    ? 'text-red-500'
+                                                    : 'text-gray-400 hover:text-red-400'
+                                            ]"
+                                            :aria-label="isFavorite(maison.id) ? 'Retirer des favoris' : 'Ajouter aux favoris'">
+                                            <i :class="isFavorite(maison.id) ? 'fas fa-heart' : 'far fa-heart'" class="text-lg"></i>
+                                        </button>
+                    </div>
+                    </div>
+                            </article>
+                    </div>
+                    </div>
+                    
+                    <!-- Navigation buttons -->
+                    <div class="swiper-button-next recent-next"></div>
+                    <div class="swiper-button-prev recent-prev"></div>
+                    
+                    <!-- Pagination -->
+                    <div class="swiper-pagination recent-pagination"></div>
+                    </div>
+                    </div>
+            
+            <div v-else class="text-center py-12 text-gray-500">
+                <i class="fas fa-inbox text-4xl mb-4" aria-hidden="true"></i>
+                <p>Aucune annonce disponible pour le moment.</p>
+                </div>
+            </div>
+    </section>
+
+    <!-- Section Pourquoi attendre -->
+    <section class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-secondaire mb-4">
+                    Pourquoi attendre ? Commencez votre recherche de logement maintenant !
+                </h2>
+                <p class="text-lg md:text-xl text-gray-700 max-w-3xl mx-auto leading-relaxed">
+                    Colobane rassemble tout le marché de la location en une seule recherche. Ne ratez plus jamais le logement à louer de vos rêves.
+                </p>
+                <button 
+                    @click="handleSearch"
+                    class="mt-8 bg-principal hover:bg-principal/90 text-white px-10 py-4 rounded-xl font-semibold transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-principal focus:ring-offset-2 shadow-lg hover:shadow-xl transform hover:scale-105 text-lg inline-flex items-center gap-2">
+                    <i class="fas fa-search"></i>
+                    <span>Rechercher</span>
+                </button>
+            </div>
+
+            <!-- Villes principales -->
+            <div class="mb-16">
+                <h3 class="text-2xl md:text-3xl font-bold text-secondaire mb-8">
+                    Trouvez des logements dans les principales villes du Sénégal
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                    <div v-for="ville in villesPrincipales" :key="ville.nom" class="bg-white rounded-xl border border-gray-200 p-6 hover:shadow-lg transition-all duration-300">
+                        <h4 class="font-bold text-lg text-secondaire mb-4">{{ ville.nom }}</h4>
+                        <ul class="space-y-2">
+                            <li v-for="type in ville.types" :key="type.slug">
+                                <a 
+                                    :href="`/categorie/${type.slug}?region=${ville.nom.toLowerCase()}`"
+                                    class="text-gray-700 hover:text-principal transition-colors duration-200 flex items-center group">
+                                    <i :class="`fas fa-${type.icon} mr-2 text-sm text-gray-400 group-hover:text-principal`"></i>
+                                    <span>{{ type.label }} à {{ ville.nom }}</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Toutes les régions -->
+            <div>
+                <h3 class="text-2xl md:text-3xl font-bold text-secondaire mb-8">
+                    Tous les lieux avec des locations
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                    <a 
+                        v-for="region in regionsSenegal" 
+                        :key="region.nom"
+                        :href="`/p/immobilier?region=${region.nom.toLowerCase()}`"
+                        class="bg-white border border-gray-200 rounded-lg p-4 hover:border-principal hover:shadow-md transition-all duration-200 flex items-center justify-between group">
+                        <span class="text-gray-700 group-hover:text-principal font-medium">{{ region.nom }}</span>
+                        <span class="text-gray-500 text-sm group-hover:text-principal">({{ region.count || 0 }})</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <Footer />
     
     <!-- Toast Notification -->
@@ -297,7 +499,6 @@
 <style scoped>
 #principal {
     min-height: 100vh;
-    background: linear-gradient(135deg, #f6f8fc 0%, #f1f4f9 100%);
 }
 
 /* Animation pour les cartes */
@@ -311,41 +512,9 @@
     box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
 
-.card:active {
-    transform: translateY(-2px) scale(1.01);
-}
-
-/* Effet de glassmorphisme */
-.backdrop-blur-sm {
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-}
-
-/* Animation pour les images */
-.aspect-square img {
-    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-    will-change: transform;
-}
-
-.aspect-square:hover img {
-    transform: scale(1.1);
-}
-
-/* Optimisation des images */
-img {
-    image-rendering: -webkit-optimize-contrast;
-    image-rendering: crisp-edges;
-}
-
-/* Animation de chargement */
-@keyframes spin {
-    to {
-        transform: rotate(360deg);
-    }
-}
-
-.animate-spin {
-    animation: spin 1s linear infinite;
+/* Smooth scroll */
+html {
+    scroll-behavior: smooth;
 }
 
 /* Amélioration de l'accessibilité - focus visible */
@@ -354,32 +523,10 @@ img {
     outline-offset: 2px;
 }
 
-/* Smooth scroll */
-html {
-    scroll-behavior: smooth;
-}
-
-/* Amélioration des transitions */
-.transition-all {
-    transition-property: all;
-    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-    transition-duration: 300ms;
-}
-
 /* Optimisation des performances */
 * {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-}
-
-/* Amélioration de la fluidité des animations */
-@media (prefers-reduced-motion: no-preference) {
-    .card,
-    .swiper-slide>div,
-    .aspect-square img {
-        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-                    box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
 }
 
 /* Respecter les préférences d'accessibilité */
@@ -393,76 +540,237 @@ html {
     }
 }
 
-/* Amélioration du contraste pour l'accessibilité */
-.text-secondaire {
-    color: #101634;
+/* Styles pour le carousel des villes */
+.villes-swiper {
+    padding-bottom: 50px;
+    padding-left: 50px;
+    padding-right: 50px;
 }
 
-.text-principal {
+.villes-swiper .swiper-button-next,
+.villes-swiper .swiper-button-prev {
     color: #eb2d53;
+    background: white;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+    margin-top: 0;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
-/* Focus visible amélioré */
-button:focus-visible,
-a:focus-visible {
-    outline: 2px solid #eb2d53;
-    outline-offset: 2px;
-    border-radius: 4px;
+.villes-swiper .swiper-button-next:hover,
+.villes-swiper .swiper-button-prev:hover {
+    background: #eb2d53;
+    color: white;
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 4px 16px rgba(235, 45, 83, 0.3);
 }
 
-/* Style pour les boutons */
-button {
-    @apply transition-all duration-300;
+.villes-swiper .swiper-button-next::after,
+.villes-swiper .swiper-button-prev::after {
+    font-size: 18px;
+    font-weight: bold;
 }
 
-button:hover {
-    transform: translateY(-2px);
+.villes-swiper .swiper-button-next {
+    right: 0;
 }
 
-/* Animation pour les catégories */
-.swiper-slide>div {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    will-change: transform, box-shadow;
+.villes-swiper .swiper-button-prev {
+    left: 0;
 }
 
-.swiper-slide:hover>div {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+.villes-swiper .swiper-pagination {
+    bottom: 0;
 }
 
-.swiper-slide:active>div {
-    transform: translateY(-2px);
+.villes-swiper .swiper-pagination-bullet {
+    background: #eb2d53;
+    opacity: 0.4;
+    width: 10px;
+    height: 10px;
+    transition: all 0.3s ease;
 }
 
-/* Effet de hover sur les titres */
-h2 {
-    position: relative;
+.villes-swiper .swiper-pagination-bullet-active {
+    opacity: 1;
+    background: #eb2d53;
+    width: 24px;
+    border-radius: 5px;
 }
 
-/* Animation des icônes */
-.fa-icon {
-    transition: transform 0.3s ease;
+.villes-swiper .swiper-slide {
+    height: auto;
 }
 
-.group:hover .fa-icon {
+/* Responsive pour le carousel */
+@media (max-width: 640px) {
+    .villes-swiper {
+        padding-left: 40px;
+        padding-right: 40px;
+    }
+    
+    .villes-swiper .swiper-button-next,
+    .villes-swiper .swiper-button-prev {
+        width: 36px;
+        height: 36px;
+    }
+    
+    .villes-swiper .swiper-button-next::after,
+    .villes-swiper .swiper-button-prev::after {
+        font-size: 14px;
+    }
+}
+
+/* Styles pour le carousel des annonces récentes */
+.recent-annonces-swiper {
+    padding-bottom: 50px;
+    padding-left: 50px;
+    padding-right: 50px;
+}
+
+.recent-annonces-swiper .swiper-button-next,
+.recent-annonces-swiper .swiper-button-prev {
+    color: #eb2d53;
+    background: white;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+    margin-top: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.recent-annonces-swiper .swiper-button-next:hover,
+.recent-annonces-swiper .swiper-button-prev:hover {
+    background: #eb2d53;
+    color: white;
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 4px 16px rgba(235, 45, 83, 0.3);
+}
+
+.recent-annonces-swiper .swiper-button-next::after,
+.recent-annonces-swiper .swiper-button-prev::after {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.recent-annonces-swiper .swiper-button-next {
+    right: 0;
+}
+
+.recent-annonces-swiper .swiper-button-prev {
+    left: 0;
+}
+
+.recent-annonces-swiper .swiper-pagination {
+    bottom: 0;
+}
+
+.recent-annonces-swiper .swiper-pagination-bullet {
+    background: #eb2d53;
+    opacity: 0.4;
+    width: 10px;
+    height: 10px;
+    transition: all 0.3s ease;
+}
+
+.recent-annonces-swiper .swiper-pagination-bullet-active {
+    opacity: 1;
+    background: #eb2d53;
+    width: 24px;
+    border-radius: 5px;
+}
+
+.recent-annonces-swiper .swiper-slide {
+    height: auto;
+}
+
+@media (max-width: 640px) {
+    .recent-annonces-swiper {
+        padding-left: 40px;
+        padding-right: 40px;
+    }
+    
+    .recent-annonces-swiper .swiper-button-next,
+    .recent-annonces-swiper .swiper-button-prev {
+        width: 36px;
+        height: 36px;
+    }
+    
+    .recent-annonces-swiper .swiper-button-next::after,
+    .recent-annonces-swiper .swiper-button-prev::after {
+        font-size: 14px;
+    }
+}
+
+/* Styles pour les carousels d'images des propriétés */
+.property-images-swiper {
+    width: 100%;
+    height: 100%;
+}
+
+.property-images-swiper .swiper-slide {
+    width: 100%;
+    height: 100%;
+}
+
+.property-images-swiper .swiper-button-next,
+.property-images-swiper .swiper-button-prev {
+    color: white;
+    background: rgba(0, 0, 0, 0.5);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    opacity: 0;
+}
+
+.property-images-swiper:hover .swiper-button-next,
+.property-images-swiper:hover .swiper-button-prev {
+    opacity: 1;
+}
+
+.property-images-swiper .swiper-button-next:hover,
+.property-images-swiper .swiper-button-prev:hover {
+    background: rgba(0, 0, 0, 0.7);
     transform: scale(1.1);
 }
 
-/* Gradient text pour les éléments importants */
-.text-gradient {
-    background-clip: text;
-    -webkit-background-clip: text;
-    color: transparent;
-    background-image: linear-gradient(to right, var(--color-principal), var(--color-secondaire));
+.property-images-swiper .swiper-button-next::after,
+.property-images-swiper .swiper-button-prev::after {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.property-images-swiper .swiper-button-next {
+    right: 8px;
+}
+
+.property-images-swiper .swiper-button-prev {
+    left: 8px;
+}
+
+/* Afficher les flèches au hover du conteneur */
+.group\/image-container:hover [class*="property-image-next"],
+.group\/image-container:hover [class*="property-image-prev"] {
+    opacity: 1;
 }
 </style>
 
 <script setup>
-import { Head, Link } from '@inertiajs/vue3';
-import { Inertia } from '@inertiajs/inertia';
-import AppLayout from '@/Layouts/AppLayout.vue';
+import { Head } from '@inertiajs/vue3';
+import SeoHead from '../Components/SeoHead.vue';
+
+import { computed } from 'vue';
 
 const props = defineProps({
+    totalAnnonces: Number,
     immobilliersBoost: Object,
     maisons: Object,
     canLogin: Boolean,
@@ -484,64 +792,10 @@ const props = defineProps({
     studios: Object,
     studiosBoost: Object,
 });
-
-let items = [
-    {
-        "id": 1,
-        "icon": "home",
-        "name": "Villa"
-    },
-    {
-        "id": 2,
-        "icon": "map-marked",
-        "name": "Terrain"
-    },
-    {
-        "id": 4,
-        "icon": "bed",
-        "name": "Chambre"
-    },
-    {
-        "id": 5,
-        "icon": "building",
-        "name": "Immeuble"
-    },
-    {
-        "id": 6,
-        "icon": "apple-alt",
-        "name": "Verger"
-    },
-    {
-        "id": 7,
-        "icon": "city",
-        "name": "Appartement"
-    },
-    {
-        "id": 8,
-        "icon": "home",
-        "name": "Studio"
-    },
-    {
-        "id": 9,
-        "icon": "key",
-        "name": "Immobilier"
-    },
-];
 </script>
 
 <script>
-import { InertiaProgress } from '@inertiajs/progress';
-import SwitchBtn from './BoutCode/SwitchBtn.vue';
-import SlidePub from './BoutCode/SlidePub.vue';
-import Action from './BoutCode/Action.vue';
-import Chambre from './ForWelcome/Chambre.vue';
-import Immobilier from './Categories/immobilier.vue';
-import Villa from './ForWelcome/Villa.vue';
-import Immeuble from './ForWelcome/Immeuble.vue';
-import Terrain from './ForWelcome/Terrain.vue';
-import Verger from './ForWelcome/Verger.vue';
-import Appartement from './ForWelcome/Appartement.vue';
-import Studio from './ForWelcome/Studio.vue';
+import { Inertia } from '@inertiajs/inertia';
 import Footer from '../Components/Footer.vue';
 import Navbar from '../Components/Navbar.vue';
 import Toast from '../Components/Toast.vue';
@@ -549,23 +803,272 @@ import Toast from '../Components/Toast.vue';
 export default {
     components: {
         Toast,
+        Footer,
+        Navbar,
     },
     data() {
         return {
-            activeTab: 'Immobilier',
-            showMenu: false,
-            favorites: new Set(), // Set pour stocker les IDs des favoris
+            activeTab: 'Immobilier', // Par défaut, afficher tous les biens
+            favorites: new Set(),
             showToast: false,
             toastMessage: '',
             toastType: 'success',
-            isLoading: false,
-            imagesLoaded: 0,
-            totalImages: 0,
+            searchQuery: '',
+            showAlertForm: false,
+            categoryItems: [
+                { id: 1, icon: 'home', name: 'Villa', type: 'Villa', slug: 'villa' },
+                { id: 2, icon: 'building', name: 'Appartements', type: 'appartement', slug: 'appartements' },
+                { id: 3, icon: 'bed', name: 'Chambre', type: 'Chambre', slug: 'chambre' },
+                { id: 4, icon: 'home', name: 'Studio', type: 'studio', slug: 'studio' },
+                { id: 5, icon: 'building', name: 'Immeuble', type: 'Immeuble', slug: 'immeuble' },
+                { id: 6, icon: 'map-marked', name: 'Terrain', type: 'Terrain', slug: 'terrain' },
+                { id: 7, icon: 'key', name: 'Immobilier', type: 'all', slug: 'immobilier' },
+            ],
+            villesPopulaires: [
+                { nom: 'Dakar', image: 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&h=600&fit=crop' },
+                { nom: 'Thiès', image: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?w=800&h=600&fit=crop' },
+                { nom: 'Saint-Louis', image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop' },
+                { nom: 'Kaolack', image: 'https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?w=800&h=600&fit=crop' },
+                { nom: 'Ziguinchor', image: 'https://images.unsplash.com/photo-1514565131-fce0801e5785?w=800&h=600&fit=crop' },
+                { nom: 'Rufisque', image: 'https://images.unsplash.com/photo-1514565131-fce0801e5785?w=800&h=600&fit=crop' },
+                { nom: 'Louga', image: 'https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?w=800&h=600&fit=crop' },
+                { nom: 'Tambacounda', image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop' },
+                { nom: 'Kolda', image: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?w=800&h=600&fit=crop' },
+                { nom: 'Mbour', image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop' },
+            ],
+            selectedCity: null,
+            villesPrincipales: [
+                {
+                    nom: 'Dakar',
+                    types: [
+                        { label: 'Villas à Dakar', slug: 'villa', icon: 'home' },
+                        { label: 'Appartements à Dakar', slug: 'appartements', icon: 'building' },
+                        { label: 'Chambres à Dakar', slug: 'chambre', icon: 'bed' },
+                        { label: 'Studios à Dakar', slug: 'studio', icon: 'home' },
+                        { label: 'Immeubles à Dakar', slug: 'immeuble', icon: 'building' },
+                    ]
+                },
+                {
+                    nom: 'Thiès',
+                    types: [
+                        { label: 'Villas à Thiès', slug: 'villa', icon: 'home' },
+                        { label: 'Appartements à Thiès', slug: 'appartements', icon: 'building' },
+                        { label: 'Chambres à Thiès', slug: 'chambre', icon: 'bed' },
+                        { label: 'Studios à Thiès', slug: 'studio', icon: 'home' },
+                    ]
+                },
+                {
+                    nom: 'Saint-Louis',
+                    types: [
+                        { label: 'Villas à Saint-Louis', slug: 'villa', icon: 'home' },
+                        { label: 'Appartements à Saint-Louis', slug: 'appartements', icon: 'building' },
+                        { label: 'Chambres à Saint-Louis', slug: 'chambre', icon: 'bed' },
+                        { label: 'Studios à Saint-Louis', slug: 'studio', icon: 'home' },
+                    ]
+                },
+                {
+                    nom: 'Kaolack',
+                    types: [
+                        { label: 'Villas à Kaolack', slug: 'villa', icon: 'home' },
+                        { label: 'Appartements à Kaolack', slug: 'appartements', icon: 'building' },
+                        { label: 'Chambres à Kaolack', slug: 'chambre', icon: 'bed' },
+                        { label: 'Studios à Kaolack', slug: 'studio', icon: 'home' },
+                    ]
+                },
+                {
+                    nom: 'Ziguinchor',
+                    types: [
+                        { label: 'Villas à Ziguinchor', slug: 'villa', icon: 'home' },
+                        { label: 'Appartements à Ziguinchor', slug: 'appartements', icon: 'building' },
+                        { label: 'Chambres à Ziguinchor', slug: 'chambre', icon: 'bed' },
+                        { label: 'Studios à Ziguinchor', slug: 'studio', icon: 'home' },
+                    ]
+                },
+                {
+                    nom: 'Rufisque',
+                    types: [
+                        { label: 'Villas à Rufisque', slug: 'villa', icon: 'home' },
+                        { label: 'Appartements à Rufisque', slug: 'appartements', icon: 'building' },
+                        { label: 'Chambres à Rufisque', slug: 'chambre', icon: 'bed' },
+                        { label: 'Studios à Rufisque', slug: 'studio', icon: 'home' },
+                    ]
+                },
+                {
+                    nom: 'Louga',
+                    types: [
+                        { label: 'Villas à Louga', slug: 'villa', icon: 'home' },
+                        { label: 'Appartements à Louga', slug: 'appartements', icon: 'building' },
+                        { label: 'Chambres à Louga', slug: 'chambre', icon: 'bed' },
+                        { label: 'Studios à Louga', slug: 'studio', icon: 'home' },
+                    ]
+                },
+                {
+                    nom: 'Tambacounda',
+                    types: [
+                        { label: 'Villas à Tambacounda', slug: 'villa', icon: 'home' },
+                        { label: 'Appartements à Tambacounda', slug: 'appartements', icon: 'building' },
+                        { label: 'Chambres à Tambacounda', slug: 'chambre', icon: 'bed' },
+                    ]
+                },
+            ],
+            regionsSenegal: [
+                { nom: 'Dakar', count: 0 },
+                { nom: 'Thiès', count: 0 },
+                { nom: 'Diourbel', count: 0 },
+                { nom: 'Fatick', count: 0 },
+                { nom: 'Kaolack', count: 0 },
+                { nom: 'Kolda', count: 0 },
+                { nom: 'Louga', count: 0 },
+                { nom: 'Matam', count: 0 },
+                { nom: 'Saint-Louis', count: 0 },
+                { nom: 'Sédhiou', count: 0 },
+                { nom: 'Tambacounda', count: 0 },
+                { nom: 'Ziguinchor', count: 0 },
+                { nom: 'Kaffrine', count: 0 },
+                { nom: 'Kédougou', count: 0 },
+            ],
         };
+    },
+    computed: {
+        villesPopulairesAvecCount() {
+            // Calculer le nombre de biens par ville
+            return this.villesPopulaires.map(ville => {
+                const count = this.getCountByCity(ville.nom);
+                return { ...ville, count };
+            }).sort((a, b) => b.count - a.count); // Trier par nombre décroissant
+        },
+    },
+    mounted() {
+        if (this.$page.props.auth?.user) {
+            this.loadFavorites();
+        }
+        
+        // Calculer les compteurs pour les régions
+        this.calculateRegionCounts();
+        
+        // Initialiser Swiper pour les villes et les annonces récentes
+        this.$nextTick(() => {
+            this.initializeVillesSwiper();
+            this.initializeRecentAnnoncesSwiper();
+        });
     },
     methods: {
         navigateToDetail(id) {
             this.$inertia.visit(`/detail/${id}`);
+        },
+        navigateToCategory(slug) {
+            this.$inertia.visit(`/categorie/${slug}`);
+        },
+        handleSearch() {
+            if (this.searchQuery.trim()) {
+                this.$inertia.visit(`/p/immobilier?search=${encodeURIComponent(this.searchQuery)}`);
+            }
+        },
+        searchByCity(city) {
+            this.searchQuery = city;
+            this.handleSearch();
+        },
+        filterByCity(city) {
+            // Filtrer les annonces par ville
+            this.selectedCity = this.selectedCity === city ? null : city;
+            // Scroll vers la section des annonces
+            this.$nextTick(() => {
+                const section = document.querySelector('.bg-gray-50');
+                if (section) {
+                    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        },
+        clearCityFilter() {
+            this.selectedCity = null;
+        },
+        calculateRegionCounts() {
+            // Calculer le nombre de biens par région
+            const allData = [
+                ...(this.maisons?.data || []),
+                ...(this.villas || []),
+                ...(this.appartements?.data || []),
+                ...(this.chambres?.data || []),
+                ...(this.studios?.data || []),
+                ...(this.immeubles?.data || []),
+                ...(this.terrains?.data || []),
+            ];
+            
+            this.regionsSenegal = this.regionsSenegal.map(region => {
+                const count = allData.filter(item => 
+                    item.region && item.region.toLowerCase().includes(region.nom.toLowerCase())
+                ).length;
+                return { ...region, count };
+            });
+        },
+        getCountByCity(cityName) {
+            // Compter tous les biens pour une ville donnée
+            let count = 0;
+            
+            // Normaliser le nom de la ville pour la comparaison (insensible à la casse)
+            const normalizedCity = cityName.toLowerCase();
+            
+            // Compter dans toutes les sources de données
+            const allData = [
+                ...(this.maisons?.data || []),
+                ...(this.chambres?.data || []),
+                ...(this.appartements?.data || []),
+                ...(this.studios?.data || []),
+                ...(this.immeubles?.data || []),
+                ...(this.terrains?.data || []),
+                ...(this.vergers?.data || []),
+                ...(Array.isArray(this.villas) ? this.villas : []),
+            ];
+            
+            allData.forEach(item => {
+                if (item.region && item.region.toLowerCase().includes(normalizedCity)) {
+                    count++;
+                }
+            });
+            
+            return count;
+        },
+        formatNumber(num) {
+            return new Intl.NumberFormat('fr-FR').format(num);
+        },
+        get ogImage() {
+            return window.location.origin + '/logo.png';
+        },
+        get structuredData() {
+            return {
+                '@context': 'https://schema.org',
+                '@type': 'WebSite',
+                'name': 'NoflayHub',
+                'description': 'Plateforme de location immobilière au Sénégal',
+                'url': window.location.origin,
+                'potentialAction': {
+                    '@type': 'SearchAction',
+                    'target': {
+                        '@type': 'EntryPoint',
+                        'urlTemplate': window.location.origin + '/p/immobilier?search={search_term_string}'
+                    },
+                    'query-input': 'required name=search_term_string'
+                },
+                'publisher': {
+                    '@type': 'Organization',
+                    'name': 'NoflayHub',
+                    'logo': {
+                        '@type': 'ImageObject',
+                        'url': window.location.origin + '/logo.png'
+                    }
+                }
+            };
+        },
+        formatPrice(price) {
+            if (!price) return '0';
+            return new Intl.NumberFormat('fr-FR').format(price);
+        },
+        isNew(createdAt) {
+            if (!createdAt) return false;
+            const created = new Date(createdAt);
+            const now = new Date();
+            const diffDays = (now - created) / (1000 * 60 * 60 * 24);
+            return diffDays <= 7;
         },
         async toggleFavorite(id) {
             if (!this.$page.props.auth?.user) {
@@ -613,78 +1116,41 @@ export default {
             if (!this.$page.props.auth?.user) return;
 
             try {
-                // Charger tous les favoris en une seule requête depuis la route favoris
                 const response = await fetch('/favoris', {
-                    headers: {
-                        'Accept': 'application/json',
-                    },
-                });
+                        headers: {
+                            'Accept': 'application/json',
+                        },
+                    });
                 
                 if (response.ok) {
                     const data = await response.json();
                     if (data.favoris && Array.isArray(data.favoris)) {
-                        // Ajouter tous les IDs des favoris au Set
                         data.favoris.forEach(favori => {
                             if (favori.immobilier_id) {
                                 this.favorites.add(favori.immobilier_id);
                             }
                         });
                     }
-                }
-            } catch (error) {
-                // Fallback: charger les favoris individuellement si la route principale échoue
-                const allIds = [
-                    ...(this.immobilliersBoost?.data || []).map(m => m.id),
-                    ...(this.maisons?.data || []).map(m => m.id),
-                ];
-
-                // Limiter à 10 requêtes maximum pour éviter la surcharge
-                const limitedIds = allIds.slice(0, 10);
-                
-                for (const id of limitedIds) {
-                    try {
-                        const response = await fetch(`/favoris/check/${id}`, {
-                            headers: {
-                                'Accept': 'application/json',
-                            },
-                        });
-                        const data = await response.json();
-                        if (data.isFavorite) {
-                            this.favorites.add(id);
-                        }
-                    } catch (err) {
-                        // Ignorer les erreurs silencieusement
                     }
-                }
+                } catch (error) {
+                    // Ignorer les erreurs silencieusement
             }
         },
         getImageUrl(imagePath) {
-            // Debug: vérifier que l'image vient bien de la base de données
-            if (process.env.NODE_ENV === 'development') {
-                console.log('Image path from DB:', imagePath);
-            }
-            
             if (!imagePath || imagePath === 'null' || imagePath === '') {
-                // Image par défaut si aucune image
                 return 'https://via.placeholder.com/500x300?text=Image+non+disponible';
             }
             
-            // Si c'est une URL externe (http:// ou https://), retourner tel quel
-            // Ces URLs viennent directement de la base de données (seeders ou uploads)
             if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
                 return imagePath;
             }
             
-            // Si c'est un chemin local (uploadé par l'utilisateur), ajouter /storage/
-            // Vérifier si le chemin commence déjà par storage/
             if (imagePath.startsWith('storage/') || imagePath.startsWith('/storage/')) {
                 return imagePath.startsWith('/') ? imagePath : '/' + imagePath;
             }
             
-            // Sinon, ajouter /storage/ devant (format: topics/filename.jpg)
             return '/storage/' + imagePath;
         },
-        // Fonction pour obtenir la première image disponible (image1, image2, ou image3)
         getFirstAvailableImage(article) {
             if (article.image1 && article.image1 !== '' && article.image1 !== 'null') {
                 return this.getImageUrl(article.image1);
@@ -698,116 +1164,246 @@ export default {
             return 'https://via.placeholder.com/500x300?text=Image+non+disponible';
         },
         handleImageError(event) {
-            // Remplacer par une image placeholder en cas d'erreur
             if (event.target && !event.target.dataset.errorHandled) {
                 event.target.dataset.errorHandled = 'true';
                 event.target.src = 'https://via.placeholder.com/500x300?text=Image+non+disponible';
-                event.target.onerror = null; // Éviter les boucles infinies
+                event.target.onerror = null;
             }
         },
-        onImageLoad() {
-            // Cette fonction peut être utilisée pour le suivi si nécessaire
-            // mais ne bloque plus l'affichage
-            this.imagesLoaded++;
+        handleCityImageError(event) {
+            if (event.target && !event.target.dataset.errorHandled) {
+                event.target.dataset.errorHandled = 'true';
+                event.target.src = 'https://images.unsplash.com/photo-1513694203232-719a280e022f?w=800&h=600&fit=crop';
+                event.target.onerror = null;
+            }
         },
-        initializeSwiper() {
-            // Initialiser Swiper pour les catégories
-            if (typeof Swiper !== 'undefined') {
-                new Swiper('#cat', {
-                    slidesPerView: 'auto',
-                    spaceBetween: 20,
-                    freeMode: true,
-                    breakpoints: {
-                        320: {
-                            slidesPerView: 2,
-                            spaceBetween: 10,
-                        },
-                        640: {
-                            slidesPerView: 3,
-                            spaceBetween: 15,
-                        },
-                        1024: {
-                            slidesPerView: 4,
-                            spaceBetween: 20,
-                        },
-                        1280: {
-                            slidesPerView: 6,
-                            spaceBetween: 20,
-                        },
-                    },
+        getCurrentData() {
+            // Retourner les données selon la catégorie sélectionnée
+            const category = this.categoryItems.find(item => item.name === this.activeTab);
+            let data = [];
+            
+            if (!category || category.type === 'all') {
+                data = this.maisons?.data || [];
+            } else {
+                switch(category.type) {
+                    case 'Villa':
+                        data = Array.isArray(this.villas) ? this.villas : (this.villas?.data || []);
+                        break;
+                    case 'appartement':
+                        data = this.appartements?.data || [];
+                        break;
+                    case 'Chambre':
+                        data = this.chambres?.data || [];
+                        break;
+                    case 'studio':
+                        data = this.studios?.data || [];
+                        break;
+                    case 'Immeuble':
+                        data = this.immeubles?.data || [];
+                        break;
+                    case 'Terrain':
+                        data = this.terrains?.data || [];
+                        break;
+                    case 'Verger':
+                        data = this.vergers?.data || [];
+                        break;
+                    default:
+                        data = this.maisons?.data || [];
+                }
+            }
+            
+            // Filtrer par ville si une ville est sélectionnée
+            if (this.selectedCity) {
+                const normalizedCity = this.selectedCity.toLowerCase();
+                data = data.filter(item => {
+                    return item.region && item.region.toLowerCase().includes(normalizedCity);
                 });
-
-                // Initialiser Swiper pour les annonces boostées
-                new Swiper('.swiper', {
-                    slidesPerView: 'auto',
-                    spaceBetween: 20,
-                    freeMode: true,
+            }
+            
+            return data;
+        },
+        getBoostedData() {
+            // Retourner les données boostées selon la catégorie sélectionnée
+            const category = this.categoryItems.find(item => item.name === this.activeTab);
+            let data = [];
+            
+            if (!category || category.type === 'all') {
+                data = this.immobilliersBoost?.data || [];
+            } else {
+                switch(category.type) {
+                    case 'Villa':
+                        data = Array.isArray(this.villasBoost) ? this.villasBoost : (this.villasBoost?.data || []);
+                        break;
+                    case 'appartement':
+                        data = this.appartementsBoost?.data || [];
+                        break;
+                    case 'Chambre':
+                        data = this.chambresBoost?.data || [];
+                        break;
+                    case 'studio':
+                        data = this.studiosBoost?.data || [];
+                        break;
+                    case 'Immeuble':
+                        data = this.immeublesBoost?.data || [];
+                        break;
+                    case 'Terrain':
+                        data = this.terrainsBoost?.data || [];
+                        break;
+                    case 'Verger':
+                        data = this.vergersBoost?.data || [];
+                        break;
+                    default:
+                        data = this.immobilliersBoost?.data || [];
+                }
+            }
+            
+            // Filtrer par ville si une ville est sélectionnée
+            if (this.selectedCity) {
+                const normalizedCity = this.selectedCity.toLowerCase();
+                data = data.filter(item => {
+                    return item.region && item.region.toLowerCase().includes(normalizedCity);
+                });
+            }
+            
+            return data;
+        },
+        getCategoryLabel() {
+            const category = this.categoryItems.find(item => item.name === this.activeTab);
+            return category ? `- ${category.name}` : '';
+        },
+        getBoostedLink() {
+            const category = this.categoryItems.find(item => item.name === this.activeTab);
+            if (category && category.slug) {
+                return `/categorie/${category.slug}?boosted=true`;
+            }
+            return '/p/immobilier?boosted=true';
+        },
+        hasMultipleImages(article) {
+            let count = 0;
+            if (article.image1 && article.image1 !== '' && article.image1 !== 'null') count++;
+            if (article.image2 && article.image2 !== '' && article.image2 !== 'null') count++;
+            if (article.image3 && article.image3 !== '' && article.image3 !== 'null') count++;
+            return count > 1;
+        },
+        hasAnyImage(article) {
+            return (article.image1 && article.image1 !== '' && article.image1 !== 'null') ||
+                   (article.image2 && article.image2 !== '' && article.image2 !== 'null') ||
+                   (article.image3 && article.image3 !== '' && article.image3 !== 'null');
+        },
+        initializeVillesSwiper() {
+            // Initialiser Swiper pour les villes populaires
+            if (typeof Swiper !== 'undefined') {
+                new Swiper('#villes-swiper', {
+                    slidesPerView: 1,
+            spaceBetween: 20,
+                    loop: false,
                     autoplay: {
-                        delay: 3000,
+                        delay: 4000,
                         disableOnInteraction: false,
                         pauseOnMouseEnter: true,
                     },
+                    navigation: {
+                        nextEl: '.villes-next',
+                        prevEl: '.villes-prev',
+                    },
+            pagination: {
+                        el: '.villes-pagination',
+                clickable: true,
+                        dynamicBullets: true,
+                    },
                     breakpoints: {
-                        320: {
-                            slidesPerView: 1,
-                            spaceBetween: 10,
-                        },
-                        640: {
+                        480: {
                             slidesPerView: 2,
                             spaceBetween: 15,
                         },
-                        1024: {
+                        640: {
+                            slidesPerView: 2,
+                            spaceBetween: 20,
+                        },
+                        768: {
                             slidesPerView: 3,
                             spaceBetween: 20,
                         },
-                        1280: {
+                        1024: {
                             slidesPerView: 4,
                             spaceBetween: 20,
                         },
+                        1280: {
+                            slidesPerView: 5,
+                            spaceBetween: 20,
+                        },
+            },
+        });
+            }
+        },
+        initializeRecentAnnoncesSwiper() {
+            // Initialiser Swiper pour les annonces récentes
+            if (typeof Swiper !== 'undefined') {
+                new Swiper('#recent-annonces-swiper', {
+                    slidesPerView: 1,
+                    spaceBetween: 20,
+                    loop: false,
+            autoplay: {
+                        delay: 5000,
+                disableOnInteraction: false,
+                        pauseOnMouseEnter: true,
                     },
+                    navigation: {
+                        nextEl: '.recent-next',
+                        prevEl: '.recent-prev',
+                    },
+                    pagination: {
+                        el: '.recent-pagination',
+                        clickable: true,
+                        dynamicBullets: true,
+                    },
+                    breakpoints: {
+                        640: {
+                            slidesPerView: 2,
+                            spaceBetween: 20,
+                        },
+                        768: {
+                            slidesPerView: 3,
+                            spaceBetween: 20,
+                        },
+                        1024: {
+                            slidesPerView: 4,
+                            spaceBetween: 20,
+                        },
+            },
+        });
+
+                // Initialiser les carousels d'images pour chaque propriété
+                this.$nextTick(() => {
+                    this.initializePropertyImageCarousels();
                 });
             }
         },
-        calculateTotalImages() {
-            // Calculer le nombre total d'images à charger
-            let count = 0;
-            if (this.immobilliersBoost?.data) {
-                count += this.immobilliersBoost.data.length;
+        initializePropertyImageCarousels() {
+            // Initialiser un Swiper pour chaque propriété qui a plusieurs images
+            if (typeof Swiper !== 'undefined') {
+                this.$nextTick(() => {
+                    this.maisons?.data?.forEach(maison => {
+                        if (this.hasMultipleImages(maison)) {
+                            const swiperId = `#property-images-${maison.id}`;
+                            const swiperElement = document.querySelector(swiperId);
+                            if (swiperElement && !swiperElement.swiper) {
+                                new Swiper(swiperId, {
+                                    slidesPerView: 1,
+                                    spaceBetween: 0,
+                                    loop: true,
+                                    navigation: {
+                                        nextEl: `.property-image-next-${maison.id}`,
+                                        prevEl: `.property-image-prev-${maison.id}`,
+                                    },
+                                    allowTouchMove: true,
+                                });
+                            }
+                        }
+                    });
+                });
             }
-            if (this.maisons?.data) {
-                count += this.maisons.data.length;
-            }
-            this.totalImages = count;
-            // Ne pas bloquer l'affichage par défaut - les images se chargeront en lazy loading
-            this.isLoading = false;
         },
-    },
-    mounted() {
-        // Calculer le nombre total d'images
-        this.calculateTotalImages();
-
-        // Charger les favoris de l'utilisateur si connecté
-        if (this.$page.props.auth?.user) {
-            this.loadFavorites();
-        }
-
-        // Initialiser Swiper après le montage
-        this.$nextTick(() => {
-            this.initializeSwiper();
-        });
-
-        // Initialiser Inertia Progress
-        if (typeof InertiaProgress !== 'undefined') {
-            InertiaProgress.init({
-                delay: 200,
-                color: '#eb2d53',
-                includeCSS: true,
-                showSpinner: true,
-            });
-        }
-
-        // S'assurer que le loader n'est pas actif par défaut
-        this.isLoading = false;
     },
 };
 </script>

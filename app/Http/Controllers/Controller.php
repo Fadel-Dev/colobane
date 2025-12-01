@@ -38,6 +38,9 @@ class Controller extends BaseController
     // Récupérer les enregistrements mis à jour
     $immobilliersBoost = Immobiliers::where('status', 'accepter')->paginate(12);
     $maisons = Immobiliers::orderBy('created_at', 'desc')->paginate(12);
+    
+    // Calculer le total des annonces disponibles
+    $totalAnnonces = Immobiliers::where('status', 'accepter')->count();
 
 // FOR CHAMBRE
     $chambres = Immobiliers::where('type','Chambre')
@@ -96,6 +99,7 @@ class Controller extends BaseController
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
+        'totalAnnonces' => $totalAnnonces,
         'maisons' => $maisons,
         'immobilliersBoost' => $immobilliersBoost,
         'chambres'=>$chambres,
@@ -112,6 +116,172 @@ class Controller extends BaseController
         'studiosBoost' => $studiosBoost,
         'vergers' => $vergers,
         'vergersBoost' => $vergersBoost
+    ]);
+}
+
+public function Category($category)
+{
+    // Normaliser le nom de la catégorie
+    $categoryMap = [
+        'villa' => 'Villa',
+        'appartements' => 'appartement',
+        'appartement' => 'appartement',
+        'chambre' => 'Chambre',
+        'chambres' => 'Chambre',
+        'studio' => 'studio',
+        'studios' => 'studio',
+        'immeuble' => 'Immeuble',
+        'immeubles' => 'Immeuble',
+        'terrain' => 'Terrain',
+        'terrains' => 'Terrain',
+        'immobilier' => 'all',
+    ];
+    
+    $type = $categoryMap[strtolower($category)] ?? 'all';
+    
+    // Récupérer les paramètres de filtrage
+    $filters = request()->only(['min_price', 'max_price', 'min_surface', 'max_surface', 'npiece', 'region', 'affaire', 'sort', 'boosted']);
+    
+    // Construire la requête de base
+    $query = Immobiliers::query();
+    
+    // Filtrer par type
+    if ($type !== 'all') {
+        $query->where('type', $type);
+    }
+    
+    // Filtrer par statut (boosted = annonces acceptées)
+    if (isset($filters['boosted']) && $filters['boosted'] === 'true') {
+        $query->where('status', 'accepter');
+    }
+    
+    // Appliquer les filtres
+    if (isset($filters['min_price']) && $filters['min_price']) {
+        $query->whereRaw('CAST(prix AS UNSIGNED) >= ?', [(int)$filters['min_price']]);
+    }
+    if (isset($filters['max_price']) && $filters['max_price']) {
+        $query->whereRaw('CAST(prix AS UNSIGNED) <= ?', [(int)$filters['max_price']]);
+    }
+    if (isset($filters['min_surface']) && $filters['min_surface']) {
+        $query->whereRaw('CAST(surface AS UNSIGNED) >= ?', [(int)$filters['min_surface']]);
+    }
+    if (isset($filters['max_surface']) && $filters['max_surface']) {
+        $query->whereRaw('CAST(surface AS UNSIGNED) <= ?', [(int)$filters['max_surface']]);
+    }
+    if (isset($filters['npiece']) && $filters['npiece']) {
+        $query->where('npiece', $filters['npiece']);
+    }
+    if (isset($filters['region']) && $filters['region']) {
+        $query->where('region', 'like', '%' . $filters['region'] . '%');
+    }
+    if (isset($filters['affaire']) && $filters['affaire']) {
+        $query->where('affaire', $filters['affaire']);
+    }
+    
+    // Trier les résultats
+    $sort = $filters['sort'] ?? 'newest';
+    switch ($sort) {
+        case 'price_asc':
+            $query->orderByRaw('CAST(prix AS UNSIGNED) ASC');
+            break;
+        case 'price_desc':
+            $query->orderByRaw('CAST(prix AS UNSIGNED) DESC');
+            break;
+        case 'surface_asc':
+            $query->orderByRaw('CAST(surface AS UNSIGNED) ASC');
+            break;
+        case 'surface_desc':
+            $query->orderByRaw('CAST(surface AS UNSIGNED) DESC');
+            break;
+        case 'newest':
+        default:
+            $query->orderBy('created_at', 'desc');
+            break;
+    }
+    
+    // Créer une requête séparée pour les annonces boostées qui respecte les mêmes filtres
+    $boostQuery = Immobiliers::query();
+    
+    // Filtrer par type
+    if ($type !== 'all') {
+        $boostQuery->where('type', $type);
+    }
+    
+    // Appliquer les mêmes filtres que pour les annonces normales (sauf pagination)
+    if (isset($filters['min_price']) && $filters['min_price']) {
+        $boostQuery->whereRaw('CAST(prix AS UNSIGNED) >= ?', [(int)$filters['min_price']]);
+    }
+    if (isset($filters['max_price']) && $filters['max_price']) {
+        $boostQuery->whereRaw('CAST(prix AS UNSIGNED) <= ?', [(int)$filters['max_price']]);
+    }
+    if (isset($filters['min_surface']) && $filters['min_surface']) {
+        $boostQuery->whereRaw('CAST(surface AS UNSIGNED) >= ?', [(int)$filters['min_surface']]);
+    }
+    if (isset($filters['max_surface']) && $filters['max_surface']) {
+        $boostQuery->whereRaw('CAST(surface AS UNSIGNED) <= ?', [(int)$filters['max_surface']]);
+    }
+    if (isset($filters['npiece']) && $filters['npiece']) {
+        $boostQuery->where('npiece', $filters['npiece']);
+    }
+    if (isset($filters['region']) && $filters['region']) {
+        $boostQuery->where('region', 'like', '%' . $filters['region'] . '%');
+    }
+    if (isset($filters['affaire']) && $filters['affaire']) {
+        $boostQuery->where('affaire', $filters['affaire']);
+    }
+    
+    // Trier par date de création (les plus récentes en premier)
+    $boostQuery->orderBy('created_at', 'desc');
+    
+    // Récupérer les 12 premières annonces boostées (non paginées, toujours les mêmes)
+    $itemsBoost = $boostQuery->where('status', 'accepter')->take(12)->get();
+    
+    // Récupérer les données paginées pour les annonces normales
+    // Si boosted=true, afficher uniquement les annonces boostées dans la pagination
+    if (isset($filters['boosted']) && $filters['boosted'] === 'true') {
+        $items = (clone $query)->where('status', 'accepter')->paginate(12);
+    } else {
+        $items = (clone $query)->paginate(12);
+    }
+    
+    // Calculer le total
+    $total = (clone $query)->count();
+    
+    // Récupérer les valeurs min/max pour les filtres
+    $priceRange = Immobiliers::selectRaw('MIN(CAST(prix AS UNSIGNED)) as min_price, MAX(CAST(prix AS UNSIGNED)) as max_price')
+        ->when($type !== 'all', function($q) use ($type) {
+            return $q->where('type', $type);
+        })
+        ->first();
+    
+    $surfaceRange = Immobiliers::selectRaw('MIN(CAST(surface AS UNSIGNED)) as min_surface, MAX(CAST(surface AS UNSIGNED)) as max_surface')
+        ->when($type !== 'all', function($q) use ($type) {
+            return $q->where('type', $type);
+        })
+        ->first();
+    
+    // Récupérer les régions uniques
+    $regions = Immobiliers::select('region')
+        ->when($type !== 'all', function($q) use ($type) {
+            return $q->where('type', $type);
+        })
+        ->whereNotNull('region')
+        ->distinct()
+        ->orderBy('region')
+        ->pluck('region')
+        ->filter()
+        ->values();
+    
+    return Inertia::render('Category', [
+        'category' => $category,
+        'type' => $type,
+        'items' => $items,
+        'itemsBoost' => $itemsBoost,
+        'total' => $total,
+        'filters' => $filters,
+        'priceRange' => $priceRange,
+        'surfaceRange' => $surfaceRange,
+        'regions' => $regions,
     ]);
 }
 
@@ -148,7 +318,7 @@ class Controller extends BaseController
         // Requête pour obtenir d'autres produits avec la même marque
         $suggestions = Immobiliers::where('type', $typeImmo)
             ->where('id', '!=', $id) // Exclure le produit actuel
-            ->limit(12) // Limiter le nombre de suggestions à 5
+            ->limit(3) // Limiter le nombre de suggestions à 3
             ->get();
 
         // $user = User::findOrFail($id);

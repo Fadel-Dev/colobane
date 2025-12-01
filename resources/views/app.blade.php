@@ -4,9 +4,19 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title inertia>{{ config('app.name', 'Laravel') }}</title>
+    <title inertia>{{ config('app.name', 'NoflayHub') }}</title>
+    <meta name="description" content="NoflayHub - Plateforme de location immobilière au Sénégal. Trouvez votre logement idéal : villas, appartements, chambres, studios et terrains à louer.">
+    <meta name="keywords" content="location Sénégal, immobilier Sénégal, villa à louer, appartement à louer, chambre à louer, studio à louer, terrain à louer, location Dakar, location Thiès, location Saint-Louis, NoflayHub">
+    <meta name="author" content="NoflayHub">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="French">
+    <meta name="revisit-after" content="7 days">
+    <meta name="theme-color" content="#eb2d53">
+    
     <link rel="icon" type="image/png" href="{{ asset('storage/n.png') }}">
+    <link rel="canonical" href="{{ url()->current() }}">
     {{-- pwa --}}
     @PwaHead
 

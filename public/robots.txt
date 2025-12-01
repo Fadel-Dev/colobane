@@ -1,2 +1,19 @@
 User-agent: *
-Disallow:
+Allow: /
+
+# Sitemap
+Sitemap: https://noflayhub.com/sitemap.xml
+
+# Disallow admin and private areas
+Disallow: /dashboard
+Disallow: /admin
+Disallow: /api
+Disallow: /telescope
+
+# Allow important pages
+Allow: /
+Allow: /categorie/
+Allow: /detail/
+
+# Crawl-delay for respectful crawling
+Crawl-delay: 1

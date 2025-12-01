@@ -1,5 +1,6 @@
 <script setup>
 import { Head, Link, router, usePage } from '@inertiajs/vue3';
+import SeoHead from '../Components/SeoHead.vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
 import Footer from '../Components/Footer.vue';
 import { Inertia } from '@inertiajs/inertia';
@@ -35,6 +36,8 @@ const isFavorite = ref(props.isFavorite || false);
 const showToast = ref(false);
 const toastMessage = ref('');
 const toastType = ref('success');
+const showLightbox = ref(false);
+const lightboxIndex = ref(0);
 
 // Computed images array - Inclut toutes les images (image1, image2, image3 + images JSON)
 const images = computed(() => {
@@ -109,6 +112,33 @@ const nextImage = () => {
 
 const goToImage = (index) => {
   currentIndex.value = index;
+};
+
+const openLightbox = (index) => {
+  lightboxIndex.value = index;
+  showLightbox.value = true;
+  document.body.style.overflow = 'hidden';
+};
+
+const closeLightbox = () => {
+  showLightbox.value = false;
+  document.body.style.overflow = 'auto';
+};
+
+const nextLightboxImage = () => {
+  if (lightboxIndex.value < images.value.length - 1) {
+    lightboxIndex.value++;
+  } else {
+    lightboxIndex.value = 0;
+  }
+};
+
+const previousLightboxImage = () => {
+  if (lightboxIndex.value > 0) {
+    lightboxIndex.value--;
+  } else {
+    lightboxIndex.value = images.value.length - 1;
+  }
 };
 
 const afficherNumero = () => {
@@ -208,14 +238,74 @@ onMounted(() => {
   window.addEventListener('scroll', handleScroll);
   return () => window.removeEventListener('scroll', handleScroll);
 });
+
+// SEO computed properties
+const canonicalUrl = computed(() => {
+  return window.location.origin + window.location.pathname;
+});
+
+const ogImage = computed(() => {
+  if (images.value.length > 0 && images.value[0]) {
+    const img = images.value[0];
+    if (img.startsWith('http')) return img;
+    if (img.startsWith('/')) return window.location.origin + img;
+    return window.location.origin + '/storage/' + img;
+  }
+  return window.location.origin + '/logo.png';
+});
+
+const structuredData = computed(() => {
+  const firstImage = images.value.length > 0 ? ogImage.value : null;
+  
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    'name': props.maison.nom || 'Bien immobilier',
+    'description': props.maison.description || `${props.maison.type || 'Bien'} à louer à ${props.maison.region || 'Sénégal'}`,
+    'image': firstImage ? [firstImage] : [window.location.origin + '/logo.png'],
+    'offers': {
+      '@type': 'Offer',
+      'price': props.maison.prix || '0',
+      'priceCurrency': 'XOF',
+      'availability': 'https://schema.org/InStock',
+      'url': canonicalUrl.value
+    },
+    'address': {
+      '@type': 'PostalAddress',
+      'addressLocality': props.maison.region || 'Sénégal',
+      'addressCountry': 'SN'
+    },
+    ...(props.maison.surface ? {
+      'floorSize': {
+        '@type': 'QuantitativeValue',
+        'value': props.maison.surface,
+        'unitCode': 'MTK'
+      }
+    } : {}),
+    ...(props.maison.npiece ? {
+      'numberOfRooms': props.maison.npiece
+    } : {})
+  };
+});
 </script>
 
 <template>
-  <Head>
-    <title>{{ maison.nom }} - Détails</title>
-  </Head>
+  <SeoHead 
+    :title="`${maison.nom || 'Bien immobilier'} à ${maison.region || 'Sénégal'} - ${formatPrice(maison.prix)} FCFA`"
+    :description="`${maison.nom || 'Bien immobilier'} à louer à ${maison.region || 'Sénégal'}. ${maison.npiece ? maison.npiece + ' chambre(s)' : ''} ${maison.type || ''} ${maison.surface ? 'de ' + maison.surface + 'm²' : ''}. Prix : ${formatPrice(maison.prix)} FCFA. ${maison.description ? maison.description.substring(0, 150) + '...' : ''}`"
+    :keywords="`${maison.type || 'immobilier'} à louer ${maison.region || 'Sénégal'}, location ${maison.region || 'Sénégal'}, ${maison.npiece ? maison.npiece + ' chambres' : ''} ${maison.region || ''}`"
+    :canonical-url="canonicalUrl"
+    :og-type="'product'"
+    :og-image="ogImage"
+    :structured-data="structuredData"
+  />
 
-  <div class="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-50">
+  <div class="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-50 relative overflow-hidden">
+    <!-- Background decorative elements -->
+    <div class="fixed inset-0 pointer-events-none overflow-hidden z-0">
+      <div class="absolute top-0 right-0 w-96 h-96 bg-principal/5 rounded-full blur-3xl"></div>
+      <div class="absolute bottom-0 left-0 w-96 h-96 bg-secondaire/5 rounded-full blur-3xl"></div>
+    </div>
     <!-- Enhanced Header with scroll effect -->
     <header 
       :class="[
@@ -227,7 +317,7 @@ onMounted(() => {
     </header>
 
     <!-- Main Content -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <main class="max-w-[95rem] mx-auto px-6 sm:px-8 lg:px-12 py-10 relative z-10">
       <!-- Enhanced Breadcrumb -->
       <nav class="mb-6 flex items-center space-x-2 text-sm">
         <Link href="/" class="text-gray-600 hover:text-principal transition-colors duration-200 flex items-center group">
@@ -238,13 +328,13 @@ onMounted(() => {
         <span class="text-gray-500">Détails de l'annonce</span>
       </nav>
 
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
         <!-- Left Column: Images and Details -->
-        <div class="lg:col-span-2 space-y-6">
+        <div class="lg:col-span-2 space-y-8">
           <!-- Enhanced Image Gallery -->
-          <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 group">
+          <div class="bg-white rounded-3xl border-2 border-gray-200 overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 group backdrop-blur-sm">
             <!-- Main Image with enhanced effects -->
-            <div class="relative bg-gradient-to-br from-gray-100 to-gray-200 aspect-[4/3] overflow-hidden">
+            <div class="relative bg-gradient-to-br from-gray-100 to-gray-200 aspect-[4/3] overflow-hidden cursor-pointer" @click="openLightbox(currentIndex)">
               <img 
                 v-if="images.length > 0"
                 :src="getImageUrl(currentImage)" 
@@ -254,11 +344,14 @@ onMounted(() => {
                 :class="[
                   'w-full h-full object-cover transition-all duration-700',
                   imageLoaded ? 'opacity-100 scale-100' : 'opacity-0 scale-105',
-                  'group-hover:scale-105'
+                  'group-hover:scale-110'
                 ]"
               >
-              <div v-else class="w-full h-full flex items-center justify-center bg-gray-200">
-                <p class="text-gray-500">Aucune image disponible</p>
+              <div v-else class="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200">
+                <div class="text-center">
+                  <i class="bi bi-image text-6xl text-gray-400 mb-4"></i>
+                  <p class="text-gray-500 font-medium">Aucune image disponible</p>
+                </div>
               </div>
               
               <!-- Gradient overlay on hover -->
@@ -267,25 +360,33 @@ onMounted(() => {
               <!-- Enhanced Navigation Arrows -->
               <button 
                 v-if="images.length > 1"
-                @click="previousImage"
-                class="absolute left-4 top-1/2 -translate-y-1/2 bg-white/95 backdrop-blur-sm hover:bg-white text-gray-800 p-3 rounded-full shadow-xl transition-all duration-300 hover:scale-110 hover:shadow-2xl opacity-0 group-hover:opacity-100"
+                @click.stop="previousImage"
+                class="absolute left-4 top-1/2 -translate-y-1/2 bg-white/95 backdrop-blur-md hover:bg-white text-gray-800 p-4 rounded-full shadow-2xl transition-all duration-300 hover:scale-110 hover:shadow-2xl opacity-0 group-hover:opacity-100 border-2 border-gray-100 z-10"
                 aria-label="Image précédente"
               >
-                <i class="bi bi-chevron-left text-xl"></i>
+                <i class="bi bi-chevron-left text-2xl font-bold"></i>
               </button>
               <button 
                 v-if="images.length > 1"
-                @click="nextImage"
-                class="absolute right-4 top-1/2 -translate-y-1/2 bg-white/95 backdrop-blur-sm hover:bg-white text-gray-800 p-3 rounded-full shadow-xl transition-all duration-300 hover:scale-110 hover:shadow-2xl opacity-0 group-hover:opacity-100"
+                @click.stop="nextImage"
+                class="absolute right-4 top-1/2 -translate-y-1/2 bg-white/95 backdrop-blur-md hover:bg-white text-gray-800 p-4 rounded-full shadow-2xl transition-all duration-300 hover:scale-110 hover:shadow-2xl opacity-0 group-hover:opacity-100 border-2 border-gray-100 z-10"
                 aria-label="Image suivante"
               >
-                <i class="bi bi-chevron-right text-xl"></i>
+                <i class="bi bi-chevron-right text-2xl font-bold"></i>
               </button>
+              
+              <!-- Click to expand hint -->
+              <div v-if="images.length > 0" class="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/70 backdrop-blur-sm text-white px-4 py-2 rounded-full text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                <i class="bi bi-arrows-angle-expand mr-2"></i>
+                Cliquez pour agrandir
+              </div>
 
               <!-- Enhanced Image Counter -->
-              <div v-if="images.length > 1" class="absolute bottom-4 right-4 bg-black/80 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm font-medium shadow-xl">
-                <i class="bi bi-images mr-2"></i>
-                {{ currentIndex + 1 }} / {{ images.length }}
+              <div v-if="images.length > 1" class="absolute top-4 right-4 bg-gradient-to-r from-black/90 to-black/70 backdrop-blur-md text-white px-5 py-2.5 rounded-full text-sm font-bold shadow-2xl border border-white/20">
+                <i class="bi bi-images mr-2 text-yellow-400"></i>
+                <span class="text-yellow-400">{{ currentIndex + 1 }}</span>
+                <span class="mx-1">/</span>
+                <span>{{ images.length }}</span>
               </div>
 
               <!-- Boost Badge with animation -->
@@ -298,12 +399,19 @@ onMounted(() => {
             </div>
 
             <!-- Enhanced Thumbnails - Affiche toutes les images -->
-            <div v-if="images.length > 1" class="p-4 border-t border-gray-200 bg-gradient-to-r from-gray-50 to-white">
-              <div class="mb-2 flex items-center justify-between">
-                <p class="text-sm font-semibold text-gray-700">
-                  <i class="bi bi-images mr-2 text-principal"></i>
-                  {{ images.length }} photo{{ images.length > 1 ? 's' : '' }}
+            <div v-if="images.length > 1" class="p-6 border-t border-gray-200 bg-gradient-to-br from-gray-50 via-white to-gray-50">
+              <div class="mb-4 flex items-center justify-between">
+                <p class="text-sm font-bold text-gray-800 flex items-center">
+                  <i class="bi bi-images mr-2 text-principal text-lg"></i>
+                  {{ images.length }} photo{{ images.length > 1 ? 's' : '' }} disponible{{ images.length > 1 ? 's' : '' }}
                 </p>
+                <button 
+                  @click="openLightbox(currentIndex)"
+                  class="text-xs text-principal hover:text-principal-dark font-semibold flex items-center group transition-colors"
+                >
+                  <i class="bi bi-arrows-angle-expand mr-1 group-hover:scale-110 transition-transform"></i>
+                  Voir toutes
+                </button>
               </div>
               <div class="flex space-x-3 overflow-x-auto scrollbar-hide pb-2">
                 <button
@@ -311,20 +419,20 @@ onMounted(() => {
                   :key="index"
                   @click="goToImage(index)"
                   :class="[
-                    'relative flex-shrink-0 w-24 h-24 rounded-xl border-2 overflow-hidden transition-all duration-300 transform',
+                    'relative flex-shrink-0 w-28 h-28 rounded-2xl border-3 overflow-hidden transition-all duration-300 transform cursor-pointer',
                     currentIndex === index 
-                      ? 'border-principal ring-4 ring-principal/20 scale-105 shadow-lg z-10' 
-                      : 'border-gray-300 hover:border-principal/50 hover:scale-105 shadow-md hover:shadow-lg'
+                      ? 'border-principal ring-4 ring-principal/30 scale-110 shadow-2xl z-10' 
+                      : 'border-gray-300 hover:border-principal/60 hover:scale-105 shadow-lg hover:shadow-xl'
                   ]"
                 >
                   <img 
                     :src="getImageUrl(image)" 
                     :alt="`Image ${index + 1}`"
-                    class="w-full h-full object-cover"
+                    class="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
                     @error="(e) => e.target.style.display = 'none'"
                   >
-                  <div v-if="currentIndex === index" class="absolute inset-0 bg-principal/10"></div>
-                  <div v-if="currentIndex === index" class="absolute top-1 right-1 bg-principal text-white rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold">
+                  <div v-if="currentIndex === index" class="absolute inset-0 bg-gradient-to-t from-principal/20 to-transparent"></div>
+                  <div v-if="currentIndex === index" class="absolute top-2 right-2 bg-principal text-white rounded-full w-7 h-7 flex items-center justify-center text-xs font-bold shadow-lg">
                     {{ index + 1 }}
                   </div>
                 </button>
@@ -336,11 +444,13 @@ onMounted(() => {
           </div>
 
           <!-- Enhanced Title and Price Section -->
-          <div class="bg-white rounded-2xl border border-gray-200 p-8 shadow-lg hover:shadow-xl transition-all duration-300">
-            <div class="flex items-start justify-between mb-6">
-              <div class="flex-1 pr-4">
-                <div class="flex items-start justify-between mb-3 gap-4">
-                  <h1 class="text-3xl font-bold text-gray-900 leading-tight flex-1">{{ maison.nom }}</h1>
+          <div class="bg-white/80 backdrop-blur-sm rounded-3xl border-2 border-gray-200 p-10 shadow-xl hover:shadow-2xl transition-all duration-300 relative overflow-hidden">
+            <!-- Decorative gradient -->
+            <div class="absolute top-0 right-0 w-64 h-64 bg-principal/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+            <div class="flex items-start justify-between mb-8">
+              <div class="flex-1 pr-6">
+                <div class="flex items-start justify-between mb-4 gap-6">
+                  <h1 class="text-4xl font-bold text-gray-900 leading-tight flex-1">{{ maison.nom }}</h1>
                   <div class="flex items-center gap-3">
                     <!-- Bouton Favori -->
                     <button
@@ -377,33 +487,38 @@ onMounted(() => {
                   </span>
                 </div>
               </div>
-              <div class="text-right bg-gradient-to-br from-principal/10 to-principal/5 rounded-2xl p-4 border border-principal/20">
-                <p class="text-4xl font-bold bg-gradient-to-r from-principal to-principal-dark bg-clip-text text-transparent">
-                  {{ formatPrice(maison.prix) }}
-                </p>
-                <p class="text-sm text-gray-600 font-medium mt-1">FCFA</p>
+              <div class="text-right bg-gradient-to-br from-principal via-principal/90 to-principal-dark rounded-2xl p-8 border-2 border-principal/30 shadow-xl relative overflow-hidden">
+                <div class="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent"></div>
+                <div class="relative z-10">
+                  <p class="text-6xl font-black text-white drop-shadow-lg">
+                    {{ formatPrice(maison.prix) }}
+                  </p>
+                  <p class="text-base text-white/90 font-bold mt-3 flex items-center justify-end">
+                    <span class="bg-white/20 px-4 py-2 rounded-full">FCFA</span>
+                  </p>
+                </div>
               </div>
             </div>
 
             <!-- Enhanced Quick Info Badges -->
-            <div class="flex flex-wrap gap-3 pt-6 border-t border-gray-200">
-              <span v-if="maison.type" class="inline-flex items-center px-4 py-2 rounded-xl text-sm font-medium bg-gradient-to-r from-blue-50 to-blue-100 text-blue-700 border border-blue-200 shadow-sm hover:shadow-md transition-all hover:scale-105">
+            <div class="flex flex-wrap gap-4 pt-8 border-t-2 border-gray-200">
+              <span v-if="maison.type" class="inline-flex items-center px-5 py-3 rounded-xl text-base font-semibold bg-gradient-to-r from-blue-50 to-blue-100 text-blue-700 border-2 border-blue-200 shadow-md hover:shadow-lg transition-all hover:scale-105">
                 <i class="bi bi-house-door-fill mr-2"></i>
                 {{ maison.type }}
               </span>
-              <span v-if="maison.npiece" class="inline-flex items-center px-4 py-2 rounded-xl text-sm font-medium bg-gradient-to-r from-green-50 to-green-100 text-green-700 border border-green-200 shadow-sm hover:shadow-md transition-all hover:scale-105">
+              <span v-if="maison.npiece" class="inline-flex items-center px-5 py-3 rounded-xl text-base font-semibold bg-gradient-to-r from-green-50 to-green-100 text-green-700 border-2 border-green-200 shadow-md hover:shadow-lg transition-all hover:scale-105">
                 <i class="bi bi-door-open-fill mr-2"></i>
                 {{ maison.npiece }} pièce{{ maison.npiece > 1 ? 's' : '' }}
               </span>
-              <span v-if="maison.surface" class="inline-flex items-center px-4 py-2 rounded-xl text-sm font-medium bg-gradient-to-r from-purple-50 to-purple-100 text-purple-700 border border-purple-200 shadow-sm hover:shadow-md transition-all hover:scale-105">
+              <span v-if="maison.surface" class="inline-flex items-center px-5 py-3 rounded-xl text-base font-semibold bg-gradient-to-r from-purple-50 to-purple-100 text-purple-700 border-2 border-purple-200 shadow-md hover:shadow-lg transition-all hover:scale-105">
                 <i class="bi bi-rulers mr-2"></i>
                 {{ maison.surface }} m²
               </span>
-              <span v-if="maison.affaire" class="inline-flex items-center px-4 py-2 rounded-xl text-sm font-medium bg-gradient-to-r from-orange-50 to-orange-100 text-orange-700 border border-orange-200 shadow-sm hover:shadow-md transition-all hover:scale-105">
+              <span v-if="maison.affaire" class="inline-flex items-center px-5 py-3 rounded-xl text-base font-semibold bg-gradient-to-r from-orange-50 to-orange-100 text-orange-700 border-2 border-orange-200 shadow-md hover:shadow-lg transition-all hover:scale-105">
                 <i class="bi bi-tag-fill mr-2"></i>
                 {{ maison.affaire }}
               </span>
-              <span v-if="maison.categorie" class="inline-flex items-center px-4 py-2 rounded-xl text-sm font-medium bg-gradient-to-r from-pink-50 to-pink-100 text-pink-700 border border-pink-200 shadow-sm hover:shadow-md transition-all hover:scale-105">
+              <span v-if="maison.categorie" class="inline-flex items-center px-5 py-3 rounded-xl text-base font-semibold bg-gradient-to-r from-pink-50 to-pink-100 text-pink-700 border-2 border-pink-200 shadow-md hover:shadow-lg transition-all hover:scale-105">
                 <i class="bi bi-briefcase-fill mr-2"></i>
                 {{ maison.categorie }}
               </span>
@@ -411,85 +526,92 @@ onMounted(() => {
           </div>
 
           <!-- Enhanced Description Section -->
-          <div class="bg-white rounded-2xl border border-gray-200 p-8 shadow-lg hover:shadow-xl transition-all duration-300">
-            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center">
-              <div class="w-1 h-8 bg-gradient-to-b from-principal to-principal-dark rounded-full mr-3"></div>
-              Description
-            </h2>
-            <div 
-              :class="[
-                'text-gray-700 leading-relaxed whitespace-pre-line text-base',
-                !showFullDescription && maison.description?.length > 300 ? 'line-clamp-6' : ''
-              ]"
-            >
-              {{ maison.description || 'Aucune description disponible.' }}
+          <div class="bg-white/80 backdrop-blur-sm rounded-3xl border-2 border-gray-200 p-10 shadow-xl hover:shadow-2xl transition-all duration-300 relative overflow-hidden">
+            <!-- Decorative gradient -->
+            <div class="absolute bottom-0 left-0 w-64 h-64 bg-secondaire/5 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>
+            <div class="relative z-10">
+              <h2 class="text-3xl font-bold text-gray-900 mb-8 flex items-center">
+                <div class="w-1.5 h-10 bg-gradient-to-b from-principal to-principal-dark rounded-full mr-4"></div>
+                Description
+              </h2>
+              <div 
+                :class="[
+                  'text-gray-700 leading-relaxed whitespace-pre-line text-lg',
+                  !showFullDescription && maison.description?.length > 300 ? 'line-clamp-6' : ''
+                ]"
+              >
+                {{ maison.description || 'Aucune description disponible.' }}
+              </div>
+              <button 
+                v-if="maison.description?.length > 300"
+                @click="showFullDescription = !showFullDescription"
+                class="mt-6 text-principal hover:text-principal-dark font-semibold text-base flex items-center group transition-colors"
+              >
+                <span>{{ showFullDescription ? 'Voir moins' : 'Voir plus' }}</span>
+                <i :class="[
+                  'bi ml-2 transition-transform duration-300',
+                  showFullDescription ? 'bi-chevron-up' : 'bi-chevron-down',
+                  'group-hover:translate-y-0.5'
+                ]"></i>
+              </button>
             </div>
-            <button 
-              v-if="maison.description?.length > 300"
-              @click="showFullDescription = !showFullDescription"
-              class="mt-4 text-principal hover:text-principal-dark font-semibold text-sm flex items-center group transition-colors"
-            >
-              <span>{{ showFullDescription ? 'Voir moins' : 'Voir plus' }}</span>
-              <i :class="[
-                'bi ml-2 transition-transform duration-300',
-                showFullDescription ? 'bi-chevron-up' : 'bi-chevron-down',
-                'group-hover:translate-y-0.5'
-              ]"></i>
-            </button>
           </div>
 
           <!-- Enhanced Characteristics Section -->
-          <div class="bg-white rounded-2xl border border-gray-200 p-8 shadow-lg hover:shadow-xl transition-all duration-300">
-            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center">
-              <div class="w-1 h-8 bg-gradient-to-b from-principal to-principal-dark rounded-full mr-3"></div>
-              Caractéristiques
-            </h2>
-            <dl class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div v-if="maison.type" class="flex justify-between items-center py-3 px-4 border border-gray-100 rounded-xl hover:border-principal/30 hover:bg-principal/5 transition-all duration-200 group">
-                <dt class="text-gray-600 font-medium flex items-center">
-                  <i class="bi bi-house-door text-principal mr-2 group-hover:scale-110 transition-transform"></i>
+          <div class="bg-white/80 backdrop-blur-sm rounded-3xl border-2 border-gray-200 p-10 shadow-xl hover:shadow-2xl transition-all duration-300 relative overflow-hidden">
+            <!-- Decorative gradient -->
+            <div class="absolute top-0 right-0 w-64 h-64 bg-principal/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+            <div class="relative z-10">
+              <h2 class="text-3xl font-bold text-gray-900 mb-8 flex items-center">
+                <div class="w-1.5 h-10 bg-gradient-to-b from-principal to-principal-dark rounded-full mr-4"></div>
+                Caractéristiques
+              </h2>
+              <dl class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div v-if="maison.type" class="flex justify-between items-center py-4 px-6 border-2 border-gray-100 rounded-xl hover:border-principal/30 hover:bg-principal/5 transition-all duration-200 group">
+                <dt class="text-gray-700 font-semibold text-base flex items-center">
+                  <i class="bi bi-house-door text-principal mr-3 text-lg group-hover:scale-110 transition-transform"></i>
                   Type
                 </dt>
-                <dd class="text-gray-900 font-bold capitalize">{{ maison.type }}</dd>
+                <dd class="text-gray-900 font-bold text-lg capitalize">{{ maison.type }}</dd>
               </div>
-              <div v-if="maison.npiece" class="flex justify-between items-center py-3 px-4 border border-gray-100 rounded-xl hover:border-principal/30 hover:bg-principal/5 transition-all duration-200 group">
-                <dt class="text-gray-600 font-medium flex items-center">
-                  <i class="bi bi-door-open text-principal mr-2 group-hover:scale-110 transition-transform"></i>
+              <div v-if="maison.npiece" class="flex justify-between items-center py-4 px-6 border-2 border-gray-100 rounded-xl hover:border-principal/30 hover:bg-principal/5 transition-all duration-200 group">
+                <dt class="text-gray-700 font-semibold text-base flex items-center">
+                  <i class="bi bi-door-open text-principal mr-3 text-lg group-hover:scale-110 transition-transform"></i>
                   Nombre de pièces
                 </dt>
-                <dd class="text-gray-900 font-bold">{{ maison.npiece }}</dd>
+                <dd class="text-gray-900 font-bold text-lg">{{ maison.npiece }}</dd>
               </div>
-              <div v-if="maison.surface" class="flex justify-between items-center py-3 px-4 border border-gray-100 rounded-xl hover:border-principal/30 hover:bg-principal/5 transition-all duration-200 group">
-                <dt class="text-gray-600 font-medium flex items-center">
-                  <i class="bi bi-rulers text-principal mr-2 group-hover:scale-110 transition-transform"></i>
+              <div v-if="maison.surface" class="flex justify-between items-center py-4 px-6 border-2 border-gray-100 rounded-xl hover:border-principal/30 hover:bg-principal/5 transition-all duration-200 group">
+                <dt class="text-gray-700 font-semibold text-base flex items-center">
+                  <i class="bi bi-rulers text-principal mr-3 text-lg group-hover:scale-110 transition-transform"></i>
                   Surface
                 </dt>
-                <dd class="text-gray-900 font-bold">{{ maison.surface }} m²</dd>
+                <dd class="text-gray-900 font-bold text-lg">{{ maison.surface }} m²</dd>
               </div>
-              <div v-if="maison.region" class="flex justify-between items-center py-3 px-4 border border-gray-100 rounded-xl hover:border-principal/30 hover:bg-principal/5 transition-all duration-200 group">
-                <dt class="text-gray-600 font-medium flex items-center">
-                  <i class="bi bi-geo-alt text-principal mr-2 group-hover:scale-110 transition-transform"></i>
+              <div v-if="maison.region" class="flex justify-between items-center py-4 px-6 border-2 border-gray-100 rounded-xl hover:border-principal/30 hover:bg-principal/5 transition-all duration-200 group">
+                <dt class="text-gray-700 font-semibold text-base flex items-center">
+                  <i class="bi bi-geo-alt text-principal mr-3 text-lg group-hover:scale-110 transition-transform"></i>
                   Localisation
                 </dt>
-                <dd class="text-gray-900 font-bold">{{ maison.region }}, Sénégal</dd>
+                <dd class="text-gray-900 font-bold text-lg">{{ maison.region }}, Sénégal</dd>
               </div>
-              <div v-if="maison.affaire" class="flex justify-between items-center py-3 px-4 border border-gray-100 rounded-xl hover:border-principal/30 hover:bg-principal/5 transition-all duration-200 group">
-                <dt class="text-gray-600 font-medium flex items-center">
-                  <i class="bi bi-tag text-principal mr-2 group-hover:scale-110 transition-transform"></i>
+              <div v-if="maison.affaire" class="flex justify-between items-center py-4 px-6 border-2 border-gray-100 rounded-xl hover:border-principal/30 hover:bg-principal/5 transition-all duration-200 group">
+                <dt class="text-gray-700 font-semibold text-base flex items-center">
+                  <i class="bi bi-tag text-principal mr-3 text-lg group-hover:scale-110 transition-transform"></i>
                   État
                 </dt>
-                <dd class="text-gray-900 font-bold">{{ maison.affaire }}</dd>
+                <dd class="text-gray-900 font-bold text-lg">{{ maison.affaire }}</dd>
               </div>
-              <div v-if="maison.categorie" class="flex justify-between items-center py-3 px-4 border border-gray-100 rounded-xl hover:border-principal/30 hover:bg-principal/5 transition-all duration-200 group">
-                <dt class="text-gray-600 font-medium flex items-center">
-                  <i class="bi bi-briefcase text-principal mr-2 group-hover:scale-110 transition-transform"></i>
+              <div v-if="maison.categorie" class="flex justify-between items-center py-4 px-6 border-2 border-gray-100 rounded-xl hover:border-principal/30 hover:bg-principal/5 transition-all duration-200 group">
+                <dt class="text-gray-700 font-semibold text-base flex items-center">
+                  <i class="bi bi-briefcase text-principal mr-3 text-lg group-hover:scale-110 transition-transform"></i>
                   Catégorie
                 </dt>
-                <dd class="text-gray-900 font-bold">{{ maison.categorie }}</dd>
+                <dd class="text-gray-900 font-bold text-lg">{{ maison.categorie }}</dd>
               </div>
-              <div v-if="maison.status" class="flex justify-between items-center py-3 px-4 border border-gray-100 rounded-xl hover:border-principal/30 hover:bg-principal/5 transition-all duration-200 group">
-                <dt class="text-gray-600 font-medium flex items-center">
-                  <i class="bi bi-info-circle text-principal mr-2 group-hover:scale-110 transition-transform"></i>
+              <div v-if="maison.status" class="flex justify-between items-center py-4 px-6 border-2 border-gray-100 rounded-xl hover:border-principal/30 hover:bg-principal/5 transition-all duration-200 group">
+                <dt class="text-gray-700 font-semibold text-base flex items-center">
+                  <i class="bi bi-info-circle text-principal mr-3 text-lg group-hover:scale-110 transition-transform"></i>
                   Statut
                 </dt>
                 <dd class="font-bold">
@@ -502,7 +624,8 @@ onMounted(() => {
                   </span>
                 </dd>
               </div>
-            </dl>
+              </dl>
+            </div>
           </div>
         </div>
 
@@ -510,78 +633,82 @@ onMounted(() => {
         <div class="lg:col-span-1">
           <div class="sticky top-24 space-y-4">
             <!-- Enhanced Contact Card -->
-            <div class="bg-white rounded-2xl border border-gray-200 p-6 shadow-xl hover:shadow-2xl transition-all duration-300">
-              <h3 class="text-xl font-bold text-gray-900 mb-6 flex items-center">
-                <div class="w-1 h-6 bg-gradient-to-b from-principal to-principal-dark rounded-full mr-2"></div>
-                Contacter le vendeur
-              </h3>
-              
-              <!-- Enhanced Seller Info -->
-              <div class="flex items-center space-x-4 mb-6 pb-6 border-b border-gray-200">
+            <div class="bg-white/90 backdrop-blur-md rounded-3xl border-2 border-gray-200 p-8 shadow-2xl hover:shadow-2xl transition-all duration-300 relative overflow-hidden">
+              <!-- Decorative gradient -->
+              <div class="absolute top-0 right-0 w-48 h-48 bg-principal/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+              <div class="relative z-10">
+                <h3 class="text-2xl font-bold text-gray-900 mb-8 flex items-center">
+                  <div class="w-1.5 h-8 bg-gradient-to-b from-principal to-principal-dark rounded-full mr-3"></div>
+                  Contacter le vendeur
+                </h3>
+                
+                <!-- Enhanced Seller Info -->
+                <div class="flex items-center space-x-5 mb-8 pb-8 border-b-2 border-gray-200">
                 <div class="relative">
-                  <div class="w-16 h-16 bg-gradient-to-br from-principal/20 to-principal/10 rounded-full flex items-center justify-center ring-4 ring-principal/10">
-                    <i class="bi bi-person-fill text-principal text-2xl"></i>
+                  <div class="w-20 h-20 bg-gradient-to-br from-principal/20 to-principal/10 rounded-full flex items-center justify-center ring-4 ring-principal/10">
+                    <i class="bi bi-person-fill text-principal text-3xl"></i>
                   </div>
-                  <div class="absolute -bottom-1 -right-1 w-5 h-5 bg-green-500 rounded-full border-2 border-white"></div>
+                  <div class="absolute -bottom-1 -right-1 w-6 h-6 bg-green-500 rounded-full border-3 border-white"></div>
                 </div>
                 <div>
-                  <p class="font-bold text-gray-900 text-lg">{{ nameSeler }}</p>
-                  <p class="text-sm text-gray-500">Vendeur vérifié</p>
+                  <p class="font-bold text-gray-900 text-xl">{{ nameSeler }}</p>
+                  <p class="text-base text-gray-500">Vendeur vérifié</p>
                 </div>
               </div>
 
               <!-- Enhanced Action Buttons -->
-              <div class="space-y-3">
+              <div class="space-y-4">
                 <!-- Bouton Favori -->
                 <button 
                   @click="toggleFavorite"
                   :class="[
-                    'w-full py-4 rounded-xl font-bold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] flex items-center justify-center space-x-2',
+                    'w-full py-5 rounded-xl font-bold text-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] flex items-center justify-center space-x-3',
                     isFavorite
                       ? 'bg-red-500 text-white hover:bg-red-600'
                       : 'bg-white border-2 border-red-300 text-red-500 hover:bg-red-50'
                   ]"
                 >
-                  <i :class="isFavorite ? 'bi bi-heart-fill' : 'bi bi-heart'" class="text-xl"></i>
+                  <i :class="isFavorite ? 'bi bi-heart-fill' : 'bi bi-heart'" class="text-2xl"></i>
                   <span>{{ isFavorite ? 'Retiré des favoris' : 'Ajouter aux favoris' }}</span>
                 </button>
                 
                 <button 
                   @click="ouvrirWhatsApp"
-                  class="w-full bg-gradient-to-r from-principal via-principal-dark to-principal text-white py-4 rounded-xl font-bold shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] flex items-center justify-center space-x-2 group relative overflow-hidden"
+                  class="w-full bg-gradient-to-r from-principal via-principal-dark to-principal text-white py-5 rounded-xl font-bold text-lg shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] flex items-center justify-center space-x-3 group relative overflow-hidden"
                 >
                   <span class="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></span>
-                  <i class="bi bi-whatsapp text-xl relative z-10"></i>
+                  <i class="bi bi-whatsapp text-2xl relative z-10"></i>
                   <span class="relative z-10">Contacter par WhatsApp</span>
                 </button>
                 <button 
                   @click="afficherNumero"
-                  class="w-full border-2 border-principal text-principal hover:bg-principal hover:text-white py-4 rounded-xl font-bold transition-all duration-300 hover:scale-[1.02] flex items-center justify-center space-x-2 shadow-md hover:shadow-lg"
+                  class="w-full border-2 border-principal text-principal hover:bg-principal hover:text-white py-5 rounded-xl font-bold text-lg transition-all duration-300 hover:scale-[1.02] flex items-center justify-center space-x-3 shadow-md hover:shadow-lg"
                 >
-                  <i class="bi bi-telephone text-xl"></i>
+                  <i class="bi bi-telephone text-2xl"></i>
                   <span>Voir le numéro</span>
                 </button>
               </div>
 
               <!-- Enhanced Email if available -->
-              <div v-if="mailSeler" class="mt-6 pt-6 border-t border-gray-200">
-                <p class="text-sm text-gray-600 mb-2 font-medium">Email</p>
-                <a :href="`mailto:${mailSeler}`" class="text-principal hover:text-principal-dark font-semibold text-sm break-all flex items-center group">
-                  <i class="bi bi-envelope mr-2 group-hover:scale-110 transition-transform"></i>
+              <div v-if="mailSeler" class="mt-8 pt-8 border-t-2 border-gray-200">
+                <p class="text-base text-gray-600 mb-3 font-semibold">Email</p>
+                <a :href="`mailto:${mailSeler}`" class="text-principal hover:text-principal-dark font-semibold text-base break-all flex items-center group">
+                  <i class="bi bi-envelope mr-3 text-lg group-hover:scale-110 transition-transform"></i>
                   {{ mailSeler }}
                 </a>
+              </div>
               </div>
             </div>
 
             <!-- Enhanced Safety Notice -->
-            <div class="bg-gradient-to-br from-yellow-50 via-yellow-50/50 to-orange-50 border-2 border-yellow-200 rounded-2xl p-5 shadow-lg">
-              <div class="flex items-start space-x-3">
-                <div class="w-10 h-10 bg-yellow-400 rounded-full flex items-center justify-center flex-shrink-0 shadow-md">
-                  <i class="bi bi-shield-exclamation text-yellow-900 text-lg"></i>
+            <div class="bg-gradient-to-br from-yellow-50 via-yellow-50/50 to-orange-50 border-2 border-yellow-200 rounded-2xl p-6 shadow-lg">
+              <div class="flex items-start space-x-4">
+                <div class="w-12 h-12 bg-yellow-400 rounded-full flex items-center justify-center flex-shrink-0 shadow-md">
+                  <i class="bi bi-shield-exclamation text-yellow-900 text-xl"></i>
                 </div>
                 <div>
-                  <p class="text-sm font-bold text-yellow-900 mb-1">Conseil de sécurité</p>
-                  <p class="text-xs text-yellow-800 leading-relaxed">
+                  <p class="text-base font-bold text-yellow-900 mb-2">Conseil de sécurité</p>
+                  <p class="text-sm text-yellow-800 leading-relaxed">
                     Évitez les paiements anticipés. Visitez le bien avant tout engagement financier.
                   </p>
                 </div>
@@ -589,8 +716,8 @@ onMounted(() => {
             </div>
 
             <!-- Report Button -->
-            <button class="w-full text-sm text-gray-500 hover:text-gray-700 text-center py-3 rounded-xl hover:bg-gray-50 transition-colors duration-200 flex items-center justify-center space-x-2">
-              <i class="bi bi-flag"></i>
+            <button class="w-full text-base text-gray-500 hover:text-gray-700 text-center py-4 rounded-xl hover:bg-gray-50 transition-colors duration-200 flex items-center justify-center space-x-3">
+              <i class="bi bi-flag text-lg"></i>
               <span>Signaler cette annonce</span>
             </button>
           </div>
@@ -598,13 +725,13 @@ onMounted(() => {
       </div>
 
       <!-- Enhanced Similar Properties Section -->
-      <section v-if="suggestions && suggestions.length > 0" class="mt-12">
-        <div class="bg-white rounded-2xl border border-gray-200 p-8 shadow-xl">
-          <h2 class="text-2xl font-bold text-gray-900 mb-8 flex items-center">
-            <div class="w-1 h-8 bg-gradient-to-b from-principal to-principal-dark rounded-full mr-3"></div>
+      <section v-if="suggestions && suggestions.length > 0" class="mt-16">
+        <div class="bg-white rounded-3xl border-2 border-gray-200 p-10 shadow-xl">
+          <h2 class="text-3xl font-bold text-gray-900 mb-10 flex items-center">
+            <div class="w-1.5 h-10 bg-gradient-to-b from-principal to-principal-dark rounded-full mr-4"></div>
             Annonces similaires
           </h2>
-          <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             <div
               v-for="suggestion in suggestions"
               :key="suggestion.id"
@@ -660,6 +787,57 @@ onMounted(() => {
         </button>
       </div>
     </div>
+
+    <!-- Enhanced Lightbox -->
+    <Transition name="lightbox">
+      <div
+        v-if="showLightbox"
+        class="fixed inset-0 bg-black/95 backdrop-blur-md z-[100] flex items-center justify-center p-4"
+        @click.self="closeLightbox"
+      >
+        <button
+          @click="closeLightbox"
+          class="absolute top-4 right-4 text-white hover:text-gray-300 transition-colors p-3 bg-white/10 hover:bg-white/20 rounded-full backdrop-blur-sm z-10"
+          aria-label="Fermer"
+        >
+          <i class="bi bi-x-lg text-2xl"></i>
+        </button>
+        
+        <button
+          v-if="images.length > 1"
+          @click.stop="previousLightboxImage"
+          class="absolute left-4 top-1/2 -translate-y-1/2 text-white hover:text-gray-300 transition-colors p-4 bg-white/10 hover:bg-white/20 rounded-full backdrop-blur-sm z-10"
+          aria-label="Image précédente"
+        >
+          <i class="bi bi-chevron-left text-3xl font-bold"></i>
+        </button>
+        
+        <button
+          v-if="images.length > 1"
+          @click.stop="nextLightboxImage"
+          class="absolute right-4 top-1/2 -translate-y-1/2 text-white hover:text-gray-300 transition-colors p-4 bg-white/10 hover:bg-white/20 rounded-full backdrop-blur-sm z-10"
+          aria-label="Image suivante"
+        >
+          <i class="bi bi-chevron-right text-3xl font-bold"></i>
+        </button>
+        
+        <div class="max-w-7xl w-full h-full flex items-center justify-center">
+          <img
+            v-if="images.length > 0"
+            :src="getImageUrl(images[lightboxIndex])"
+            :alt="`Image ${lightboxIndex + 1}`"
+            class="max-w-full max-h-full object-contain rounded-lg shadow-2xl"
+          />
+        </div>
+        
+        <div v-if="images.length > 1" class="absolute bottom-8 left-1/2 -translate-x-1/2 bg-black/80 backdrop-blur-md text-white px-6 py-3 rounded-full text-sm font-bold shadow-2xl border border-white/20">
+          <i class="bi bi-images mr-2 text-yellow-400"></i>
+          <span class="text-yellow-400">{{ lightboxIndex + 1 }}</span>
+          <span class="mx-2">/</span>
+          <span>{{ images.length }}</span>
+        </div>
+      </div>
+    </Transition>
 
     <!-- Enhanced Phone Number Popup -->
     <Transition name="popup">
@@ -767,6 +945,22 @@ onMounted(() => {
 .popup-leave-from {
   opacity: 1;
   transform: scale(1);
+}
+
+/* Lightbox transition */
+.lightbox-enter-active,
+.lightbox-leave-active {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.lightbox-enter-from,
+.lightbox-leave-to {
+  opacity: 0;
+}
+
+.lightbox-enter-to,
+.lightbox-leave-from {
+  opacity: 1;
 }
 
 /* Smooth animations */
