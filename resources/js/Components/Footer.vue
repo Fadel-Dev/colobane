@@ -112,34 +112,34 @@
                     </h3>
                     <ul class="space-y-3">
                         <li>
-                            <Link href="/" class="text-gray-300 hover:text-principal transition-colors duration-200 flex items-center group text-sm">
+                            <Link href="/about" class="text-gray-300 hover:text-principal transition-colors duration-200 flex items-center group text-sm">
                                 <i class="fas fa-chevron-right text-xs mr-2 text-gray-500 group-hover:text-principal group-hover:translate-x-1 transition-transform"></i>
                                 À propos de nous
                             </Link>
                         </li>
                         <li>
-                            <a href="/contact" class="text-gray-300 hover:text-principal transition-colors duration-200 flex items-center group text-sm">
+                            <Link href="/contact" class="text-gray-300 hover:text-principal transition-colors duration-200 flex items-center group text-sm">
                                 <i class="fas fa-chevron-right text-xs mr-2 text-gray-500 group-hover:text-principal group-hover:translate-x-1 transition-transform"></i>
                                 Nous contacter
-                            </a>
+                            </Link>
                         </li>
                         <li>
-                            <a href="/aide" class="text-gray-300 hover:text-principal transition-colors duration-200 flex items-center group text-sm">
+                            <Link href="/aide" class="text-gray-300 hover:text-principal transition-colors duration-200 flex items-center group text-sm">
                                 <i class="fas fa-chevron-right text-xs mr-2 text-gray-500 group-hover:text-principal group-hover:translate-x-1 transition-transform"></i>
                                 Centre d'aide
-                            </a>
+                            </Link>
                         </li>
                         <li>
-                            <a href="/faq" class="text-gray-300 hover:text-principal transition-colors duration-200 flex items-center group text-sm">
+                            <Link href="/faq" class="text-gray-300 hover:text-principal transition-colors duration-200 flex items-center group text-sm">
                                 <i class="fas fa-chevron-right text-xs mr-2 text-gray-500 group-hover:text-principal group-hover:translate-x-1 transition-transform"></i>
                                 FAQ
-                            </a>
+                            </Link>
                         </li>
                         <li>
-                            <a href="/comment-ca-marche" class="text-gray-300 hover:text-principal transition-colors duration-200 flex items-center group text-sm">
+                            <Link href="/comment-ca-marche" class="text-gray-300 hover:text-principal transition-colors duration-200 flex items-center group text-sm">
                                 <i class="fas fa-chevron-right text-xs mr-2 text-gray-500 group-hover:text-principal group-hover:translate-x-1 transition-transform"></i>
                                 Comment ça marche ?
-                            </a>
+                            </Link>
                         </li>
                     </ul>
                 </div>
@@ -152,22 +152,22 @@
                     </h3>
                     <ul class="space-y-3 mb-6">
                         <li>
-                            <a href="/terms" class="text-gray-300 hover:text-principal transition-colors duration-200 flex items-center group text-sm">
+                            <Link href="/terms" class="text-gray-300 hover:text-principal transition-colors duration-200 flex items-center group text-sm">
                                 <i class="fas fa-chevron-right text-xs mr-2 text-gray-500 group-hover:text-principal group-hover:translate-x-1 transition-transform"></i>
                                 Conditions d'utilisation
-                            </a>
+                            </Link>
                         </li>
                         <li>
-                            <a href="/privacy" class="text-gray-300 hover:text-principal transition-colors duration-200 flex items-center group text-sm">
+                            <Link href="/privacy" class="text-gray-300 hover:text-principal transition-colors duration-200 flex items-center group text-sm">
                                 <i class="fas fa-chevron-right text-xs mr-2 text-gray-500 group-hover:text-principal group-hover:translate-x-1 transition-transform"></i>
                                 Politique de confidentialité
-                            </a>
+                            </Link>
                         </li>
                         <li>
-                            <a href="/cookies" class="text-gray-300 hover:text-principal transition-colors duration-200 flex items-center group text-sm">
+                            <Link href="/cookies" class="text-gray-300 hover:text-principal transition-colors duration-200 flex items-center group text-sm">
                                 <i class="fas fa-chevron-right text-xs mr-2 text-gray-500 group-hover:text-principal group-hover:translate-x-1 transition-transform"></i>
                                 Politique de cookies
-                            </a>
+                            </Link>
                         </li>
                     </ul>
 

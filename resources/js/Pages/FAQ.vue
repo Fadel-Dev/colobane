@@ -1,0 +1,173 @@
+<template>
+    <SeoHead 
+        title="FAQ - Questions fréquentes - NoflayHub"
+        description="Trouvez les réponses aux questions les plus fréquentes sur NoflayHub."
+        keywords="FAQ noflayhub, questions fréquentes, aide"
+    />
+    
+    <Navbar />
+    
+    <div class="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-50">
+        <!-- Hero Section -->
+        <section class="relative bg-gradient-to-r from-principal via-principal/90 to-secondaire text-white py-20 overflow-hidden">
+            <div class="absolute inset-0 opacity-10">
+                <div class="absolute top-0 left-0 w-96 h-96 bg-white rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
+                <div class="absolute bottom-0 right-0 w-96 h-96 bg-white rounded-full blur-3xl translate-x-1/2 translate-y-1/2"></div>
+            </div>
+            <div class="relative z-10 max-w-[95rem] mx-auto px-6 sm:px-8 lg:px-12 text-center">
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+                    Questions fréquentes
+                </h1>
+                <p class="text-xl md:text-2xl text-white/90 max-w-3xl mx-auto">
+                    Trouvez rapidement les réponses à vos questions
+                </p>
+            </div>
+        </section>
+
+        <!-- Main Content -->
+        <main class="max-w-4xl mx-auto px-6 sm:px-8 lg:px-12 py-16">
+            <!-- Search -->
+            <div class="mb-12">
+                <div class="relative">
+                    <input 
+                        type="text" 
+                        v-model="searchQuery"
+                        placeholder="Rechercher dans les FAQ..."
+                        class="w-full px-6 py-4 pl-14 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-principal focus:border-transparent text-lg"
+                    >
+                    <i class="fas fa-search absolute left-5 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                </div>
+            </div>
+
+            <!-- FAQ Items -->
+            <div class="space-y-4">
+                <div 
+                    v-for="faq in filteredFAQs" 
+                    :key="faq.id"
+                    class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow"
+                >
+                    <button 
+                        @click="toggleFAQ(faq.id)"
+                        class="w-full px-6 py-5 text-left flex items-center justify-between focus:outline-none focus:ring-2 focus:ring-principal"
+                    >
+                        <h3 class="text-lg font-semibold text-secondaire pr-4">{{ faq.question }}</h3>
+                        <i :class="[
+                            'fas text-principal flex-shrink-0 transition-transform duration-300',
+                            expandedFAQs.includes(faq.id) ? 'fa-chevron-up' : 'fa-chevron-down'
+                        ]"></i>
+                    </button>
+                    <div 
+                        v-if="expandedFAQs.includes(faq.id)"
+                        class="px-6 pb-5 border-t border-gray-100"
+                    >
+                        <div class="pt-4 text-gray-700 leading-relaxed" v-html="faq.answer"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact CTA -->
+            <div class="mt-16 bg-gradient-to-r from-principal/10 to-secondaire/10 rounded-2xl p-8 md:p-12 text-center">
+                <h2 class="text-2xl font-bold text-secondaire mb-4">Vous ne trouvez pas votre réponse ?</h2>
+                <p class="text-gray-700 mb-6">Notre équipe est là pour vous aider</p>
+                <Link href="/contact" class="inline-block px-8 py-4 bg-principal hover:bg-principal/90 text-white font-semibold rounded-lg transition-all duration-300 hover:scale-105">
+                    Nous contacter
+                </Link>
+            </div>
+        </main>
+    </div>
+
+    <Footer />
+</template>
+
+<script setup>
+import { ref, computed } from 'vue';
+import { Head, Link } from '@inertiajs/vue3';
+import Navbar from '../Components/Navbar.vue';
+import Footer from '../Components/Footer.vue';
+import SeoHead from '../Components/SeoHead.vue';
+
+const searchQuery = ref('');
+const expandedFAQs = ref([]);
+
+const faqs = [
+    {
+        id: 1,
+        question: 'Comment créer un compte sur NoflayHub ?',
+        answer: '<p>Pour créer un compte, cliquez sur le bouton "S\'inscrire" en haut à droite de la page. Remplissez le formulaire avec vos informations (nom, email, téléphone) et créez un mot de passe sécurisé. Vous recevrez un email de confirmation pour valider votre compte.</p>'
+    },
+    {
+        id: 2,
+        question: 'Est-ce gratuit de publier une annonce ?',
+        answer: '<p>Oui, la publication d\'annonces de base est gratuite sur NoflayHub. Cependant, nous proposons également des options premium qui permettent de mettre en avant votre annonce et d\'augmenter sa visibilité.</p>'
+    },
+    {
+        id: 3,
+        question: 'Comment rechercher un logement ou un véhicule ?',
+        answer: '<p>Utilisez la barre de recherche en haut de la page d\'accueil. Vous pouvez filtrer par type de bien, prix, surface, nombre de pièces, région, etc. Les résultats s\'affichent en temps réel selon vos critères.</p>'
+    },
+    {
+        id: 4,
+        question: 'Comment contacter un propriétaire ou vendeur ?',
+        answer: '<p>Sur chaque page de détail d\'annonce, vous trouverez les informations de contact du propriétaire ou vendeur. Vous pouvez également utiliser le formulaire de contact intégré pour envoyer un message directement depuis la plateforme.</p>'
+    },
+    {
+        id: 5,
+        question: 'Comment modifier ou supprimer mon annonce ?',
+        answer: '<p>Connectez-vous à votre compte, allez dans "Mes annonces", puis cliquez sur "Modifier" ou "Supprimer" pour l\'annonce concernée. Les modifications sont prises en compte immédiatement.</p>'
+    },
+    {
+        id: 6,
+        question: 'Quels sont les modes de paiement acceptés ?',
+        answer: '<p>NoflayHub accepte plusieurs modes de paiement : cartes bancaires, virement bancaire, mobile money (Orange Money, Free Money), et paiement en espèces pour certaines transactions locales.</p>'
+    },
+    {
+        id: 7,
+        question: 'Comment signaler une annonce frauduleuse ?',
+        answer: '<p>Si vous suspectez une annonce frauduleuse, cliquez sur le bouton "Signaler" présent sur chaque page d\'annonce. Notre équipe examinera le signalement et prendra les mesures appropriées.</p>'
+    },
+    {
+        id: 8,
+        question: 'Puis-je publier plusieurs annonces ?',
+        answer: '<p>Oui, vous pouvez publier autant d\'annonces que vous le souhaitez. Chaque annonce est gérée indépendamment depuis votre tableau de bord.</p>'
+    },
+    {
+        id: 9,
+        question: 'Comment fonctionne le système de favoris ?',
+        answer: '<p>En cliquant sur l\'icône cœur sur une annonce, vous l\'ajoutez à vos favoris. Vous pouvez ensuite accéder à tous vos favoris depuis votre compte pour les consulter facilement.</p>'
+    },
+    {
+        id: 10,
+        question: 'Quelle est la durée de validité d\'une annonce ?',
+        answer: '<p>Les annonces restent actives indéfiniment tant qu\'elles ne sont pas supprimées par le propriétaire ou par notre équipe en cas de non-conformité. Vous pouvez renouveler votre annonce à tout moment pour la remettre en avant.</p>'
+    },
+    {
+        id: 11,
+        question: 'Comment puis-je mettre en avant mon annonce ?',
+        answer: '<p>Nous proposons des options de mise en avant (boost) qui permettent à votre annonce d\'apparaître en premier dans les résultats de recherche. Ces options sont disponibles depuis votre tableau de bord.</p>'
+    },
+    {
+        id: 12,
+        question: 'NoflayHub est-il disponible sur mobile ?',
+        answer: '<p>Oui, NoflayHub est entièrement responsive et optimisé pour les appareils mobiles. Vous pouvez accéder à toutes les fonctionnalités depuis votre smartphone ou tablette.</p>'
+    },
+];
+
+const filteredFAQs = computed(() => {
+    if (!searchQuery.value) return faqs;
+    const query = searchQuery.value.toLowerCase();
+    return faqs.filter(faq => 
+        faq.question.toLowerCase().includes(query) || 
+        faq.answer.toLowerCase().includes(query)
+    );
+});
+
+const toggleFAQ = (id) => {
+    const index = expandedFAQs.value.indexOf(id);
+    if (index > -1) {
+        expandedFAQs.value.splice(index, 1);
+    } else {
+        expandedFAQs.value.push(id);
+    }
+};
+</script>
+

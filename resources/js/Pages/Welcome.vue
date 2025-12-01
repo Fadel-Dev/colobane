@@ -153,11 +153,11 @@
                             <div class="flex items-center justify-between mb-6">
                                 <h3 class="text-xl font-bold text-secondaire flex items-center">
                                     <span class="w-4 h-4 bg-principal rounded-full mr-2" aria-hidden="true"></span>
-                                    Annonces en vedette
+                                Annonces en vedette
                                     <span class="ml-3 text-sm font-normal text-principal flex items-center">
                                         <i class="fas fa-bolt mr-1" aria-hidden="true"></i> Boostées
-                                    </span>
-                                </h3>
+                                </span>
+                            </h3>
                                 <a 
                                     :href="getBoostedLink()"
                                     class="text-principal hover:text-principal/80 font-semibold flex items-center gap-2 transition-all duration-300 hover:gap-3 group">
@@ -228,8 +228,8 @@
                                             {{ formatPrice(item.prix) }}
                                         </span>
                                         <span class="text-sm text-gray-500 ml-1">FCFA</span>
-                                    </div>
-                                </div>
+                                                </div>
+                                            </div>
                             </div>
                         </div>
                     </article>
@@ -252,7 +252,7 @@
                         </p>
                     </div>
                     <div class="flex-shrink-0">
-                        <button 
+                                            <button
                             v-if="!$page.props.auth?.user"
                             @click="$inertia.visit('/register')"
                             class="bg-principal hover:bg-principal/90 text-white px-12 py-5 rounded-xl font-semibold transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-principal focus:ring-offset-2 shadow-lg hover:shadow-xl transform hover:scale-105 text-lg inline-flex items-center gap-2 whitespace-nowrap">
@@ -265,11 +265,11 @@
                             class="bg-principal hover:bg-principal/90 text-white px-12 py-5 rounded-xl font-semibold transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-principal focus:ring-offset-2 shadow-lg hover:shadow-xl transform hover:scale-105 text-lg inline-flex items-center gap-2 whitespace-nowrap">
                             <i class="fas fa-bell"></i>
                             <span>Créer une alerte</span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
     </section>
 
     <!-- Section Locations récemment ajoutées -->
@@ -279,14 +279,14 @@
                                                 <div>
                     <h2 class="text-2xl md:text-3xl font-bold text-secondaire mb-3">
                         Locations récemment ajoutées
-                    </h2>
+                                    </h2>
                     <p class="text-gray-600 text-lg">Découvrez les dernières annonces disponibles</p>
-                                                </div>
+                                    </div>
                 <a href="/p/immobilier" class="text-principal hover:text-principal/80 font-semibold hidden md:flex items-center gap-2 transition-all duration-300 hover:gap-3">
                     <span>Voir toutes les annonces</span>
                     <i class="fas fa-arrow-right"></i>
                 </a>
-                                            </div>
+                                </div>
 
             <div v-if="maisons?.data?.length > 0" class="relative">
                 <div class="swiper recent-annonces-swiper" id="recent-annonces-swiper">
@@ -296,7 +296,7 @@
                             :key="maison.id"
                             class="swiper-slide">
                             <article 
-                                @click="navigateToDetail(maison.id)"
+                                        @click="navigateToDetail(maison.id)"
                                 class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 h-full flex flex-col cursor-pointer focus-within:ring-2 focus-within:ring-principal focus-within:ring-offset-2 group"
                                 @keydown.enter="navigateToDetail(maison.id)"
                                 tabindex="0"
@@ -340,21 +340,21 @@
                                                 </div>
                                                 <!-- Image par défaut si aucune image -->
                                                 <div v-if="!hasAnyImage(maison)" class="swiper-slide">
-                                                    <img :src="getFirstAvailableImage(maison)"
+                                            <img :src="getFirstAvailableImage(maison)"
                                                         :alt="`Image de ${maison.nom || 'bien immobilier'}`"
                                                         class="w-full h-full object-cover" 
-                                                        loading="lazy"
+                                                loading="lazy"
                                                         decoding="async"
                                                         @error="handleImageError($event)">
-                                                </div>
                                             </div>
-                                            
+                                        </div>
+
                                             <!-- Navigation pour les images (flèches blanches) -->
                                             <div v-if="hasMultipleImages(maison)" :class="`swiper-button-next property-image-next-${maison.id}`"></div>
                                             <div v-if="hasMultipleImages(maison)" :class="`swiper-button-prev property-image-prev-${maison.id}`"></div>
-                                        </div>
-                                    </div>
-                                    
+                                                </div>
+                                            </div>
+
                                     <!-- Bouton favoris -->
                                     <div class="absolute top-4 left-4 z-20">
                                                 <button 
@@ -387,29 +387,29 @@
                     </div>
 
                                     <div class="border-t border-gray-200 pt-3 mt-auto flex items-center justify-between">
-                                        <div>
+                                                <div>
                                             <span class="text-xl font-bold text-principal">
                                                 {{ formatPrice(maison.prix) }}
-                                            </span>
+                                                    </span>
                                             <span class="text-sm text-gray-500 ml-1">FCFA</span>
-                    </div>
-                                        <button 
-                                            @click.stop="toggleFavorite(maison.id)"
-                                            :class="[
-                                                'transition-colors duration-300',
-                                                isFavorite(maison.id)
+                                                </div>
+                                                <button 
+                                                    @click.stop="toggleFavorite(maison.id)"
+                                                    :class="[
+                                                        'transition-colors duration-300',
+                                                        isFavorite(maison.id)
                                                     ? 'text-red-500'
                                                     : 'text-gray-400 hover:text-red-400'
-                                            ]"
+                                                    ]"
                                             :aria-label="isFavorite(maison.id) ? 'Retirer des favoris' : 'Ajouter aux favoris'">
                                             <i :class="isFavorite(maison.id) ? 'fas fa-heart' : 'far fa-heart'" class="text-lg"></i>
-                                        </button>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </article>
+                                </div>
                     </div>
-                    </div>
-                            </article>
-                    </div>
-                    </div>
-                    
+
                     <!-- Navigation buttons -->
                     <div class="swiper-button-next recent-next"></div>
                     <div class="swiper-button-prev recent-prev"></div>
@@ -422,8 +422,8 @@
             <div v-else class="text-center py-12 text-gray-500">
                 <i class="fas fa-inbox text-4xl mb-4" aria-hidden="true"></i>
                 <p>Aucune annonce disponible pour le moment.</p>
-                </div>
-            </div>
+                    </div>
+                    </div>
     </section>
 
     <!-- Section Pourquoi attendre -->
@@ -442,7 +442,7 @@
                     <i class="fas fa-search"></i>
                     <span>Rechercher</span>
                 </button>
-            </div>
+                    </div>
 
             <!-- Villes principales -->
             <div class="mb-16">
@@ -463,8 +463,8 @@
                             </li>
                         </ul>
                     </div>
+                    </div>
                 </div>
-            </div>
 
             <!-- Toutes les régions -->
             <div>
@@ -480,9 +480,9 @@
                         <span class="text-gray-700 group-hover:text-principal font-medium">{{ region.nom }}</span>
                         <span class="text-gray-500 text-sm group-hover:text-principal">({{ region.count || 0 }})</span>
                     </a>
-                </div>
             </div>
         </div>
+    </div>
     </section>
 
     <Footer />

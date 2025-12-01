@@ -39,6 +39,39 @@ Route::get('/tt', function () {
 
 Route::get('/', [Controller::class, 'Home'])->name('home');
 
+// Static pages
+Route::get('/about', function () {
+    return Inertia::render('About');
+})->name('about');
+
+Route::get('/contact', function () {
+    return Inertia::render('Contact');
+})->name('contact');
+
+Route::get('/aide', function () {
+    return Inertia::render('HelpCenter');
+})->name('help');
+
+Route::get('/faq', function () {
+    return Inertia::render('FAQ');
+})->name('faq');
+
+Route::get('/comment-ca-marche', function () {
+    return Inertia::render('HowItWorks');
+})->name('how-it-works');
+
+Route::get('/terms', function () {
+    return Inertia::render('Terms');
+})->name('terms');
+
+Route::get('/privacy', function () {
+    return Inertia::render('Privacy');
+})->name('privacy');
+
+Route::get('/cookies', function () {
+    return Inertia::render('Cookies');
+})->name('cookies');
+
 // Sitemap routes
 Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap.index');
 Route::get('/sitemap-pages.xml', [SitemapController::class, 'pages'])->name('sitemap.pages');
