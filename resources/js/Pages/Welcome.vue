@@ -10,32 +10,32 @@
 
     <Navbar class="relative" />
     
-    <!-- Hero Section avec image de fond -->
-    <section class="relative min-h-[70vh] flex items-center justify-center bg-gradient-to-br from-principal via-principal/90 to-secondaire overflow-hidden">
+    <!-- Hero Section avec image de fond - OPTIMISÉ MOBILE -->
+    <section class="relative min-h-[50vh] sm:min-h-[60vh] lg:min-h-[70vh] flex items-center justify-center bg-gradient-to-br from-principal via-principal/90 to-secondaire overflow-hidden">
         <!-- Image de fond avec overlay -->
         <div class="absolute inset-0 bg-cover bg-center bg-no-repeat" 
              style="background-image: url('https://images.unsplash.com/photo-1513694203232-719a280e022f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80');">
             <div class="absolute inset-0 bg-gradient-to-b from-black/50 via-black/40 to-black/60"></div>
-                                    </div>
+        </div>
 
         <!-- Contenu du Hero -->
-        <div class="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        <div class="relative z-10 w-full max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-20">
             <!-- Compteur d'annonces dans une boîte semi-transparente -->
-            <div class="text-center mb-8">
-                <div class="inline-block bg-white/90 backdrop-blur-md rounded-2xl px-8 py-6 shadow-2xl">
-                    <h1 class="text-4xl md:text-6xl font-bold text-secondaire mb-2">
-                        {{ formatNumber(totalAnnonces || 0) }} biens disponibles
+            <div class="text-center mb-6 sm:mb-8">
+                <div class="inline-block bg-white/90 backdrop-blur-md rounded-xl sm:rounded-2xl px-4 sm:px-8 py-4 sm:py-6 shadow-xl sm:shadow-2xl">
+                    <h1 class="text-xl sm:text-4xl lg:text-6xl font-bold text-secondaire mb-1 sm:mb-2 leading-tight">
+                        {{ formatNumber(totalAnnonces || 0) }} biens
                     </h1>
-                    <p class="text-lg md:text-xl text-gray-600">Trouvez votre logement idéal au Sénégal</p>
+                    <p class="text-sm sm:text-lg lg:text-xl text-gray-600">Trouvez votre logement idéal</p>
                 </div>
             </div>
 
-            <!-- Barre de recherche principale -->
+            <!-- Barre de recherche principale - RESPONSIVE -->
             <div class="max-w-4xl mx-auto">
                 <form @submit.prevent="handleSearch" class="relative">
-                    <div class="bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl p-2 flex flex-col md:flex-row gap-2">
+                    <div class="bg-white/95 backdrop-blur-md rounded-lg sm:rounded-2xl shadow-xl sm:shadow-2xl p-1.5 sm:p-2 flex flex-col sm:flex-row gap-1.5 sm:gap-2">
                         <div class="flex-1 relative">
-                            <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 text-xl z-10"></i>
+                            <i class="fas fa-search absolute left-3 sm:left-4 top-1/2 transform -translate-y-1/2 text-gray-400 text-base sm:text-xl z-10"></i>
                             <input 
                                 type="text" 
                                 v-model="searchQuery"
@@ -45,12 +45,12 @@
                                 @keydown.arrow-down.prevent="navigateSuggestions('down')"
                                 @keydown.arrow-up.prevent="navigateSuggestions('up')"
                                 @keydown.enter.prevent="selectedSuggestionIndex >= 0 ? selectSuggestion(selectedSuggestionIndex) : handleSearch()"
-                                placeholder="Rechercher parmi tous les biens"
-                                class="w-full pl-14 pr-4 py-4 md:py-5 text-gray-900 rounded-xl focus:outline-none focus:ring-2 focus:ring-principal text-lg"
+                                placeholder="Rechercher..."
+                                class="w-full pl-10 sm:pl-14 pr-3 sm:pr-4 py-3 sm:py-5 text-gray-900 rounded-lg sm:rounded-xl focus:outline-none focus:ring-2 focus:ring-principal text-sm sm:text-base"
                                 aria-label="Rechercher un bien"
                                 autocomplete="off"
                             />
-                            <p class="text-xs text-gray-500 mt-1 ml-4">Ville, zone ou quartier</p>
+                            <p class="hidden sm:block text-xs text-gray-500 mt-1 ml-4">Ville, zone ou quartier</p>
                             
                             <!-- Suggestions dropdown -->
                             <div 
@@ -84,7 +84,7 @@
                         </div>
                         <button 
                             type="submit"
-                            class="bg-principal hover:bg-principal/90 text-white px-8 md:px-12 py-4 md:py-5 rounded-xl font-semibold transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-principal text-lg shadow-lg hover:shadow-xl transform hover:scale-105">
+                            class="w-full sm:w-auto bg-principal hover:bg-principal/90 text-white px-4 sm:px-12 py-3 sm:py-5 rounded-lg sm:rounded-xl font-semibold transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-principal text-sm sm:text-base shadow-lg hover:shadow-xl transform hover:scale-105">
                             Rechercher
                         </button>
                     </div>
@@ -93,33 +93,34 @@
         </div>
     </section>
 
-    <!-- Section Catégories -->
-    <section class="py-12 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-2xl md:text-3xl font-bold text-secondaire mb-8 text-center">
-                De quel type de location avez-vous besoin?
+    <!-- Section Catégories - RESPONSIVE -->
+    <section class="py-6 sm:py-10 lg:py-12 bg-white">
+        <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+            <h2 class="text-lg sm:text-2xl lg:text-3xl font-bold text-secondaire mb-4 sm:mb-8 text-center">
+                Quel type de location?
             </h2>
-            <div class="flex flex-wrap justify-center gap-4">
+            <div class="flex flex-wrap justify-center gap-2 sm:gap-4">
                 <button 
                     v-for="item in categoryItems" 
                     :key="item.id"
                     @click="navigateToCategory(item.slug)"
                     :class="[
-                        'px-6 py-4 rounded-xl transition-all duration-300 font-semibold text-secondaire border-2 flex items-center gap-3 min-w-[160px] justify-center',
+                        'px-3 sm:px-6 py-2.5 sm:py-4 rounded-lg sm:rounded-xl transition-all duration-300 font-semibold text-secondaire border-2 flex items-center gap-2 min-w-fit sm:min-w-[160px] justify-center text-xs sm:text-sm',
                         'bg-white border-gray-200 hover:border-principal hover:shadow-md hover:bg-principal hover:text-white'
                     ]">
-                    <i :class="`fas fa-${item.icon} text-xl`"></i>
-                    <span>{{ item.name }}</span>
+                    <i :class="`fas fa-${item.icon} text-base sm:text-xl`"></i>
+                    <span class="hidden sm:inline">{{ item.name }}</span>
+                    <span class="sm:hidden">{{ item.name.substring(0, 8) }}</span>
                 </button>
             </div>
         </div>
     </section>
 
-    <!-- Section Villes Populaires -->
-    <section class="py-12 bg-gray-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-2xl md:text-3xl font-bold text-secondaire mb-8">
-                Villes populaires pour louer des logements
+    <!-- Section Villes Populaires - RESPONSIVE -->
+    <section class="py-6 sm:py-10 lg:py-12 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+            <h2 class="text-lg sm:text-2xl lg:text-3xl font-bold text-secondaire mb-4 sm:mb-8">
+                Villes populaires
             </h2>
             
             <!-- Carousel Swiper pour les villes -->
@@ -138,8 +139,8 @@
                                         ? 'border-principal shadow-lg scale-105' 
                                         : 'border-transparent hover:border-principal'
                                 ]">
-                                <!-- Image de la ville -->
-                                <div class="relative h-48 w-full overflow-hidden bg-gradient-to-br from-gray-200 to-gray-300">
+                                <!-- Image de la ville - RESPONSIVE -->
+                                <div class="relative h-32 sm:h-40 lg:h-48 w-full overflow-hidden bg-gradient-to-br from-gray-200 to-gray-300">
                                     <img 
                                         :src="ville.image" 
                                         :alt="`Image de ${ville.nom}`"
@@ -182,28 +183,28 @@
                 </div>
     </section>
 
-    <!-- Contenu réactif selon la catégorie sélectionnée -->
-    <section class="py-12 bg-gray-50" v-if="getCurrentData()?.length > 0 || getBoostedData()?.length > 0">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                        <!-- Section Boostée -->
-            <div v-if="getBoostedData()?.length > 0" class="mb-10">
-                            <div class="flex items-center justify-between mb-6">
-                                <h3 class="text-xl font-bold text-secondaire flex items-center">
-                                    <span class="w-4 h-4 bg-principal rounded-full mr-2" aria-hidden="true"></span>
-                                Annonces en vedette
-                                    <span class="ml-3 text-sm font-normal text-principal flex items-center">
-                                        <i class="fas fa-bolt mr-1" aria-hidden="true"></i> Boostées
-                                </span>
-                            </h3>
-                                <a 
-                                    :href="getBoostedLink()"
-                                    class="text-principal hover:text-principal/80 font-semibold flex items-center gap-2 transition-all duration-300 hover:gap-3 group">
-                                    <span>Voir tout</span>
-                                    <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
-                                </a>
-                            </div>
+    <!-- Contenu réactif selon la catégorie sélectionnée - RESPONSIVE -->
+    <section class="py-6 sm:py-10 lg:py-12 bg-gray-50" v-if="getCurrentData()?.length > 0 || getBoostedData()?.length > 0">
+        <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+            <!-- Section Boostée -->
+            <div v-if="getBoostedData()?.length > 0" class="mb-6 sm:mb-10">
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 sm:mb-6 gap-3">
+                    <h3 class="text-base sm:text-lg lg:text-xl font-bold text-secondaire flex items-center">
+                        <span class="w-3 h-3 sm:w-4 sm:h-4 bg-principal rounded-full mr-2" aria-hidden="true"></span>
+                        Annonces en vedette
+                        <span class="ml-2 sm:ml-3 text-xs sm:text-sm font-normal text-principal flex items-center">
+                            <i class="fas fa-bolt mr-1" aria-hidden="true"></i> Boostées
+                        </span>
+                    </h3>
+                    <a 
+                        :href="getBoostedLink()"
+                        class="text-principal hover:text-principal/80 font-semibold flex items-center gap-2 transition-all duration-300 hover:gap-3 group text-sm">
+                        <span>Voir tout</span>
+                        <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                    </a>
+                </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
                     <article 
                         v-for="item in getBoostedData().slice(0, 8)" 
                         :key="item.id"
@@ -214,9 +215,10 @@
                         role="article"
                         :aria-label="`${item.nom} - ${item.prix} FCFA`">
                         
-                        <div class="relative bg-gray-200 overflow-hidden h-64">
-                            <span class="absolute top-4 left-4 z-10 inline-flex items-center px-2 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-yellow-400 to-yellow-500 text-white shadow-md">
-                                <i class="fas fa-bolt mr-1" aria-hidden="true"></i> Boost
+                        <!-- Image responsive -->
+                        <div class="relative bg-gray-200 overflow-hidden h-32 sm:h-40 lg:h-64">
+                            <span class="absolute top-2 sm:top-4 left-2 sm:left-4 z-10 inline-flex items-center px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full text-xs font-bold bg-gradient-to-r from-yellow-400 to-yellow-500 text-white shadow-md">
+                                <i class="fas fa-bolt mr-0.5 sm:mr-1" aria-hidden="true"></i> <span class="hidden sm:inline">Boost</span>
                             </span>
                             
                             <img :src="getFirstAvailableImage(item)"

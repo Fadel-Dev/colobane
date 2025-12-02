@@ -12,13 +12,13 @@
     
     <div class="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100">
         <!-- Hero Section de la catégorie -->
-        <section class="bg-gradient-to-br from-principal via-principal/90 to-secondaire text-white py-16">
-            <div class="max-w-[95rem] mx-auto px-6 sm:px-8 lg:px-12">
+        <section class="bg-gradient-to-br from-principal via-principal/90 to-secondaire text-white py-12 sm:py-16">
+            <div class="max-w-[95rem] mx-auto px-3 sm:px-6 lg:px-12">
                 <div class="text-center">
-                    <h1 class="text-4xl md:text-5xl font-bold mb-4">
+                    <h1 class="text-2xl sm:text-4xl md:text-5xl font-bold mb-2 sm:mb-4">
                         {{ getCategoryName() }}
                     </h1>
-                    <p class="text-lg md:text-xl text-white/90">
+                    <p class="text-sm sm:text-lg md:text-xl text-white/90">
                         {{ formatNumber(total) }} {{ total > 1 ? 'biens disponibles' : 'bien disponible' }}
                     </p>
                 </div>
@@ -26,34 +26,34 @@
         </section>
 
         <!-- Contenu principal avec sidebar -->
-        <div class="max-w-[95rem] mx-auto px-6 sm:px-8 lg:px-12 py-12">
-            <div class="flex flex-col lg:flex-row gap-10">
+        <div class="max-w-[95rem] mx-auto px-3 sm:px-6 lg:px-12 py-6 sm:py-12">
+            <div class="flex flex-col lg:flex-row gap-4 sm:gap-6 lg:gap-10">
                 <!-- Sidebar avec filtres -->
                 <aside class="lg:w-1/4 w-full">
-                    <div class="bg-white rounded-2xl shadow-lg p-8 sticky top-24">
-                        <div class="flex items-center justify-between mb-6">
-                            <h3 class="text-xl font-bold text-secondaire">Filtres</h3>
+                    <div class="bg-white rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6 lg:p-8 sticky top-16 sm:top-20 lg:top-24">
+                        <div class="flex items-center justify-between mb-4 sm:mb-6">
+                            <h3 class="text-base sm:text-lg lg:text-xl font-bold text-secondaire">Filtres</h3>
                             <button 
                                 @click="resetFilters"
-                                class="text-sm text-principal hover:text-principal/80 font-semibold">
+                                class="text-xs sm:text-sm text-principal hover:text-principal/80 font-semibold">
                                 Réinitialiser
                             </button>
                         </div>
                         
-                        <form @submit.prevent="applyFilters" class="space-y-6">
+                        <form @submit.prevent="applyFilters" class="space-y-4 sm:space-y-5 lg:space-y-6">
                             <!-- Filtre Prix -->
                             <div>
-                                <label class="block text-sm font-semibold text-secondaire mb-3">
+                                <label class="block text-xs sm:text-sm font-semibold text-secondaire mb-2 sm:mb-3">
                                     <i class="fas fa-money-bill-wave mr-2 text-principal"></i>
                                     Prix (FCFA)
                                 </label>
-                                <div class="grid grid-cols-2 gap-3">
+                                <div class="grid grid-cols-2 gap-2 sm:gap-3">
                                     <div>
                                         <input 
                                             type="number" 
                                             v-model.number="filters.min_price"
                                             :placeholder="formatNumber(priceRange?.min_price || 0)"
-                                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-principal focus:border-transparent"
+                                            class="w-full px-2 sm:px-3 lg:px-4 py-1.5 sm:py-2 border border-gray-300 rounded-lg text-xs sm:text-sm focus:ring-2 focus:ring-principal focus:border-transparent"
                                             min="0">
                                         <span class="text-xs text-gray-500 mt-1 block">Min</span>
                                     </div>
@@ -62,7 +62,7 @@
                                             type="number" 
                                             v-model.number="filters.max_price"
                                             :placeholder="formatNumber(priceRange?.max_price || 0)"
-                                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-principal focus:border-transparent"
+                                            class="w-full px-2 sm:px-3 lg:px-4 py-1.5 sm:py-2 border border-gray-300 rounded-lg text-xs sm:text-sm focus:ring-2 focus:ring-principal focus:border-transparent"
                                             min="0">
                                         <span class="text-xs text-gray-500 mt-1 block">Max</span>
                                     </div>
@@ -105,7 +105,7 @@
                                 </label>
                                 <select 
                                     v-model="filters.npiece"
-                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-principal focus:border-transparent">
+                                    class="w-full px-2 sm:px-3 lg:px-4 py-1.5 sm:py-2 text-xs sm:text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-principal focus:border-transparent">
                                     <option value="">Tous</option>
                                     <option value="1">1 pièce</option>
                                     <option value="2">2 pièces</option>
@@ -166,9 +166,10 @@
                             <!-- Bouton Appliquer -->
                             <button 
                                 type="submit"
-                                class="w-full bg-principal hover:bg-principal/90 text-white py-3 px-4 rounded-lg font-semibold transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-principal focus:ring-offset-2 shadow-md hover:shadow-lg">
-                                <i class="fas fa-filter mr-2"></i>
-                                Appliquer les filtres
+                                class="w-full bg-principal hover:bg-principal/90 text-white py-2 sm:py-3 px-3 sm:px-4 text-sm sm:text-base rounded-lg font-semibold transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-principal focus:ring-offset-2 shadow-md hover:shadow-lg">
+                                <i class="fas fa-filter mr-1 sm:mr-2"></i>
+                                <span class="hidden sm:inline">Appliquer les filtres</span>
+                                <span class="sm:hidden">Filtrer</span>
                             </button>
                         </form>
                     </div>
@@ -238,25 +239,25 @@
                             </div>
                         </div>
 
-                        <div class="p-6 flex-grow flex flex-col">
+                        <div class="p-3 sm:p-4 lg:p-6 flex-grow flex flex-col">
                             <div class="flex-grow">
-                                <div class="text-lg font-semibold text-secondaire mb-3">
+                                <div class="text-sm sm:text-base lg:text-lg font-semibold text-secondaire mb-2 sm:mb-3">
                                     <span v-if="item.npiece">{{ item.npiece }} chambre{{ item.npiece > 1 ? 's' : '' }}</span>
                                     <span class="lowercase">{{ item.type || 'appartement' }}</span>
                                     <span v-if="item.surface"> de {{ item.surface }}m²</span>
                                 </div>
                                 
-                                <div class="text-base text-gray-600 mb-4 line-clamp-1">
+                                <div class="text-xs sm:text-sm lg:text-base text-gray-600 mb-2 sm:mb-4 line-clamp-1">
                                     {{ item.region || 'Sénégal' }}
                                 </div>
                             </div>
                             
-                            <div class="border-t-2 border-gray-200 pt-4 mt-auto flex items-center justify-between">
+                            <div class="border-t-2 border-gray-200 pt-2 sm:pt-4 mt-auto flex items-center justify-between">
                                 <div>
-                                    <span class="text-2xl font-bold text-principal">
+                                    <span class="text-lg sm:text-xl lg:text-2xl font-bold text-principal">
                                         {{ formatPrice(item.prix) }}
                                     </span>
-                                    <span class="text-base text-gray-500 ml-2">FCFA</span>
+                                    <span class="text-xs sm:text-sm lg:text-base text-gray-500 ml-1 sm:ml-2">FCFA</span>
                                 </div>
                                 <button 
                                     @click.stop="toggleFavorite(item.id)"
@@ -267,7 +268,7 @@
                                             : 'text-gray-400 hover:text-red-400'
                                     ]"
                                     :aria-label="isFavorite(item.id) ? 'Retirer des favoris' : 'Ajouter aux favoris'">
-                                    <i :class="isFavorite(item.id) ? 'fas fa-heart' : 'far fa-heart'" class="text-xl"></i>
+                                    <i :class="isFavorite(item.id) ? 'fas fa-heart' : 'far fa-heart'" class="text-base sm:text-lg lg:text-xl"></i>
                                 </button>
                             </div>
                                 </div>
@@ -287,13 +288,13 @@
 
             <!-- Section Toutes les annonces -->
             <div>
-                <h2 class="text-2xl font-bold text-secondaire mb-6 flex items-center">
-                    <span class="w-4 h-4 bg-secondaire rounded-full mr-2" aria-hidden="true"></span>
+                <h2 class="text-lg sm:text-2xl font-bold text-secondaire mb-3 sm:mb-6 flex items-center">
+                    <span class="w-3 h-3 sm:w-4 sm:h-4 bg-secondaire rounded-full mr-2" aria-hidden="true"></span>
                     <span v-if="isBoostedOnly">Annonces en vedette</span>
-                    <span v-else>Toutes les annonces {{ getCategoryName() }}</span>
+                    <span v-else>Toutes les annonces</span>
                 </h2>
 
-                <div v-if="(isBoostedOnly ? items?.data : items?.data)?.length > 0" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-8">
+                <div v-if="(isBoostedOnly ? items?.data : items?.data)?.length > 0" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-3 sm:gap-4 lg:gap-6 xl:gap-8">
                     <article 
                         v-for="item in items.data" 
                         :key="item.id"
@@ -304,9 +305,9 @@
                         role="article"
                         :aria-label="`${item.nom} - ${item.prix} FCFA`">
                         
-                        <div class="relative bg-gray-200 overflow-hidden h-80">
+                        <div class="relative bg-gray-200 overflow-hidden h-48 sm:h-64 lg:h-80">
                             <span v-if="isNew(item.created_at)" 
-                                class="absolute top-4 right-4 z-10 bg-principal text-white px-3 py-1.5 rounded-full text-sm font-bold">
+                                class="absolute top-2 sm:top-4 right-2 sm:right-4 z-10 bg-principal text-white px-2 sm:px-3 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-bold">
                                 Nouveau !
                             </span>
                             
@@ -333,25 +334,25 @@
                             </div>
                         </div>
 
-                        <div class="p-6 flex-grow flex flex-col">
+                        <div class="p-3 sm:p-4 lg:p-6 flex-grow flex flex-col">
                             <div class="flex-grow">
-                                <div class="text-lg font-semibold text-secondaire mb-3">
+                                <div class="text-sm sm:text-base lg:text-lg font-semibold text-secondaire mb-2 sm:mb-3">
                                     <span v-if="item.npiece">{{ item.npiece }} chambre{{ item.npiece > 1 ? 's' : '' }}</span>
                                     <span class="lowercase">{{ item.type || 'appartement' }}</span>
                                     <span v-if="item.surface"> de {{ item.surface }}m²</span>
                                 </div>
                                 
-                                <div class="text-base text-gray-600 mb-4 line-clamp-1">
+                                <div class="text-xs sm:text-sm lg:text-base text-gray-600 mb-2 sm:mb-4 line-clamp-1">
                                     {{ item.region || 'Sénégal' }}
                                 </div>
                             </div>
                             
-                            <div class="border-t-2 border-gray-200 pt-4 mt-auto flex items-center justify-between">
+                            <div class="border-t-2 border-gray-200 pt-2 sm:pt-4 mt-auto flex items-center justify-between">
                                 <div>
-                                    <span class="text-2xl font-bold text-principal">
+                                    <span class="text-lg sm:text-xl lg:text-2xl font-bold text-principal">
                                         {{ formatPrice(item.prix) }}
                                     </span>
-                                    <span class="text-base text-gray-500 ml-2">FCFA</span>
+                                    <span class="text-xs sm:text-sm lg:text-base text-gray-500 ml-1 sm:ml-2">FCFA</span>
                                 </div>
                                 <button 
                                     @click.stop="toggleFavorite(item.id)"
@@ -362,7 +363,7 @@
                                             : 'text-gray-400 hover:text-red-400'
                                     ]"
                                     :aria-label="isFavorite(item.id) ? 'Retirer des favoris' : 'Ajouter aux favoris'">
-                                    <i :class="isFavorite(item.id) ? 'fas fa-heart' : 'far fa-heart'" class="text-xl"></i>
+                                    <i :class="isFavorite(item.id) ? 'fas fa-heart' : 'far fa-heart'" class="text-base sm:text-lg lg:text-xl"></i>
                                 </button>
                             </div>
                         </div>

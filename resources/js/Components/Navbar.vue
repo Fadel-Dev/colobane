@@ -119,30 +119,27 @@ onUnmounted(() => {
     <nav class="fixed top-0 left-0 w-full z-50 bg-white border-b border-gray-200" 
          role="navigation" 
          aria-label="Navigation principale">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center h-16 relative">
-                <!-- Logo (positionné à gauche) -->
-                <div class="absolute left-0 flex items-center">
-                    <a :href="route('home')" 
-                       class="flex items-center space-x-2 focus:outline-none focus:ring-2 focus:ring-principal focus:ring-offset-2 rounded"
-                       aria-label="Retour à l'accueil">
-                        <!-- Logo circulaire rouge avec maison -->
-                        <div class="w-10 h-10 bg-red-500 rounded-full flex items-center justify-center">
-                            <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
-                            </svg>
-                        </div>
-                        <!-- Texte du logo en teal foncé -->
-                        <span class="text-xl font-normal text-teal-800 lowercase">noflayhub</span>
-                    </a>
-                </div>
+        <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+            <!-- Mobile Layout -->
+            <div class="flex items-center h-14 sm:h-16 gap-2 sm:gap-4 relative md:hidden">
+                <!-- Logo Mobile -->
+                <a :href="route('home')" 
+                   class="flex items-center space-x-1 flex-shrink-0"
+                   aria-label="Retour à l'accueil">
+                    <div class="w-8 h-8 sm:w-10 sm:h-10 bg-red-500 rounded-full flex items-center justify-center flex-shrink-0">
+                        <svg class="w-5 h-5 sm:w-6 sm:h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
+                        </svg>
+                    </div>
+                    <span class="text-base sm:text-lg font-normal text-teal-800 lowercase hidden sm:inline">noflayhub</span>
+                </a>
 
-                <!-- Barre de recherche (centrée absolument) -->
-                <div class="absolute left-1/2 transform -translate-x-1/2 w-full max-w-2xl px-4 relative">
-                    <form @submit.prevent="handleSearch" class="relative">
+                <!-- Barre de recherche mobile - Full width -->
+                <div class="flex-1 relative">
+                    <form @submit.prevent="handleSearch" class="w-full relative">
                         <div class="relative">
                             <!-- Icône de recherche -->
-                            <svg class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" 
+                            <svg class="absolute left-2.5 sm:left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-gray-400 flex-shrink-0" 
                                  fill="none" 
                                  stroke="currentColor" 
                                  viewBox="0 0 24 24">
@@ -162,8 +159,8 @@ onUnmounted(() => {
                                 @keydown.arrow-down.prevent="navigateSuggestions('down')"
                                 @keydown.arrow-up.prevent="navigateSuggestions('up')"
                                 @keydown.enter.prevent="selectedSuggestionIndex >= 0 ? selectSuggestion(selectedSuggestionIndex) : handleSearch()"
-                                placeholder="Rechercher une localisation, une ville..."
-                                class="w-full pl-10 pr-4 py-2.5 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent text-sm text-gray-700 placeholder-gray-400"
+                                placeholder="Rechercher..."
+                                class="w-full pl-8 sm:pl-10 pr-3 sm:pr-4 py-2 sm:py-2.5 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent text-xs sm:text-sm text-gray-700 placeholder-gray-400"
                                 aria-label="Rechercher une localisation"
                                 autocomplete="off"
                             />
@@ -200,36 +197,30 @@ onUnmounted(() => {
                     </form>
                 </div>
 
-                <!-- Actions à droite (positionnées à droite) -->
-                <div class="absolute right-0 flex items-center space-x-4">
-                    <!-- Lien "Nouvelle alerte de bien" -->
-                    <a href="#" 
-                       class="hidden md:block text-sm font-medium text-teal-800 hover:text-teal-900 transition-colors">
-                        Nouvelle alerte de bien
-                    </a>
-
+                <!-- Actions à droite mobile -->
+                <div class="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
                     <!-- Sélecteur de langue (Globe) -->
-                    <button class="text-teal-800 hover:text-teal-900 transition-colors focus:outline-none focus:ring-2 focus:ring-teal-500 rounded p-1">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <button class="text-teal-800 hover:text-teal-900 transition-colors focus:outline-none focus:ring-2 focus:ring-teal-500 rounded p-1.5 sm:p-2 hover:bg-gray-100">
+                        <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />
                         </svg>
                     </button>
 
-                    <!-- Menu utilisateur -->
+                    <!-- Menu utilisateur mobile -->
                     <div class="relative">
                         <button 
                             @click="showUserMenu = !showUserMenu"
-                            class="flex items-center space-x-2 px-3 py-2 rounded-full border-2 border-teal-800 hover:bg-teal-50 transition-colors focus:outline-none focus:ring-2 focus:ring-teal-500"
+                            class="flex items-center gap-1.5 px-2 sm:px-3 py-1.5 sm:py-2 rounded-full border-2 border-teal-800 hover:bg-teal-50 transition-colors focus:outline-none focus:ring-2 focus:ring-teal-500"
                             aria-label="Menu utilisateur"
                         >
                             <!-- Icône menu hamburger -->
-                            <svg class="w-5 h-5 text-teal-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5 text-teal-800 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                             </svg>
                             
                             <!-- Icône profil -->
-                            <div class="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center border-2 border-white">
-                                <svg class="w-5 h-5 text-gray-600" fill="currentColor" viewBox="0 0 20 20">
+                            <div class="w-6 h-6 sm:w-8 sm:h-8 bg-gray-300 rounded-full flex items-center justify-center border-2 border-white flex-shrink-0">
+                                <svg class="w-3.5 h-3.5 sm:w-5 sm:h-5 text-gray-600" fill="currentColor" viewBox="0 0 20 20">
                                     <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
                                 </svg>
                             </div>
@@ -238,24 +229,24 @@ onUnmounted(() => {
                         <!-- Menu déroulant utilisateur -->
                         <div 
                             v-if="showUserMenu"
-                            class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl border border-gray-200 py-1 z-50"
+                            class="absolute right-0 mt-1.5 w-40 sm:w-48 bg-white rounded-lg shadow-xl border border-gray-200 py-1 z-50"
                         >
                             <template v-if="$page.props.auth?.user">
                                 <a href="/dashboard" 
-                                   class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                    Dashboard
+                                   class="block px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm text-gray-700 hover:bg-gray-100">
+                                    Tableau de bord
                                 </a>
                                 <a href="/favoris" 
-                                   class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                    Mes favoris
-                                    <span v-if="$page.props.favoritesCount > 0" class="ml-2 text-xs bg-red-500 text-white rounded-full px-2 py-0.5">
+                                   class="block px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm text-gray-700 hover:bg-gray-100 flex items-center justify-between">
+                                    <span>Favoris</span>
+                                    <span v-if="$page.props.favoritesCount > 0" class="ml-2 text-xs bg-red-500 text-white rounded-full px-1.5 py-0.5">
                                         {{ $page.props.favoritesCount }}
                                     </span>
                                 </a>
                                 <a href="/notifications" 
-                                   class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                    Notifications
-                                    <span v-if="$page.props.unreadNotificationsCount > 0" class="ml-2 text-xs bg-red-500 text-white rounded-full px-2 py-0.5">
+                                   class="block px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm text-gray-700 hover:bg-gray-100 flex items-center justify-between">
+                                    <span>Notif.</span>
+                                    <span v-if="$page.props.unreadNotificationsCount > 0" class="ml-2 text-xs bg-red-500 text-white rounded-full px-1.5 py-0.5">
                                         {{ $page.props.unreadNotificationsCount }}
                                     </span>
                                 </a>
@@ -263,19 +254,19 @@ onUnmounted(() => {
                                 <form method="POST" action="/logout">
                                     <input type="hidden" name="_token" :value="$page.props.csrf_token">
                                     <button type="submit" 
-                                            class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                        Se déconnecter
+                                            class="block w-full text-left px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm text-gray-700 hover:bg-gray-100">
+                                        Déconnecter
                                     </button>
                                 </form>
                             </template>
                             <template v-else>
                                 <a href="/login" 
-                                   class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                    Se connecter
+                                   class="block px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm text-gray-700 hover:bg-gray-100">
+                                    Connexion
                                 </a>
                                 <a href="/register" 
-                                   class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                    S'inscrire
+                                   class="block px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm text-gray-700 hover:bg-gray-100">
+                                    Inscription
                                 </a>
                             </template>
                         </div>
