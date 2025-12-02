@@ -109,7 +109,7 @@ const images = [
     { id: 4, src: "/storage/slide/chambre.png", alt: "Image 4", titre: "Chambre", icon: "bi-door-open" },
     { id: 5, src: "/storage/slide/immeuble.png", alt: "Image 5", titre: "Immeuble", icon: "bi-buildings" },
     { id: 6, src: "/storage/slide/verger.png", alt: "Image 6", titre: "Verger", icon: "bi-tree" },
-    { id: 7, src: "/storage/slide/ferme.png", alt: "Image 7", titre: "Ferme", icon: "bi-barn" }
+    { id: 7, src: "/storage/slide/ferme.png", alt: "Image 7", titre: "Ferme", icon: "bi-houses" }
 ];
 
 const isStepOneValid = computed(() => {
