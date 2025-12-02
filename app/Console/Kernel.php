@@ -18,6 +18,9 @@ class Kernel extends ConsoleKernel
         // Optionnel: Générer plus souvent si beaucoup de contenu
         // $schedule->command('sitemap:generate')->everyHour();
         
+        // Arrêter automatiquement les boosts expirés chaque minute
+        $schedule->command('boosts:expire')->everyMinute();
+        
         // $schedule->command('inspire')->hourly();
     }
 
