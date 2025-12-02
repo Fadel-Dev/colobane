@@ -88,6 +88,28 @@ const togglePasswordVisibility = () => {
 const togglePasswordConfirmationVisibility = () => {
     showPasswordConfirmation.value = !showPasswordConfirmation.value;
 };
+
+// Gestion du champ téléphone - Uniquement des chiffres
+const handlePhoneInput = (event) => {
+    // Supprimer tous les caractères non numériques
+    form.phone = form.phone.replace(/[^0-9]/g, '');
+};
+
+// Accepter uniquement les chiffres lors de la frappe
+const onlyNumbers = (event) => {
+    const char = String.fromCharCode(event.which);
+    if (!/[0-9]/.test(char)) {
+        event.preventDefault();
+    }
+};
+
+// Gérer le paste - ne coller que les chiffres
+const handlePhonePaste = (event) => {
+    event.preventDefault();
+    const pastedText = (event.clipboardData || window.clipboardData).getData('text');
+    const numbersOnly = pastedText.replace(/[^0-9]/g, '');
+    form.phone = numbersOnly.slice(0, 15); // Limiter à 15 caractères
+};
 </script>
 
 <template>
@@ -295,10 +317,15 @@ const togglePasswordConfirmationVisibility = () => {
                                         <input
                                             id="phone"
                                             v-model="form.phone"
-                                            type="tel"
+                                            type="text"
+                                            inputmode="numeric"
                                             required
                                             autocomplete="tel"
-                                            placeholder="+221 XX XXX XX XX"
+                                            placeholder="221777123456"
+                                            maxlength="15"
+                                            @input="handlePhoneInput"
+                                            @keypress="onlyNumbers"
+                                            @paste="handlePhonePaste"
                                             class="block w-full pl-12 pr-4 py-3.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-principal focus:border-principal transition-all duration-200 text-gray-900 placeholder-gray-400"
                                             :class="{ 'border-red-500 focus:ring-red-500 focus:border-red-500': form.errors.phone }"
                                         />

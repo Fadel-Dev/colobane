@@ -88,82 +88,130 @@ onMounted(() => {
             description="Gérez vos annonces immobilières, suivez vos statistiques et boostez vos publications sur NoflayHub."
         />
 
-        <div class="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-50">
-            <!-- Header Section Premium -->
-            <div class="relative bg-gradient-to-r from-principal via-principal/95 to-secondaire overflow-hidden">
-                <!-- Pattern décoratif -->
-                <div class="absolute inset-0 opacity-10">
-                    <div class="absolute top-0 right-0 w-96 h-96 bg-white rounded-full blur-3xl"></div>
-                    <div class="absolute bottom-0 left-0 w-96 h-96 bg-white rounded-full blur-3xl"></div>
-                </div>
+        <div class="min-h-screen bg-gray-50">
+            <!-- Header Section Ultra Premium -->
+            <div class="relative overflow-hidden">
+                <!-- Background gradient premium -->
+                <div class="absolute inset-0 bg-gradient-to-r from-principal via-principal/98 to-secondaire"></div>
                 
-                <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-                    <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+                <!-- Animated background pattern -->
+                <div class="absolute inset-0 opacity-20">
+                    <div class="absolute top-0 right-0 w-96 h-96 bg-white rounded-full blur-3xl animate-pulse"></div>
+                    <div class="absolute bottom-0 left-0 w-96 h-96 bg-white rounded-full blur-3xl animate-pulse" style="animation-delay: 1s;"></div>
+                </div>
+
+                <!-- Grid pattern -->
+                <div class="absolute inset-0 opacity-5">
+                    <svg class="w-full h-full" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+                                <path d="M 40 0 L 0 0 0 40" fill="none" stroke="white" stroke-width="1"/>
+                            </pattern>
+                        </defs>
+                        <rect width="100%" height="100%" fill="url(#grid)" />
+                    </svg>
+                </div>
+
+                <!-- Content -->
+                <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+                    <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
+                        <!-- Left side -->
                         <div class="flex-1">
-                            <div class="flex items-center space-x-3 mb-3">
-                                <div class="w-12 h-12 bg-white/20 backdrop-blur-md rounded-xl flex items-center justify-center">
-                                    <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                                    </svg>
+                            <div class="space-y-4">
+                                <div class="inline-flex items-center space-x-3 bg-white/10 backdrop-blur-md px-4 py-2 rounded-full border border-white/20">
+                                    <div class="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
+                                    <span class="text-white/90 text-sm font-medium">Status: Actif</span>
                                 </div>
-                                <div>
-                                    <h1 class="text-3xl md:text-4xl font-bold text-white mb-1">
-                                        Bonjour, {{ $page.props.auth.user.name }} 👋
-                                    </h1>
-                                    <p class="text-white/90 text-sm md:text-base">Bienvenue sur votre tableau de bord</p>
-                                </div>
+                                <h1 class="text-4xl sm:text-5xl font-bold text-white leading-tight">
+                                    Bienvenue, {{ $page.props.auth.user.name }}
+                                </h1>
+                                <p class="text-white/80 text-lg max-w-md">
+                                    Gérez vos annonces, suivez vos statistiques et boostez votre visibilité sur NoflayHub
+                                </p>
                             </div>
                         </div>
+
+                        <!-- Right side - Stats cards -->
+                        <div class="w-full lg:w-auto grid grid-cols-2 gap-3">
+                            <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-lg p-4 hover:bg-white/15 transition-all">
+                                <p class="text-white/70 text-xs font-medium mb-1">Annonces actives</p>
+                                <p class="text-2xl font-bold text-white">{{ totalImmobilier || 0 }}</p>
+                            </div>
+                            <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-lg p-4 hover:bg-white/15 transition-all">
+                                <p class="text-white/70 text-xs font-medium mb-1">Vendues</p>
+                                <p class="text-2xl font-bold text-white">{{ totalImmobilierVendu || 0 }}</p>
+                            </div>
+                            <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-lg p-4 hover:bg-white/15 transition-all">
+                                <p class="text-white/70 text-xs font-medium mb-1">Chiffre d'affaires</p>
+                                <p class="text-xl font-bold text-white">{{ formatPrice(totalVenduSomme || 0) }}</p>
+                            </div>
+                            <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-lg p-4 hover:bg-white/15 transition-all">
+                                <p class="text-white/70 text-xs font-medium mb-1">Taux de vente</p>
+                                <p class="text-2xl font-bold text-white">{{ venduPercentage }}%</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CTA Button -->
+                    <div class="mt-12">
                         <Link
                             href="/publier"
-                            class="group flex items-center space-x-3 bg-white text-principal px-6 py-3.5 rounded-xl font-semibold shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 transform"
+                            class="inline-flex items-center space-x-3 bg-white text-principal px-8 py-4 rounded-lg font-bold shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-105 transform group"
                         >
-                            <svg class="w-5 h-5 group-hover:rotate-90 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                            <div class="relative">
+                                <svg class="w-6 h-6 group-hover:rotate-90 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                                </svg>
+                            </div>
+                            <span class="text-lg">Créer une nouvelle annonce</span>
+                            <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
                             </svg>
-                            <span>Nouvelle annonce</span>
                         </Link>
                     </div>
                 </div>
             </div>
 
             <!-- Main Content -->
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
                 <!-- Tab Navigation Premium -->
-                <div class="mb-8">
-                    <div class="inline-flex bg-white p-1.5 rounded-2xl shadow-lg border border-gray-200">
+                <div class="mb-10">
+                    <div class="flex items-center space-x-4">
                         <button
                             @click="activeTab = 'dashboard'"
                             :class="[
-                                'px-6 py-3 rounded-xl font-semibold transition-all duration-300 flex items-center space-x-2',
+                                'relative px-6 py-3.5 font-bold transition-all duration-300 flex items-center space-x-2 group',
                                 activeTab === 'dashboard'
-                                    ? 'bg-gradient-to-r from-principal to-principal/90 text-white shadow-lg scale-105'
-                                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+                                    ? 'text-principal'
+                                    : 'text-gray-600 hover:text-gray-900'
                             ]"
                         >
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                             </svg>
                             <span>Tableau de bord</span>
+                            <div v-if="activeTab === 'dashboard'" class="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-principal to-secondaire rounded-full"></div>
                         </button>
                         <button
                             @click="activeTab = 'immobiliers'"
                             :class="[
-                                'px-6 py-3 rounded-xl font-semibold transition-all duration-300 flex items-center space-x-2',
+                                'relative px-6 py-3.5 font-bold transition-all duration-300 flex items-center space-x-2 group',
                                 activeTab === 'immobiliers'
-                                    ? 'bg-gradient-to-r from-principal to-principal/90 text-white shadow-lg scale-105'
-                                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+                                    ? 'text-principal'
+                                    : 'text-gray-600 hover:text-gray-900'
                             ]"
                         >
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
                             </svg>
                             <span>Mes annonces</span>
-                            <span class="ml-2 px-2 py-0.5 bg-principal/20 text-principal rounded-full text-xs font-bold">
+                            <span class="ml-2 px-3 py-1 bg-principal text-white rounded-full text-xs font-bold">
                                 {{ totalImmobilier || 0 }}
                             </span>
+                            <div v-if="activeTab === 'immobiliers'" class="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-principal to-secondaire rounded-full"></div>
                         </button>
                     </div>
+                    <div class="mt-4 h-px bg-gradient-to-r from-gray-200 via-gray-200 to-transparent"></div>
                 </div>
 
                 <!-- Dashboard Tab -->
@@ -175,23 +223,29 @@ onMounted(() => {
                     leave-from-class="opacity-100 translate-y-0"
                     leave-to-class="opacity-0 translate-y-4"
                 >
-                    <div v-show="activeTab === 'dashboard'" class="space-y-8">
+                    <div v-show="activeTab === 'dashboard'" class="space-y-8 animate-fadeIn">
                         <!-- Statistics Cards Premium -->
                         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                             <!-- Total Articles Card -->
-                            <div class="group relative bg-white rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100 overflow-hidden">
-                                <div class="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 rounded-full -mr-16 -mt-16 blur-2xl group-hover:bg-blue-500/20 transition-colors"></div>
-                                <div class="relative">
-                                    <div class="flex items-center justify-between mb-4">
+                            <div class="group relative bg-white rounded-2xl p-6 shadow-md hover:shadow-2xl transition-all duration-500 border border-gray-100 overflow-hidden cursor-pointer">
+                                <div class="absolute top-0 right-0 w-40 h-40 bg-blue-500/10 rounded-full -mr-20 -mt-20 blur-3xl group-hover:bg-blue-500/20 transition-colors duration-500"></div>
+                                <div class="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                                <div class="relative z-10">
+                                    <div class="flex items-start justify-between mb-6">
+                                        <div>
+                                            <p class="text-gray-600 text-sm font-medium mb-1">TOTAL</p>
+                                            <h3 class="text-4xl font-bold text-gray-900">{{ total || 0 }}</h3>
+                                        </div>
                                         <div class="w-14 h-14 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
                                             <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
                                             </svg>
                                         </div>
-                                        <span class="text-xs font-bold text-blue-600 bg-blue-50 px-3 py-1.5 rounded-full">Total</span>
                                     </div>
-                                    <h3 class="text-4xl font-bold text-gray-900 mb-1">{{ total || 0 }}</h3>
                                     <p class="text-sm text-gray-600 font-medium">Articles publiés</p>
+                                    <div class="mt-4 pt-4 border-t border-gray-100">
+                                        <p class="text-xs text-blue-600 font-semibold">Voir plus →</p>
+                                    </div>
                                 </div>
                             </div>
 

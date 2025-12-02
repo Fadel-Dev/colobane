@@ -29,10 +29,12 @@ class ValidationMessages
 
             // Téléphone
             'phone.required' => 'Le numéro de téléphone est requis.',
-            'phone.int' => 'Le numéro de téléphone doit être un nombre valide.',
-            'phone.numeric' => 'Le numéro de téléphone doit être un nombre valide.',
+            'phone.int' => 'Le numéro de téléphone doit contenir uniquement des chiffres.',
+            'phone.integer' => 'Le numéro de téléphone doit contenir uniquement des chiffres.',
+            'phone.numeric' => 'Le numéro de téléphone doit contenir uniquement des chiffres.',
             'phone.unique' => 'Ce numéro de téléphone est déjà utilisé. Veuillez utiliser un autre numéro.',
-            'phone.regex' => 'Le numéro de téléphone n\'est pas valide.',
+            'phone.regex' => 'Le numéro de téléphone doit contenir entre 9 et 15 chiffres (ex: 221XXXXXXXXX pour le Sénégal).',
+            'phone.digits' => 'Le numéro de téléphone doit contenir uniquement des chiffres.',
 
             // Mot de passe
             'password.required' => 'Le mot de passe est requis.',
