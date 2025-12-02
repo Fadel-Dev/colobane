@@ -592,12 +592,21 @@ public function storeEdit($id)
 
     public function StoreBoostImmo($id )
     {
-
+        // Récupérer la durée en minutes depuis le formulaire
+        $durationMinutes = Request::input('duration');
+        
+        // Convertir les minutes en jours
+        // 120 minutes = 0.083 jours ≈ 1 jour minimum
+        // 2880 minutes = 2 jours
+        // 4320 minutes = 3 jours
+        // 10080 minutes = 7 jours
+        $durationDays = ceil($durationMinutes / 1440); // 1440 minutes = 1 jour
 
         auth()->user()->Immobiliers()->where('id', $id)->update([
             // 'type' => Request::input('type'),
             'booster' => Request::input('boost'),
-            'duration' => Request::input('duration'),
+            'duration' => $durationMinutes,  // Garder la durée originale en minutes
+            'boost_duration' => $durationDays,  // Stocker la durée en jours
             'status' => 'pending',
 
 

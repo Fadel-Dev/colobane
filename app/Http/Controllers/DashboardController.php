@@ -32,69 +32,65 @@ class DashboardController extends Controller
     public function Dash()
     {
         // Vérifier le rôle administrateur
-     if (auth()->user()->role == 'admin') {
-            // Récupérer les immobiliers avec les utilisateurs associés
-            $immobiliers = Immobiliers::where('booster', 1)
-                ->where('status', 'pending')
-                ->with('user:id,name,phone,email,id') // Charger la relation user avec seulement l'id et le nom
-                ->get();
-
-                //recuperer les deja booster et terminer hiatorque
-
-                $immobilliersBoosted = Immobiliers::
-                where('status', 'null')
-                ->where('onceBooster', true)
-                ->with('user:id,name,phone,email,id') // Charger la relation user avec seulement l'id et le nom
-                ->get();
-
-                //recuperer les en cours de  boost
-
-                $immobilliersBoosting = Immobiliers::where('booster', 1)
-                ->where('status', 'accepter')
-                ->with('user:id,name,phone,email,id') // Charger la relation user avec seulement l'id et le nom
-                ->get();
-
-
-            // Tableau pour stocker les informations
-            $articles = [];
-            $userIds = []; // Tableau pour stocker les user_id
-
-            // Parcourir les immobiliers et stocker les informations
-            foreach ($immobiliers as $immobilier) {
-                $articles[] = [
-                    'type' => 'immobilier',
-                    'article_id' => $immobilier->id,
-                    'user_id' => $immobilier->user->id,
-                    'user_name' => $immobilier->user->name,
-                    'user_phone' => $immobilier->user->phone,
-                    'user_email' => $immobilier->user->email,
-                ];
-
-                // Stocker le user_id dans un tableau
-                $userIds[] = $immobilier->user->id;
-            }
-
-
-            // Supprimer les doublons de userIds
-            $userIds = array_unique($userIds);
-
-            // Récupérer les utilisateurs
-            $users = User::whereIn('id', $userIds)->get(['id', 'name']);
-
-            return Inertia::render('DashboardAdmin', [
-                'immobiliers' => $immobiliers,
-                'users' => $users, // Passer les utilisateurs récupérés
-                'immobilliersBoosted'=> $immobilliersBoosted,
-                'immobilliersBoosting'=> $immobilliersBoosting
-            ]);
+        if (auth()->user()->role == 'admin') {
+            return Inertia::render('DashboardAdmin', $this->getAdminData());
         }
 
-        // Autre logique pour les utilisateurs non-admin...
+        // Dashboard pour utilisateurs simples
+        return $this->getUserDashboard();
+    }
 
+    /**
+     * Récupérer les données pour le dashboard admin
+     */
+    private function getAdminData()
+    {
+        // Récupérer les demandes de boost en attente
+        $immobiliers = Immobiliers::where('booster', 1)
+            ->where('status', 'pending')
+            ->with('user:id,name,phone,email')
+            ->get();
+
+        // Récupérer les boosts actuellement en cours
+        $immobilliersBoosting = Immobiliers::where('booster', 1)
+            ->where('status', 'accepter')
+            ->with('user:id,name,phone,email')
+            ->get();
+
+        // Récupérer les boosts ARRÊTÉS (booster=0, status='null', onceBooster=1, date_fin_booster NOT NULL)
+        // Ces boosts ont une date_fin_booster dans le passé (arrêtés manuellement)
+        $immobiliersArretes = Immobiliers::where('booster', 0)
+            ->where('status', 'null')
+            ->where('onceBooster', 1)
+            ->whereNotNull('date_fin_booster')
+            ->with('user:id,name,phone,email')
+            ->get();
+
+        // Récupérer les boosts complétés naturellement (après 30 jours)
+        // Pour les distinguer des arrêtés, on peut utiliser une date_fin_booster dans le passé
+        // ou on les récupère différemment selon la logique business
+        $immobilliersBoosted = Immobiliers::where('booster', 0)
+            ->where('status', 'completed')
+            ->with('user:id,name,phone,email')
+            ->get();
+
+        return [
+            'immobiliers' => $immobiliers,
+            'immobilliersBoosted' => $immobilliersBoosted,
+            'immobilliersBoosting' => $immobilliersBoosting,
+            'immobiliersArretes' => $immobiliersArretes,
+            'users' => User::all(['id', 'name']),
+        ];
+    }
+
+    /**
+     * Récupérer les données pour le dashboard utilisateur
+     */
+    private function getUserDashboard()
+    {
         $user_id = auth()->id();
         $immobiliers = Immobiliers::where('user_id', $user_id)->get()->toArray();
 
-        // Logique pour séparer les articles vendus et en cours de vente
         $immobiliersVendu = Immobiliers::where('user_id', $user_id)
             ->where('vendu', 1)
             ->get()
@@ -105,16 +101,12 @@ class DashboardController extends Controller
             ->get()
             ->toArray();
 
-        // Calculer le total vendu somme (seulement immobiliers)
-        $immobiliersVenduForSum = Immobiliers::where('user_id', $user_id)
+        $totalVenduSomme = Immobiliers::where('user_id', $user_id)
             ->where('vendu', 1)
-            ->get();
-        
-        $totalVenduSomme = $immobiliersVenduForSum->sum(function($item) {
-            return (float) $item->prix;
-        });
-        
-        $sommeHabitatVendu = $totalVenduSomme;
+            ->get()
+            ->sum(function($item) {
+                return (float) $item->prix;
+            });
 
         return Inertia::render('Dashboard', [
             'habitats' => $immobiliers,
@@ -129,7 +121,7 @@ class DashboardController extends Controller
             'restantImmobilier' => count($immobiliers) - count($immobiliersVendu),
             'totalRestant' => count($immobiliers) - count($immobiliersVendu),
             'totalVenduSomme' => $totalVenduSomme,
-            'sommeHabitatVendu' => $sommeHabitatVendu,
+            'sommeHabitatVendu' => $totalVenduSomme,
             'totalArticles' => count($immobiliers),
         ]);
     }
