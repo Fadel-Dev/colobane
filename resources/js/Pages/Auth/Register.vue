@@ -1,6 +1,6 @@
 <script setup>
 import { Head, Link, useForm } from '@inertiajs/vue3';
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import Navbar from '@/Components/Navbar.vue';
 import SeoHead from '@/Components/SeoHead.vue';
 
@@ -21,6 +21,44 @@ const form = useForm({
 const showPassword = ref(false);
 const showPasswordConfirmation = ref(false);
 const isLoading = ref(false);
+
+// Validation du mot de passe
+const passwordStrength = computed(() => {
+    const pwd = form.password;
+    if (!pwd) return { score: 0, label: '', color: 'gray', checks: {} };
+    
+    let score = 0;
+    const checks = {
+        length: pwd.length >= 8,
+        uppercase: /[A-Z]/.test(pwd),
+        lowercase: /[a-z]/.test(pwd),
+        numbers: /\d/.test(pwd),
+        special: /[!@#$%^&*]/.test(pwd),
+    };
+    
+    Object.values(checks).forEach(check => {
+        if (check) score++;
+    });
+    
+    const labels = ['Très faible', 'Faible', 'Moyen', 'Bon', 'Très bon'];
+    const colors = ['red', 'orange', 'yellow', 'blue', 'green'];
+    
+    return {
+        score,
+        label: labels[score - 1] || '',
+        color: colors[score - 1] || 'gray',
+        checks
+    };
+});
+
+const passwordsMatch = computed(() => {
+    return form.password === form.password_confirmation || !form.password_confirmation;
+});
+
+// Vérifier si le mot de passe est "très bon"
+const isPasswordStrong = computed(() => {
+    return passwordStrength.value.score === 5;
+});
 
 const submit = () => {
     isLoading.value = true;
@@ -276,7 +314,7 @@ const togglePasswordConfirmationVisibility = () => {
                                 <!-- Mot de passe -->
                                 <div>
                                     <label for="password" class="block text-sm font-semibold text-gray-700 mb-2">
-                                        Mot de passe
+                                        Mot de passe (très bon requis)
                                     </label>
                                     <div class="relative">
                                         <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
@@ -292,7 +330,7 @@ const togglePasswordConfirmationVisibility = () => {
                                             autocomplete="new-password"
                                             placeholder="••••••••"
                                             class="block w-full pl-12 pr-12 py-3.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-principal focus:border-principal transition-all duration-200 text-gray-900 placeholder-gray-400"
-                                            :class="{ 'border-red-500 focus:ring-red-500 focus:border-red-500': form.errors.password }"
+                                            :class="{ 'border-red-500 focus:ring-red-500 focus:border-red-500': form.errors.password || (form.password && !isPasswordStrong) }"
                                         />
                                         <button
                                             type="button"
@@ -308,11 +346,77 @@ const togglePasswordConfirmationVisibility = () => {
                                             </svg>
                                         </button>
                                     </div>
+                                    
+                                    <!-- Exigences du mot de passe - Affichage en temps réel -->
+                                    <div v-if="form.password" class="mt-3 p-4 bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-200 rounded-lg transition-all duration-300">
+                                        <!-- En-tête avec force -->
+                                        <div class="flex items-center justify-between mb-3">
+                                            <span class="text-blue-900 text-xs font-bold uppercase tracking-wide">📋 Exigences du mot de passe</span>
+                                            <span :class="`font-bold text-xs px-2.5 py-1 rounded-full ${{ 
+                                                'bg-red-100 text-red-700': passwordStrength.score === 1,
+                                                'bg-orange-100 text-orange-700': passwordStrength.score === 2,
+                                                'bg-yellow-100 text-yellow-700': passwordStrength.score === 3,
+                                                'bg-blue-100 text-blue-700': passwordStrength.score === 4,
+                                                'bg-green-100 text-green-700': passwordStrength.score === 5,
+                                            }}`">
+                                                {{ passwordStrength.label }}
+                                            </span>
+                                        </div>
+                                        
+                                        <!-- Barre de progression animée -->
+                                        <div class="mb-3">
+                                            <div class="w-full bg-gray-300 rounded-full h-2.5 overflow-hidden shadow-sm">
+                                                <div 
+                                                    :class="[
+                                                        'h-2.5 rounded-full transition-all duration-300 ease-out shadow-md',
+                                                        {
+                                                            'w-1/5 bg-red-500': passwordStrength.score === 1,
+                                                            'w-2/5 bg-orange-500': passwordStrength.score === 2,
+                                                            'w-3/5 bg-yellow-500': passwordStrength.score === 3,
+                                                            'w-4/5 bg-blue-500': passwordStrength.score === 4,
+                                                            'w-full bg-green-500': passwordStrength.score === 5,
+                                                        }
+                                                    ]"
+                                                ></div>
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- Checklist interactive des critères -->
+                                        <div class="space-y-2">
+                                            <div class="flex items-center transition-colors duration-200" :class="passwordStrength.checks.length ? 'text-green-700' : 'text-gray-500'">
+                                                <span class="mr-2 font-bold" :class="passwordStrength.checks.length ? 'text-green-600' : 'text-gray-400'">{{ passwordStrength.checks.length ? '✓' : '◯' }}</span>
+                                                <span class="text-sm font-medium">Au moins 8 caractères</span>
+                                            </div>
+                                            <div class="flex items-center transition-colors duration-200" :class="passwordStrength.checks.uppercase ? 'text-green-700' : 'text-gray-500'">
+                                                <span class="mr-2 font-bold" :class="passwordStrength.checks.uppercase ? 'text-green-600' : 'text-gray-400'">{{ passwordStrength.checks.uppercase ? '✓' : '◯' }}</span>
+                                                <span class="text-sm font-medium">Une lettre majuscule (A-Z)</span>
+                                            </div>
+                                            <div class="flex items-center transition-colors duration-200" :class="passwordStrength.checks.lowercase ? 'text-green-700' : 'text-gray-500'">
+                                                <span class="mr-2 font-bold" :class="passwordStrength.checks.lowercase ? 'text-green-600' : 'text-gray-400'">{{ passwordStrength.checks.lowercase ? '✓' : '◯' }}</span>
+                                                <span class="text-sm font-medium">Une lettre minuscule (a-z)</span>
+                                            </div>
+                                            <div class="flex items-center transition-colors duration-200" :class="passwordStrength.checks.numbers ? 'text-green-700' : 'text-gray-500'">
+                                                <span class="mr-2 font-bold" :class="passwordStrength.checks.numbers ? 'text-green-600' : 'text-gray-400'">{{ passwordStrength.checks.numbers ? '✓' : '◯' }}</span>
+                                                <span class="text-sm font-medium">Un chiffre (0-9)</span>
+                                            </div>
+                                            <div class="flex items-center transition-colors duration-200" :class="passwordStrength.checks.special ? 'text-green-700' : 'text-gray-500'">
+                                                <span class="mr-2 font-bold" :class="passwordStrength.checks.special ? 'text-green-600' : 'text-gray-400'">{{ passwordStrength.checks.special ? '✓' : '◯' }}</span>
+                                                <span class="text-sm font-medium">Un caractère spécial (!@#$%^&*)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
                                     <p v-if="form.errors.password" class="mt-2 text-sm text-red-600 flex items-center">
                                         <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
                                             <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
                                         </svg>
                                         {{ form.errors.password }}
+                                    </p>
+                                    <p v-else-if="form.password && !isPasswordStrong" class="mt-2 text-sm text-orange-600 flex items-center">
+                                        <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                                        </svg>
+                                        Le mot de passe doit être "Très bon" - tous les critères doivent être satisfaits
                                     </p>
                                 </div>
 
@@ -391,7 +495,7 @@ const togglePasswordConfirmationVisibility = () => {
                                 <!-- Bouton de soumission -->
                                 <button
                                     type="submit"
-                                    :disabled="form.processing || isLoading || !form.terms"
+                                    :disabled="form.processing || isLoading || !form.terms || !isPasswordStrong || !passwordsMatch"
                                     class="w-full flex items-center justify-center px-6 py-3.5 bg-gradient-to-r from-principal to-principal/90 hover:from-principal/90 hover:to-principal text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
                                 >
                                     <svg v-if="form.processing || isLoading" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" fill="none" viewBox="0 0 24 24">
@@ -447,7 +551,30 @@ const togglePasswordConfirmationVisibility = () => {
     }
 }
 
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+        max-height: 0;
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+        max-height: 500px;
+    }
+}
+
+/* Animation pour l'affichage des exigences */
+.password-requirements {
+    animation: slideDown 0.4s ease-out;
+}
+
 main {
     animation: fadeIn 0.5s ease-out;
+}
+
+/* Transitions fluides pour les changements de couleur */
+.transition-colors {
+    transition: color 0.2s ease;
 }
 </style>
