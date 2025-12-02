@@ -6,19 +6,54 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
+    {{-- SEO Meta Tags --}}
     <title inertia>{{ config('app.name', 'NoflayHub') }}</title>
-    <meta name="description" content="NoflayHub - Plateforme de location immobilière au Sénégal. Trouvez votre logement idéal : villas, appartements, chambres, studios et terrains à louer.">
-    <meta name="keywords" content="location Sénégal, immobilier Sénégal, villa à louer, appartement à louer, chambre à louer, studio à louer, terrain à louer, location Dakar, location Thiès, location Saint-Louis, NoflayHub">
+    <meta name="description" content="Découvrez NoflayHub, la plateforme N°1 de location et vente immobilière au Sénégal. Trouvez villas, appartements, terrains et véhicules. Affaires rapides et sécurisées.">
+    <meta name="keywords" content="immobilier Sénégal, location villa, appartement Dakar, terrain Sénégal, voiture occasion, covoiturage, services Sénégal, NoflayHub">
     <meta name="author" content="NoflayHub">
-    <meta name="robots" content="index, follow">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
     <meta name="language" content="French">
-    <meta name="revisit-after" content="7 days">
+    <meta name="revisit-after" content="3 days">
     <meta name="theme-color" content="#eb2d53">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     
-    <link rel="icon" type="image/png" href="{{ asset('storage/n.png') }}">
+    {{-- Open Graph / Facebook --}}
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:title" content="NoflayHub - Marketplace Immobilier & Automobile">
+    <meta property="og:description" content="Découvrez NoflayHub, la plateforme N°1 de location et vente immobilière au Sénégal. Trouvez villas, appartements, terrains et véhicules.">
+    <meta property="og:image" content="{{ asset('logo.png') }}">
+    <meta property="og:site_name" content="NoflayHub">
+    <meta property="og:locale" content="fr_SN">
+    
+    {{-- Twitter --}}
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="{{ url()->current() }}">
+    <meta property="twitter:title" content="NoflayHub - Marketplace Immobilier & Automobile">
+    <meta property="twitter:description" content="Découvrez NoflayHub, la plateforme N°1 de location et vente immobilière au Sénégal.">
+    <meta property="twitter:image" content="{{ asset('logo.png') }}">
+    
+    {{-- Google & Verification --}}
+    @if(config('seo.google.site_verification'))
+    <meta name="google-site-verification" content="{{ config('seo.google.site_verification') }}">
+    @endif
+    
+    @if(config('seo.bing.site_verification'))
+    <meta name="msvalidate.01" content="{{ config('seo.bing.site_verification') }}">
+    @endif
+    
+    {{-- Favicon --}}
+    <link rel="icon" type="image/png" href="{{ asset('logo.png') }}">
+    <link rel="apple-touch-icon" href="{{ asset('logo.png') }}">
     <link rel="canonical" href="{{ url()->current() }}">
+    
+    {{-- Alternate Links pour Multilangues (à ajouter si multilingue) --}}
+    <link rel="alternate" hreflang="fr" href="{{ url()->current() }}" />
     {{-- pwa --}}
     @PwaHead
+
+    {{-- SEO Scripts (Analytics, Google Tag Manager, etc.) --}}
+    @include('components.seo-scripts')
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">

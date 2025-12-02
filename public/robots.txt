@@ -1,19 +1,53 @@
+# NoflayHub - Robots.txt pour SEO
+
+# Pour tous les robots
 User-agent: *
 Allow: /
+Allow: /p/
+Allow: /categorie/
+Allow: /publication/
+Allow: /detail/
+Allow: /detailVehi/
+Allow: /about
+Allow: /contact
+Allow: /aide
+Allow: /faq
+Allow: /comment-ca-marche
+Allow: /terms
+Allow: /privacy
+Allow: /cookies
+
+# Désactiver l'accès à certaines zones
+Disallow: /admin
+Disallow: /dashboard
+Disallow: /publier
+Disallow: /update/
+Disallow: /boost/
+Disallow: /favoris
+Disallow: /notifications
+Disallow: /storage/
+
+# Règles spécifiques pour Google
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0
+
+# Règles spécifiques pour Bing
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+# Disallow all other bots during high traffic
+User-agent: *
+Allow: /
+Crawl-delay: 2
+Request-rate: 30/60
 
 # Sitemap
 Sitemap: https://noflayhub.com/sitemap.xml
+Sitemap: https://noflayhub.com/sitemap-pages.xml
+Sitemap: https://noflayhub.com/sitemap-immobilier.xml
 
-# Disallow admin and private areas
-Disallow: /dashboard
-Disallow: /admin
-Disallow: /api
-Disallow: /telescope
-
-# Allow important pages
-Allow: /
-Allow: /categorie/
-Allow: /detail/
-
-# Crawl-delay for respectful crawling
-Crawl-delay: 1
+# Commentaire final
+# Fichier généré pour optimisation SEO NoflayHub
+# Dernière mise à jour: 2025-12-02

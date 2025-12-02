@@ -75,10 +75,12 @@ Route::get('/cookies', function () {
     return Inertia::render('Cookies');
 })->name('cookies');
 
-// Sitemap routes
+// Sitemap routes pour SEO
 Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap.index');
 Route::get('/sitemap-pages.xml', [SitemapController::class, 'pages'])->name('sitemap.pages');
 Route::get('/sitemap-immobilier.xml', [SitemapController::class, 'immobilier'])->name('sitemap.immobilier');
+Route::get('/sitemap-vehicules.xml', [SitemapController::class, 'vehicules'])->name('sitemap.vehicules');
+Route::get('/sitemap-services.xml', [SitemapController::class, 'services'])->name('sitemap.services');
 
 Route::middleware([
     'auth:sanctum',

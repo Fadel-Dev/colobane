@@ -1,31 +1,58 @@
 <IfModule mod_rewrite.c>
     <IfModule mod_negotiation.c>
-        Options -MultiViews -Indexes
+        Options -MultiViews
     </IfModule>
 
     RewriteEngine On
 
-    # Handle Authorization Header
-    RewriteCond %{HTTP:Authorization} .
-    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+    # Rediriger les requêtes HTTPS
+    RewriteCond %{HTTPS} off
+    RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
-    # Redirect Trailing Slashes If Not A Folder...
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteCond %{REQUEST_URI} (.+)/$
-    RewriteRule ^ %1 [L,R=301]
-
-    # Send Requests To Front Controller...
+    # Rediriger les requêtes vers index.php
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteRule ^ index.php [L]
+    RewriteRule ^ index.php [QSA,L]
 </IfModule>
 
-# Augmenter les limites d'upload pour permettre plusieurs images
-<IfModule mod_php.c>
-    php_value upload_max_filesize 50M
-    php_value post_max_size 50M
-    php_value max_file_uploads 20
-    php_value max_execution_time 300
-    php_value max_input_time 300
-    php_value memory_limit 256M
+# Cache-Control headers
+<IfModule mod_expires.c>
+    ExpiresActive On
+
+    # Images
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/gif "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/webp "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 year"
+
+    # CSS et JS
+    ExpiresByType text/css "access plus 1 month"
+    ExpiresByType application/javascript "access plus 1 month"
+    ExpiresByType text/javascript "access plus 1 month"
+    ExpiresByType application/x-javascript "access plus 1 month"
+
+    # Fonts
+    ExpiresByType font/ttf "access plus 1 year"
+    ExpiresByType font/otf "access plus 1 year"
+    ExpiresByType font/woff "access plus 1 year"
+    ExpiresByType font/woff2 "access plus 1 year"
+
+    # Default
+    ExpiresDefault "access plus 2 days"
 </IfModule>
+
+# Gzip Compression
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/x-javascript application/json
+    AddOutputFilterByType DEFLATE application/xhtml+xml application/rss+xml application/atom+xml image/svg+xml
+</IfModule>
+
+# Sécurité - Désactiver la liste des répertoires
+Options -Indexes
+
+# Empêcher l'accès aux fichiers sensibles
+<FilesMatch "^\.env|^\.git|composer\.(json|lock)|package\.(json|lock)">
+    Order Deny,Allow
+    Deny from all
+</FilesMatch>
