@@ -15,37 +15,80 @@
     RewriteRule ^ index.php [QSA,L]
 </IfModule>
 
-# Cache-Control headers
+# Cache-Control headers - Optimized
 <IfModule mod_expires.c>
     ExpiresActive On
 
-    # Images
+    # Images - Cache for 1 year (content hash in filename for busting)
     ExpiresByType image/jpeg "access plus 1 year"
     ExpiresByType image/gif "access plus 1 year"
     ExpiresByType image/png "access plus 1 year"
     ExpiresByType image/webp "access plus 1 year"
     ExpiresByType image/svg+xml "access plus 1 year"
+    ExpiresByType image/x-icon "access plus 1 year"
 
-    # CSS et JS
+    # CSS et JS - Cache for 1 month (Vite handles versioning)
     ExpiresByType text/css "access plus 1 month"
     ExpiresByType application/javascript "access plus 1 month"
     ExpiresByType text/javascript "access plus 1 month"
     ExpiresByType application/x-javascript "access plus 1 month"
 
-    # Fonts
+    # Fonts - Cache for 1 year
     ExpiresByType font/ttf "access plus 1 year"
     ExpiresByType font/otf "access plus 1 year"
     ExpiresByType font/woff "access plus 1 year"
     ExpiresByType font/woff2 "access plus 1 year"
+    ExpiresByType application/font-woff "access plus 1 year"
 
-    # Default
+    # Media files
+    ExpiresByType audio/mpeg "access plus 6 months"
+    ExpiresByType video/mp4 "access plus 6 months"
+
+    # Default for HTML (no cache)
     ExpiresDefault "access plus 2 days"
 </IfModule>
 
-# Gzip Compression
+# HTTP/2 Push headers
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set X-XSS-Protection "1; mode=block"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# Gzip Compression - Enhanced
 <IfModule mod_deflate.c>
-    AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/x-javascript application/json
-    AddOutputFilterByType DEFLATE application/xhtml+xml application/rss+xml application/atom+xml image/svg+xml
+    # Compress HTML, CSS, JavaScript, Text, XML and fonts
+    AddOutputFilterByType DEFLATE text/html
+    AddOutputFilterByType DEFLATE text/plain
+    AddOutputFilterByType DEFLATE text/xml
+    AddOutputFilterByType DEFLATE text/css
+    AddOutputFilterByType DEFLATE text/javascript
+    AddOutputFilterByType DEFLATE application/javascript
+    AddOutputFilterByType DEFLATE application/x-javascript
+    AddOutputFilterByType DEFLATE application/xml
+    AddOutputFilterByType DEFLATE application/json
+    AddOutputFilterByType DEFLATE application/xhtml+xml
+    AddOutputFilterByType DEFLATE application/rss+xml
+    AddOutputFilterByType DEFLATE application/atom+xml
+    AddOutputFilterByType DEFLATE image/svg+xml
+    AddOutputFilterByType DEFLATE font/ttf
+    AddOutputFilterByType DEFLATE font/otf
+    AddOutputFilterByType DEFLATE font/woff
+    AddOutputFilterByType DEFLATE font/woff2
+    
+    # Remove browser bugs (only needed for ancient browsers)
+    BrowserMatch ^Mozilla/4 ^gzip-only-text/html$
+    BrowserMatch ^Mozilla/4\.0[678] no-gzip
+    BrowserMatch \bMSIE !no-gzip !gzip-only-text/html
+    Header append Vary User-Agent
+</IfModule>
+
+# Additional compression
+<IfModule mod_brotli.c>
+    AddOutputFilterByType BROTLI_FILTER text/html text/plain text/xml text/css
+    AddOutputFilterByType BROTLI_FILTER text/javascript application/javascript application/x-javascript
+    AddOutputFilterByType BROTLI_FILTER application/json image/svg+xml
 </IfModule>
 
 # Sécurité - Désactiver la liste des répertoires

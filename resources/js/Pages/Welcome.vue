@@ -8,10 +8,10 @@
         :structured-data="structuredData"
     />
 
-    <Navbar class="relative" />
+    <Navbar />
     
     <!-- Hero Section avec image de fond - OPTIMISÉ MOBILE -->
-    <section class="relative min-h-[50vh] sm:min-h-[60vh] lg:min-h-[70vh] flex items-center justify-center bg-gradient-to-br from-principal via-principal/90 to-secondaire overflow-hidden">
+    <section class="relative min-h-[50vh] sm:min-h-[60vh] lg:min-h-[70vh] flex items-center justify-center bg-gradient-to-br from-principal via-principal/90 to-secondaire overflow-hidden mt-14 sm:mt-16">
         <!-- Image de fond avec overlay -->
         <div class="absolute inset-0 bg-cover bg-center bg-no-repeat" 
              style="background-image: url('https://images.unsplash.com/photo-1513694203232-719a280e022f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80');">

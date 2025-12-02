@@ -8,9 +8,9 @@
         :structured-data="structuredData"
     />
 
-    <Navbar class="relative" />
+    <Navbar />
     
-    <div class="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100">
+    <div class="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 pt-14 sm:pt-16">
         <!-- Hero Section de la catégorie -->
         <section class="bg-gradient-to-br from-principal via-principal/90 to-secondaire text-white py-12 sm:py-16">
             <div class="max-w-[95rem] mx-auto px-3 sm:px-6 lg:px-12">
@@ -25,12 +25,85 @@
             </div>
         </section>
 
+        <!-- Menu de Navigation des Catégories -->
+        <nav class="bg-white border-b-4 border-gray-100 sticky top-16 sm:top-16 z-40 shadow-md">
+            <div class="overflow-x-auto scrollbar-smooth">
+                <div class="flex items-center px-2 sm:px-6 lg:px-12 py-0 min-w-max sm:min-w-0 sm:max-w-[95rem] sm:mx-auto">
+                    <!-- Villa -->
+                    <a 
+                        href="/categorie/villa"
+                        :class="['px-2 sm:px-4 py-3 sm:py-4 text-xs sm:text-sm font-semibold whitespace-nowrap transition-all duration-300 border-b-4 hover:text-principal flex items-center gap-1 sm:gap-1.5 flex-col sm:flex-row', 
+                                 currentCategory === 'villa' ? 'text-principal border-rose-500' : 'text-gray-600 border-transparent hover:border-gray-300']">
+                        <i class="fas fa-hotel text-sm sm:text-lg"></i>
+                        <span class="text-xs sm:text-sm">Villa</span>
+                    </a>
+
+                    <!-- Appartements -->
+                    <a 
+                        href="/categorie/appartements"
+                        :class="['px-2 sm:px-4 py-3 sm:py-4 text-xs sm:text-sm font-semibold whitespace-nowrap transition-all duration-300 border-b-4 hover:text-principal flex items-center gap-1 sm:gap-1.5 flex-col sm:flex-row', 
+                                 currentCategory === 'appartements' ? 'text-principal border-rose-500' : 'text-gray-600 border-transparent hover:border-gray-300']">
+                        <i class="fas fa-building text-sm sm:text-lg"></i>
+                        <span class="text-xs sm:text-sm">Appart.</span>
+                    </a>
+
+                    <!-- Chambre -->
+                    <a 
+                        href="/categorie/chambre"
+                        :class="['px-2 sm:px-4 py-3 sm:py-4 text-xs sm:text-sm font-semibold whitespace-nowrap transition-all duration-300 border-b-4 hover:text-principal flex items-center gap-1 sm:gap-1.5 flex-col sm:flex-row', 
+                                 currentCategory === 'chambre' || currentCategory === 'chambres' ? 'text-principal border-rose-500' : 'text-gray-600 border-transparent hover:border-gray-300']">
+                        <i class="fas fa-door-open text-sm sm:text-lg"></i>
+                        <span class="text-xs sm:text-sm">Chambre</span>
+                    </a>
+
+                    <!-- Studio -->
+                    <a 
+                        href="/categorie/studio"
+                        :class="['px-2 sm:px-4 py-3 sm:py-4 text-xs sm:text-sm font-semibold whitespace-nowrap transition-all duration-300 border-b-4 hover:text-principal flex items-center gap-1 sm:gap-1.5 flex-col sm:flex-row', 
+                                 currentCategory === 'studio' ? 'text-principal border-rose-500' : 'text-gray-600 border-transparent hover:border-gray-300']">
+                        <i class="fas fa-cube text-sm sm:text-lg"></i>
+                        <span class="text-xs sm:text-sm">Studio</span>
+                    </a>
+
+                    <!-- Immeuble -->
+                    <a 
+                        href="/categorie/immeuble"
+                        :class="['px-2 sm:px-4 py-3 sm:py-4 text-xs sm:text-sm font-semibold whitespace-nowrap transition-all duration-300 border-b-4 hover:text-principal flex items-center gap-1 sm:gap-1.5 flex-col sm:flex-row', 
+                                 currentCategory === 'immeuble' || currentCategory === 'immeubles' ? 'text-principal border-rose-500' : 'text-gray-600 border-transparent hover:border-gray-300']">
+                        <i class="fas fa-city text-sm sm:text-lg"></i>
+                        <span class="text-xs sm:text-sm">Immeuble</span>
+                    </a>
+
+                    <!-- Terrain -->
+                    <a 
+                        href="/categorie/terrain"
+                        :class="['px-2 sm:px-4 py-3 sm:py-4 text-xs sm:text-sm font-semibold whitespace-nowrap transition-all duration-300 border-b-4 hover:text-principal flex items-center gap-1 sm:gap-1.5 flex-col sm:flex-row', 
+                                 currentCategory === 'terrain' || currentCategory === 'terrains' ? 'text-principal border-rose-500' : 'text-gray-600 border-transparent hover:border-gray-300']">
+                        <i class="fas fa-map text-sm sm:text-lg"></i>
+                        <span class="text-xs sm:text-sm">Terrain</span>
+                    </a>
+
+                    <!-- Immobilier -->
+                    <a 
+                        href="/categorie/immobilier"
+                        :class="['px-2 sm:px-4 py-3 sm:py-4 text-xs sm:text-sm font-semibold whitespace-nowrap transition-all duration-300 border-b-4 hover:text-principal flex items-center gap-1 sm:gap-1.5 flex-col sm:flex-row', 
+                                 currentCategory === 'immobilier' ? 'text-rose-500 border-rose-500' : 'text-gray-600 border-transparent hover:border-gray-300']">
+                        <i class="fas fa-graduation-cap text-sm sm:text-lg" :style="{ color: currentCategory === 'immobilier' ? '#e11d48' : undefined }"></i>
+                        <span class="text-xs sm:text-sm">Immobilier</span>
+                    </a>
+                </div>
+            </div>
+        </nav>
+
         <!-- Contenu principal avec sidebar -->
-        <div class="max-w-[95rem] mx-auto px-3 sm:px-6 lg:px-12 py-6 sm:py-12">
+        <div class="max-w-[95rem] mx-auto px-3 sm:px-6 lg:px-12 py-6 sm:py-12 ">
             <div class="flex flex-col lg:flex-row gap-4 sm:gap-6 lg:gap-10">
                 <!-- Sidebar avec filtres -->
-                <aside class="lg:w-1/4 w-full">
+                <aside class="lg:w-1/3 w-full  border-r-8 border-gray-200">
                     <div class="bg-white rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6 lg:p-8 sticky top-16 sm:top-20 lg:top-24">
+                        <!-- Carte Sénégal -->
+                        <SenegalMap v-model="selectedRegion" />
+                        
                         <div class="flex items-center justify-between mb-4 sm:mb-6">
                             <h3 class="text-base sm:text-lg lg:text-xl font-bold text-secondaire">Filtres</h3>
                             <button 
@@ -176,7 +249,7 @@
                 </aside>
                 
                 <!-- Contenu principal -->
-                <div class="lg:w-3/4 w-full">
+                <div class="lg:w-2/3 w-full">
             <!-- Section Boostée (affichée uniquement si pas de filtre boosted) -->
             <div v-if="getBoostedItems()?.length > 0 && !isBoostedOnly" class="mb-12">
                 <div class="flex items-center justify-between mb-6">
@@ -305,7 +378,7 @@
                         role="article"
                         :aria-label="`${item.nom} - ${item.prix} FCFA`">
                         
-                        <div class="relative bg-gray-200 overflow-hidden h-48 sm:h-64 lg:h-80">
+                        <div class="relative bg-gray-200 overflow-hidden h-32 sm:h-40 lg:h-48">
                             <span v-if="isNew(item.created_at)" 
                                 class="absolute top-2 sm:top-4 right-2 sm:right-4 z-10 bg-principal text-white px-2 sm:px-3 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-bold">
                                 Nouveau !
@@ -334,37 +407,26 @@
                             </div>
                         </div>
 
-                        <div class="p-3 sm:p-4 lg:p-6 flex-grow flex flex-col">
+                        <div class="p-3 sm:p-3 lg:p-4 flex-grow flex flex-col">
                             <div class="flex-grow">
-                                <div class="text-sm sm:text-base lg:text-lg font-semibold text-secondaire mb-2 sm:mb-3">
+                                <div class="text-xs sm:text-sm lg:text-base font-semibold text-secondaire mb-1 sm:mb-1.5">
                                     <span v-if="item.npiece">{{ item.npiece }} chambre{{ item.npiece > 1 ? 's' : '' }}</span>
                                     <span class="lowercase">{{ item.type || 'appartement' }}</span>
                                     <span v-if="item.surface"> de {{ item.surface }}m²</span>
                                 </div>
                                 
-                                <div class="text-xs sm:text-sm lg:text-base text-gray-600 mb-2 sm:mb-4 line-clamp-1">
+                                <div class="text-xs text-gray-600 mb-2 line-clamp-1">
                                     {{ item.region || 'Sénégal' }}
                                 </div>
                             </div>
                             
-                            <div class="border-t-2 border-gray-200 pt-2 sm:pt-4 mt-auto flex items-center justify-between">
+                            <div class="border-t border-gray-200 pt-2 mt-auto">
                                 <div>
-                                    <span class="text-lg sm:text-xl lg:text-2xl font-bold text-principal">
+                                    <span class="text-base sm:text-lg lg:text-xl font-bold text-principal">
                                         {{ formatPrice(item.prix) }}
                                     </span>
-                                    <span class="text-xs sm:text-sm lg:text-base text-gray-500 ml-1 sm:ml-2">FCFA</span>
+                                    <span class="text-xs text-gray-500 ml-1">/ mois</span>
                                 </div>
-                                <button 
-                                    @click.stop="toggleFavorite(item.id)"
-                                    :class="[
-                                        'transition-colors duration-300',
-                                        isFavorite(item.id)
-                                            ? 'text-red-500'
-                                            : 'text-gray-400 hover:text-red-400'
-                                    ]"
-                                    :aria-label="isFavorite(item.id) ? 'Retirer des favoris' : 'Ajouter aux favoris'">
-                                    <i :class="isFavorite(item.id) ? 'fas fa-heart' : 'far fa-heart'" class="text-base sm:text-lg lg:text-xl"></i>
-                                </button>
                             </div>
                         </div>
                     </article>
@@ -420,9 +482,94 @@
                         ></Link>
                     </nav>
                 </div>
-            </div>
+                    <!-- Breadcrumb Navigation -->
+                    <nav class="mt-12 pt-8 border-t border-gray-200">
+                        <div class="flex items-center gap-2 text-sm text-gray-600 mb-6 overflow-x-auto pb-2">
+                            <a href="/" class="text-gray-600 hover:text-gray-900">NoflayHub</a>
+                            <span class="text-gray-400">/</span>
+                            <a href="/p/immobilier" class="text-gray-600 hover:text-gray-900">Toutes les locations</a>
+                            <span class="text-gray-400">/</span>
+                            <span class="text-gray-900 font-medium">{{ getCategoryName() }}</span>
+                        </div>
+                    </nav>
+
+                    <!-- Category Tabs (Maisons, Appartements, etc.) -->
+                    <div class="mt-8 mb-8">
+                        <div class="flex items-center gap-2 overflow-x-auto pb-4">
+                            <button 
+                                v-for="cat in categoryItems" 
+                                :key="cat.id"
+                                @click="navigateToCategory(cat.slug)"
+                                :class="[
+                                    'px-4 py-2 rounded-lg whitespace-nowrap font-medium transition-all',
+                                    category === cat.slug 
+                                        ? 'bg-principal text-white' 
+                                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                ]">
+                                <i :class="`fas fa-${cat.icon} mr-2`"></i>{{ cat.name }}
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Villes Proches Section -->
+                    <div class="mt-12 mb-12">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-6">Villes proches</h2>
+                        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
+                            <button 
+                                v-for="city in citiesNearby" 
+                                :key="city"
+                                @click="filterByCity(city)"
+                                class="px-4 py-2 border border-gray-300 rounded-full text-gray-700 hover:border-principal hover:text-principal transition-all text-sm">
+                                {{ city }}
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Grandes Villes Section -->
+                    <div class="mt-12 mb-12">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-6">Trouvez des logements dans les grandes villes</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                            <div>
+                                <h3 class="text-lg font-bold text-gray-900 mb-4">Dakar</h3>
+                                <div class="space-y-2">
+                                    <button class="block text-sm text-gray-600 hover:text-principal transition">Maisons à Dakar</button>
+                                    <button class="block text-sm text-gray-600 hover:text-principal transition">Appartements à Dakar</button>
+                                    <button class="block text-sm text-gray-600 hover:text-principal transition">Chambres à Dakar</button>
+                                    <button class="block text-sm text-gray-600 hover:text-principal transition">Studios à Dakar</button>
+                                </div>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-bold text-gray-900 mb-4">Thiès</h3>
+                                <div class="space-y-2">
+                                    <button class="block text-sm text-gray-600 hover:text-principal transition">Maisons à Thiès</button>
+                                    <button class="block text-sm text-gray-600 hover:text-principal transition">Appartements à Thiès</button>
+                                    <button class="block text-sm text-gray-600 hover:text-principal transition">Chambres à Thiès</button>
+                                    <button class="block text-sm text-gray-600 hover:text-principal transition">Studios à Thiès</button>
+                                </div>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-bold text-gray-900 mb-4">Kaolack</h3>
+                                <div class="space-y-2">
+                                    <button class="block text-sm text-gray-600 hover:text-principal transition">Maisons à Kaolack</button>
+                                    <button class="block text-sm text-gray-600 hover:text-principal transition">Appartements à Kaolack</button>
+                                    <button class="block text-sm text-gray-600 hover:text-principal transition">Chambres à Kaolack</button>
+                                    <button class="block text-sm text-gray-600 hover:text-principal transition">Studios à Kaolack</button>
+                                </div>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-bold text-gray-900 mb-4">Saint-Louis</h3>
+                                <div class="space-y-2">
+                                    <button class="block text-sm text-gray-600 hover:text-principal transition">Maisons à Saint-Louis</button>
+                                    <button class="block text-sm text-gray-600 hover:text-principal transition">Appartements à Saint-Louis</button>
+                                    <button class="block text-sm text-gray-600 hover:text-principal transition">Chambres à Saint-Louis</button>
+                                    <button class="block text-sm text-gray-600 hover:text-principal transition">Studios à Saint-Louis</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
+        </div>
         </div>
     </div>
 
@@ -459,12 +606,16 @@ import { Link } from '@inertiajs/vue3';
 import Footer from '../Components/Footer.vue';
 import Navbar from '../Components/Navbar.vue';
 import Toast from '../Components/Toast.vue';
+import SenegalMap from '../Components/SenegalMap.vue';
+import SeoHead from '../Components/SeoHead.vue';
 
 export default {
     components: {
         Toast,
         Footer,
         Navbar,
+        SenegalMap,
+        SeoHead,
     },
     data() {
         return {
@@ -472,6 +623,19 @@ export default {
             showToast: false,
             toastMessage: '',
             toastType: 'success',
+            selectedRegion: '',
+            citiesNearby: [
+                'Dakar', 'Thiès', 'Kaolack', 'Saint-Louis', 
+                'Tambacounda', 'Kolda', 'Ziguinchor', 'Matam',
+                'Louga', 'Diourbel', 'Fatick', 'Kindia'
+            ],
+            categoryItems: [
+                { id: 1, name: 'Maisons', slug: 'maisons', icon: 'home' },
+                { id: 2, name: 'Appartements', slug: 'appartements', icon: 'building' },
+                { id: 3, name: 'Chambres', slug: 'chambres', icon: 'door-open' },
+                { id: 4, name: 'Studios', slug: 'studios', icon: 'cube' },
+                { id: 5, name: 'Appartements étudiant', slug: 'appartements-etudiant', icon: 'graduation-cap' },
+            ],
         };
     },
     computed: {
@@ -489,6 +653,18 @@ export default {
         },
         isBoostedOnly() {
             return this.$props.filters?.boosted === 'true' || this.$props.filters?.boosted === true;
+        },
+        currentCategory() {
+            const category = this.$props.category?.toLowerCase();
+            if (category === 'villa' || category === 'villas') return 'villa';
+            if (category === 'appartement' || category === 'appartements') return 'appartements';
+            if (category === 'chambre' || category === 'chambres') return 'chambre';
+            if (category === 'studio' || category === 'studios') return 'studio';
+            if (category === 'immeuble' || category === 'immeubles') return 'immeuble';
+            if (category === 'terrain' || category === 'terrains') return 'terrain';
+            if (category === 'immobilier') return 'immobilier';
+            if (category === 'maison' || category === 'maisons') return 'villa'; // map maisons to villa
+            return category;
         },
     },
     mounted() {
@@ -755,6 +931,29 @@ export default {
 </script>
 
 <style scoped>
+/* Styles pour le menu des catégories - défilement lisse */
+.scrollbar-smooth {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+}
+
+.scrollbar-smooth::-webkit-scrollbar {
+    height: 4px;
+}
+
+.scrollbar-smooth::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.scrollbar-smooth::-webkit-scrollbar-thumb {
+    background: #e11d48;
+    border-radius: 4px;
+}
+
+.scrollbar-smooth::-webkit-scrollbar-thumb:hover {
+    background: #be123c;
+}
+
 /* Styles pour le carousel Swiper des annonces boostées */
 .boosted-next,
 .boosted-prev {

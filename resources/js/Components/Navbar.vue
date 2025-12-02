@@ -273,6 +273,160 @@ onUnmounted(() => {
                     </div>
                 </div>
             </div>
+
+            <!-- Desktop Layout -->
+            <div class="hidden md:flex items-center h-16 lg:h-20 gap-6 lg:gap-8">
+                <!-- Logo Desktop -->
+                <a :href="route('home')" 
+                   class="flex items-center space-x-2 flex-shrink-0"
+                   aria-label="Retour à l'accueil">
+                    <div class="w-10 lg:w-12 h-10 lg:h-12 bg-red-500 rounded-full flex items-center justify-center flex-shrink-0">
+                        <svg class="w-6 lg:w-7 h-6 lg:h-7 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
+                        </svg>
+                    </div>
+                    <span class="text-lg lg:text-xl font-semibold text-teal-800 lowercase">noflayhub</span>
+                </a>
+
+                <!-- Barre de recherche Desktop -->
+                <div class="flex-1 relative max-w-2xl">
+                    <form @submit.prevent="handleSearch" class="w-full relative">
+                        <div class="relative">
+                            <!-- Icône de recherche -->
+                            <svg class="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 flex-shrink-0" 
+                                 fill="none" 
+                                 stroke="currentColor" 
+                                 viewBox="0 0 24 24">
+                                <path stroke-linecap="round" 
+                                      stroke-linejoin="round" 
+                                      stroke-width="2" 
+                                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                            
+                            <!-- Input de recherche -->
+                            <input 
+                                type="text" 
+                                v-model="searchQuery"
+                                @input="handleSearchInput"
+                                @focus="showSearchSuggestions = true"
+                                @blur="hideSuggestions"
+                                @keydown.arrow-down.prevent="navigateSuggestions('down')"
+                                @keydown.arrow-up.prevent="navigateSuggestions('up')"
+                                @keydown.enter.prevent="selectedSuggestionIndex >= 0 ? selectSuggestion(selectedSuggestionIndex) : handleSearch()"
+                                placeholder="Rechercher..."
+                                class="w-full pl-12 pr-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent text-sm text-gray-700 placeholder-gray-400"
+                                aria-label="Rechercher un bien"
+                                autocomplete="off"
+                            />
+                            
+                            <!-- Suggestions dropdown -->
+                            <div 
+                                v-if="showSearchSuggestions && searchSuggestions.length > 0"
+                                class="absolute top-full left-0 right-0 mt-2 bg-white rounded-lg shadow-xl border border-gray-200 z-50 max-h-96 overflow-y-auto"
+                            >
+                                <div 
+                                    v-for="(suggestion, index) in searchSuggestions" 
+                                    :key="index"
+                                    @click="selectSuggestion(index)"
+                                    @mouseenter="selectedSuggestionIndex = index"
+                                    :class="[
+                                        'px-4 py-3 cursor-pointer transition-colors flex items-center gap-3',
+                                        selectedSuggestionIndex === index ? 'bg-teal-50' : 'hover:bg-gray-50'
+                                    ]"
+                                >
+                                    <i :class="[
+                                        'fas text-teal-600',
+                                        suggestion.icon === 'map-marker-alt' ? 'fa-map-marker-alt' :
+                                        suggestion.icon === 'home' ? 'fa-home' :
+                                        'fa-building'
+                                    ]"></i>
+                                    <div class="flex-1">
+                                        <div class="font-medium text-gray-900">{{ suggestion.label }}</div>
+                                        <div class="text-xs text-gray-500 capitalize">{{ suggestion.type }}</div>
+                                    </div>
+                                    <i class="fas fa-chevron-right text-gray-400 text-sm"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Actions à droite Desktop -->
+                <div class="flex items-center gap-4 flex-shrink-0">
+                    <!-- Sélecteur de langue (Globe) -->
+                    <button class="text-teal-800 hover:text-teal-900 transition-colors focus:outline-none focus:ring-2 focus:ring-teal-500 rounded p-2 hover:bg-gray-100">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />
+                        </svg>
+                    </button>
+
+                    <!-- Menu utilisateur Desktop -->
+                    <div class="relative">
+                        <button 
+                            @click="showUserMenu = !showUserMenu"
+                            class="flex items-center gap-2 px-4 py-2 rounded-full border-2 border-teal-800 hover:bg-teal-50 transition-colors focus:outline-none focus:ring-2 focus:ring-teal-500"
+                            aria-label="Menu utilisateur"
+                        >
+                            <!-- Icône menu hamburger -->
+                            <svg class="w-5 h-5 text-teal-800 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                            </svg>
+                            
+                            <!-- Icône profil -->
+                            <div class="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center border-2 border-white flex-shrink-0">
+                                <svg class="w-5 h-5 text-gray-600" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
+                                </svg>
+                            </div>
+                        </button>
+
+                        <!-- Menu déroulant utilisateur Desktop -->
+                        <div 
+                            v-if="showUserMenu"
+                            class="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-xl border border-gray-200 py-2 z-50"
+                        >
+                            <template v-if="$page.props.auth?.user">
+                                <a href="/dashboard" 
+                                   class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
+                                    Tableau de bord
+                                </a>
+                                <a href="/favoris" 
+                                   class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center justify-between transition-colors">
+                                    <span>Favoris</span>
+                                    <span v-if="$page.props.favoritesCount > 0" class="ml-2 text-xs bg-red-500 text-white rounded-full px-2 py-1">
+                                        {{ $page.props.favoritesCount }}
+                                    </span>
+                                </a>
+                                <a href="/notifications" 
+                                   class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center justify-between transition-colors">
+                                    <span>Notifications</span>
+                                    <span v-if="$page.props.unreadNotificationsCount > 0" class="ml-2 text-xs bg-red-500 text-white rounded-full px-2 py-1">
+                                        {{ $page.props.unreadNotificationsCount }}
+                                    </span>
+                                </a>
+                                <hr class="my-1">
+                                <form method="POST" action="/logout">
+                                    <input type="hidden" name="_token" :value="$page.props.csrf_token">
+                                    <button type="submit" 
+                                            class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
+                                        Déconnecter
+                                    </button>
+                                </form>
+                            </template>
+                            <template v-else>
+                                <a href="/login" 
+                                   class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
+                                    Connexion
+                                </a>
+                                <a href="/register" 
+                                   class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
+                                    Inscription
+                                </a>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </nav>
 </template>
