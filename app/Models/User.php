@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Notifications\ResetPasswordNotification;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -105,5 +106,20 @@ public function notifications()
 public function unreadNotifications()
 {
     return $this->hasMany(\App\Models\Notification::class)->where('read', false)->orderBy('created_at', 'desc');
+}
+
+/**
+ * Envoyer une notification de réinitialisation de mot de passe personnalisée
+ * 
+ * Cette méthode remplace la notification par défaut de Fortify
+ * par notre notification en français avec design cool et logo
+ * 
+ * @param string $token
+ * @return void
+ */
+public function sendPasswordResetNotification($token)
+{
+    // Envoyer notre notification personnalisée au lieu de celle par défaut de Fortify
+    $this->notify(new ResetPasswordNotification($token));
 }
 }

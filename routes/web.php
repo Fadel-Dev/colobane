@@ -10,6 +10,7 @@ use App\Http\Controllers\FavoriController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\PasswordResetController;
 
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ServiceController;
@@ -39,6 +40,14 @@ Route::get('/tt', function () {
 
 
 Route::get('/', [Controller::class, 'Home'])->name('home');
+
+// ======================================================
+// Routes de réinitialisation de mot de passe
+// ======================================================
+Route::get('/forgot-password', [PasswordResetController::class, 'showForgotForm'])->name('password.request');
+Route::post('/password/email', [PasswordResetController::class, 'sendResetLink'])->name('password.email');
+Route::get('/reset-password', [PasswordResetController::class, 'showResetForm'])->name('password.reset');
+Route::post('/reset-password', [PasswordResetController::class, 'resetPassword'])->name('password.update');
 
 // Static pages
 Route::get('/about', function () {
