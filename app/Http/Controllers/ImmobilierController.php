@@ -12,6 +12,17 @@ class ImmobilierController extends Controller
 {
    public function storeVente()
 {
+    // Valider les données requises
+    Request::validate([
+        'type' => 'required|string',
+        'nom' => 'required|string|max:255',
+        'prix' => 'required|numeric',
+        'description' => 'required|string',
+        'region' => 'required|string',
+        'affaire' => 'required|string',
+        'npiece' => 'required|integer',
+    ]);
+
     // Gérer les images (peut être un tableau ou des fichiers individuels)
     $image1 = null;
     $image2 = null;
@@ -83,7 +94,7 @@ class ImmobilierController extends Controller
     }
 
     // Création de l'entrée en base de données
-    auth()->user()->Immobiliers()->create([
+    $immobilier = auth()->user()->Immobiliers()->create([
         'type' => Request::input('type'),
         'nom' => Request::input('nom'),
         'prix' => Request::input('prix'),
@@ -99,7 +110,12 @@ class ImmobilierController extends Controller
         'surface' => 0,
     ]);
 
-    return redirect()->route('dashboard')->with('message', 'Annonce publiée avec succès');
+    // Retourner une réponse JSON
+    return response()->json([
+        'success' => true,
+        'message' => 'Annonce publiée avec succès',
+        'id' => $immobilier->id
+    ], 201);
 }
 
 /**
@@ -127,6 +143,17 @@ private function resizeImage($path)
 // TERRAIN VERGER
 public function storeVente2()
 {
+    // Valider les données requises
+    Request::validate([
+        'type' => 'required|string',
+        'nom' => 'required|string|max:255',
+        'prix' => 'required|numeric',
+        'description' => 'required|string',
+        'region' => 'required|string',
+        'affaire' => 'required|string',
+        'surface' => 'required|numeric',
+    ]);
+
     // Gérer les images (peut être un tableau ou des fichiers individuels)
     $image1 = null;
     $image2 = null;
@@ -198,7 +225,7 @@ public function storeVente2()
     }
 
     // Création de l'entrée en base de données
-    auth()->user()->Immobiliers()->create([
+    $immobilier = auth()->user()->Immobiliers()->create([
         'type' => 'verger',
         'nom' => Request::input('nom'),
         'prix' => Request::input('prix'),
@@ -214,7 +241,11 @@ public function storeVente2()
         'npiece' => 0,
     ]);
 
-    return redirect()->route('dashboard')->with('message', 'Annonce publiée avec succès');
+    return response()->json([
+        'success' => true,
+        'message' => 'Annonce publiée avec succès',
+        'id' => $immobilier->id
+    ], 201);
 }
 
 /**
@@ -225,6 +256,17 @@ public function storeVente2()
     // TERRAIN FERME
 public function storeVente3()
 {
+    // Valider les données requises
+    Request::validate([
+        'type' => 'required|string',
+        'nom' => 'required|string|max:255',
+        'prix' => 'required|numeric',
+        'description' => 'required|string',
+        'region' => 'required|string',
+        'affaire' => 'required|string',
+        'surface' => 'required|numeric',
+    ]);
+
     // Gérer les images (peut être un tableau ou des fichiers individuels)
     $image1 = null;
     $image2 = null;
@@ -296,7 +338,7 @@ public function storeVente3()
     }
 
     // Création de l'entrée en base de données
-    auth()->user()->Immobiliers()->create([
+    $immobilier = auth()->user()->Immobiliers()->create([
         'type' => 'ferme',
         'nom' => Request::input('nom'),
         'prix' => Request::input('prix'),
@@ -312,7 +354,11 @@ public function storeVente3()
         'npiece' => 0,
     ]);
 
-    return redirect()->route('dashboard')->with('message', 'Annonce publiée avec succès');
+    return response()->json([
+        'success' => true,
+        'message' => 'Annonce publiée avec succès',
+        'id' => $immobilier->id
+    ], 201);
 }
 
 
