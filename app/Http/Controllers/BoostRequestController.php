@@ -27,20 +27,21 @@ class BoostRequestController extends Controller
         try {
             $property = Immobiliers::findOrFail($id);
 
-            // Récupérer la durée demandée par le client (par défaut 30 jours)
-            $duration = $property->boost_duration ?? 30;
+            // Récupérer la durée demandée par le client en heures (décimal)
+            // boost_duration est maintenant en heures (2, 48, 72, 168, etc.)
+            $durationHours = $property->boost_duration ?? 24; // Par défaut 1 jour
 
             $property->update([
                 'booster' => true,
                 'status' => 'accepter',
-                'date_fin_booster' => now()->addDays($duration),
+                'date_fin_booster' => now()->addHours($durationHours),
             ]);
 
             return response()->json([
                 'success' => true,
-                'message' => "Boost approuvé pour {$duration} jours",
+                'message' => "Boost approuvé pour {$durationHours}h",
                 'property_id' => $property->id,
-                'duration' => $duration,
+                'duration' => $durationHours,
             ]);
         } catch (\Exception $e) {
             return response()->json([
@@ -93,21 +94,22 @@ class BoostRequestController extends Controller
         try {
             $property = Immobiliers::findOrFail($id);
 
-            // Récupérer la durée demandée par le client (par défaut 30 jours)
-            $duration = $property->boost_duration ?? 30;
+            // Récupérer la durée demandée par le client en heures (décimal)
+            // boost_duration est maintenant en heures (2, 48, 72, 168, etc.)
+            $durationHours = $property->boost_duration ?? 24; // Par défaut 1 jour
 
             $property->update([
                 'booster' => true,
                 'status' => 'accepter',
                 'onceBooster' => true,
-                'date_fin_booster' => now()->addDays($duration),
+                'date_fin_booster' => now()->addHours($durationHours),
             ]);
 
             return response()->json([
                 'success' => true,
-                'message' => "Boost relancé pour {$duration} jours",
+                'message' => "Boost relancé pour {$durationHours}h",
                 'property_id' => $property->id,
-                'duration' => $duration,
+                'duration' => $durationHours,
             ]);
         } catch (\Exception $e) {
             return response()->json([

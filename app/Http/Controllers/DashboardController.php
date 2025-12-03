@@ -89,7 +89,45 @@ class DashboardController extends Controller
     private function getUserDashboard()
     {
         $user_id = auth()->id();
-        $immobiliers = Immobiliers::where('user_id', $user_id)->get()->toArray();
+        
+        // Récupérer tous les immobiliers avec leurs infos de boost
+        $immobiliers = Immobiliers::where('user_id', $user_id)->get();
+        
+        // Enrichir avec les infos de boost
+        $immobiliers = $immobiliers->map(function($item) {
+            $item->is_boosting = $item->booster == 1 && $item->status === 'accepter';
+            $item->boost_remaining_hours = null;
+            $item->boost_remaining_text = null;
+            
+            if ($item->is_boosting && $item->date_fin_booster) {
+                $now = \Carbon\Carbon::now();
+                $endDate = \Carbon\Carbon::parse($item->date_fin_booster);
+                
+                if ($endDate > $now) {
+                    $diff = $now->diff($endDate);
+                    $hours = $diff->days * 24 + $diff->h;
+                    $minutes = $diff->i;
+                    $seconds = $diff->s;
+                    
+                    $item->boost_remaining_hours = $hours + ($minutes / 60) + ($seconds / 3600);
+                    
+                    // Format texte: "2j 3h 45min"
+                    $text_parts = [];
+                    if ($diff->days > 0) $text_parts[] = $diff->days . 'j';
+                    if ($diff->h > 0) $text_parts[] = $diff->h . 'h';
+                    if ($diff->i > 0) $text_parts[] = $diff->i . 'min';
+                    
+                    $item->boost_remaining_text = implode(' ', $text_parts) . ' restants';
+                } else {
+                    $item->boost_remaining_text = 'Expiré';
+                    $item->is_boosting = false;
+                }
+            }
+            
+            $item->boost_can_activate = !$item->is_boosting;
+            
+            return $item;
+        })->toArray();
 
         $immobiliersVendu = Immobiliers::where('user_id', $user_id)
             ->where('vendu', 1)

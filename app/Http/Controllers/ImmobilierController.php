@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Request;
 use App\Models\Immobiliers;
 use App\Models\Voitures;
+use App\Services\BoostPricingService;
 use Intervention\Image\Facades\Image;
 
 class ImmobilierController extends Controller
@@ -594,22 +595,27 @@ public function storeEdit($id)
     {
         // Récupérer la durée en minutes depuis le formulaire
         $durationMinutes = Request::input('duration');
+        $planKey = Request::input('plan'); // Clé du plan (mini, standard, premium, platinum)
         
-        // Convertir les minutes en jours
-        // 120 minutes = 0.083 jours ≈ 1 jour minimum
-        // 2880 minutes = 2 jours
-        // 4320 minutes = 3 jours
-        // 10080 minutes = 7 jours
-        $durationDays = ceil($durationMinutes / 1440); // 1440 minutes = 1 jour
+        // Convertir les minutes en heures (décimal)
+        // 120 minutes = 2 heures
+        // 2880 minutes = 48 heures
+        // 4320 minutes = 72 heures
+        // 10080 minutes = 168 heures
+        $durationHours = $durationMinutes / 60; // Durée exacte en heures
+
+        // Obtenir le prix du plan
+        $boostPrice = 0;
+        if ($planKey) {
+            $boostPrice = BoostPricingService::getPrice($planKey);
+        }
 
         auth()->user()->Immobiliers()->where('id', $id)->update([
-            // 'type' => Request::input('type'),
             'booster' => Request::input('boost'),
-            'duration' => $durationMinutes,  // Garder la durée originale en minutes
-            'boost_duration' => $durationDays,  // Stocker la durée en jours
+            'duration' => $durationMinutes,  // Durée originale en minutes
+            'boost_duration' => $durationHours,  // Durée en heures (décimal)
+            'boost_price' => $boostPrice,  // Prix du boost
             'status' => 'pending',
-
-
         ]);
 
         return redirect()->route('dashboard')->with('message', 'boost avec Succes attente de validation');

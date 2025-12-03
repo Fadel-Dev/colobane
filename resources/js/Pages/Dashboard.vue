@@ -477,14 +477,19 @@ onMounted(() => {
                                         </span>
                                     </div>
 
-                                    <!-- Boost Badge -->
-                                    <div v-if="habitat.booster" class="absolute top-3 right-3">
-                                        <span class="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-bold bg-gradient-to-r from-yellow-400 to-yellow-500 text-white shadow-lg backdrop-blur-sm">
-                                            <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                                                <path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd" />
-                                            </svg>
-                                            Boost
-                                        </span>
+                                    <!-- Boost Badge with remaining time -->
+                                    <div v-if="habitat.is_boosting && habitat.boost_remaining_text" class="absolute top-3 right-3">
+                                        <div class="flex flex-col items-end gap-1">
+                                            <span class="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-bold bg-gradient-to-r from-yellow-400 to-yellow-500 text-white shadow-lg backdrop-blur-sm animate-pulse">
+                                                <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd" />
+                                                </svg>
+                                                Boost actif
+                                            </span>
+                                            <span class="text-xs font-bold text-white bg-red-500/90 px-2 py-1 rounded-full backdrop-blur-sm">
+                                                ⏱️ {{ habitat.boost_remaining_text }}
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -529,17 +534,23 @@ onMounted(() => {
                                         </button>
                                         <button
                                             @click="navigateToBoostImmobillier(habitat.id)"
+                                            :disabled="habitat.is_boosting"
                                             :class="[
-                                                'flex-1 px-3 py-2.5 rounded-lg text-sm font-semibold transition-all hover:scale-105 flex items-center justify-center space-x-1 shadow-md',
-                                                habitat.status === 'accepter'
-                                                    ? 'bg-yellow-500 hover:bg-yellow-600 text-white'
-                                                    : 'bg-gray-500 hover:bg-gray-600 text-white'
+                                                'flex-1 px-3 py-2.5 rounded-lg text-sm font-semibold transition-all flex items-center justify-center space-x-1 shadow-md',
+                                                habitat.is_boosting
+                                                    ? 'bg-gray-400 text-gray-600 cursor-not-allowed opacity-60'
+                                                    : habitat.status === 'accepter'
+                                                        ? 'bg-yellow-500 hover:bg-yellow-600 text-white hover:scale-105'
+                                                        : 'bg-gray-500 hover:bg-gray-600 text-white hover:scale-105'
                                             ]"
+                                            :title="habitat.is_boosting ? 'Boost déjà actif' : 'Activer un boost'"
                                         >
                                             <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                                                 <path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd" />
                                             </svg>
-                                            <span class="hidden sm:inline">{{ habitat.status === 'accepter' ? 'Boost' : 'Booster' }}</span>
+                                            <span class="hidden sm:inline">
+                                                {{ habitat.is_boosting ? 'Boost actif' : (habitat.status === 'accepter' ? 'Boost' : 'Booster') }}
+                                            </span>
                                         </button>
                                     </div>
                                 </div>

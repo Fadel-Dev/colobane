@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BoostController;
 use App\Http\Controllers\BoostRequestController;
+use App\Http\Controllers\BoostPricingController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ControllerForAdmin;
 use App\Http\Controllers\DashboardController;
@@ -254,6 +255,13 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/boost-request/{id}/stop', [BoostRequestController::class, 'stop'])->name('boost.stop');
     Route::post('/boost-request/{id}/restart', [BoostRequestController::class, 'restart'])->name('boost.restart');
 });
+
+// Routes pour les tarifs de boost (publiques)
+Route::get('/api/boost-pricing/plans', [BoostPricingController::class, 'getPlans']);
+Route::get('/api/boost-pricing/plan/{planKey}', [BoostPricingController::class, 'getPlan']);
+Route::get('/api/boost-pricing/best-value', [BoostPricingController::class, 'getBestValue']);
+Route::post('/api/boost-pricing/calculate', [BoostPricingController::class, 'calculatePrice']);
+Route::get('/api/boost-pricing/compare', [BoostPricingController::class, 'compareAll']);
 
 
 
