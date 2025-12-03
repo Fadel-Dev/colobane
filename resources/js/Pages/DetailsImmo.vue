@@ -472,7 +472,7 @@ const structuredData = computed(() => {
               <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-xs sm:text-sm text-gray-600">
                 <span class="flex items-center">
                   <i class="bi bi-geo-alt-fill mr-1.5 text-principal"></i>
-                  <span class="font-medium">{{ maison.region }}, Sénégal</span>
+                  <span class="font-medium">{{ maison.lieu || maison.region }}, Sénégal</span>
                 </span>
                 <span v-if="maison.created_at" class="flex items-center">
                   <i class="bi bi-calendar3 mr-1.5 text-gray-400"></i>
@@ -589,6 +589,13 @@ const structuredData = computed(() => {
                   Région
                 </dt>
                 <dd class="text-gray-900 font-bold text-sm sm:text-base">{{ maison.region }}</dd>
+              </div>
+              <div v-if="maison.lieu" class="flex flex-col py-3 sm:py-4 px-3 sm:px-4 border border-gray-200 sm:border-2 rounded-lg sm:rounded-xl hover:border-principal/30 hover:bg-principal/5 transition-all duration-200 group">
+                <dt class="text-gray-700 font-semibold text-xs sm:text-sm flex items-center mb-1">
+                  <i class="bi bi-pin-map text-principal mr-2 text-sm sm:text-lg"></i>
+                  Lieu Précis
+                </dt>
+                <dd class="text-gray-900 font-bold text-sm sm:text-base">{{ maison.lieu }}</dd>
               </div>
               <div v-if="maison.affaire" class="flex flex-col py-3 sm:py-4 px-3 sm:px-4 border border-gray-200 sm:border-2 rounded-lg sm:rounded-xl hover:border-principal/30 hover:bg-principal/5 transition-all duration-200 group">
                 <dt class="text-gray-700 font-semibold text-xs sm:text-sm flex items-center mb-1">

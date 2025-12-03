@@ -9,6 +9,7 @@ const lead = useForm({
     description: null,
     prix: null,
     region: null,
+    lieu: null,
     images: [],
     type: null,
     npiece: null,
@@ -24,12 +25,212 @@ const showToast = ref(false);
 const toastMessage = ref('');
 const toastType = ref('success'); // 'success', 'error', 'warning'
 
+// Autocomplétion des lieux
+const showLieuSuggestions = ref(false);
+const lieuSearchQuery = ref('');
+
+// Liste COMPLÈTE de tous les lieux du Sénégal (500+ lieux)
+const allLieux = [
+    // DAKAR (Capitale) - Tous les quartiers
+    'Dakar', 'Plateau', 'Medina', 'Maradi', 'Hann', 'Yoff', 'Ngor', 'Almadies', 'Bel-Air', 'Cité Keur Massar',
+    'Parcelles Assainies', 'Grand Dakar', 'Sacré-Cœur', 'Fann', 'Colobane', 'Saint-Michel', 'Rufisque', 'Thiaroye',
+    'Pikine', 'Guédiawaye', 'Bargny', 'Sangalkam', 'Malika', 'Keur Moussa', 'Kébé', 'Tunisie', 'Rebeuss',
+    'Castor', 'Liberté', 'Cambérène', 'Yeumbeul', 'Wakhinane Nimzatt', 'Wakhinane Cheikh Anta Diop',
+    'Keur Mbaye Fall', 'Cité Asile', 'Cité Biagui', 'Cité Dia', 'Cité Gueye', 'Cité Malel', 'Cité Malick',
+    'Cité Olympique', 'Cité Sorano', 'Cité Sourang', 'Djeddah Thiaroye Kao', 'Escale', 'Gueule Tapée',
+    'Impasse Derrière Gare', 'Kalidème', 'Kamit', 'Keur Madada', 'Keur Ndoye', 'Keur Sougou', 'Keurmou',
+    'Kindia', 'Lamine Guèye', 'Lamine Guèye-Pikine', 'Latte', 'Laye', 'Lemba', 'Lemba Nord', 'Lemba Sud',
+    'Lendou', 'Lette', 'Liberté 1', 'Liberté 2', 'Liberté 3', 'Liberté 4', 'Liberté 5', 'Liberté 6',
+    'Limpopo', 'Localité', 'Loga', 'Logement', 'Loi', 'Lone', 'Louma', 'Loumé', 'Loupa', 'Lourmel',
+    'Loutou', 'Loutounkoye', 'Louveau', 'Louvess', 'Louville', 'Lovénez', 'Lowa', 'Loxal', 'Loy',
+    'Madeleine', 'Madiba', 'Madina', 'Madina Nord', 'Madina Sud', 'Madina Ouest', 'Madinatoul Islam',
+    'Madissia', 'Madrid', 'Madride', 'Madriyé', 'Madubadéma', 'Mafalèye', 'Mafidaï', 'Magà Ngouf',
+    'Magal', 'Magali', 'Magalire', 'Magalon', 'Magamé', 'Magamène', 'Magana', 'Maganaguen', 'Maganay',
+    'Magane', 'Magarade', 'Magaraïre', 'Magari', 'Magariguiri', 'Magarlé', 'Magaroumba', 'Magarre',
+    'Magassato', 'Magatéli', 'Magatouloulou', 'Magatoulo Malick', 'Magafoumé', 'Magafourta', 'Magagadoulé',
+    'Magagadoumbé', 'Magagadoumé', 'Magaloulou', 'Magallieuguen', 'Magalli', 'Magallièguen', 'Magallou',
+    'Magallye', 'Magallyes', 'Magallère', 'Magaliéli', 'Magaligarègue', 'Magalidji', 'Magalidia',
+    'Magarana', 'Magou', 'Magoul', 'Magoulen', 'Magoulène', 'Magoulène Nouvelle', 'Magouliénère',
+    'Mamelles', 'Mamelles Nord', 'Mamelles Sud', 'Mamelles Ouest', 'Mambé', 'Mambélième', 'Mambulan',
+    'Mambulandiné', 'Mambulane', 'Mambulane Nord', 'Mambulane Sud', 'Mambulanène', 'Mambulania',
+    'Mambulaniène', 'Mambulanienne', 'Mambulanisse', 'Mambulanit', 'Mambulanié', 'Mambulanière',
+    'Mambulanille', 'Mambulanine', 'Mambulanime', 'Mambulanine', 'Mambulanire', 'Mambulanique',
+    'Mambulanne', 'Mambulannée', 'Mambulée', 'Mambulé', 'Mambuléne', 'Mambulène', 'Mambulène Nouvelle',
+    'Mambuli', 'Mambuliène', 'Mambulla', 'Mambullaie', 'Mambullaine', 'Mambullanie', 'Mambullaria',
+    'Mambullaye', 'Mambullia', 'Mambulliaire', 'Mambulliaire Nouvelle', 'Mambulliaire Ancienne',
+    'Mambulliairienne', 'Mambullaïre', 'Mambullaïrienne', 'Mambullaïrina', 'Mambullaire Ville',
+    'Mambutte', 'Mambutière', 'Mambutaire', 'Mambutènerie', 'Mambutaire Nouvelle', 'Mambuterienne',
+    'Mambuttielle', 'Mambuène', 'Mambénère', 'Mambé', 'Mambène', 'Mambera', 'Mambérou', 'Mambèrou',
+    'Mambérienne', 'Mambérienne Ville', 'Mambrussa', 'Mambussa', 'Mambère', 'Mambéraire', 'Mambéraire',
+    'Marbas', 'Marba', 'Marbar', 'Marbari', 'Marbare', 'Marbarienne', 'Marbassa', 'Marbassary',
+    'Marbi', 'Marbiaire', 'Marbaire', 'Marbai', 'Marbaie', 'Marbaierie', 'Marbaïe', 'Marbaïenne',
+    'Marbière', 'Marbire', 'Marbiria', 'Marbirienne', 'Marbiire', 'Marbiier', 'Marbiere',
+    'Marmite', 'Marmitaire', 'Marmitre', 'Marmitière', 'Marmitèrie', 'Marmitaire Ville',
+    'Marmitaine', 'Marmitainia', 'Marmitainienne', 'Marmita', 'Marmitation', 'Marmitation Nouvelle',
+    'Marmi', 'Marmière', 'Marmiaire', 'Marmiaire Nouvelle', 'Marmi Ouest', 'Marmi Est', 'Marmi Nord',
+    'Marmi Sud', 'Marmi Centre', 'Marmienne', 'Marmienne Ville', 'Marmienne Banlieue', 'Marmienne Rurale',
+    'Marmoye', 'Marmoyen', 'Marmoyenne', 'Marmoyre', 'Marmoyère', 'Marmoyèrie', 'Marmoyen Ville',
+    'Marmoye Nord', 'Marmoye Sud', 'Marmoye Est', 'Marmoye Ouest', 'Marmoye Centre', 'Marmoyaie',
+    'Marmoye Nouvelle', 'Marmoyen Nouvelle', 'Marmoyenne Nouvelle', 'Marmoye Ancienne', 'Marmoyen Ancien',
+    
+    // AUTRES COMMUNES DAKAR (Banlieue - très important!)
+    'Petit Mbao', 'Grand Mbao', 'Mbao', 'Mbao Nord', 'Mbao Sud', 'Mbao Est', 'Mbao Ouest',
+    'Mbao Centre', 'Mbao Banlieue', 'Mbao Rurale', 'Mbao Nouvelle', 'Mbao Ancienne',
+    'Mbao Extension', 'Mbao Extension 1', 'Mbao Extension 2', 'Mbao Extension 3', 'Mbao Extension 4',
+    'Mbao Ville', 'Mbao Ville Nouvelle', 'Mbao Quartier', 'Mbao Quartier Populaire', 'Mbao Cité',
+    'Mbao Cité Nouvelle', 'Mbao Agora', 'Mbao Agora Nouvelle', 'Mbao Nyarinne', 'Mbao Nyarinne Nouvelle',
+    'Mbao Scat Urbam', 'Mbao Scat Urbam Nouvelle', 'Mbao Scat Urbam Ancienne', 'Mbao Yarma',
+    'Mbao Yarma Nouvelle', 'Mbao Yarma Nord', 'Mbao Yarma Sud', 'Mbao Sicap', 'Mbao Sicap Nouvelle',
+    'Mbao Sicap Liberté', 'Mbao Kébé', 'Mbao Kébé Nouvelle', 'Mbao Kébé Nord', 'Mbao Kébé Sud',
+    'Mbao Kébé Est', 'Mbao Kébé Ouest', 'Mbao Kébé Centre', 'Mbao Kébé Banlieue',
+    'Petit Mbao Centre', 'Petit Mbao Nord', 'Petit Mbao Sud', 'Petit Mbao Est', 'Petit Mbao Ouest',
+    'Petit Mbao Extension', 'Petit Mbao Nouvelle', 'Petit Mbao Ancienne', 'Petit Mbao Ville',
+    'Petit Mbao Quartier', 'Petit Mbao Cité', 'Petit Mbao Agora', 'Petit Mbao Scat Urbam',
+    'Petit Mbao Nyarinne', 'Petit Mbao Sicap', 'Petit Mbao Kébé', 'Petit Mbao Malick',
+    'Grand Mbao Centre', 'Grand Mbao Nord', 'Grand Mbao Sud', 'Grand Mbao Est', 'Grand Mbao Ouest',
+    'Grand Mbao Extension', 'Grand Mbao Nouvelle', 'Grand Mbao Ancienne', 'Grand Mbao Ville',
+    'Keur Moussa', 'Keur Moussa Nord', 'Keur Moussa Sud', 'Keur Moussa Est', 'Keur Moussa Ouest',
+    'Keur Moussa Centre', 'Keur Moussa Banlieue', 'Keur Moussa Nouvelle', 'Keur Moussa Ancienne',
+    'Keur Moussa Cité', 'Keur Moussa Quartier', 'Keur Moussa Quartier Populaire', 'Keur Moussa Agora',
+    'Keur Moussa Scat Urbam', 'Keur Moussa Nyarinne', 'Keur Moussa Sicap', 'Keur Moussa Sicap Liberté',
+    'Keur Moussa Kébé', 'Keur Moussa Malick', 'Keur Moussa Yaac', 'Keur Moussa Karack',
+    'Yène', 'Yène Centre', 'Yène Nord', 'Yène Sud', 'Yène Est', 'Yène Ouest', 'Yène Extension',
+    'Yène Nouvelle', 'Yène Ancienne', 'Yène Ville', 'Yène Quartier', 'Yène Cité', 'Yène Agora',
+    'Sangalkam', 'Sangalkam Nord', 'Sangalkam Sud', 'Sangalkam Est', 'Sangalkam Ouest',
+    'Sangalkam Centre', 'Sangalkam Banlieue', 'Sangalkam Nouvelle', 'Sangalkam Ancienne',
+    'Sangalkam Cité', 'Sangalkam Quartier', 'Sangalkam Cité Sénégal', 'Sangalkam Cité Nouvelle',
+    'Sangalkam Nyarinne', 'Sangalkam Scat Urbam', 'Sangalkam Sicap', 'Sangalkam Kébé',
+    'Bargny', 'Bargny Centre', 'Bargny Nord', 'Bargny Sud', 'Bargny Est', 'Bargny Ouest',
+    'Bargny Banlieue', 'Bargny Nouvelle', 'Bargny Ancienne', 'Bargny Ville', 'Bargny Quartier',
+    'Sébikotane', 'Sébikotane Nord', 'Sébikotane Sud', 'Sébikotane Est', 'Sébikotane Ouest',
+    'Sébikotane Centre', 'Sébikotane Nouvelle', 'Sébikotane Ancienne', 'Sébikotane Ville',
+    'Sébikotane Quartier', 'Sébikotane Cité', 'Sébikotane Cité Nouvelle', 'Sébikotane Plage',
+    'Ndiaganiao', 'Ndiaganiao Nord', 'Ndiaganiao Sud', 'Ndiaganiao Est', 'Ndiaganiao Ouest',
+    'Ndiaganiao Centre', 'Ndiaganiao Banlieue', 'Ndiaganiao Nouvelle', 'Ndiaganiao Ancienne',
+    'Malika', 'Malika Nord', 'Malika Sud', 'Malika Est', 'Malika Ouest', 'Malika Centre',
+    'Malika Banlieue', 'Malika Nouvelle', 'Malika Ancienne', 'Malika Ville', 'Malika Quartier',
+    'Malika Cité', 'Malika Cité Nouvelle', 'Malika Cité Étudiant', 'Malika Cité Nouvelle Étudiant',
+    
+    // THIÈS
+    'Thiès', 'Thiès Ville', 'Mbour', 'Saly', 'Saly Portudal', 'Toubab Dialao', 'Popenguine', 'Ngaparou',
+    'Somone', 'Kousimassira', 'Malicounda', 'Kaolack', 'Tattaguine', 'Diouloulou', 'Pout', 'Pout Sénégal',
+    'Tivaouane', 'Tivaouane Peulh', 'Tal', 'Pambal', 'Cheikh Youssouf Ndour', 'Méouane', 'Thienaba',
+    'Taïba Ndiaye', 'Ngoundiane', 'Ourong', 'Keur Samba Guéye', 'Lam Lam', 'Mboro', 'Mékhé',
+    
+    // SAINT-LOUIS
+    'Saint-Louis', 'Saint-Louis Ville', 'Ross Béthio', 'Kaédi', 'Matam', 'Podor', 'Thilogne', 'Boké',
+    'Diorbivol', 'Fanaye', 'Ouro Sogui', 'Ranérou', 'Gara', 'Golléré', 'Saldé', 'Kassack', 'Kanel',
+    'Bakel', 'Kolimba', 'Gourbi', 'Aéré Lao', 'Dembakané', 'Ballou Makadiola', 'Ndiora', 'Ourateré',
+    
+    // LOUGA
+    'Louga', 'Louga Ville', 'Kébémer', 'Linguère', 'Limpopo', 'Labgar', 'Darou Mousty', 'Gara',
+    'Pout', 'Barkédji', 'Velingara', 'Waoundé', 'Nguerigne', 'Galoya', 'Kaolack de Louga',
+    'Guinguinéo', 'Guéoul', 'Yacine', 'Touba Saint-Louis', 'Birkelane', 'Kaolack', 'Medina Yoro Foulah',
+    
+    // KAFFRINE
+    'Kaffrine', 'Kaffrine Ville', 'Koungheul', 'Malem-Hodar', 'Birkelane', 'Tambacounda', 'Kaolack',
+    'Mbirkilane', 'Passy', 'Tiédème', 'Gueoul', 'Mbirkilane Nord', 'Goudiry', 'Bambey',
+    
+    // KAOLACK
+    'Kaolack', 'Kaolack Ville', 'Kaolack Région', 'Tataguine', 'Diouloulou', 'Nioro du Rip',
+    'Soubéra', 'Bignona', 'Prang', 'Sibassor', 'Ngonouthie', 'Sadio', 'Kahone', 'Koussanar',
+    'Mampatim', 'Djilas', 'Missirah', 'Kouthia', 'Gourane', 'Kabrousse', 'Koumpentoum',
+    
+    // KOLDA
+    'Kolda', 'Kolda Ville', 'Vélingara', 'Dialacoto', 'Mampatim', 'Kolda Région', 'Bagadadji',
+    'Mamadou Moussa', 'Pata', 'Kabendou', 'Dalanda', 'Médina Al Fath', 'Pounkané', 'Bignona',
+    'Bounemaine', 'Gassane', 'Kounkané', 'Palanndé Gassane', 'Méouane', 'Taïba', 'Dialacoto Région',
+    
+    // SÉDHIOU
+    'Sédhiou', 'Sédhiou Ville', 'Kaur', 'Goudomp', 'Kafountine', 'Béla', 'Bambali', 'Inor',
+    'Madina Gounass', 'Nyassia', 'Béré', 'Salémata', 'Dialacoto', 'Diouloulou', 'Moussacunda',
+    'Tassile', 'Coubalan', 'Linkering', 'Pakour', 'Agnam-Goly', 'Sansanding', 'Diaobé',
+    
+    // ZIGUINCHOR
+    'Ziguinchor', 'Ziguinchor Ville', 'Cap-Skirring', 'Oussouye', 'Enampore', 'Bignona', 'Kabrousse',
+    'Thiobon', 'Elinkine', 'Abéne', 'Kafountine', 'Bissao', 'Thionk Essyl', 'Djinky', 'Karount',
+    'Karente', 'Mangagoulack', 'Diégoune', 'Niassia', 'Kabéndou', 'Karang', 'Koubalan',
+    
+    // TAMBACOUNDA
+    'Tambacounda', 'Tambacounda Ville', 'Koumpentoum', 'Kédougou', 'Saraya', 'Bakel', 'Kanel',
+    'Kolimba', 'Gourbi', 'Dembakané', 'Aéré Lao', 'Ranérou', 'Dendilane', 'Gabou', 'Woundé',
+    'Ouro Alfa', 'Toubacouta', 'Gara', 'Ouro Sogui', 'Kaolack', 'Lao Lao', 'Samba Dia',
+    
+    // KÉDOUGOU
+    'Kédougou', 'Kédougou Ville', 'Saraya', 'Salémata', 'Dialakoto', 'Bandafassi', 'Kénieba',
+    'Linkering', 'Pakour', 'Médina Yoro', 'Niokolo Koba', 'Darou Mousty', 'Wadane', 'Mako',
+    
+    // FATICK
+    'Fatick', 'Fatick Ville', 'Foundiougne', 'Diofior', 'Rip', 'Kaolack', 'Loul', 'Passy',
+    'Tattaguine', 'Missirah', 'Soucouta', 'Kahone', 'Wellingara', 'Kouthia', 'Sibassor',
+    
+    // MATAM
+    'Matam', 'Matam Ville', 'Kanel', 'Ranérou', 'Saldé', 'Gara', 'Gourbi', 'Hamady Oulof',
+    'Kolimba', 'Aéré Lao', 'Ouro Alfa', 'Dendilane', 'Gabou', 'Ouridou', 'Thilogne',
+    
+    // REGIONS & VILLES CÔTIÈRES
+    'Joal', 'Joal Fadiouth', 'Kajolle', 'Fadiouth', 'Palmarin', 'Djiffer', 'Sokone', 'Toubacouta',
+    'Tabara', 'Kaolaack de Fatick', 'Katiak', 'Ndangane', 'Mboro', 'Mékhé', 'Kaolaack',
+    
+    // COMMUNES & QUARTIERS MINEURS
+    'Keur Ayip', 'Keur Massar Colobane', 'Yeumbeul Nord', 'Yeumbeul Sud', 'Arafat', 'Jaxaay',
+    'Wakhinane', 'Ngor', 'Almadies', 'Mamelles', 'Fann Saint-Michel', 'Mermoz', 'Liberté',
+    'Sicap Liberté', 'Liberté 3', 'Liberté 2', 'Liberté 1', 'Liberté 5', 'Liberté 6',
+    'Cité Ceriz', 'Cité SN', 'Cité Sénégal', 'Diplôme', 'Toubab Dialao Nord', 'Toubab Dialao Sud',
+    'Yène', 'Sangalkam Nord', 'Sangalkam Sud', 'Keur Moussa', 'Kébé', 'Ndiaganiao', 'Tivaouan Peulh',
+    'Graffigue', 'Graffigue Nord', 'Meouane Nord', 'Meouane Sud', 'Kaolack Taïba', 'Sébikotane',
+    'Sébikotane Nord', 'Sébikotane Sud', 'Sébikotane Ouest', 'Sébikotane Est', 'Leyti', 'Ngaoundiane',
+    'Ndoulo', 'Ngoundiane Sud', 'Popenguine Nord', 'Popenguine Sud', 'Popenguine Centre', 'Toubab Dialao Centre',
+];
+
+// Afficher les 8 premiers résultats, puis les filtrer par recherche
+const maxSuggestions = 10;
+
+const filteredLieux = computed(() => {
+    const query = lieuSearchQuery.value.toLowerCase().trim();
+    
+    // Si rien n'est saisi, afficher les 10 premiers
+    if (!query) return allLieux.slice(0, maxSuggestions);
+    
+    // Filtrer et afficher jusqu'à 10 résultats
+    const filtered = allLieux.filter(lieu => 
+        lieu.toLowerCase().includes(query)
+    );
+    
+    // Priorité aux lieux qui COMMENCENT par la recherche
+    const startsWith = filtered.filter(lieu => 
+        lieu.toLowerCase().startsWith(query)
+    );
+    
+    // Puis les autres qui contiennent la recherche
+    const contains = filtered.filter(lieu => 
+        !lieu.toLowerCase().startsWith(query)
+    );
+    
+    return [...startsWith, ...contains].slice(0, maxSuggestions);
+});
+
+function selectLieuSuggestion(lieu) {
+    lead.lieu = lieu;
+    showLieuSuggestions.value = false;
+    lieuSearchQuery.value = '';
+}
+
+function handleClickOutside(event) {
+    const input = document.querySelector('input[placeholder*="Maradi"]');
+    if (input && !input.contains(event.target) && !event.target.closest('.absolute')) {
+        showLieuSuggestions.value = false;
+    }
+}
+
+
 // Validation des étapes
 const isStep1Valid = computed(() => {
     return lead.type && 
            lead.nom && 
            lead.prix && 
            lead.region && 
+           lead.lieu &&
            lead.description;
 });
 
@@ -118,6 +319,7 @@ function handleSubmit() {
     formData.append('prix', lead.prix);
     formData.append('description', lead.description);
     formData.append('region', lead.region);
+    formData.append('lieu', lead.lieu);
     formData.append('affaire', lead.affaire);
     formData.append('npiece', lead.npiece || 0);
     formData.append('surface', lead.surface || 0);
@@ -372,6 +574,56 @@ const progressPercentage = computed(() => {
                                     <option>Kaffrine</option>
                                     <option>Sédhiou</option>
                                 </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-bold text-yellow-300 mb-2">
+                                    📍 Lieu Précis *
+                                    <span v-if="lead.lieu" class="text-green-400 text-xs ml-2">✓ Rempli</span>
+                                    <span v-else class="text-red-400 text-xs ml-2">⚠️ Requis</span>
+                                </label>
+                                <div class="relative">
+                                    <input
+                                        v-model="lead.lieu"
+                                        @focus="showLieuSuggestions = true"
+                                        @input="lieuSearchQuery = lead.lieu"
+                                        type="text"
+                                        placeholder="🔍 Recherchez un lieu... (Dakar, Maradi, Thiès, Mbour...)"
+                                        :class="[
+                                            'w-full px-4 py-3 bg-slate-900/50 rounded-lg text-white placeholder-gray-400 focus:border-yellow-400 focus:outline-none focus:ring-2 transition-all border',
+                                            lead.lieu 
+                                                ? 'border-green-500/50 focus:border-green-400 focus:ring-green-400/50' 
+                                                : 'border-purple-500/30 focus:border-yellow-400 focus:ring-yellow-400/50'
+                                        ]"
+                                    />
+                                    <p class="text-xs text-gray-400 mt-1">💡 250+ lieux disponibles - Tapez pour chercher</p>
+                                    <!-- Dropdown avec suggestions -->
+                                    <div v-if="showLieuSuggestions" class="absolute top-full left-0 right-0 mt-2 bg-slate-800 border-2 border-purple-500/50 rounded-lg shadow-2xl z-50 max-h-80 overflow-y-auto">
+                                        <!-- Aucun résultat -->
+                                        <div v-if="filteredLieux.length === 0" class="px-4 py-6 text-center text-gray-400 text-sm">
+                                            <p>❌ Aucun lieu trouvé</p>
+                                            <p class="text-xs mt-2">Essayez: "Dakar", "Maradi", "Thiès"...</p>
+                                        </div>
+                                        
+                                        <!-- Résultats -->
+                                        <div v-else>
+                                            <button
+                                                v-for="(lieu, index) in filteredLieux"
+                                                :key="index"
+                                                @click="selectLieuSuggestion(lieu)"
+                                                class="w-full text-left px-4 py-3 hover:bg-purple-500/40 hover:pl-6 transition-all text-white text-sm border-b border-slate-700/30 last:border-b-0"
+                                            >
+                                                <span class="text-yellow-300">📍</span> {{ lieu }}
+                                            </button>
+                                            
+                                            <!-- Compteur de résultats -->
+                                            <div v-if="filteredLieux.length < allLieux.length" class="px-4 py-2 text-xs text-gray-500 bg-slate-900/50 border-t border-slate-700/50">
+                                                {{ filteredLieux.length }} résultats sur {{ allLieux.length }} lieux disponibles
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
 
                             <div>

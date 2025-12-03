@@ -19,6 +19,7 @@ class ImmobilierController extends Controller
         'prix' => 'required|numeric',
         'description' => 'required|string',
         'region' => 'required|string',
+        'lieu' => 'required|string',
         'affaire' => 'required|string',
         'npiece' => 'required|integer',
     ]);
@@ -100,6 +101,7 @@ class ImmobilierController extends Controller
         'prix' => Request::input('prix'),
         'description' => Request::input('description'),
         'region' => Request::input('region'),
+        'lieu' => Request::input('lieu'),
         'affaire' => Request::input('affaire'),
         'npiece' => Request::input('npiece'),
         'image1' => $image1 ?? '',
@@ -150,6 +152,7 @@ public function storeVente2()
         'prix' => 'required|numeric',
         'description' => 'required|string',
         'region' => 'required|string',
+        'lieu' => 'required|string',
         'affaire' => 'required|string',
         'surface' => 'required|numeric',
     ]);
@@ -231,6 +234,7 @@ public function storeVente2()
         'prix' => Request::input('prix'),
         'description' => Request::input('description'),
         'region' => Request::input('region'),
+        'lieu' => Request::input('lieu'),
         'affaire' => Request::input('affaire'),
         'surface' => Request::input('surface'),
         'image1' => $image1 ?? '',
@@ -263,6 +267,7 @@ public function storeVente3()
         'prix' => 'required|numeric',
         'description' => 'required|string',
         'region' => 'required|string',
+        'lieu' => 'required|string',
         'affaire' => 'required|string',
         'surface' => 'required|numeric',
     ]);
@@ -344,6 +349,7 @@ public function storeVente3()
         'prix' => Request::input('prix'),
         'description' => Request::input('description'),
         'region' => Request::input('region'),
+        'lieu' => Request::input('lieu'),
         'affaire' => Request::input('affaire'),
         'surface' => Request::input('surface'),
         'image1' => $image1 ?? '',
