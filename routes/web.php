@@ -17,6 +17,11 @@ use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\VehiculeController;
+use App\Http\Controllers\Auth\VerificationController;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Http\Controllers\Auth\EmailVerificationPromptController;
+use App\Http\Controllers\Auth\EmailVerificationNotificationController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -48,6 +53,23 @@ Route::get('/', [Controller::class, 'Home'])->name('home');
 // ======================================================
 Route::get('/forgot-password', [PasswordResetController::class, 'showForgotForm'])->name('password.request');
 Route::post('/password/email', [PasswordResetController::class, 'sendResetLink'])->name('password.email');
+
+// Routes d'inscription
+Route::get('/register', [RegisterController::class, 'create'])->middleware('guest')->name('register');
+Route::post('/register', [RegisterController::class, 'store'])->middleware('guest');
+
+// Routes pour la vérification d'email
+Route::get('/verify-email', EmailVerificationPromptController::class)
+    ->middleware('auth')
+    ->name('verification.notice');
+
+Route::post('/email/verification-notification', EmailVerificationNotificationController::class)
+    ->middleware(['auth', 'throttle:6,1'])
+    ->name('verification.send');
+
+Route::post('/verify-email', VerifyEmailController::class)
+    ->middleware('auth')
+    ->name('verification.verify');
 Route::get('/reset-password', [PasswordResetController::class, 'showResetForm'])->name('password.reset');
 Route::post('/reset-password', [PasswordResetController::class, 'resetPassword'])->name('password.update');
 
