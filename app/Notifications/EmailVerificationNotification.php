@@ -36,12 +36,21 @@ class EmailVerificationNotification extends Notification
      */
     public function toMail(object $notifiable): MailMessage
     {
+        $verificationUrl = \Illuminate\Support\Facades\URL::temporarySignedRoute(
+            'verification.verify',
+            \Illuminate\Support\Carbon::now()->addMinutes(config('auth.verification.expire', 60)),
+            [
+                'id' => $notifiable->getKey(),
+                'hash' => sha1($notifiable->getEmailForVerification()),
+            ]
+        );
+
         return (new MailMessage)
-                    ->subject('Vérification de votre adresse email')
-                    ->line('Veuillez utiliser le code suivant pour vérifier votre adresse email :')
-                    ->line('**' . $this->verificationCode . '**')
-                    ->line('Ce code expirera dans 30 minutes.')
-                    ->line("Si vous n'avez pas créé de compte, aucune autre action n'est requise.");
+                    ->subject('Vérifiez votre adresse e-mail')
+                    ->markdown('mail.auth.verify-email', [
+                        'url' => $verificationUrl,
+                        'code' => $this->verificationCode
+                    ]);
     }
 
     /**

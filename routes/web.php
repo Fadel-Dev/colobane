@@ -67,9 +67,15 @@ Route::post('/email/verification-notification', EmailVerificationNotificationCon
     ->middleware(['auth', 'throttle:6,1'])
     ->name('verification.send');
 
+// Route pour la vérification par lien direct (GET)
+Route::get('/verify-email/{id}/{hash}', [VerifyEmailController::class, 'verify'])
+    ->middleware(['auth', 'signed', 'throttle:6,1'])
+    ->name('verification.verify');
+
+// Route pour la vérification par code (POST)
 Route::post('/verify-email', VerifyEmailController::class)
     ->middleware('auth')
-    ->name('verification.verify');
+    ->name('verification.verify.code');
 Route::get('/reset-password', [PasswordResetController::class, 'showResetForm'])->name('password.reset');
 Route::post('/reset-password', [PasswordResetController::class, 'resetPassword'])->name('password.update');
 
