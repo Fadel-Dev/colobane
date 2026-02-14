@@ -50,7 +50,9 @@
     {{-- Alternate Links pour Multilangues (à ajouter si multilingue) --}}
     <link rel="alternate" hreflang="fr" href="{{ url()->current() }}" />
     {{-- pwa --}}
+    @production
     @PwaHead
+    @endproduction
 
     {{-- SEO Scripts (Analytics, Google Tag Manager, etc.) --}}
     @include('components.seo-scripts')
@@ -106,7 +108,9 @@
 
 <body class="font-sans antialiased">
     @inertia
+    @production
     @RegisterServiceWorkerScript
+    @endproduction
     
     <!-- Script pour gérer les cookies -->
     <script>

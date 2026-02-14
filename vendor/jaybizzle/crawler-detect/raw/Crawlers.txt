@@ -235,6 +235,7 @@ CISPA Web Analyser
 Citoid
 CJNetworkQuality
 Clarsentia
+Claude-User
 clips\.ua\.ac\.be
 Cloud mapping
 CloudEndure
@@ -285,6 +286,7 @@ DataXu
 Daum(oa)?[ \/][0-9]
 dBpoweramp
 ddline
+DebugBear$
 deeris
 delve\.ai
 Demon
@@ -418,6 +420,7 @@ g00g1e\.net
 ganarvisitas
 gdnplus\.com
 GeedoProductSearch
+GeedoShopProductFinder
 geek-tools
 Genieo
 GentleSource
@@ -480,6 +483,7 @@ google-xrawler
 Google-Youtube-Links
 GoogleDocs
 GoogleHC\/
+GoogleMessages
 GoogleOther
 GoogleProber
 GoogleProducer
@@ -596,6 +600,7 @@ integromedb
 Intelliseek
 InterGET
 Internet Ninja
+InternetMeasurement
 InternetSeer
 internetVista monitor
 internetwache
@@ -853,6 +858,7 @@ Octopus
 oegp
 Offline Explorer
 Offline Navigator
+odin\.com
 OgScrper
 okhttp
 omgili

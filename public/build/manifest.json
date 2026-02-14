@@ -408,12 +408,15 @@
     "src": "resources/js/Pages/Auth/TwoFactorChallenge.vue"
   },
   "resources/js/Pages/Auth/VerifyEmail.vue": {
-    "file": "assets/VerifyEmail-9f9dfc95.js",
+    "file": "assets/VerifyEmail-7c776bf2.js",
     "imports": [
       "_vue-vendor-748ff1f5.js",
       "_AuthenticationCard-c30503da.js",
       "_AuthenticationCardLogo-625c51a1.js",
+      "_TextInput-d0b98d9a.js",
+      "_InputLabel-c3da54b1.js",
       "_PrimaryButton-54fbc9ce.js",
+      "_Navbar-999194a3.js",
       "_inertia-vendor-f9f2960d.js",
       "_vendor-52fc2db2.js",
       "__plugin-vue_export-helper-c27b6911.js"
@@ -1422,12 +1425,12 @@
     "src": "resources/js/Pages/infos.vue"
   },
   "resources/js/app.css": {
-    "file": "assets/app-66dc53ce.css",
+    "file": "assets/app-9681efb7.css",
     "src": "resources/js/app.css"
   },
   "resources/js/app.js": {
     "css": [
-      "assets/app-66dc53ce.css"
+      "assets/app-9681efb7.css"
     ],
     "dynamicImports": [
       "resources/js/Pages/API/Index.vue",
@@ -1501,7 +1504,7 @@
       "resources/js/Pages/exemple.vue",
       "resources/js/Pages/infos.vue"
     ],
-    "file": "assets/app-c32443d1.js",
+    "file": "assets/app-3c8da0d4.js",
     "imports": [
       "_vendor-52fc2db2.js",
       "_vue-vendor-748ff1f5.js",

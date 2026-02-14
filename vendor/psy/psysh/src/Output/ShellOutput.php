@@ -3,7 +3,7 @@
 /*
  * This file is part of Psy Shell.
  *
- * (c) 2012-2025 Justin Hileman
+ * (c) 2012-2026 Justin Hileman
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -69,7 +69,9 @@ class ShellOutput extends ConsoleOutput
     public function page($messages, int $type = 0)
     {
         if (\is_string($messages)) {
-            $messages = (array) $messages;
+            // Split on newlines to avoid O(n^2) performance in Symfony's OutputFormatter
+            // when processing large strings with many style tags.
+            $messages = \explode("\n", $messages);
         }
 
         if (!\is_array($messages) && !\is_callable($messages)) {
@@ -154,7 +156,7 @@ class ShellOutput extends ConsoleOutput
     public function doWrite($message, $newline): void
     {
         // @todo Update OutputPager interface to require doWrite
-        if ($this->paging > 0 && $this->pager instanceof ProcOutputPager) {
+        if ($this->paging > 0 && ($this->pager instanceof ProcOutputPager || $this->pager instanceof PassthruPager)) {
             $this->pager->doWrite($message, $newline);
         } else {
             parent::doWrite($message, $newline);
