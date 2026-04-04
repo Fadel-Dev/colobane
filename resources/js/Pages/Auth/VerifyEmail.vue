@@ -66,75 +66,107 @@ const resendVerification = () => {
 <template>
     <Head title="Vérification d'Email" />
 
-    <div class="bg-gray-50 min-h-screen">
+    <div class="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50">
         <Navbar />
 
-        <main class="flex flex-col items-center justify-center pt-20 sm:pt-24 pb-12 px-4">
-            <AuthenticationCard>
-                <template #logo>
-                    <AuthenticationCardLogo />
-                </template>
-
-                <div class="mb-4 text-sm text-gray-600 text-center">
-                    Merci de vous être inscrit ! Avant de commencer, pourriez-vous vérifier votre adresse e-mail en utilisant le code à 6 chiffres que nous venons de vous envoyer ? 
-                </div>
-                <!-- l email de l utilisateur -->
-                 <div class="mb-4 text-sm text-gray-600 text-center">
-                    Merci de Verifier votre adresse e-mail :<br> <span class="text-lg text-red-500 text-center">{{ props.email }}</span>
-                </div>
-
+        <main class="flex flex-col items-center justify-center pt-24 pb-12 px-4">
+            
+            <div class="w-full max-w-md">
                 
-
-                <div v-if="verificationStatus === 'verification-code-sent'" class="flex items-center gap-3 mb-4 font-medium text-sm text-green-600 bg-green-50 p-3 rounded-md">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-                    </svg>
-                    <span>Un nouveau code de vérification a été envoyé à l'adresse e-mail que vous avez fournie lors de l'inscription.</span>
-                </div>
-
-                <form @submit.prevent="submit">
-                    <div>
-                        <InputLabel for="code" value="Code de Vérification" class="sr-only" />
-                        <TextInput
-                            id="code"
-                            v-model="form.code"
-                            type="text"
-                            class="mt-1 block w-full text-center text-lg tracking-widest"
-                            required
-                            autofocus
-                            maxlength="6"
-                            placeholder="------"
-                        />
-                        <InputError class="mt-2" :message="form.errors.code" />
+                <!-- Card -->
+                <div class="bg-white/80 backdrop-blur-xl shadow-2xl rounded-2xl p-8 border border-gray-100 transition-all duration-500 hover:shadow-indigo-100">
+                    
+                    <!-- Logo -->
+                    <div class="flex justify-center mb-6">
+                        <AuthenticationCardLogo />
                     </div>
 
-                    <div class="mt-6">
-                        <PrimaryButton 
-                            class="w-full justify-center"
-                            :class="{ 'opacity-25': form.processing || isSubmitting }" 
-                            :disabled="form.processing || isSubmitting"
-                        >
-                            Vérifier le Compte
-                        </PrimaryButton>
-                    </div>
-                </form>
+                    <!-- Title -->
+                    <h2 class="text-2xl font-bold text-center text-gray-800 mb-2">
+                        Vérification Email
+                    </h2>
 
-                <div class="mt-6 flex items-center justify-center">
-                    <button
-                        type="button"
-                        @click="resendVerification"
-                        :disabled="countdown > 0"
-                        class="text-sm text-gray-600 hover:text-gray-900 underline cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                    <p class="text-sm text-gray-500 text-center mb-6">
+                        Entrez le code à 6 chiffres envoyé à :
+                    </p>
+
+                    <!-- Email highlight -->
+                    <div class="text-center mb-6">
+                        <span class="inline-block px-4 py-2 rounded-full bg-indigo-50 text-indigo-600 font-semibold text-sm shadow-sm">
+                            {{ props.email }}
+                        </span>
+                    </div>
+
+                    <!-- Success message -->
+                    <div 
+                        v-if="verificationStatus === 'verification-code-sent'"
+                        class="mb-6 p-4 rounded-xl bg-green-50 border border-green-200 text-green-600 text-sm flex items-center gap-3 animate-fadeIn"
                     >
-                        <span v-if="countdown > 0">
-                            Renvoyer le code ({{ countdown }}s)
-                        </span>
-                        <span v-else>
-                            Renvoyer le code de vérification
-                        </span>
-                    </button>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                        </svg>
+                        Nouveau code envoyé avec succès.
+                    </div>
+
+                    <!-- Form -->
+                    <form @submit.prevent="submit" class="space-y-6">
+                        
+                        <div>
+                            <TextInput
+                                id="code"
+                                v-model="form.code"
+                                type="text"
+                                required
+                                autofocus
+                                maxlength="6"
+                                placeholder="------"
+                                class="w-full text-center text-2xl tracking-[0.6em] font-semibold 
+                                       rounded-xl border-gray-300 focus:border-indigo-500 
+                                       focus:ring-indigo-500 transition-all duration-300"
+                            />
+                            <InputError class="mt-2 text-center" :message="form.errors.code" />
+                        </div>
+
+                        <!-- Button -->
+                        <button
+                            type="submit"
+                            :disabled="form.processing || isSubmitting"
+                            class="w-full py-3 rounded-xl font-semibold text-white 
+                                   bg-gradient-to-r from-indigo-600 to-purple-600
+                                   hover:from-indigo-700 hover:to-purple-700
+                                   shadow-lg hover:shadow-indigo-200
+                                   transition-all duration-300
+                                   disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                            Vérifier mon compte
+                        </button>
+                    </form>
+
+                    <!-- Resend -->
+                    <div class="mt-6 text-center">
+                        <button
+                            type="button"
+                            @click="resendVerification"
+                            :disabled="countdown > 0"
+                            class="text-sm font-medium text-indigo-600 hover:text-indigo-800 transition disabled:opacity-50"
+                        >
+                            <span v-if="countdown > 0">
+                                Renvoyer dans {{ countdown }}s
+                            </span>
+                            <span v-else>
+                                Renvoyer le code
+                            </span>
+                        </button>
+                    </div>
+
                 </div>
-            </AuthenticationCard>
+
+                <!-- Footer text -->
+                <p class="text-center text-xs text-gray-400 mt-6">
+                    Sécurisation de votre compte en cours 🔐
+                </p>
+
+            </div>
         </main>
     </div>
 </template>
