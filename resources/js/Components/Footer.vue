@@ -13,7 +13,7 @@
                 <div class="lg:col-span-1">
                     <Link href="/" class="inline-block mb-6">
                         <img 
-                            :src="'/storage/slide/NoflayHub.png'" 
+                            :src="'/storage/slide/NoflayHub1.svg'" 
                             alt="NoflayHub Logo" 
                             class="h-12 w-auto bg-white p-2 rounded-lg"
                             loading="lazy"

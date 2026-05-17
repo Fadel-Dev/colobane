@@ -22,7 +22,7 @@
     <meta property="og:url" content="{{ url()->current() }}">
     <meta property="og:title" content="NoflayHub - Marketplace Immobilier & Automobile">
     <meta property="og:description" content="Découvrez NoflayHub, la plateforme N°1 de location et vente immobilière au Sénégal. Trouvez villas, appartements, terrains et véhicules.">
-    <meta property="og:image" content="{{ asset('logo.png') }}">
+    <meta property="og:image" content="{{ asset('storage/slide/NoflayHub1.svg') }}">
     <meta property="og:site_name" content="NoflayHub">
     <meta property="og:locale" content="fr_SN">
     
@@ -31,7 +31,7 @@
     <meta property="twitter:url" content="{{ url()->current() }}">
     <meta property="twitter:title" content="NoflayHub - Marketplace Immobilier & Automobile">
     <meta property="twitter:description" content="Découvrez NoflayHub, la plateforme N°1 de location et vente immobilière au Sénégal.">
-    <meta property="twitter:image" content="{{ asset('logo.png') }}">
+    <meta property="twitter:image" content="{{ asset('storage/slide/NoflayHub1.svg') }}">
     
     {{-- Google & Verification --}}
     @if(config('seo.google.site_verification'))
@@ -43,8 +43,8 @@
     @endif
     
     {{-- Favicon --}}
-    <link rel="icon" type="image/png" href="{{ asset('logo.png') }}">
-    <link rel="apple-touch-icon" href="{{ asset('logo.png') }}">
+    <link rel="icon" type="image/svg+xml" href="{{ asset('storage/slide/NoflayHub1.svg') }}">
+    <link rel="apple-touch-icon" href="{{ asset('storage/slide/NoflayHub1.svg') }}">
     <link rel="canonical" href="{{ url()->current() }}">
     
     {{-- Alternate Links pour Multilangues (à ajouter si multilingue) --}}

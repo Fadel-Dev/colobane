@@ -1162,7 +1162,7 @@ export default {
             return new Intl.NumberFormat('fr-FR').format(num);
         },
         get ogImage() {
-            return window.location.origin + '/logo.png';
+            return window.location.origin + '/storage/slide/NoflayHub1.svg';
         },
         get structuredData() {
             return {
@@ -1184,7 +1184,7 @@ export default {
                     'name': 'NoflayHub',
                     'logo': {
                         '@type': 'ImageObject',
-                        'url': window.location.origin + '/logo.png'
+                        'url': window.location.origin + '/storage/slide/NoflayHub1.svg'
                     }
                 }
             };
