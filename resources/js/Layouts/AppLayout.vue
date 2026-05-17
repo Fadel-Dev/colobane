@@ -78,12 +78,7 @@ const menuItems = [
                     <div class="flex justify-between items-center h-16">
                         <!-- Logo -->
                         <Link :href="route('home')" class="flex items-center space-x-2 hover:opacity-80 transition-opacity">
-                            <div class="w-10 h-10 bg-gradient-to-br from-principal to-secondaire rounded-lg flex items-center justify-center shadow-md">
-                                <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                    <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
-                                </svg>
-                            </div>
-                            <span class="text-xl font-bold text-principal hidden sm:inline">NoflayHub</span>
+                            <img src="/storage/slide/NoflayHub1.svg" alt="NoflayHub Logo" class="h-10 w-auto">
                         </Link>
 
                         <!-- Menu Desktop -->
