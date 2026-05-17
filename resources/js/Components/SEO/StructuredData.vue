@@ -33,7 +33,7 @@ export default {
           '@type': 'Organization',
           'name': 'NoflayHub',
           'url': 'https://noflayhub.com',
-          'logo': 'https://noflayhub.com/logo.png',
+          'logo': 'https://noflayhub.com/storage/slide/NoflayHub1.svg',
           'description': 'Marketplace immobilier et automobile au Sénégal',
           'sameAs': [
             'https://facebook.com/noflayhub',
@@ -53,7 +53,7 @@ export default {
           '@type': 'RealEstateAgent',
           'name': 'NoflayHub',
           'url': 'https://noflayhub.com',
-          'image': 'https://noflayhub.com/logo.png',
+          'image': 'https://noflayhub.com/storage/slide/NoflayHub1.svg',
           'areaServed': [
             'Dakar',
             'Thiès',

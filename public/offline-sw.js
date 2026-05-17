@@ -12,7 +12,7 @@ const CRITICAL_ASSETS = [
   '/',
   '/offline.html',
   '/manifest.json',
-  '/logo.png',
+  '/storage/slide/NoflayHub1.svg',
 ];
 
 /**

@@ -340,7 +340,7 @@
         <div class="header">
             <div class="logo-section">
                 <div class="logo">
-                    <img src="{{ asset('logo.png') }}" alt="NoflayHub Logo" style="width: 100%; height: 100%; object-fit: contain;">
+                    <img src="{{ asset('storage/slide/NoflayHub1.svg') }}" alt="NoflayHub Logo" style="width: 100%; height: 100%; object-fit: contain;">
                 </div>
             </div>
             <h1>🔐 Réinitialisation de mot de passe</h1>

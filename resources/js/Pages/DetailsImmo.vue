@@ -251,7 +251,7 @@ const ogImage = computed(() => {
     if (img.startsWith('/')) return window.location.origin + img;
     return window.location.origin + '/storage/' + img;
   }
-  return window.location.origin + '/logo.png';
+  return window.location.origin + '/storage/slide/NoflayHub1.svg';
 });
 
 const structuredData = computed(() => {
@@ -262,7 +262,7 @@ const structuredData = computed(() => {
     '@type': 'Product',
     'name': props.maison.nom || 'Bien immobilier',
     'description': props.maison.description || `${props.maison.type || 'Bien'} à louer à ${props.maison.region || 'Sénégal'}`,
-    'image': firstImage ? [firstImage] : [window.location.origin + '/logo.png'],
+    'image': firstImage ? [firstImage] : [window.location.origin + '/storage/slide/NoflayHub1.svg'],
     'offers': {
       '@type': 'Offer',
       'price': props.maison.prix || '0',

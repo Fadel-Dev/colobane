@@ -164,7 +164,7 @@ class SEOService
             '@type' => 'Organization',
             'name' => 'NoflayHub',
             'url' => config('app.url'),
-            'logo' => config('app.url') . '/logo.png',
+            'logo' => config('app.url') . '/storage/slide/NoflayHub1.svg',
             'description' => config('seo.defaults.description'),
             'sameAs' => array_values(array_filter(config('seo.social'))),
             'contactPoint' => [

@@ -27,7 +27,7 @@ return [
         'theme_color' => '#6777ef',
         'icons' => [
             [
-                'src' => 'logo.png',
+                'src' => 'storage/slide/NoflayHub1.svg',
                 'sizes' => '512x512',
                 'type' => 'image/png',
             ],

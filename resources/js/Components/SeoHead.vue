@@ -110,9 +110,9 @@ const defaultDescription = 'Trouvez votre logement idéal au Sénégal. Villas, 
 const defaultKeywords = 'location Sénégal, immobilier Sénégal, villa à louer, appartement à louer, chambre à louer, studio à louer, terrain à louer, location Dakar, location Thiès, location Saint-Louis, NoflayHub';
 const defaultImage = computed(() => {
     if (typeof window !== 'undefined') {
-        return window.location.origin + '/logo.png';
+        return window.location.origin + '/storage/slide/NoflayHub1.svg';
     }
-    return '/logo.png';
+    return '/storage/slide/NoflayHub1.svg';
 });
 
 const currentUrl = computed(() => {
