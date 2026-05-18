@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Immobiliers;
 use App\Models\Services;
 use App\Models\Voitures;
+use App\Services\SEOService;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
@@ -350,6 +351,13 @@ public function Category($category)
                 ->first();
         }
 
+        // Générer des métadonnées SEO dynamiques
+        $seoKeywords = SEOService::generateKeywords($immo->nom, $immo->description, 10);
+        $seoDescription = SEOService::generateMetaDescription($immo->description, 160);
+        if (empty($seoDescription)) {
+            $seoDescription = "{$immo->nom} à {$immo->region}. Découvrez ce bien immobilier sur NoflayHub.";
+        }
+
         return Inertia::render('DetailsImmo', [
             'canLogin' => Route::has('login'),
             'canRegister' => Route::has('register'),
@@ -366,6 +374,8 @@ public function Category($category)
             'isFavorite' => $isFavorite,
             'reviews' => $reviews,
             'userReview' => $userReview,
+            'seoKeywords' => implode(', ', $seoKeywords),
+            'seoDescription' => $seoDescription,
         ]);
     }
 
@@ -404,6 +414,13 @@ public function Category($category)
 
         $urlActuelle = URL::current();
 
+        // Générer des métadonnées SEO dynamiques
+        $seoKeywords = SEOService::generateKeywords($voiture->nom, $voiture->description, 10);
+        $seoDescription = SEOService::generateMetaDescription($voiture->description, 160);
+        if (empty($seoDescription)) {
+            $seoDescription = "{$voiture->marque} {$voiture->model} à vendre/louer. Découvrez ce véhicule sur NoflayHub.";
+        }
+
 
         return Inertia::render('DetailsVehicule', [
             'canLogin' => Route::has('login'),
@@ -417,6 +434,8 @@ public function Category($category)
             // 'user' => $user,
             'suggestions' => $suggestions,
             'urlActuelle' => $urlActuelle,
+            'seoKeywords' => implode(', ', $seoKeywords),
+            'seoDescription' => $seoDescription,
         ]);
     }
 

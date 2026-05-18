@@ -18,6 +18,8 @@ const props = defineProps({
     canRegister: Boolean,
     laravelVersion: String,
     phpVersion: String,
+    seoKeywords: String,
+    seoDescription: String,
 });
 
 const encodeUrlActuelle = computed(() => encodeURIComponent(props.urlActuelle));
@@ -99,8 +101,8 @@ const structuredData = computed(() => {
 <template>
     <SeoHead 
         :title="`${voiture.nom} - ${voiture.marque} ${voiture.model} au Sénégal | NoflayHub`"
-        :description="`Découvrez cette ${voiture.marque} ${voiture.model} à ${voiture.prix} FCFA sur NoflayHub. ${voiture.description ? voiture.description.substring(0, 150) : ''}...`"
-        :keywords="`${voiture.marque} ${voiture.model}, voiture occasion Sénégal, location voiture Dakar, ${voiture.nom}, noflayhub`"
+        :description="seoDescription || `Découvrez cette ${voiture.marque} ${voiture.model} à ${voiture.prix} FCFA sur NoflayHub.`"
+        :keywords="seoKeywords || `${voiture.marque} ${voiture.model}, voiture occasion Sénégal, location voiture Dakar, ${voiture.nom}, noflayhub`"
         :og-type="'product'"
         :og-image="ogImage"
         :structured-data="structuredData"

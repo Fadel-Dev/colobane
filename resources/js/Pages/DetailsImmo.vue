@@ -29,6 +29,8 @@ const props = defineProps({
   isFavorite: Boolean,
   reviews: Array,
   userReview: Object,
+  seoKeywords: String,
+  seoDescription: String,
 });
 
 // Reactive data
@@ -298,8 +300,8 @@ const structuredData = computed(() => {
 <template>
   <SeoHead 
     :title="`${maison.nom || 'Bien immobilier'} à ${maison.region || 'Sénégal'} - ${formatPrice(maison.prix)} FCFA`"
-    :description="`${maison.nom || 'Bien immobilier'} à louer à ${maison.region || 'Sénégal'}. ${maison.npiece ? maison.npiece + ' chambre(s)' : ''} ${maison.type || ''} ${maison.surface ? 'de ' + maison.surface + 'm²' : ''}. Prix : ${formatPrice(maison.prix)} FCFA. ${maison.description ? maison.description.substring(0, 150) + '...' : ''}`"
-    :keywords="`${maison.type || 'immobilier'} à louer ${maison.region || 'Sénégal'}, location ${maison.region || 'Sénégal'}, ${maison.npiece ? maison.npiece + ' chambres' : ''} ${maison.region || ''}`"
+    :description="seoDescription || `${maison.nom || 'Bien immobilier'} à louer à ${maison.region || 'Sénégal'}. ${maison.npiece ? maison.npiece + ' chambre(s)' : ''} ${maison.type || ''} ${maison.surface ? 'de ' + maison.surface + 'm²' : ''}. Prix : ${formatPrice(maison.prix)} FCFA.`"
+    :keywords="seoKeywords || `${maison.type || 'immobilier'} à louer ${maison.region || 'Sénégal'}, location ${maison.region || 'Sénégal'}`"
     :canonical-url="canonicalUrl"
     :og-type="'product'"
     :og-image="ogImage"
