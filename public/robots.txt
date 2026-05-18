@@ -44,9 +44,9 @@ Crawl-delay: 2
 Request-rate: 30/60
 
 # Sitemap
-Sitemap: https://noflayhub.com/sitemap.xml
-Sitemap: https://noflayhub.com/sitemap-pages.xml
-Sitemap: https://noflayhub.com/sitemap-immobilier.xml
+Sitemap: https://www.noflayhub.store/sitemap.xml
+Sitemap: https://www.noflayhub.store/sitemap-pages.xml
+Sitemap: https://www.noflayhub.store/sitemap-immobilier.xml
 
 # Commentaire final
 # Fichier généré pour optimisation SEO NoflayHub

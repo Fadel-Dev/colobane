@@ -8,7 +8,7 @@ return [
     */
 
     'site_name' => env('SEO_SITE_NAME', 'NoflayHub'),
-    'site_url' => env('APP_URL', 'https://noflayhub.com'),
+    'site_url' => env('APP_URL', 'https://www.noflayhub.store'),
     'locale' => env('APP_LOCALE', 'fr_SN'),
     
     /*
@@ -20,7 +20,7 @@ return [
         'title' => 'NoflayHub - Marketplace Immobilier & Automobile au Sénégal',
         'description' => 'Découvrez NoflayHub, la plateforme N°1 de location et vente immobilière au Sénégal. Trouvez villas, appartements, terrains et véhicules. Affaires rapides et sécurisées.',
         'keywords' => 'immobilier Sénégal, location villa, appartement Dakar, terrain Sénégal, voiture occasion, covoiturage, services Sénégal',
-        'image' => 'https://noflayhub.com/storage/slide/NoflayHub1.svg',
+        'image' => 'https://www.noflayhub.store/storage/slide/NoflayHub1.svg',
     ],
 
     /*
@@ -102,8 +102,8 @@ return [
     'structured_data' => [
         'organization' => [
             'name' => 'NoflayHub',
-            'url' => 'https://noflayhub.com',
-            'logo' => 'https://noflayhub.com/storage/slide/NoflayHub1.svg',
+            'url' => 'https://www.noflayhub.store',
+            'logo' => 'https://www.noflayhub.store/storage/slide/NoflayHub1.svg',
             'description' => 'Marketplace immobilier et automobile au Sénégal',
             'email' => env('CONTACT_EMAIL', 'contact@noflayhub.com'),
             'phone' => env('CONTACT_PHONE', '+221 33 123 45 67'),
