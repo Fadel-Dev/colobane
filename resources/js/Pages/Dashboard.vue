@@ -3,6 +3,7 @@ import AppLayout from '@/Layouts/AppLayout.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
 import { ref, computed, onMounted } from 'vue';
 import SeoHead from '@/Components/SeoHead.vue';
+import VerificationForm from '@/Components/VerificationForm.vue';
 
 const props = defineProps({
     maison: Object,
@@ -175,8 +176,8 @@ onMounted(() => {
             <!-- Main Content -->
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
                 <!-- Tab Navigation Premium -->
-                <div class="mb-10">
-                    <div class="flex items-center space-x-4">
+                <div class="mb-10 overflow-x-auto">
+                    <div class="flex items-center space-x-4 min-w-max pb-2">
                         <button
                             @click="activeTab = 'dashboard'"
                             :class="[
@@ -209,6 +210,21 @@ onMounted(() => {
                                 {{ totalImmobilier || 0 }}
                             </span>
                             <div v-if="activeTab === 'immobiliers'" class="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-principal to-secondaire rounded-full"></div>
+                        </button>
+                        <button
+                            @click="activeTab = 'verification'"
+                            :class="[
+                                'relative px-6 py-3.5 font-bold transition-all duration-300 flex items-center space-x-2 group',
+                                activeTab === 'verification'
+                                    ? 'text-principal'
+                                    : 'text-gray-600 hover:text-gray-900'
+                            ]"
+                        >
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                            </svg>
+                            <span>Vérification</span>
+                            <div v-if="activeTab === 'verification'" class="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-principal to-secondaire rounded-full"></div>
                         </button>
                     </div>
                     <div class="mt-4 h-px bg-gradient-to-r from-gray-200 via-gray-200 to-transparent"></div>
@@ -576,6 +592,20 @@ onMounted(() => {
                                 <span>Créer une annonce</span>
                             </Link>
                         </div>
+                    </div>
+                </Transition>
+
+                <!-- Verification Tab -->
+                <Transition
+                    enter-active-class="transition ease-out duration-300"
+                    enter-from-class="opacity-0 translate-y-4"
+                    enter-to-class="opacity-100 translate-y-0"
+                    leave-active-class="transition ease-in duration-200"
+                    leave-from-class="opacity-100 translate-y-0"
+                    leave-to-class="opacity-0 translate-y-4"
+                >
+                    <div v-show="activeTab === 'verification'" class="max-w-3xl mx-auto">
+                        <VerificationForm :user="$page.props.auth.user" />
                     </div>
                 </Transition>
             </div>

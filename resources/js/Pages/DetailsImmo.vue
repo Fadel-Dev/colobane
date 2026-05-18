@@ -6,24 +6,29 @@ import Footer from '../Components/Footer.vue';
 import { Inertia } from '@inertiajs/inertia';
 import Navbar from '../Components/Navbar.vue';
 import Toast from '../Components/Toast.vue';
+import TrustBadge from '@/Components/TrustBadge.vue';
+import ReviewSystem from '@/Components/ReviewSystem.vue';
+import ReportModal from '@/Components/ReportModal.vue';
 import { ref, computed, onMounted } from 'vue';
 
 const page = usePage();
 
 const props = defineProps({
   maison: Object,
-  user: Object,
-  nameSeler: Object,
-  mailSeler: Object,
-  phoneSeler: Object,
+  seller: Object,
+  nameSeler: String,
+  mailSeler: String,
+  phoneSeler: String,
   suggestions: Object,
   nPiece: Object,
-  urlActuelle: Object,
+  urlActuelle: String,
   canLogin: Boolean,
   canRegister: Boolean,
   laravelVersion: String,
   phpVersion: String,
   isFavorite: Boolean,
+  reviews: Array,
+  userReview: Object,
 });
 
 // Reactive data
@@ -38,6 +43,7 @@ const toastMessage = ref('');
 const toastType = ref('success');
 const showLightbox = ref(false);
 const lightboxIndex = ref(0);
+const showReportModal = ref(false);
 
 // Computed images array - Inclut toutes les images (image1, image2, image3 + images JSON)
 const images = computed(() => {
@@ -629,6 +635,46 @@ const structuredData = computed(() => {
               </dl>
             </div>
           </div>
+
+          <!-- Reviews Section -->
+          <div class="space-y-6">
+            <h2 class="text-2xl font-bold text-gray-900 flex items-center">
+              <i class="bi bi-star-fill text-yellow-400 mr-2"></i>
+              Avis sur l'annonceur ({{ reviews.length }})
+            </h2>
+            
+            <!-- Add/Edit Review -->
+            <div v-if="$page.props.auth.user && !isOwner">
+              <ReviewSystem 
+                :target-user-id="seller.id" 
+                :immobilier-id="maison.id"
+                :existing-rating="userReview?.rating"
+                :existing-comment="userReview?.comment"
+              />
+            </div>
+
+            <!-- List Reviews -->
+            <div v-if="reviews.length > 0" class="space-y-4">
+              <div v-for="review in reviews" :key="review.id" class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
+                <div class="flex items-center justify-between mb-2">
+                  <div class="flex items-center space-x-2">
+                    <div class="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center font-bold text-gray-600">
+                      {{ review.user.name.charAt(0) }}
+                    </div>
+                    <span class="font-semibold text-gray-900">{{ review.user.name }}</span>
+                  </div>
+                  <div class="flex items-center text-yellow-400">
+                    <i v-for="i in 5" :key="i" :class="[i <= review.rating ? 'bi-star-fill' : 'bi-star', 'bi']"></i>
+                  </div>
+                </div>
+                <p class="text-gray-700 text-sm">{{ review.comment }}</p>
+                <p class="text-gray-400 text-xs mt-2">{{ formatDate(review.created_at) }}</p>
+              </div>
+            </div>
+            <div v-else class="text-center py-8 bg-gray-50 rounded-xl border-2 border-dashed border-gray-200">
+              <p class="text-gray-500">Aucun avis pour le moment.</p>
+            </div>
+          </div>
         </div>
 
         <!-- Right Column: Contact Card -->
@@ -650,11 +696,18 @@ const structuredData = computed(() => {
                       <div class="w-12 sm:w-16 h-12 sm:h-16 bg-gradient-to-br from-principal/20 to-principal/10 rounded-full flex items-center justify-center ring-2 sm:ring-4 ring-principal/10">
                         <i class="bi bi-person-fill text-principal text-lg sm:text-2xl"></i>
                       </div>
-                      <div class="absolute -bottom-1 -right-1 w-4 h-4 sm:w-6 sm:h-6 bg-green-500 rounded-full border-2 sm:border-3 border-white"></div>
+                      <div class="absolute -bottom-1 -right-1">
+                        <TrustBadge :verified="seller.is_verified" size="md" />
+                      </div>
                     </div>
                     <div>
-                      <p class="font-bold text-gray-900 text-sm sm:text-base lg:text-lg">{{ nameSeler }}</p>
-                      <p class="text-xs sm:text-sm text-gray-500">Vendeur vérifié</p>
+                      <div class="flex items-center space-x-2">
+                        <p class="font-bold text-gray-900 text-sm sm:text-base lg:text-lg">{{ nameSeler }}</p>
+                        <TrustBadge :verified="seller.is_verified" size="sm" />
+                      </div>
+                      <p class="text-xs sm:text-sm text-gray-500">
+                        {{ seller.is_verified ? 'Propriétaire Vérifié' : 'Annonceur' }}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -721,9 +774,13 @@ const structuredData = computed(() => {
             </div>
 
             <!-- Report Button -->
-            <button class="w-full text-xs sm:text-sm text-gray-500 hover:text-gray-700 text-center py-2.5 sm:py-3 rounded-lg sm:rounded-xl hover:bg-gray-50 transition-colors duration-200 flex items-center justify-center space-x-2">
+            <button 
+              v-if="$page.props.auth.user && !isOwner"
+              @click="showReportModal = true"
+              class="w-full text-xs sm:text-sm text-gray-500 hover:text-gray-700 text-center py-2.5 sm:py-3 rounded-lg sm:rounded-xl hover:bg-gray-50 transition-colors duration-200 flex items-center justify-center space-x-2"
+            >
               <i class="bi bi-flag text-sm sm:text-base"></i>
-              <span>Signaler</span>
+              <span>Signaler cette annonce</span>
             </button>
           </div>
         </div>
@@ -894,6 +951,13 @@ const structuredData = computed(() => {
         </div>
       </div>
     </Transition>
+
+    <!-- Report Modal -->
+    <ReportModal 
+      :show="showReportModal" 
+      :immobilier-id="maison.id" 
+      @close="showReportModal = false" 
+    />
 
     <!-- Footer -->
     <div class="mt-16 pb-24 lg:pb-12">

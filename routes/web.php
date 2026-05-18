@@ -13,7 +13,7 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\PasswordResetController;
-
+use App\Http\Controllers\TrustController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\VehiculeController;
@@ -126,8 +126,14 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'Dash'])->name('dashboard');
+    Route::get('/dashboard', [ImmobilierController::class, 'dashboard'])->name('dashboard');
+
+    // Trust & Safety
+    Route::post('/report/immobilier/{id}', [TrustController::class, 'storeReport'])->name('report.immobilier');
+    Route::post('/review/store', [TrustController::class, 'storeReview'])->name('review.store');
+    Route::post('/user/verify', [TrustController::class, 'submitVerification'])->name('user.verify.submit');
 });
+
 
 // delete product
 

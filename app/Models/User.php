@@ -27,7 +27,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
   protected $fillable = [
-    'name', 'email', 'password', 'phone', 'verification_code', 'email_verified_at', 'verification_code_expires_at'
+    'name', 'email', 'password', 'phone', 'verification_code', 'email_verified_at', 'verification_code_expires_at', 'is_verified', 'verification_documents'
 ];
 
     protected $dates = [
@@ -53,6 +53,8 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'is_verified' => 'boolean',
+        'verification_documents' => 'array',
     ];
 
     /**
@@ -63,6 +65,27 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    // Trust & Safety
+    public function reviewsReceived()
+    {
+        return $this->hasMany(Review::class, 'target_user_id');
+    }
+
+    public function reviewsGiven()
+    {
+        return $this->hasMany(Review::class, 'user_id');
+    }
+
+    public function reportsMade()
+    {
+        return $this->hasMany(Report::class, 'user_id');
+    }
+
+    public function averageRating()
+    {
+        return $this->reviewsReceived()->avg('rating') ?: 0;
+    }
 //Vehicule
     public function Lead()
     {

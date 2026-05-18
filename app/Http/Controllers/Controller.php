@@ -308,7 +308,7 @@ public function Category($category)
 
     public function DetailsImmo($id)
     {
-        $immo = Immobiliers::findOrFail($id);
+        $immo = Immobiliers::with('user')->findOrFail($id);
         sleep(1);
 
 
@@ -321,24 +321,10 @@ public function Category($category)
             ->limit(3) // Limiter le nombre de suggestions à 3
             ->get();
 
-        // $user = User::findOrFail($id);
-        //   name user
-        $nomUtilisateur = DB::table('users')
-            ->join('immobiliers', 'users.id', '=', 'immobiliers.user_id')
-            ->where('immobiliers.id', $id)
-            ->value('users.name');
-
-        //   mail user
-        $mailUtilisateur = DB::table('users')
-            ->join('immobiliers', 'users.id', '=', 'immobiliers.user_id')
-            ->where('immobiliers.id', $id)
-            ->value('users.email');
-
-        //   phone user
-        $phoneUtilisateur = DB::table('users')
-            ->join('immobiliers', 'users.id', '=', 'immobiliers.user_id')
-            ->where('immobiliers.id', $id)
-            ->value('users.phone');
+        $seller = $immo->user;
+        $nomUtilisateur = $seller->name;
+        $mailUtilisateur = $seller->email;
+        $phoneUtilisateur = $seller->phone;
 
         $urlActuelle = URL::current();
 
@@ -350,22 +336,36 @@ public function Category($category)
                 ->exists();
         }
 
-        $maison = Immobiliers::findOrFail($id);
+        // Récupérer les avis pour ce vendeur
+        $reviews = \App\Models\Review::with('user')
+            ->where('target_user_id', $seller->id)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        $userReview = null;
+        if (Auth::check()) {
+            $userReview = \App\Models\Review::where('user_id', Auth::id())
+                ->where('target_user_id', $seller->id)
+                ->where('immobilier_id', $id)
+                ->first();
+        }
+
         return Inertia::render('DetailsImmo', [
             'canLogin' => Route::has('login'),
             'canRegister' => Route::has('register'),
             'laravelVersion' => Application::VERSION,
             'phpVersion' => PHP_VERSION,
 
-            'maison' => $maison,
+            'maison' => $immo,
+            'seller' => $seller,
             'nameSeler' => $nomUtilisateur,
             'mailSeler' => $mailUtilisateur,
             'phoneSeler' => $phoneUtilisateur,
-            // 'user' => $user,
             'suggestions' => $suggestions,
             'urlActuelle' => $urlActuelle,
             'isFavorite' => $isFavorite,
-
+            'reviews' => $reviews,
+            'userReview' => $userReview,
         ]);
     }
 
