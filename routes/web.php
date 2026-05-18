@@ -126,7 +126,7 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    Route::get('/dashboard', [ImmobilierController::class, 'dashboard'])->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'Dash'])->name('dashboard');
 
     // Trust & Safety
     Route::post('/report/immobilier/{id}', [TrustController::class, 'storeReport'])->name('report.immobilier');
