@@ -97,9 +97,14 @@ const unreadCount = computed(() => {
                                 <div class="flex items-start gap-2 sm:gap-3">
                                     <div :class="[
                                         'w-8 sm:w-10 h-8 sm:h-10 rounded-full flex items-center justify-center flex-shrink-0',
-                                        notification.type === 'favori' ? 'bg-red-100 text-red-600' : 'bg-blue-100 text-blue-600'
+                                        notification.type === 'favori' ? 'bg-red-100 text-red-600' : 
+                                        notification.type === 'alerte' ? 'bg-yellow-100 text-yellow-600' : 'bg-blue-100 text-blue-600'
                                     ]">
-                                        <i :class="[notification.type === 'favori' ? 'bi bi-heart-fill' : 'bi bi-bell-fill', 'text-sm sm:text-base']"></i>
+                                        <i :class="[
+                                            notification.type === 'favori' ? 'bi bi-heart-fill' : 
+                                            notification.type === 'alerte' ? 'bi bi-bell-fill' : 'bi bi-info-circle-fill', 
+                                            'text-sm sm:text-base'
+                                        ]"></i>
                                     </div>
                                     <div class="flex-1 min-w-0">
                                         <h3 class="font-bold text-gray-900 text-sm sm:text-base truncate">{{ notification.title }}</h3>

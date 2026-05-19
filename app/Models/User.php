@@ -118,6 +118,13 @@ public function favoris()
     return $this->hasMany(Favori::class);
 }
 
+/**
+ * Alertes immobilières configurées par l'utilisateur
+ */
+public function propertyAlerts()
+{
+    return $this->hasMany(PropertyAlert::class);
+}
 public function favorisImmobiliers()
 {
     return $this->belongsToMany(Immobiliers::class, 'favoris', 'user_id', 'immobilier_id')

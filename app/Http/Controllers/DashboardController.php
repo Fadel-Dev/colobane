@@ -146,6 +146,9 @@ class DashboardController extends Controller
                 return (float) $item->prix;
             });
 
+        // Récupérer les alertes de l'utilisateur
+        $alerts = auth()->user()->propertyAlerts()->latest()->get();
+
         return Inertia::render('Dashboard', [
             'habitats' => $immobiliers,
             'total' => count($immobiliers),
@@ -161,6 +164,7 @@ class DashboardController extends Controller
             'totalVenduSomme' => $totalVenduSomme,
             'sommeHabitatVendu' => $totalVenduSomme,
             'totalArticles' => count($immobiliers),
+            'alerts' => $alerts,
         ]);
     }
 

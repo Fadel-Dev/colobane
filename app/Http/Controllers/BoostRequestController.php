@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Immobiliers;
+use App\Services\PropertyAlertService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -36,6 +37,9 @@ class BoostRequestController extends Controller
                 'status' => 'accepter',
                 'date_fin_booster' => now()->addHours($durationHours),
             ]);
+
+            // Déclencher les alertes
+            PropertyAlertService::checkAlerts($property);
 
             return response()->json([
                 'success' => true,
@@ -104,6 +108,9 @@ class BoostRequestController extends Controller
                 'onceBooster' => true,
                 'date_fin_booster' => now()->addHours($durationHours),
             ]);
+
+            // Déclencher les alertes
+            PropertyAlertService::checkAlerts($property);
 
             return response()->json([
                 'success' => true,

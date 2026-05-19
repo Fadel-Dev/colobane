@@ -245,6 +245,10 @@ onUnmounted(() => {
                                         {{ $page.props.unreadNotificationsCount }}
                                     </span>
                                 </a>
+                                <a href="/alertes" 
+                                   class="block px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm text-gray-700 hover:bg-gray-100">
+                                    Mes Alertes
+                                </a>
                                 <hr class="my-1">
                                 <form method="POST" action="/logout">
                                     <input type="hidden" name="_token" :value="$page.props.csrf_token">

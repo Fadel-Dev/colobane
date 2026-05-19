@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Models\Immobiliers;
 use App\Models\Services;
 use App\Models\Voitures;
+use App\Services\PropertyAlertService;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
@@ -132,6 +133,11 @@ public function DetailsVehicule($id)
          $immobilier->date_fin_booster = $validatedData['date_fin_booster'];
          $immobilier->onceBooster = true;
          $immobilier->save();
+
+         // Déclencher les alertes si l'annonce est acceptée
+         if ($validatedData['status'] === 'accepter') {
+             PropertyAlertService::checkAlerts($immobilier);
+         }
 
          return redirect()->route('dashboard')->with('message', 'Annonce modifiée avec succès');
      }

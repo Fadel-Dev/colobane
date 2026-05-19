@@ -22,10 +22,25 @@ const props = defineProps({
     restantImmobilier: Object,
     totalArticles: Object,
     totalRestant: Object,
+    alerts: Array,
 });
 
 const activeTab = ref('dashboard');
 const isLoading = ref(false);
+
+const deleteAlert = (id) => {
+    if (confirm('Voulez-vous vraiment supprimer cette alerte ?')) {
+        router.delete(route('alertes.destroy', id), {
+            preserveScroll: true,
+        });
+    }
+};
+
+const toggleAlert = (id) => {
+    router.patch(route('alertes.toggle', id), {}, {
+        preserveScroll: true,
+    });
+};
 
 // Format price
 const formatPrice = (price) => {
@@ -226,6 +241,24 @@ onMounted(() => {
                             <span>Vérification</span>
                             <div v-if="activeTab === 'verification'" class="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-principal to-secondaire rounded-full"></div>
                         </button>
+                        <button
+                            @click="activeTab = 'alerts'"
+                            :class="[
+                                'relative px-6 py-3.5 font-bold transition-all duration-300 flex items-center space-x-2 group',
+                                activeTab === 'alerts'
+                                    ? 'text-principal'
+                                    : 'text-gray-600 hover:text-gray-900'
+                            ]"
+                        >
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                            </svg>
+                            <span>Mes alertes</span>
+                            <span v-if="alerts.length > 0" class="ml-2 px-3 py-1 bg-yellow-400 text-white rounded-full text-xs font-bold">
+                                {{ alerts.length }}
+                            </span>
+                            <div v-if="activeTab === 'alerts'" class="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-principal to-secondaire rounded-full"></div>
+                        </button>
                     </div>
                     <div class="mt-4 h-px bg-gradient-to-r from-gray-200 via-gray-200 to-transparent"></div>
                 </div>
@@ -369,6 +402,43 @@ onMounted(() => {
                                     <div class="mt-6 pt-6 border-t border-principal/20">
                                         <span class="text-principal font-bold flex items-center group-hover:translate-x-2 transition-transform duration-300">
                                             Voir les articles
+                                            <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                                            </svg>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Alertes Card -->
+                            <div 
+                                @click="activeTab = 'alerts'"
+                                class="group relative bg-white rounded-2xl p-8 border-2 border-yellow-400/20 shadow-xl hover:shadow-2xl transition-all duration-500 cursor-pointer overflow-hidden"
+                            >
+                                <div class="absolute inset-0 bg-gradient-to-br from-yellow-400/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                                <div class="relative">
+                                    <div class="flex items-center justify-between mb-6">
+                                        <div>
+                                            <h3 class="text-2xl font-bold text-gray-900 mb-2">Mes Alertes</h3>
+                                            <p class="text-gray-600">Soyez notifié des nouveaux biens</p>
+                                        </div>
+                                        <div class="w-20 h-20 bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-2xl flex items-center justify-center shadow-xl group-hover:scale-110 group-hover:rotate-6 transition-all duration-500">
+                                            <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    <div class="p-4 bg-yellow-50 rounded-xl border border-yellow-200">
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-yellow-800 font-semibold">Gérer vos critères de recherche</span>
+                                            <svg class="w-5 h-5 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    <div class="mt-6 pt-6 border-t border-yellow-400/20">
+                                        <span class="text-yellow-600 font-bold flex items-center group-hover:translate-x-2 transition-transform duration-300">
+                                            Configurer mes alertes
                                             <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
                                             </svg>
@@ -606,6 +676,88 @@ onMounted(() => {
                 >
                     <div v-show="activeTab === 'verification'" class="max-w-3xl mx-auto">
                         <VerificationForm :user="$page.props.auth.user" />
+                    </div>
+                </Transition>
+
+                <!-- Alerts Tab -->
+                <Transition
+                    enter-active-class="transition ease-out duration-300"
+                    enter-from-class="opacity-0 translate-y-4"
+                    enter-to-class="opacity-100 translate-y-0"
+                    leave-active-class="transition ease-in duration-200"
+                    leave-from-class="opacity-100 translate-y-0"
+                    leave-to-class="opacity-0 translate-y-4"
+                >
+                    <div v-show="activeTab === 'alerts'" class="max-w-4xl mx-auto">
+                        <div class="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
+                            <div class="p-6 border-b border-gray-100 bg-gray-50 flex items-center justify-between">
+                                <h3 class="text-xl font-bold text-gray-900">Mes Alertes Immobilières</h3>
+                                <Link href="/" class="text-principal font-bold text-sm hover:underline">
+                                    Créer une alerte
+                                </Link>
+                            </div>
+
+                            <div class="p-6">
+                                <div v-if="alerts.length === 0" class="text-center py-12">
+                                    <div class="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                        <i class="fas fa-bell-slash text-gray-400 text-3xl"></i>
+                                    </div>
+                                    <h4 class="text-lg font-bold text-gray-900">Aucune alerte configurée</h4>
+                                    <p class="text-gray-500 mt-2">Soyez notifié dès qu'un bien correspondant à vos critères est publié.</p>
+                                </div>
+
+                                <div v-else class="space-y-4">
+                                    <div v-for="alert in alerts" :key="alert.id" 
+                                        class="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 border-2 rounded-xl hover:border-principal/30 transition-all"
+                                        :class="{'opacity-60 bg-gray-50 border-gray-100': !alert.is_active, 'border-gray-100 bg-white': alert.is_active}">
+                                        
+                                        <div class="flex-1">
+                                            <div class="flex items-center gap-2 mb-2">
+                                                <span class="px-2.5 py-1 bg-principal/10 text-principal rounded-lg text-xs font-extrabold uppercase tracking-wider">
+                                                    {{ alert.type || 'Tous types' }}
+                                                </span>
+                                                <span v-if="alert.region" class="flex items-center text-gray-700 text-sm font-bold">
+                                                    <svg class="w-4 h-4 mr-1 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.828a2 2 0 01-1.414 0l-4.242-4.242a8 8 0 1111.314 0z" />
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                                    </svg>
+                                                    {{ alert.region }}
+                                                </span>
+                                            </div>
+                                            <div class="text-gray-900 font-extrabold text-lg">
+                                                <template v-if="alert.min_price && alert.max_price">
+                                                    {{ new Intl.NumberFormat('fr-FR').format(alert.min_price) }} - {{ new Intl.NumberFormat('fr-FR').format(alert.max_price) }} <span class="text-sm font-normal text-gray-500">FCFA</span>
+                                                </template>
+                                                <template v-else-if="alert.min_price">
+                                                    Min: {{ new Intl.NumberFormat('fr-FR').format(alert.min_price) }} <span class="text-sm font-normal text-gray-500">FCFA</span>
+                                                </template>
+                                                <template v-else-if="alert.max_price">
+                                                    Max: {{ new Intl.NumberFormat('fr-FR').format(alert.max_price) }} <span class="text-sm font-normal text-gray-500">FCFA</span>
+                                                </template>
+                                                <template v-else>
+                                                    Tous les prix
+                                                </template>
+                                            </div>
+                                        </div>
+
+                                        <div class="flex items-center gap-3 mt-4 sm:mt-0 w-full sm:w-auto justify-end">
+                                            <button @click="toggleAlert(alert.id)" 
+                                                class="px-4 py-2 rounded-xl text-xs font-bold transition-all shadow-sm"
+                                                :class="alert.is_active ? 'bg-green-100 text-green-700 hover:bg-green-200' : 'bg-gray-200 text-gray-600 hover:bg-gray-300'">
+                                                {{ alert.is_active ? 'Active' : 'Désactivée' }}
+                                            </button>
+                                            <button @click="deleteAlert(alert.id)" 
+                                                class="p-2.5 text-red-500 hover:bg-red-50 rounded-xl transition-all"
+                                                title="Supprimer l'alerte">
+                                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </Transition>
             </div>

@@ -244,6 +244,16 @@
                                 <span class="hidden sm:inline">Appliquer les filtres</span>
                                 <span class="sm:hidden">Filtrer</span>
                             </button>
+
+                            <!-- Bouton Alerte -->
+                            <button 
+                                v-if="$page.props.auth?.user"
+                                type="button"
+                                @click="showAlertModal = true"
+                                class="w-full mt-3 bg-white border-2 border-principal text-principal hover:bg-principal/5 py-2 sm:py-3 px-3 sm:px-4 text-sm sm:text-base rounded-lg font-bold transition-all duration-300 flex items-center justify-center gap-2">
+                                <i class="fas fa-bell"></i>
+                                Créer une alerte
+                            </button>
                         </form>
                     </div>
                 </aside>
@@ -582,10 +592,24 @@
         :type="toastType"
         @close="closeToast"
     />
+
+    <PropertyAlertModal 
+        :show="showAlertModal"
+        :initial-type="type !== 'all' ? type : ''"
+        :initial-region="filters.region"
+        :initial-min-price="filters.min_price"
+        :initial-max-price="filters.max_price"
+        @close="showAlertModal = false"
+        @success="handleAlertSuccess"
+    />
 </template>
 
 <script setup>
 import { Head } from '@inertiajs/vue3';
+import PropertyAlertModal from '@/Components/PropertyAlertModal.vue';
+import { ref } from 'vue';
+
+const showAlertModal = ref(false);
 
 const props = defineProps({
     category: String,
@@ -925,6 +949,11 @@ export default {
                 return this.itemsBoost.data;
             }
             return [];
+        },
+        handleAlertSuccess(message) {
+            this.toastMessage = message;
+            this.toastType = 'success';
+            this.showToast = true;
         },
     },
 };

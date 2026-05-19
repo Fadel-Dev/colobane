@@ -17,6 +17,7 @@ use App\Http\Controllers\TrustController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\VehiculeController;
+use App\Http\Controllers\PropertyAlertController;
 use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\VerifyEmailController;
@@ -247,6 +248,12 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/favoris/check/{id}', [FavoriController::class, 'check'])->name('favoris.check');
     Route::get('/favoris/all', [FavoriController::class, 'getAll'])->name('favoris.all');
     Route::get('/favoris/count', [FavoriController::class, 'count'])->name('favoris.count');
+
+    // Alertes
+    Route::get('/alertes', [PropertyAlertController::class, 'index'])->name('alertes.index');
+    Route::post('/alertes', [PropertyAlertController::class, 'store'])->name('alertes.store');
+    Route::delete('/alertes/{alert}', [PropertyAlertController::class, 'destroy'])->name('alertes.destroy');
+    Route::patch('/alertes/{alert}/toggle', [PropertyAlertController::class, 'toggle'])->name('alertes.toggle');
 });
 
 // Notifications
