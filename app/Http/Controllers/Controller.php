@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Immobiliers;
 use App\Models\Services;
 use App\Models\Voitures;
+use App\Models\BlogPost;
 use App\Services\SEOService;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -73,6 +74,9 @@ class Controller extends BaseController
     $voitures = Voitures::where('status', 'accepter')->with('user:id,name,phone')->orderBy('created_at', 'desc')->paginate(12);
     $voituresBoost = Voitures::where('status', 'accepter')->where('booster', 1)->with('user:id,name,phone')->orderBy('created_at', 'desc')->paginate(12);
 
+    // Blog
+    $latestPosts = BlogPost::published()->latest()->take(3)->get();
+
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
@@ -96,7 +100,8 @@ class Controller extends BaseController
         'studios' => $studios,
         'studiosBoost' => $studiosBoost,
         'vergers' => $vergers,
-        'vergersBoost' => $vergersBoost
+        'vergersBoost' => $vergersBoost,
+        'latestPosts' => $latestPosts,
     ]);
 }
 

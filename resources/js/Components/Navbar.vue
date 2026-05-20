@@ -249,6 +249,10 @@ onUnmounted(() => {
                                    class="block px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm text-gray-700 hover:bg-gray-100">
                                     Mes Alertes
                                 </a>
+                                <Link :href="route('blog.index')" 
+                                   class="block px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm text-gray-700 hover:bg-gray-100">
+                                    Blog
+                                </Link>
                                 <hr class="my-1">
                                 <form method="POST" action="/logout">
                                     <input type="hidden" name="_token" :value="$page.props.csrf_token">
@@ -355,7 +359,12 @@ onUnmounted(() => {
                 </div>
 
                 <!-- Actions à droite Desktop -->
-                <div class="flex items-center gap-4 flex-shrink-0">
+                <div class="flex items-center gap-6 flex-shrink-0">
+                    <!-- Navigation Desktop Links -->
+                    <nav class="hidden lg:flex items-center space-x-6 mr-2">
+                        <Link :href="route('blog.index')" class="text-gray-700 hover:text-principal font-bold transition-colors">Blog</Link>
+                    </nav>
+
                     <!-- Sélecteur de langue (Globe) -->
                     <button class="text-teal-800 hover:text-teal-900 transition-colors focus:outline-none focus:ring-2 focus:ring-teal-500 rounded p-2 hover:bg-gray-100">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

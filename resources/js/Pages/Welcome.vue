@@ -524,6 +524,70 @@
     </div>
     </section>
 
+    <!-- Section Blog -->
+    <section v-if="latestPosts && latestPosts.length > 0" class="py-16 sm:py-24 bg-white border-t border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+                <div class="max-w-2xl">
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-secondaire mb-4 tracking-tight">
+                        Derniers articles du <span class="text-principal">Blog</span>
+                    </h2>
+                    <p class="text-lg text-gray-500 font-medium">
+                        Découvrez nos conseils, guides et actualités pour vos projets immobiliers et automobiles.
+                    </p>
+                </div>
+                <Link :href="route('blog.index')" class="inline-flex items-center gap-2 text-principal font-bold group">
+                    <span>Voir tous les articles</span>
+                    <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                </Link>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <article v-for="post in latestPosts" :key="post.id" 
+                    class="bg-white rounded-[2.5rem] border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-500 overflow-hidden flex flex-col group">
+                    
+                    <!-- Image -->
+                    <Link :href="route('blog.show', post.slug)" class="aspect-[16/10] overflow-hidden relative block">
+                        <img v-if="post.featured_image" 
+                            :src="'/storage/' + post.featured_image" 
+                            :alt="post.title"
+                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <div v-else class="w-full h-full bg-gray-50 flex items-center justify-center">
+                            <i class="fas fa-image text-4xl text-gray-200"></i>
+                        </div>
+                        <div class="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    </Link>
+
+                    <!-- Content -->
+                    <div class="p-8 flex-1 flex flex-col">
+                        <div class="flex items-center gap-3 mb-4 text-[10px] font-black text-gray-400 uppercase tracking-widest">
+                            <span class="text-principal">Actualité</span>
+                            <span>•</span>
+                            <span>{{ formatDate(post.published_at) }}</span>
+                        </div>
+                        
+                        <h3 class="text-xl font-black text-slate-900 mb-4 group-hover:text-principal transition-colors line-clamp-2 leading-tight">
+                            <Link :href="route('blog.show', post.slug)">{{ post.title }}</Link>
+                        </h3>
+                        
+                        <p class="text-gray-500 text-sm leading-relaxed mb-8 line-clamp-3 font-medium">
+                            {{ post.excerpt || 'Découvrez notre dernier article sur NoflayHub.' }}
+                        </p>
+
+                        <div class="mt-auto pt-6 border-t border-gray-50">
+                            <Link :href="route('blog.show', post.slug)" class="text-slate-900 font-black text-sm flex items-center gap-2 group/btn">
+                                Lire l'article
+                                <div class="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center group-hover/btn:bg-principal group-hover/btn:text-white transition-all">
+                                    <i class="fas fa-arrow-right text-[10px]"></i>
+                                </div>
+                            </Link>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
     <Footer />
     
     <!-- Toast Notification -->
@@ -838,6 +902,7 @@ const props = defineProps({
     studiosBoost: Object,
     voitures: Object,
     voituresBoost: Object,
+    latestPosts: Array,
 });
 </script>
 
@@ -1159,6 +1224,14 @@ export default {
             });
             
             return count;
+        },
+        formatDate(date) {
+            if (!date) return '';
+            return new Date(date).toLocaleDateString('fr-FR', {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric',
+            });
         },
         formatNumber(num) {
             return new Intl.NumberFormat('fr-FR').format(num);
