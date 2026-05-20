@@ -40,36 +40,38 @@ class Controller extends BaseController
         ->with('user:id,name,phone')
         ->orderBy('created_at', 'desc');
 
-    $immobilliersBoost = (clone $baseQuery)->paginate(12);
+    $immobilliersBoost = (clone $baseQuery)->where('booster', 1)->paginate(12);
+    $maisons = (clone $baseQuery)->paginate(12);
     
     // Calculer le total des annonces disponibles
-    $totalAnnonces = Immobiliers::where('status', 'accepter')->count();
+    $totalAnnonces = (clone $baseQuery)->count();
 
     // Pour les différentes catégories sur la home, on peut optimiser en utilisant des filtres sur la collection
     // ou des requêtes ciblées si les données sont massives. Ici, on privilégie des requêtes ciblées mais optimisées.
     $chambres = Immobiliers::where('type','Chambre')->orderBy('created_at', 'desc')->paginate(12);
-    $chambresBoost = Immobiliers::where('type','Chambre')->where('status', 'accepter')->orderBy('created_at', 'desc')->paginate(12);
+    $chambresBoost = Immobiliers::where('type','Chambre')->where('status', 'accepter')->where('booster', 1)->orderBy('created_at', 'desc')->paginate(12);
     
     $villas = Immobiliers::where('type','Villa')->orderBy('created_at', 'desc')->take(12)->get();
-    $villasBoost = Immobiliers::where('type','Villa')->where('status', 'accepter')->take(12)->get();
+    $villasBoost = Immobiliers::where('type','Villa')->where('status', 'accepter')->where('booster', 1)->orderBy('created_at', 'desc')->take(12)->get();
     
     $immeubles = Immobiliers::where('type','Immeuble')->orderBy('created_at', 'desc')->paginate(12);
-    $immeublesBoost = Immobiliers::where('type','Immeuble')->where('status', 'accepter')->orderBy('created_at', 'desc')->paginate(12);
+    $immeublesBoost = Immobiliers::where('type','Immeuble')->where('status', 'accepter')->where('booster', 1)->orderBy('created_at', 'desc')->paginate(12);
     
     $terrains = Immobiliers::where('type','Terrain')->orderBy('created_at', 'desc')->paginate(12);
-    $terrainsBoost = Immobiliers::where(['type' => 'Terrain', 'status' => 'accepter'])->orderBy('created_at', 'desc')->paginate(12);
+    $terrainsBoost = Immobiliers::where(['type' => 'Terrain', 'status' => 'accepter', 'booster' => 1])->orderBy('created_at', 'desc')->paginate(12);
     
     $vergers = Immobiliers::where('type','Verger')->orderBy('created_at', 'desc')->paginate(12);
-    $vergersBoost = Immobiliers::where('type','Verger')->where('status', 'accepter')->orderBy('created_at', 'desc')->paginate(12);
+    $vergersBoost = Immobiliers::where('type','Verger')->where('status', 'accepter')->where('booster', 1)->orderBy('created_at', 'desc')->paginate(12);
 
     $appartements = Immobiliers::where('type', 'appartement')->orderBy('created_at', 'desc')->paginate(12);
-    $appartementsBoost = Immobiliers::where('type', 'appartement')->where('status', 'accepter')->orderBy('created_at', 'desc')->paginate(12);
+    $appartementsBoost = Immobiliers::where('type', 'appartement')->where('status', 'accepter')->where('booster', 1)->orderBy('created_at', 'desc')->paginate(12);
 
     $studios = Immobiliers::where('type', 'studio')->orderBy('created_at', 'desc')->paginate(12);
-    $studiosBoost = Immobiliers::where('type', 'studio')->where('status', 'accepter')->orderBy('created_at', 'desc')->paginate(12);
+    $studiosBoost = Immobiliers::where('type', 'studio')->where('status', 'accepter')->where('booster', 1)->orderBy('created_at', 'desc')->paginate(12);
 
     // Voitures
     $voitures = Voitures::where('status', 'accepter')->with('user:id,name,phone')->orderBy('created_at', 'desc')->paginate(12);
+    $voituresBoost = Voitures::where('status', 'accepter')->where('booster', 1)->with('user:id,name,phone')->orderBy('created_at', 'desc')->paginate(12);
 
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
@@ -79,6 +81,8 @@ class Controller extends BaseController
         'totalAnnonces' => $totalAnnonces,
         'maisons' => $maisons,
         'immobilliersBoost' => $immobilliersBoost,
+        'voitures' => $voitures,
+        'voituresBoost' => $voituresBoost,
         'chambres'=>$chambres,
         'chambresBoost'=>$chambresBoost,
         'villas'=>$villas,

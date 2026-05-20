@@ -836,6 +836,8 @@ const props = defineProps({
     appartementsBoost: Object,
     studios: Object,
     studiosBoost: Object,
+    voitures: Object,
+    voituresBoost: Object,
 });
 </script>
 

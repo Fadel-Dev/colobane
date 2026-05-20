@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue';
-import { router, usePage } from '@inertiajs/vue3';
+import { router, usePage, Link } from '@inertiajs/vue3';
 
 const page = usePage();
 const route = (name) => {
@@ -221,7 +221,7 @@ onUnmounted(() => {
                             </div>
                         </button>
 
-                        <!-- Menu déroulant utilisateur -->
+                        <!-- Menu déroulant utilisateur mobile -->
                         <div 
                             v-if="showUserMenu"
                             class="absolute right-0 mt-1.5 w-40 sm:w-48 bg-white rounded-lg shadow-xl border border-gray-200 py-1 z-50"
@@ -263,6 +263,15 @@ onUnmounted(() => {
                                    class="block px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm text-gray-700 hover:bg-gray-100">
                                     Connexion
                                 </a>
+                                <a href="/alertes" 
+                                   class="block px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm text-gray-700 hover:bg-gray-100 transition-colors">
+                                    Mes Alertes
+                                </a>
+                                <Link :href="route('blog.index')" 
+                                   class="block px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm text-gray-700 hover:bg-gray-100 transition-colors">
+                                    Blog
+                                </Link>
+                                <hr class="my-1">
                                 <a href="/register" 
                                    class="block px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm text-gray-700 hover:bg-gray-100">
                                     Inscription
@@ -398,6 +407,10 @@ onUnmounted(() => {
                                         {{ $page.props.unreadNotificationsCount }}
                                     </span>
                                 </a>
+                                <a href="/alertes" 
+                                   class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
+                                    Mes Alertes
+                                </a>
                                 <hr class="my-1">
                                 <form method="POST" action="/logout">
                                     <input type="hidden" name="_token" :value="$page.props.csrf_token">
@@ -412,6 +425,15 @@ onUnmounted(() => {
                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
                                     Connexion
                                 </a>
+                                <a href="/alertes" 
+                                   class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
+                                    Mes Alertes
+                                </a>
+                                <Link :href="route('blog.index')" 
+                                   class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
+                                    Blog
+                                </Link>
+                                <hr class="my-1">
                                 <a href="/register" 
                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
                                     Inscription

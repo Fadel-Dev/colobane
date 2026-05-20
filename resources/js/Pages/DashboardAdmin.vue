@@ -8,7 +8,8 @@ const props = defineProps({
     immobilliersBoosted: Array,
     immobilliersBoosting: Array,
     immobiliersArretes: Array,
-    users: Object
+    users: Object,
+    blogPostsCount: Number,
 });
 
 const activeTab = ref('overview');
@@ -280,6 +281,14 @@ const stats = computed(() => [
         color: 'from-green-500 to-green-600',
         bgColor: 'bg-green-50',
         textColor: 'text-green-600'
+    },
+    {
+        title: 'Articles Blog',
+        value: props.blogPostsCount || 0,
+        icon: '📰',
+        color: 'from-blue-500 to-blue-600',
+        bgColor: 'bg-blue-50',
+        textColor: 'text-blue-600'
     }
 ]);
 </script>
@@ -296,11 +305,14 @@ const stats = computed(() => [
                                 🔐 Tableau de Bord Admin
                             </h1>
                             <p class="text-slate-500 text-sm">Gestion des demandes de boost et modération</p>
-                        </div>
                         <div class="flex gap-3">
+                            <button @click="Inertia.visit(route('admin.blog.index'))" class="px-4 py-2 bg-blue-600 text-white hover:bg-blue-700 rounded-lg transition-all font-medium flex items-center gap-2 shadow-lg shadow-blue-200">
+                                📰 Gérer le Blog
+                            </button>
                             <button class="px-4 py-2 text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-lg transition-all font-medium">
                                 📊 Export
                             </button>
+                        </div>
                             <button @click="Inertia.reload()" class="px-4 py-2 bg-gradient-to-r from-principal to-secondaire text-white rounded-lg hover:shadow-lg transition-all font-semibold">
                                 🔄 Rafraîchir
                             </button>

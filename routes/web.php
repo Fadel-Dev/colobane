@@ -18,6 +18,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\VehiculeController;
 use App\Http\Controllers\PropertyAlertController;
+use App\Http\Controllers\BlogController;
 use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\VerifyEmailController;
@@ -254,7 +255,21 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/alertes', [PropertyAlertController::class, 'store'])->name('alertes.store');
     Route::delete('/alertes/{alert}', [PropertyAlertController::class, 'destroy'])->name('alertes.destroy');
     Route::patch('/alertes/{alert}/toggle', [PropertyAlertController::class, 'toggle'])->name('alertes.toggle');
+
+    // Admin Blog Management
+    Route::middleware(['auth:sanctum'])->group(function () {
+        Route::get('/admin/blog', [BlogController::class, 'adminIndex'])->name('admin.blog.index');
+        Route::get('/admin/blog/create', [BlogController::class, 'create'])->name('admin.blog.create');
+        Route::post('/admin/blog', [BlogController::class, 'store'])->name('admin.blog.store');
+        Route::get('/admin/blog/{id}/edit', [BlogController::class, 'edit'])->name('admin.blog.edit');
+        Route::post('/admin/blog/{id}', [BlogController::class, 'update'])->name('admin.blog.update');
+        Route::delete('/admin/blog/{id}', [BlogController::class, 'destroy'])->name('admin.blog.destroy');
+    });
 });
+
+// Public Blog Routes
+Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
+Route::get('/blog/{slug}', [BlogController::class, 'show'])->name('blog.show');
 
 // Notifications
 Route::middleware(['auth:sanctum'])->group(function () {

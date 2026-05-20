@@ -84,6 +84,7 @@ class DashboardController extends Controller
             'immobilliersBoosting' => $immobilliersBoosting,
             'immobiliersArretes' => $immobiliersArretes,
             'users' => User::select('id', 'name')->get(),
+            'blogPostsCount' => \App\Models\BlogPost::count(),
         ];
     }
 
