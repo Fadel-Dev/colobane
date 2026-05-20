@@ -1017,7 +1017,7 @@ export default {
         handleSearch() {
             if (this.searchQuery.trim()) {
                 this.showSuggestions = false;
-                this.$inertia.visit(`/p/immobilier?search=${encodeURIComponent(this.searchQuery)}`);
+                this.$inertia.visit(`/categorie/immobilier?search=${encodeURIComponent(this.searchQuery)}`);
             }
         },
         async handleSearchInput() {
@@ -1177,7 +1177,7 @@ export default {
                     '@type': 'SearchAction',
                     'target': {
                         '@type': 'EntryPoint',
-                        'urlTemplate': window.location.origin + '/p/immobilier?search={search_term_string}'
+                        'urlTemplate': window.location.origin + '/categorie/immobilier?search={search_term_string}'
                     },
                     'query-input': 'required name=search_term_string'
                 },

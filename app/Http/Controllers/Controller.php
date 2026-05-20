@@ -121,7 +121,7 @@ public function Category($category)
     $type = $categoryMap[strtolower($category)] ?? 'all';
     
     // Récupérer les paramètres de filtrage
-    $filters = request()->only(['min_price', 'max_price', 'min_surface', 'max_surface', 'npiece', 'region', 'affaire', 'sort', 'boosted']);
+    $filters = request()->only(['min_price', 'max_price', 'min_surface', 'max_surface', 'npiece', 'region', 'affaire', 'sort', 'boosted', 'search']);
     
     // Construire la requête de base
     $query = Immobiliers::query();
@@ -129,6 +129,17 @@ public function Category($category)
     // Filtrer par type
     if ($type !== 'all') {
         $query->where('type', $type);
+    }
+    
+    // Appliquer le filtre de recherche textuelle
+    if (isset($filters['search']) && $filters['search']) {
+        $searchTerm = $filters['search'];
+        $query->where(function($q) use ($searchTerm) {
+            $q->where('nom', 'like', '%' . $searchTerm . '%')
+              ->orWhere('region', 'like', '%' . $searchTerm . '%')
+              ->orWhere('type', 'like', '%' . $searchTerm . '%')
+              ->orWhere('description', 'like', '%' . $searchTerm . '%');
+        });
     }
     
     // Filtrer par statut (boosted = annonces acceptées)
@@ -186,6 +197,17 @@ public function Category($category)
     // Filtrer par type
     if ($type !== 'all') {
         $boostQuery->where('type', $type);
+    }
+
+    // Appliquer le filtre de recherche textuelle à la requête boost
+    if (isset($filters['search']) && $filters['search']) {
+        $searchTerm = $filters['search'];
+        $boostQuery->where(function($q) use ($searchTerm) {
+            $q->where('nom', 'like', '%' . $searchTerm . '%')
+              ->orWhere('region', 'like', '%' . $searchTerm . '%')
+              ->orWhere('type', 'like', '%' . $searchTerm . '%')
+              ->orWhere('description', 'like', '%' . $searchTerm . '%');
+        });
     }
     
     // Appliquer les mêmes filtres que pour les annonces normales (sauf pagination)

@@ -61,7 +61,7 @@ const handleSearchInput = async () => {
 const handleSearch = () => {
     if (searchQuery.value.trim()) {
         showSearchSuggestions.value = false;
-        router.visit(`/p/immobilier?search=${encodeURIComponent(searchQuery.value)}`);
+        router.visit(`/categorie/immobilier?search=${encodeURIComponent(searchQuery.value)}`);
     }
 };
 

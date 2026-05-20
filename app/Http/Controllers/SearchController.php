@@ -34,7 +34,7 @@ class SearchController extends Controller
                     'label' => $item->region,
                     'value' => $item->region,
                     'icon' => 'map-marker-alt',
-                    'url' => '/p/immobilier?region=' . urlencode($item->region)
+                    'url' => '/categorie/immobilier?region=' . urlencode($item->region)
                 ];
             });
 
