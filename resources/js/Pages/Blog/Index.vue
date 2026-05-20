@@ -1,25 +1,5 @@
-<script setup>
-import { Head, Link } from '@inertiajs/vue3';
-import AppLayout from '@/Layouts/AppLayout.vue';
-import Navbar from '@/Components/Navbar.vue';
-import Footer from '@/Components/Footer.vue';
-import SeoHead from '@/Components/SeoHead.vue';
-
-const props = defineProps({
-    posts: Object,
-});
-
-const formatDate = (date) => {
-    return new Date(date).toLocaleDateString('fr-FR', {
-        day: 'numeric',
-        month: 'long',
-        year: 'numeric',
-    });
-};
-</script>
-
 <template>
-    <AppLayout title="Blog">
+    <div class="min-h-screen bg-gray-50">
         <SeoHead 
             title="Le Blog NoflayHub - Conseils Immobilier & Auto au Sénégal"
             description="Découvrez nos derniers articles, conseils et actualités sur le marché immobilier et automobile au Sénégal."
@@ -28,7 +8,7 @@ const formatDate = (date) => {
 
         <Navbar />
 
-        <main class="min-h-screen bg-gray-50 pt-20">
+        <main class="pt-20">
             <!-- Hero Section -->
             <div class="bg-secondaire py-16 sm:py-24 overflow-hidden relative">
                 <div class="absolute top-0 right-0 w-96 h-96 bg-principal/10 rounded-full blur-3xl -mr-48 -mt-48"></div>
@@ -118,5 +98,42 @@ const formatDate = (date) => {
         </main>
 
         <Footer />
-    </AppLayout>
+        <ChatBot />
+    </div>
 </template>
+
+<script setup>
+import { Head, Link, usePage } from '@inertiajs/vue3';
+import Navbar from '@/Components/Navbar.vue';
+import Footer from '@/Components/Footer.vue';
+import SeoHead from '@/Components/SeoHead.vue';
+import ChatBot from '@/Components/ChatBot.vue';
+
+const page = usePage();
+const route = (name, params) => {
+    let url = page.props.ziggy?.urls?.[name] || '#';
+    if (params) {
+        if (typeof params === 'object') {
+            for (const key in params) {
+                url = url.replace(`{${key}}`, params[key]);
+            }
+        } else {
+            // Assume single param if not object (likely {slug} or {id})
+            url = url.replace(/\{.*\}/, params);
+        }
+    }
+    return url;
+};
+
+const props = defineProps({
+    posts: Object,
+});
+
+const formatDate = (date) => {
+    return new Date(date).toLocaleDateString('fr-FR', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
+    });
+};
+</script>
