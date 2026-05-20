@@ -172,6 +172,57 @@ public function DetailsVehicule($id)
          return redirect()->route('dashboard')->with('message', 'Annonce modifiée avec succès');
      }
 
+     /**
+      * Supprimer un utilisateur et toutes ses données
+      */
+     public function deleteUser($id)
+     {
+         if (auth()->user()->role !== 'admin') {
+             abort(403);
+         }
+
+         $user = User::findOrFail($id);
+         
+         // Ne pas supprimer soi-même
+         if ($user->id === auth()->id()) {
+             return back()->with('error', 'Vous ne pouvez pas supprimer votre propre compte admin.');
+         }
+
+         $user->delete();
+
+         return back()->with('message', 'Utilisateur supprimé avec succès.');
+     }
+
+     /**
+      * Supprimer un bien immobilier
+      */
+     public function deleteImmobilier($id)
+     {
+         if (auth()->user()->role !== 'admin') {
+             abort(403);
+         }
+
+         $immo = Immobiliers::findOrFail($id);
+         $immo->delete();
+
+         return back()->with('message', 'Annonce immobilière supprimée.');
+     }
+
+     /**
+      * Supprimer un véhicule
+      */
+     public function deleteVoiture($id)
+     {
+         if (auth()->user()->role !== 'admin') {
+             abort(403);
+         }
+
+         $voiture = Voitures::findOrFail($id);
+         $voiture->delete();
+
+         return back()->with('message', 'Annonce véhicule supprimée.');
+     }
+
 
 
 

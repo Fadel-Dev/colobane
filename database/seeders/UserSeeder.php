@@ -21,6 +21,7 @@ class UserSeeder extends Seeder
             'name' => 'Administrateur',
             'email' => 'admin@colobane.com',
             'password' => Hash::make('password123'),
+            'role' => 'admin',
             'email_verified_at' => now(),
             'phone' => '+221771234567',
         ])->each(function ($user) {

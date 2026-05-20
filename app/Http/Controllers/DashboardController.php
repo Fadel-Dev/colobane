@@ -10,6 +10,7 @@ use App\Models\Lead;
 use App\Models\User;
 use App\Models\Immobiliers;
 use App\Models\Services;
+use App\Models\Voitures;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
@@ -31,8 +32,18 @@ class DashboardController extends Controller
      */
     public function Dash()
     {
-        // Vérifier le rôle administrateur
-        if (auth()->user()->role == 'admin') {
+        $user = auth()->user();
+        
+        // Si l'URL demandée commence par /admin
+        if (request()->is('admin/*') || request()->is('admin')) {
+            if ($user->role !== 'admin') {
+                return redirect()->route('dashboard')->with('error', 'Accès réservé aux administrateurs.');
+            }
+            return Inertia::render('DashboardAdmin', $this->getAdminData());
+        }
+
+        // Si l'utilisateur est admin mais sur /dashboard, on lui montre quand même l'admin
+        if ($user->role == 'admin') {
             return Inertia::render('DashboardAdmin', $this->getAdminData());
         }
 
@@ -83,7 +94,9 @@ class DashboardController extends Controller
             'immobilliersBoosted' => $immobilliersBoosted,
             'immobilliersBoosting' => $immobilliersBoosting,
             'immobiliersArretes' => $immobiliersArretes,
-            'users' => User::select('id', 'name')->get(),
+            'allUsers' => User::latest()->get(),
+            'allImmobiliers' => Immobiliers::with('user:id,name')->latest()->paginate(50),
+            'allVoitures' => Voitures::with('user:id,name')->latest()->paginate(50),
             'blogPostsCount' => \App\Models\BlogPost::count(),
         ];
     }

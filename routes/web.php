@@ -129,6 +129,7 @@ Route::middleware([
     'verified',
 ])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'Dash'])->name('dashboard');
+    Route::get('/admin/dashboard', [DashboardController::class, 'Dash'])->name('admin.dashboard');
 
     // Trust & Safety
     Route::post('/report/immobilier/{id}', [TrustController::class, 'storeReport'])->name('report.immobilier');
@@ -310,6 +311,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/boost-request/{id}/reject', [BoostRequestController::class, 'reject'])->name('boost.reject');
     Route::post('/boost-request/{id}/stop', [BoostRequestController::class, 'stop'])->name('boost.stop');
     Route::post('/boost-request/{id}/restart', [BoostRequestController::class, 'restart'])->name('boost.restart');
+
+    // Gestion Admin complète
+    Route::delete('/admin/users/{id}', [AdminController::class, 'deleteUser'])->name('admin.users.delete');
+    Route::delete('/admin/immobilier/{id}', [AdminController::class, 'deleteImmobilier'])->name('admin.immobilier.delete');
+    Route::delete('/admin/voiture/{id}', [AdminController::class, 'deleteVoiture'])->name('admin.voiture.delete');
 });
 
 // Routes pour les tarifs de boost (publiques)
