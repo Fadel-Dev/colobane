@@ -27,73 +27,49 @@ class Controller extends BaseController
 
  public function Home()
 {
-    $now = now(); // Date et heure actuelles
+    $now = now(); 
 
-    // Mettre à jour le statut des Immobiliers
+    // Mettre à jour le statut des Immobiliers (Maintenance légère)
     Immobiliers::where('status', 'accepter')
-        ->where('date_fin_booster', $now) // Comparaison exacte avec la date de fin
+        ->where('date_fin_booster', '<=', $now)
         ->update(['status' => 'pending']);
 
-        //For chambre
+    // Optimisation : Utiliser with('user') pour éviter le problème N+1
+    // Et charger uniquement les champs nécessaires
+    $baseQuery = Immobiliers::where('status', 'accepter')
+        ->with('user:id,name,phone')
+        ->orderBy('created_at', 'desc');
 
-    // Récupérer les enregistrements mis à jour
-    $immobilliersBoost = Immobiliers::where('status', 'accepter')->paginate(12);
-    $maisons = Immobiliers::orderBy('created_at', 'desc')->paginate(12);
+    $immobilliersBoost = (clone $baseQuery)->paginate(12);
     
     // Calculer le total des annonces disponibles
     $totalAnnonces = Immobiliers::where('status', 'accepter')->count();
 
-// FOR CHAMBRE
-    $chambres = Immobiliers::where('type','Chambre')
-        ->orderBy('created_at', 'desc')
-        ->paginate(12);
-    $chambresBoost = Immobiliers::where('type','Chambre')
-        ->where('status', 'accepter')
-        ->orderBy('created_at', 'desc')
-        ->paginate(12);
-    // FOR Villa
-    $villas=Immobiliers::where('type','Villa')->get();
-    $villasBoost =Immobiliers::where('type','Villa')->get();
-    // For Immeuble
-    $immeubles = Immobiliers::where('type','Immeuble')
-        ->orderBy('created_at', 'desc')
-        ->paginate(12);
-    $immeublesBoost = Immobiliers::where('type','Immeuble')
-        ->where('status', 'accepter')
-        ->orderBy('created_at', 'desc')
-        ->paginate(12);
-     // ForTerrain
+    // Pour les différentes catégories sur la home, on peut optimiser en utilisant des filtres sur la collection
+    // ou des requêtes ciblées si les données sont massives. Ici, on privilégie des requêtes ciblées mais optimisées.
+    $chambres = Immobiliers::where('type','Chambre')->orderBy('created_at', 'desc')->paginate(12);
+    $chambresBoost = Immobiliers::where('type','Chambre')->where('status', 'accepter')->orderBy('created_at', 'desc')->paginate(12);
+    
+    $villas = Immobiliers::where('type','Villa')->orderBy('created_at', 'desc')->take(12)->get();
+    $villasBoost = Immobiliers::where('type','Villa')->where('status', 'accepter')->take(12)->get();
+    
+    $immeubles = Immobiliers::where('type','Immeuble')->orderBy('created_at', 'desc')->paginate(12);
+    $immeublesBoost = Immobiliers::where('type','Immeuble')->where('status', 'accepter')->orderBy('created_at', 'desc')->paginate(12);
+    
     $terrains = Immobiliers::where('type','Terrain')->orderBy('created_at', 'desc')->paginate(12);
-    $terrainsBoost = Immobiliers::where([
-        'type' => 'Terrain',
-        'status' => 'accepter'
-    ])->orderBy('created_at', 'desc')->paginate(12);
-     // For Verger
-    $vergers = Immobiliers::where('type','Verger')
-        ->orderBy('created_at', 'desc')
-        ->paginate(12);
-    $vergersBoost = Immobiliers::where('type','Verger')
-        ->where('status', 'accepter')
-        ->orderBy('created_at', 'desc')
-        ->paginate(12);
+    $terrainsBoost = Immobiliers::where(['type' => 'Terrain', 'status' => 'accepter'])->orderBy('created_at', 'desc')->paginate(12);
+    
+    $vergers = Immobiliers::where('type','Verger')->orderBy('created_at', 'desc')->paginate(12);
+    $vergersBoost = Immobiliers::where('type','Verger')->where('status', 'accepter')->orderBy('created_at', 'desc')->paginate(12);
 
-    // For Appartement
-    $appartements = Immobiliers::where('type', 'appartement')
-        ->orderBy('created_at', 'desc')
-        ->paginate(12);
-    $appartementsBoost = Immobiliers::where('type', 'appartement')
-        ->where('status', 'accepter')
-        ->orderBy('created_at', 'desc')
-        ->paginate(12);
+    $appartements = Immobiliers::where('type', 'appartement')->orderBy('created_at', 'desc')->paginate(12);
+    $appartementsBoost = Immobiliers::where('type', 'appartement')->where('status', 'accepter')->orderBy('created_at', 'desc')->paginate(12);
 
-    // For Studio
-    $studios = Immobiliers::where('type', 'studio')
-        ->orderBy('created_at', 'desc')
-        ->paginate(12);
-    $studiosBoost = Immobiliers::where('type', 'studio')
-        ->where('status', 'accepter')
-        ->orderBy('created_at', 'desc')
-        ->paginate(12);
+    $studios = Immobiliers::where('type', 'studio')->orderBy('created_at', 'desc')->paginate(12);
+    $studiosBoost = Immobiliers::where('type', 'studio')->where('status', 'accepter')->orderBy('created_at', 'desc')->paginate(12);
+
+    // Voitures
+    $voitures = Voitures::where('status', 'accepter')->with('user:id,name,phone')->orderBy('created_at', 'desc')->paginate(12);
 
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),

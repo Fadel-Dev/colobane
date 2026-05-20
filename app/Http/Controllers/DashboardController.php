@@ -45,33 +45,37 @@ class DashboardController extends Controller
      */
     private function getAdminData()
     {
+        // Optimisation : Sélectionner uniquement les colonnes nécessaires
+        $userSelect = 'user:id,name,phone,email';
+
         // Récupérer les demandes de boost en attente
         $immobiliers = Immobiliers::where('booster', 1)
             ->where('status', 'pending')
-            ->with('user:id,name,phone,email')
+            ->with($userSelect)
+            ->latest()
             ->get();
 
         // Récupérer les boosts actuellement en cours
         $immobilliersBoosting = Immobiliers::where('booster', 1)
             ->where('status', 'accepter')
-            ->with('user:id,name,phone,email')
+            ->with($userSelect)
+            ->latest()
             ->get();
 
-        // Récupérer les boosts ARRÊTÉS (booster=0, status='null', onceBooster=1, date_fin_booster NOT NULL)
-        // Ces boosts ont une date_fin_booster dans le passé (arrêtés manuellement)
+        // Récupérer les boosts ARRÊTÉS
         $immobiliersArretes = Immobiliers::where('booster', 0)
             ->where('status', 'null')
             ->where('onceBooster', 1)
             ->whereNotNull('date_fin_booster')
-            ->with('user:id,name,phone,email')
+            ->with($userSelect)
+            ->latest()
             ->get();
 
-        // Récupérer les boosts complétés naturellement (après 30 jours)
-        // Pour les distinguer des arrêtés, on peut utiliser une date_fin_booster dans le passé
-        // ou on les récupère différemment selon la logique business
+        // Récupérer les boosts complétés naturellement
         $immobilliersBoosted = Immobiliers::where('booster', 0)
             ->where('status', 'completed')
-            ->with('user:id,name,phone,email')
+            ->with($userSelect)
+            ->latest()
             ->get();
 
         return [
@@ -79,7 +83,7 @@ class DashboardController extends Controller
             'immobilliersBoosted' => $immobilliersBoosted,
             'immobilliersBoosting' => $immobilliersBoosting,
             'immobiliersArretes' => $immobiliersArretes,
-            'users' => User::all(['id', 'name']),
+            'users' => User::select('id', 'name')->get(),
         ];
     }
 
@@ -90,11 +94,14 @@ class DashboardController extends Controller
     {
         $user_id = auth()->id();
         
-        // Récupérer tous les immobiliers avec leurs infos de boost
-        $immobiliers = Immobiliers::where('user_id', $user_id)->get();
+        // Requête de base pour les immobiliers de l'utilisateur
+        $baseQuery = Immobiliers::where('user_id', $user_id);
         
-        // Enrichir avec les infos de boost
-        $immobiliers = $immobiliers->map(function($item) {
+        // Récupérer tous les immobiliers pour l'affichage (léger)
+        $immobiliers = (clone $baseQuery)->orderBy('created_at', 'desc')->get();
+        
+        // Enrichir avec les infos de boost (transformation côté PHP nécessaire pour la logique complexe)
+        $enrichedImmobiliers = $immobiliers->map(function($item) {
             $item->is_boosting = $item->booster == 1 && $item->status === 'accepter';
             $item->boost_remaining_hours = null;
             $item->boost_remaining_text = null;
@@ -127,43 +134,32 @@ class DashboardController extends Controller
             $item->boost_can_activate = !$item->is_boosting;
             
             return $item;
-        })->toArray();
+        });
 
-        $immobiliersVendu = Immobiliers::where('user_id', $user_id)
-            ->where('vendu', 1)
-            ->get()
-            ->toArray();
-
-        $immobiliersActuel = Immobiliers::where('user_id', $user_id)
-            ->where('vendu', 0)
-            ->get()
-            ->toArray();
-
-        $totalVenduSomme = Immobiliers::where('user_id', $user_id)
-            ->where('vendu', 1)
-            ->get()
-            ->sum(function($item) {
-                return (float) $item->prix;
-            });
+        // Statistiques performantes via SQL direct
+        $totalCount = (clone $baseQuery)->count();
+        $totalVenduCount = (clone $baseQuery)->where('vendu', 1)->count();
+        $totalActuelCount = $totalCount - $totalVenduCount;
+        $totalVenduSomme = (clone $baseQuery)->where('vendu', 1)->sum('prix');
 
         // Récupérer les alertes de l'utilisateur
         $alerts = auth()->user()->propertyAlerts()->latest()->get();
 
         return Inertia::render('Dashboard', [
-            'habitats' => $immobiliers,
-            'total' => count($immobiliers),
-            'totalImmobilier' => count($immobiliers),
-            'resultsVendu' => $immobiliersVendu,
-            'totalImmobilierVendu' => count($immobiliersVendu),
-            'totalVendu' => count($immobiliersVendu),
-            'resultsActuel' => $immobiliersActuel,
-            'totalImmobilierActuel' => count($immobiliersActuel),
-            'totalActuel' => count($immobiliersActuel),
-            'restantImmobilier' => count($immobiliers) - count($immobiliersVendu),
-            'totalRestant' => count($immobiliers) - count($immobiliersVendu),
-            'totalVenduSomme' => $totalVenduSomme,
-            'sommeHabitatVendu' => $totalVenduSomme,
-            'totalArticles' => count($immobiliers),
+            'habitats' => $enrichedImmobiliers,
+            'total' => $totalCount,
+            'totalImmobilier' => $totalCount,
+            'resultsVendu' => $enrichedImmobiliers->where('vendu', 1)->values(),
+            'totalImmobilierVendu' => $totalVenduCount,
+            'totalVendu' => $totalVenduCount,
+            'resultsActuel' => $enrichedImmobiliers->where('vendu', 0)->values(),
+            'totalImmobilierActuel' => $totalActuelCount,
+            'totalActuel' => $totalActuelCount,
+            'restantImmobilier' => $totalActuelCount,
+            'totalRestant' => $totalActuelCount,
+            'totalVenduSomme' => (float) $totalVenduSomme,
+            'sommeHabitatVendu' => (float) $totalVenduSomme,
+            'totalArticles' => $totalCount,
             'alerts' => $alerts,
         ]);
     }
