@@ -314,6 +314,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     // Gestion Admin complète
     Route::delete('/admin/users/{id}', [AdminController::class, 'deleteUser'])->name('admin.users.delete');
+    Route::post('/admin/users', [AdminController::class, 'storeUser'])->name('admin.users.store');
+    Route::put('/admin/users/{id}', [AdminController::class, 'updateUserData'])->name('admin.users.update');
     Route::delete('/admin/immobilier/{id}', [AdminController::class, 'deleteImmobilier'])->name('admin.immobilier.delete');
     Route::delete('/admin/voiture/{id}', [AdminController::class, 'deleteVoiture'])->name('admin.voiture.delete');
 });

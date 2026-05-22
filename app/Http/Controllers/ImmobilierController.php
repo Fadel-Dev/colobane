@@ -695,17 +695,28 @@ public function storeEdit($id)
 
     public function StoreBoostVehicule($id )
     {
+        // Récupérer la durée en minutes depuis le formulaire
+        $durationMinutes = Request::input('duration');
+        $planKey = Request::input('plan'); // Clé du plan (mini, standard, premium, platinum)
+        
+        // Convertir les minutes en heures (décimal)
+        $durationHours = $durationMinutes / 60; // Durée exacte en heures
 
+        // Obtenir le prix du plan
+        $boostPrice = 0;
+        if ($planKey) {
+            $boostPrice = BoostPricingService::getPrice($planKey);
+        }
 
         auth()->user()->Voitures()->where('id', $id)->update([
-            // 'type' => Request::input('type'),
-                 'booster' => Request::input('boost'),
-            'duration' => Request::input('duration'),
+            'booster' => Request::input('boost'),
+            'duration' => $durationMinutes,  // Durée originale en minutes
+            'boost_duration' => $durationHours,  // Durée en heures (décimal)
+            'boost_price' => $boostPrice,  // Prix du boost
             'status' => 'pending',
-
         ]);
 
-        return redirect()->back()->with('message', 'Votre annonce est en attente de vérification.');
+        return redirect()->route('dashboard')->with('message', 'Votre demande de boost est en attente de vérification.');
     }
 
 

@@ -59,8 +59,14 @@ class DashboardController extends Controller
         // Optimisation : Sélectionner uniquement les colonnes nécessaires
         $userSelect = 'user:id,name,phone,email';
 
-        // Récupérer les demandes de boost en attente
+        // Récupérer les demandes de boost en attente (Immo + Auto)
         $immobiliers = Immobiliers::where('booster', 1)
+            ->where('status', 'pending')
+            ->with($userSelect)
+            ->latest()
+            ->get();
+            
+        $voituresPending = Voitures::where('booster', 1)
             ->where('status', 'pending')
             ->with($userSelect)
             ->latest()
@@ -68,6 +74,12 @@ class DashboardController extends Controller
 
         // Récupérer les boosts actuellement en cours
         $immobilliersBoosting = Immobiliers::where('booster', 1)
+            ->where('status', 'accepter')
+            ->with($userSelect)
+            ->latest()
+            ->get();
+            
+        $voituresBoosting = Voitures::where('booster', 1)
             ->where('status', 'accepter')
             ->with($userSelect)
             ->latest()
@@ -89,15 +101,80 @@ class DashboardController extends Controller
             ->latest()
             ->get();
 
+        // --- GESTION UTILISATEURS (Filtrée et Paginée) ---
+        $userQuery = User::query();
+        
+        if (request()->has('user_search')) {
+            $search = request('user_search');
+            $userQuery->where(function($q) use ($search) {
+                $q->where('name', 'like', "%$search%")
+                  ->orWhere('email', 'like', "%$search%")
+                  ->orWhere('phone', 'like', "%$search%");
+            });
+        }
+        
+        if (request()->has('role') && request('role') !== 'all') {
+            $userQuery->where('role', request('role'));
+        }
+
+        $sortField = request('sort_by', 'created_at');
+        $sortOrder = request('order', 'desc');
+        $userQuery->orderBy($sortField, $sortOrder);
+
+        // Statistiques de croissance des utilisateurs
+        $userStats = [
+            'last_24h' => User::where('created_at', '>=', now()->subDay())->count(),
+            'last_48h' => User::where('created_at', '>=', now()->subDays(2))->count(),
+            'last_week' => User::where('created_at', '>=', now()->subWeek())->count(),
+            'last_month' => User::where('created_at', '>=', now()->subMonth())->count(),
+        ];
+
+        // --- MÉTRIQUES BUSINESS PRO ---
+        // Revenu total estimé des boosts
+        $totalRevenue = Immobiliers::where('status', 'accepter')->where('booster', 1)->sum('boost_price') 
+                      + Voitures::where('status', 'accepter')->where('booster', 1)->sum('boost_price');
+
+        // Distribution des annonces
+        $immobilierStatus = [
+            'published' => Immobiliers::where('status', 'accepter')->count(),
+            'pending' => Immobiliers::where('status', 'pending')->count(),
+            'sold' => Immobiliers::where('vendu', 1)->count(),
+        ];
+
+        $vehicleStatus = [
+            'published' => Voitures::where('status', 'accepter')->count(),
+            'pending' => Voitures::where('status', 'pending')->count(),
+            'sold' => Voitures::where('vendu', 1)->count(),
+        ];
+
+        // Top Régions (pour chart simple)
+        $topRegions = Immobiliers::select('region', DB::raw('count(*) as count'))
+            ->whereNotNull('region')
+            ->groupBy('region')
+            ->orderBy('count', 'desc')
+            ->take(5)
+            ->get();
+
         return [
             'immobiliers' => $immobiliers,
+            'voituresPending' => $voituresPending,
             'immobilliersBoosted' => $immobilliersBoosted,
             'immobilliersBoosting' => $immobilliersBoosting,
+            'voituresBoosting' => $voituresBoosting,
             'immobiliersArretes' => $immobiliersArretes,
-            'allUsers' => User::latest()->get(),
+            'allUsers' => $userQuery->paginate(20)->withQueryString(),
             'allImmobiliers' => Immobiliers::with('user:id,name')->latest()->paginate(50),
             'allVoitures' => Voitures::with('user:id,name')->latest()->paginate(50),
+            'allAlerts' => \App\Models\PropertyAlert::with('user:id,name,phone')->latest()->get(),
             'blogPostsCount' => \App\Models\BlogPost::count(),
+            'userStats' => $userStats,
+            'businessStats' => [
+                'totalRevenue' => (float) $totalRevenue,
+                'immobilierStatus' => $immobilierStatus,
+                'vehicleStatus' => $vehicleStatus,
+                'topRegions' => $topRegions,
+            ],
+            'filters' => request()->all(['user_search', 'role', 'sort_by', 'order']),
         ];
     }
 

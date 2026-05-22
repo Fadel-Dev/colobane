@@ -25,12 +25,14 @@ class BoostRequestController extends Controller
             return response()->json(['error' => 'Non autorisé - Admin requis'], 403);
         }
 
+        $type = $request->input('type', 'immobilier');
+        $modelClass = $type === 'voiture' ? \App\Models\Voitures::class : \App\Models\Immobiliers::class;
+
         try {
-            $property = Immobiliers::findOrFail($id);
+            $property = $modelClass::findOrFail($id);
 
             // Récupérer la durée demandée par le client en heures (décimal)
-            // boost_duration est maintenant en heures (2, 48, 72, 168, etc.)
-            $durationHours = $property->boost_duration ?? 24; // Par défaut 1 jour
+            $durationHours = $property->boost_duration ?? 24; 
 
             $property->update([
                 'booster' => true,
@@ -38,19 +40,19 @@ class BoostRequestController extends Controller
                 'date_fin_booster' => now()->addHours($durationHours),
             ]);
 
-            // Déclencher les alertes
-            PropertyAlertService::checkAlerts($property);
+            // Déclencher les alertes (seulement pour immo pour l'instant)
+            if ($type === 'immobilier') {
+                PropertyAlertService::checkAlerts($property);
+            }
 
             return response()->json([
                 'success' => true,
                 'message' => "Boost approuvé pour {$durationHours}h",
-                'property_id' => $property->id,
-                'duration' => $durationHours,
+                'id' => $property->id,
+                'type' => $type
             ]);
         } catch (\Exception $e) {
-            return response()->json([
-                'error' => 'Erreur lors de l\'approbation: ' . $e->getMessage()
-            ], 500);
+            return response()->json(['error' => 'Erreur: ' . $e->getMessage()], 500);
         }
     }
 
@@ -59,48 +61,42 @@ class BoostRequestController extends Controller
      */
     public function reject(Request $request, $id)
     {
-        // Vérifier que l'utilisateur est admin
         if (!Auth::check() || Auth::user()->role !== 'admin') {
-            return response()->json(['error' => 'Non autorisé - Admin requis'], 403);
+            return response()->json(['error' => 'Non autorisé'], 403);
         }
 
-        try {
-            $property = Immobiliers::findOrFail($id);
+        $type = $request->input('type', 'immobilier');
+        $modelClass = $type === 'voiture' ? \App\Models\Voitures::class : \App\Models\Immobiliers::class;
 
+        try {
+            $property = $modelClass::findOrFail($id);
             $property->update([
                 'booster' => false,
                 'status' => 'null',
                 'date_fin_booster' => null,
             ]);
 
-            return response()->json([
-                'success' => true,
-                'message' => 'Demande refusée',
-                'property_id' => $property->id,
-            ]);
+            return response()->json(['success' => true, 'message' => 'Demande refusée']);
         } catch (\Exception $e) {
-            return response()->json([
-                'error' => 'Erreur lors du refus: ' . $e->getMessage()
-            ], 500);
+            return response()->json(['error' => 'Erreur: ' . $e->getMessage()], 500);
         }
     }
 
     /**
-     * Relancer un boost sur une propriété précédente
+     * Relancer un boost
      */
     public function restart(Request $request, $id)
     {
-        // Vérifier que l'utilisateur est admin
         if (!Auth::check() || Auth::user()->role !== 'admin') {
-            return response()->json(['error' => 'Non autorisé - Admin requis'], 403);
+            return response()->json(['error' => 'Non autorisé'], 403);
         }
 
-        try {
-            $property = Immobiliers::findOrFail($id);
+        $type = $request->input('type', 'immobilier');
+        $modelClass = $type === 'voiture' ? \App\Models\Voitures::class : \App\Models\Immobiliers::class;
 
-            // Récupérer la durée demandée par le client en heures (décimal)
-            // boost_duration est maintenant en heures (2, 48, 72, 168, etc.)
-            $durationHours = $property->boost_duration ?? 24; // Par défaut 1 jour
+        try {
+            $property = $modelClass::findOrFail($id);
+            $durationHours = $property->boost_duration ?? 24;
 
             $property->update([
                 'booster' => true,
@@ -109,19 +105,13 @@ class BoostRequestController extends Controller
                 'date_fin_booster' => now()->addHours($durationHours),
             ]);
 
-            // Déclencher les alertes
-            PropertyAlertService::checkAlerts($property);
+            if ($type === 'immobilier') {
+                PropertyAlertService::checkAlerts($property);
+            }
 
-            return response()->json([
-                'success' => true,
-                'message' => "Boost relancé pour {$durationHours}h",
-                'property_id' => $property->id,
-                'duration' => $durationHours,
-            ]);
+            return response()->json(['success' => true, 'message' => "Relancé pour {$durationHours}h"]);
         } catch (\Exception $e) {
-            return response()->json([
-                'error' => 'Erreur lors du relance: ' . $e->getMessage()
-            ], 500);
+            return response()->json(['error' => 'Erreur: ' . $e->getMessage()], 500);
         }
     }
 
@@ -130,30 +120,25 @@ class BoostRequestController extends Controller
      */
     public function stop(Request $request, $id)
     {
-        // Vérifier que l'utilisateur est admin
         if (!Auth::check() || Auth::user()->role !== 'admin') {
-            return response()->json(['error' => 'Non autorisé - Admin requis'], 403);
+            return response()->json(['error' => 'Non autorisé'], 403);
         }
 
-        try {
-            $property = Immobiliers::findOrFail($id);
+        $type = $request->input('type', 'immobilier');
+        $modelClass = $type === 'voiture' ? \App\Models\Voitures::class : \App\Models\Immobiliers::class;
 
+        try {
+            $property = $modelClass::findOrFail($id);
             $property->update([
                 'booster' => false,
                 'status' => 'null',
-                'onceBooster' => true,  // Marquer qu'il avait un boost avant
-                'date_fin_booster' => now(),  // Date d'arrêt = maintenant
+                'onceBooster' => true,
+                'date_fin_booster' => now(),
             ]);
 
-            return response()->json([
-                'success' => true,
-                'message' => 'Boost arrêté',
-                'property_id' => $property->id,
-            ]);
+            return response()->json(['success' => true, 'message' => 'Boost arrêté']);
         } catch (\Exception $e) {
-            return response()->json([
-                'error' => 'Erreur lors de l\'arrêt: ' . $e->getMessage()
-            ], 500);
+            return response()->json(['error' => 'Erreur: ' . $e->getMessage()], 500);
         }
     }
 }

@@ -15,6 +15,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
@@ -221,6 +222,68 @@ public function DetailsVehicule($id)
          $voiture->delete();
 
          return back()->with('message', 'Annonce véhicule supprimée.');
+     }
+
+     /**
+      * Créer un nouvel utilisateur (Admin)
+      */
+     public function storeUser(Request $request)
+     {
+         if (auth()->user()->role !== 'admin') {
+             abort(403);
+         }
+
+         $validated = $request->validate([
+             'name' => 'required|string|max:255',
+             'email' => 'required|string|email|max:255|unique:users',
+             'phone' => 'required|string|max:20',
+             'password' => 'required|string|min:8',
+             'role' => 'required|string|in:user,admin',
+         ]);
+
+         User::create([
+             'name' => $validated['name'],
+             'email' => $validated['email'],
+             'phone' => $validated['phone'],
+             'password' => Hash::make($validated['password']),
+             'role' => $validated['role'],
+             'email_verified_at' => now(), // Auto-verify for admin created users
+         ]);
+
+         return back()->with('message', 'Utilisateur créé avec succès.');
+     }
+
+     /**
+      * Mettre à jour un utilisateur (Admin)
+      */
+     public function updateUserData(Request $request, $id)
+     {
+         if (auth()->user()->role !== 'admin') {
+             abort(403);
+         }
+
+         $user = User::findOrFail($id);
+
+         $validated = $request->validate([
+             'name' => 'required|string|max:255',
+             'email' => 'required|string|email|max:255|unique:users,email,' . $id,
+             'phone' => 'required|string|max:20',
+             'role' => 'required|string|in:user,admin',
+             'password' => 'nullable|string|min:8',
+         ]);
+
+         $user->update([
+             'name' => $validated['name'],
+             'email' => $validated['email'],
+             'phone' => $validated['phone'],
+             'role' => $validated['role'],
+         ]);
+
+         if ($request->filled('password')) {
+             $user->update(['password' => Hash::make($validated['password'])]);
+         }
+
+         return back()->with('message', 'Utilisateur mis à jour.');
      }
 
 
