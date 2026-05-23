@@ -252,11 +252,6 @@ public function storeVente2()
     ], 201);
 }
 
-/**
- * Redimensionner une image de manière proportionnelle.
- */
-
-
     // TERRAIN FERME
 public function storeVente3()
 {
@@ -591,23 +586,29 @@ public function storeEdit($id)
     return redirect()->route('dashboard')->with('message', 'Annonce modifiée avec succès');
     }
 
-    // Vendu Vehicule
-
-
-
     // Vendu
 
-    public function StoreVenduImmo($id )
+    public function StoreVenduImmo($id)
     {
+        $vendu = Request::input('vendu');
+        $immobilier = Immobiliers::findOrFail($id);
+        
+        if ($vendu == 1) {
+            $immobilier->update([
+                'vendu' => 1,
+                'status' => 'Vendu'
+            ]);
+            $message = 'Article marqué comme vendu';
+        } else {
+            // Si on remet en vente, on le remet en 'accepter' (ou on pourrait garder son statut précédent)
+            $immobilier->update([
+                'vendu' => 0,
+                'status' => 'accepter'
+            ]);
+            $message = 'Article marqué comme disponible';
+        }
 
-
-        auth()->user()->Immobiliers()->where('id', $id)->update([
-            // 'type' => Request::input('type'),
-            'vendu' => Request::input('vendu'),
-
-        ]);
-
-        return redirect()->route('dashboard')->with('message', 'Annone publiee avec success Intervention');
+        return redirect()->route('dashboard')->with('message', $message);
     }
 
     public function storeEditVehicule($id )
@@ -626,18 +627,26 @@ public function storeEdit($id)
 
     // Vendu
 
-    public function StoreVenduVehicule($id )
+    public function StoreVenduVehicule($id)
     {
+        $vendu = Request::input('vendu');
+        $voiture = Voitures::findOrFail($id);
 
+        if ($vendu == 1) {
+            $voiture->update([
+                'vendu' => 1,
+                'status' => 'Vendu'
+            ]);
+            $message = 'Véhicule marqué comme vendu';
+        } else {
+            $voiture->update([
+                'vendu' => 0,
+                'status' => 'accepter'
+            ]);
+            $message = 'Véhicule marqué comme disponible';
+        }
 
-        auth()->user()->Voitures()->where('id', $id)->update([
-            // 'type' => Request::input('type'),
-            'vendu' => Request::input('vendu'),
-            // 'vendu' => Request::input('vendu'),
-
-        ]);
-
-        return redirect()->route('dashboard')->with('message', 'Annone publiee avec success Intervention');
+        return redirect()->route('dashboard')->with('message', $message);
     }
 
 
@@ -650,10 +659,6 @@ public function storeEdit($id)
         $planKey = Request::input('plan'); // Clé du plan (mini, standard, premium, platinum)
         
         // Convertir les minutes en heures (décimal)
-        // 120 minutes = 2 heures
-        // 2880 minutes = 48 heures
-        // 4320 minutes = 72 heures
-        // 10080 minutes = 168 heures
         $durationHours = $durationMinutes / 60; // Durée exacte en heures
 
         // Obtenir le prix du plan
@@ -682,9 +687,6 @@ public function storeEdit($id)
 
         auth()->user()->Voitures()->where('id', $id)->update([
             'booster' => Request::input('boost'),
-
-
-
         ]);
 
         return redirect()->route('dashboard')->with('message',  'boost avec Succes attente de validation');

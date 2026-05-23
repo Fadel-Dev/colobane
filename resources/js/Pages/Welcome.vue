@@ -220,6 +220,12 @@
                             <span class="absolute top-2 sm:top-4 left-2 sm:left-4 z-10 inline-flex items-center px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full text-xs font-bold bg-gradient-to-r from-yellow-400 to-yellow-500 text-white shadow-md">
                                 <i class="fas fa-bolt mr-0.5 sm:mr-1" aria-hidden="true"></i> <span class="hidden sm:inline">Boost</span>
                             </span>
+
+                            <!-- Badge Vendu -->
+                            <span v-if="item.status === 'Vendu' || item.vendu == 1" 
+                                class="absolute top-2 sm:top-4 right-2 sm:right-4 z-30 bg-red-600 text-white px-3 py-1 rounded-full text-[10px] sm:text-xs font-black uppercase tracking-wider shadow-lg transform rotate-3">
+                                VENDU
+                            </span>
                             
                             <img :src="getFirstAvailableImage(item)"
                                 :alt="`Image de ${item.nom || 'bien immobilier'}`"
@@ -348,6 +354,12 @@
                                         class="absolute top-4 right-4 z-20 bg-principal text-white px-3 py-1 rounded-full text-xs font-bold">
                                         Nouveau !
                                                     </span>
+
+                                    <!-- Badge Vendu -->
+                                    <span v-if="maison.status === 'Vendu' || maison.vendu == 1" 
+                                        class="absolute top-4 right-4 z-30 bg-red-600 text-white px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-wider shadow-lg transform rotate-3">
+                                        VENDU
+                                    </span>
                                     
                                     <!-- Carousel d'images pour chaque propriété -->
                                     <div class="relative w-full h-full property-image-carousel" :data-property-id="maison.id">

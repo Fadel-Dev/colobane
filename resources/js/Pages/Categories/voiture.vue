@@ -21,10 +21,16 @@ const props = defineProps({
                  @click="navigateToDetailVehi(voitureBoost.id)" class="swiper-slide w-full p-1">
                 <div class="card relative">
                     <!-- Image -->
-                    <div class="aspect-square overflow-hidden">
+                    <div class="aspect-square overflow-hidden relative">
                         <img :src="'/storage/' + voitureBoost.image1"
                              :alt="voitureBoost.imageAlt || 'Photo de la voiture'"
                              class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110" />
+
+                        <!-- Badge Vendu -->
+                        <span v-if="voitureBoost.status === 'Vendu' || voitureBoost.vendu == 1" 
+                            class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-30 bg-red-600 text-white px-2 py-1 rounded-full text-[10px] font-black uppercase tracking-wider shadow-lg rotate-12 border-2 border-white">
+                            VENDU
+                        </span>
                     </div>
 
                     <!-- Affaire Label -->
@@ -107,10 +113,16 @@ const props = defineProps({
                              class="relative flex flex-col overflow-hidden rounded-lg border hover:shadow-lg transition-shadow duration-300">
                         <div class="card">
                             <!-- Image -->
-                            <div class="aspect-square overflow-hidden">
+                            <div class="aspect-square overflow-hidden relative">
                                 <img :src="'/storage/' + voiture.image1"
                                      :alt="voiture.imageAlt || 'Photo de la voiture'"
                                      class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110" />
+                                
+                                <!-- Badge Vendu -->
+                                <span v-if="voiture.status === 'Vendu' || voiture.vendu == 1" 
+                                    class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-30 bg-red-600 text-white px-2 py-1 rounded-full text-[10px] font-black uppercase tracking-wider shadow-lg rotate-12 border-2 border-white">
+                                    VENDU
+                                </span>
                             </div>
 
                             <!-- Label (Affaire) -->
@@ -162,6 +174,58 @@ const props = defineProps({
         </section>
     </div>
 </template>
+
+<script>
+export default {
+    data() {
+        return {
+
+            selectedRegion: 'tous', // Par défaut, "tous"
+            selectedMarque: 'tous', // Nouvelle propriété pour la marque sélectionnée
+            marquesPopulaires: [ // Liste des marques populaires
+                "tous",
+                "volvo",
+                "renault",
+                "peugeot",
+                "citroen",
+                "mitsubishi",
+                "bmw",
+                "audi",
+                "nissan",
+                "mercedes-benz",
+                "volkswagen",
+                "toyota",
+                "ford",
+                "Jeep",
+                "Fiat",
+            ],
+        };
+    },
+    props: {
+        voituresBoost: {
+            type: Object,
+            required: true,
+        },
+        voitures: {
+            type: Object,
+            required: true,
+        },
+    },
+    computed: {
+        filteredVoitures() {
+            if (this.selectedMarque === 'tous') {
+                return this.voitures.data; // Retourne toutes les voitures si "tous" est sélectionné
+            }
+            return this.voitures.data.filter(voiture => voiture.marque === this.selectedMarque);
+        },
+    },
+    methods: {
+        navigateToDetailVehi(id) {
+            this.$inertia.visit(`/detailVehi/${id}`);
+        },
+    },
+};
+</script>
 
 <script>
 export default {

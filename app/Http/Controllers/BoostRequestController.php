@@ -31,6 +31,11 @@ class BoostRequestController extends Controller
         try {
             $property = $modelClass::findOrFail($id);
 
+            // Vérifier si l'article est déjà vendu
+            if ($property->status === 'Vendu' || $property->vendu == 1) {
+                return response()->json(['error' => 'Impossible de booster un article déjà vendu.'], 422);
+            }
+
             // Récupérer la durée demandée par le client en heures (décimal)
             $durationHours = $property->boost_duration ?? 24; 
 
@@ -96,6 +101,12 @@ class BoostRequestController extends Controller
 
         try {
             $property = $modelClass::findOrFail($id);
+
+            // Vérifier si l'article est déjà vendu
+            if ($property->status === 'Vendu' || $property->vendu == 1) {
+                return response()->json(['error' => 'Impossible de relancer le boost pour un article déjà vendu.'], 422);
+            }
+
             $durationHours = $property->boost_duration ?? 24;
 
             $property->update([
@@ -142,4 +153,3 @@ class BoostRequestController extends Controller
         }
     }
 }
-

@@ -298,6 +298,12 @@
                             <span class="absolute top-4 right-4 z-10 inline-flex items-center px-3 py-1.5 rounded-full text-sm font-bold bg-gradient-to-r from-yellow-400 to-yellow-500 text-white shadow-lg">
                                 <i class="fas fa-bolt mr-1" aria-hidden="true"></i> Boost
                             </span>
+
+                            <!-- Badge Vendu -->
+                            <span v-if="item.status === 'Vendu' || item.vendu == 1" 
+                                class="absolute top-4 right-4 z-30 bg-red-600 text-white px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-wider shadow-lg transform rotate-3">
+                                VENDU
+                            </span>
                             
                             <img :src="getFirstAvailableImage(item)"
                                 :alt="`Image de ${item.nom || 'bien immobilier'}`"

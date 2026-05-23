@@ -7,21 +7,22 @@ import VerificationForm from '@/Components/VerificationForm.vue';
 
 const props = defineProps({
     maison: Object,
-    habitats: Object,
-    results: Object,
-    total: Object,
-    totalImmobilier: Object,
-    totalImmobilierVendu: Object,
-    resultsVendu: Object,
-    totalVendu: Object,
-    totalImmobilierActuel: Object,
-    resultsActuel: Object,
-    totalActuel: Object,
-    totalVenduSomme: Object,
-    sommeHabitatVendu: Object,
-    restantImmobilier: Object,
-    totalArticles: Object,
-    totalRestant: Object,
+    habitats: Array,
+    voitures: Array,
+    total: Number,
+    totalImmobilier: Number,
+    totalVoitures: Number,
+    totalImmobilierVendu: Number,
+    totalVoituresVendu: Number,
+    totalVendu: Number,
+    totalImmobilierActuel: Number,
+    totalActuel: Number,
+    totalVenduSomme: Number,
+    sommeHabitatVendu: Number,
+    sommeVoitureVendu: Number,
+    restantImmobilier: Number,
+    totalArticles: Number,
+    totalRestant: Number,
     alerts: Array,
 });
 
@@ -70,16 +71,32 @@ const navigateUpdateImmobilier = (id) => {
     router.visit(`/update/immobilier/${id}`);
 };
 
+const navigateUpdateVehicule = (id) => {
+    router.visit(`/update/vehicule/${id}`);
+};
+
 const navigateToBoostImmobillier = (id) => {
     router.visit(`/boost/immo/${id}`);
+};
+
+const navigateToBoostVehicule = (id) => {
+    router.visit(`/boost/vehi/${id}`);
 };
 
 const navigateUpdateVenduImmobilier = (id) => {
     router.visit(`/update/navigateUpdateVenduImmobilier/${id}`);
 };
 
+const navigateUpdateVenduVehicule = (id) => {
+    router.visit(`/update/navigateUpdateVenduVehicule/${id}`);
+};
+
 const navigateToDetail = (id) => {
     router.visit(`/detail/${id}`);
+};
+
+const navigateToDetailVehi = (id) => {
+    router.visit(`/detailVehi/${id}`);
 };
 
 const getImageUrl = (image) => {
@@ -101,7 +118,7 @@ onMounted(() => {
     <AppLayout title="Dashboard">
         <SeoHead 
             title="Tableau de bord - NoflayHub"
-            description="Gérez vos annonces immobilières, suivez vos statistiques et boostez vos publications sur NoflayHub."
+            description="Gérez vos annonces immobilières et automobiles, suivez vos statistiques et boostez vos publications sur NoflayHub."
         />
 
         <div class="min-h-screen bg-gray-50">
@@ -151,11 +168,11 @@ onMounted(() => {
                         <div class="w-full lg:w-auto grid grid-cols-2 gap-3">
                             <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-lg p-4 hover:bg-white/15 transition-all">
                                 <p class="text-white/70 text-xs font-medium mb-1">Annonces actives</p>
-                                <p class="text-2xl font-bold text-white">{{ totalImmobilier || 0 }}</p>
+                                <p class="text-2xl font-bold text-white">{{ totalRestant || 0 }}</p>
                             </div>
                             <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-lg p-4 hover:bg-white/15 transition-all">
                                 <p class="text-white/70 text-xs font-medium mb-1">Vendues</p>
-                                <p class="text-2xl font-bold text-white">{{ totalImmobilierVendu || 0 }}</p>
+                                <p class="text-2xl font-bold text-white">{{ totalVendu || 0 }}</p>
                             </div>
                             <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-lg p-4 hover:bg-white/15 transition-all">
                                 <p class="text-white/70 text-xs font-medium mb-1">Chiffre d'affaires</p>
@@ -220,11 +237,30 @@ onMounted(() => {
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
                             </svg>
-                            <span>Mes annonces</span>
+                            <span>Immobiliers</span>
                             <span class="ml-2 px-3 py-1 bg-principal text-white rounded-full text-xs font-bold">
                                 {{ totalImmobilier || 0 }}
                             </span>
                             <div v-if="activeTab === 'immobiliers'" class="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-principal to-secondaire rounded-full"></div>
+                        </button>
+                        <button
+                            @click="activeTab = 'voitures'"
+                            :class="[
+                                'relative px-6 py-3.5 font-bold transition-all duration-300 flex items-center space-x-2 group',
+                                activeTab === 'voitures'
+                                    ? 'text-principal'
+                                    : 'text-gray-600 hover:text-gray-900'
+                            ]"
+                        >
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0" />
+                            </svg>
+                            <span>Véhicules</span>
+                            <span class="ml-2 px-3 py-1 bg-blue-500 text-white rounded-full text-xs font-bold">
+                                {{ totalVoitures || 0 }}
+                            </span>
+                            <div v-if="activeTab === 'voitures'" class="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-principal to-secondaire rounded-full"></div>
                         </button>
                         <button
                             @click="activeTab = 'verification'"
@@ -310,7 +346,7 @@ onMounted(() => {
                                         </div>
                                         <span class="text-xs font-bold text-green-600 bg-green-50 px-3 py-1.5 rounded-full">Vendu</span>
                                     </div>
-                                    <h3 class="text-4xl font-bold text-gray-900 mb-1">{{ totalImmobilierVendu || 0 }}</h3>
+                                    <h3 class="text-4xl font-bold text-gray-900 mb-1">{{ totalVendu || 0 }}</h3>
                                     <p class="text-sm text-gray-600 font-medium">Articles vendus</p>
                                 </div>
                             </div>
@@ -394,14 +430,10 @@ onMounted(() => {
                                                 <p class="text-xl font-bold text-blue-600">{{ totalImmobilierVendu || 0 }}</p>
                                             </div>
                                         </div>
-                                        <div class="p-4 bg-yellow-50 rounded-xl border border-yellow-200">
-                                            <p class="text-xs text-yellow-700 font-semibold mb-1">Restant</p>
-                                            <p class="text-xl font-bold text-yellow-600">{{ restantImmobilier || 0 }}</p>
-                                        </div>
                                     </div>
                                     <div class="mt-6 pt-6 border-t border-principal/20">
                                         <span class="text-principal font-bold flex items-center group-hover:translate-x-2 transition-transform duration-300">
-                                            Voir les articles
+                                            Voir les immobiliers
                                             <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
                                             </svg>
@@ -410,6 +442,59 @@ onMounted(() => {
                                 </div>
                             </div>
 
+                            <!-- Véhicules Stats Card Premium -->
+                            <div 
+                                @click="activeTab = 'voitures'"
+                                class="group relative bg-white rounded-2xl p-8 border-2 border-blue-500/20 shadow-xl hover:shadow-2xl transition-all duration-500 cursor-pointer overflow-hidden"
+                            >
+                                <div class="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                                <div class="relative">
+                                    <div class="flex items-center justify-between mb-6">
+                                        <div>
+                                            <h3 class="text-2xl font-bold text-gray-900 mb-2">Annonces Véhicules</h3>
+                                            <p class="text-gray-600">Gérez vos véhicules</p>
+                                        </div>
+                                        <div class="w-20 h-20 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center shadow-xl group-hover:scale-110 group-hover:rotate-6 transition-all duration-500">
+                                            <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z" />
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0" />
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    <div class="space-y-4">
+                                        <div class="flex items-center justify-between p-4 bg-gradient-to-r from-blue-100 to-blue-50 rounded-xl border border-blue-200">
+                                            <div class="flex items-center space-x-3">
+                                                <div class="w-10 h-10 bg-blue-200 rounded-lg flex items-center justify-center">
+                                                    <i class="fas fa-car text-blue-600"></i>
+                                                </div>
+                                                <span class="text-gray-700 font-semibold">Total</span>
+                                            </div>
+                                            <span class="text-3xl font-bold text-gray-900">{{ totalVoitures || 0 }}</span>
+                                        </div>
+                                        <div class="grid grid-cols-2 gap-4">
+                                            <div class="p-4 bg-green-50 rounded-xl border border-green-200">
+                                                <p class="text-xs text-green-700 font-semibold mb-1">Chiffre d'affaire</p>
+                                                <p class="text-xl font-bold text-green-600">{{ formatPrice(sommeVoitureVendu || 0) }} <span class="text-sm">FCFA</span></p>
+                                            </div>
+                                            <div class="p-4 bg-blue-50 rounded-xl border border-blue-200">
+                                                <p class="text-xs text-blue-700 font-semibold mb-1">Vendu</p>
+                                                <p class="text-xl font-bold text-blue-600">{{ totalVoituresVendu || 0 }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mt-6 pt-6 border-t border-blue-200">
+                                        <span class="text-blue-600 font-bold flex items-center group-hover:translate-x-2 transition-transform duration-300">
+                                            Voir les véhicules
+                                            <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                                            </svg>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                             <!-- Alertes Card -->
                             <div 
                                 @click="activeTab = 'alerts'"
@@ -516,7 +601,7 @@ onMounted(() => {
                         <!-- Header -->
                         <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                             <div>
-                                <h2 class="text-3xl font-bold text-gray-900">Mes annonces</h2>
+                                <h2 class="text-3xl font-bold text-gray-900">Mes annonces immobilières</h2>
                                 <p class="text-gray-600 mt-1">{{ totalImmobilier || 0 }} annonce{{ (totalImmobilier || 0) > 1 ? 's' : '' }}</p>
                             </div>
                             <Link
@@ -548,8 +633,15 @@ onMounted(() => {
                                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                                     
                                     <!-- Status Badge -->
-                                    <div class="absolute top-3 left-3">
+                                    <div class="absolute top-3 left-3 flex flex-col gap-2">
                                         <span 
+                                            v-if="habitat.vendu == 1 || habitat.status === 'Vendu'"
+                                            class="px-3 py-1.5 rounded-full text-xs font-bold shadow-lg backdrop-blur-sm bg-red-600 text-white uppercase tracking-wider"
+                                        >
+                                            Vendu
+                                        </span>
+                                        <span 
+                                            v-else
                                             :class="[
                                                 'px-3 py-1.5 rounded-full text-xs font-bold shadow-lg backdrop-blur-sm',
                                                 habitat.status === 'accepter' 
@@ -559,7 +651,7 @@ onMounted(() => {
                                                         : 'bg-gray-500/90 text-white'
                                             ]"
                                         >
-                                            {{ habitat.status === 'accepter' ? 'Disponible' : habitat.status === 'pending' ? 'En attente' : habitat.status }}
+                                            {{ habitat.status === 'accepter' ? 'En vente' : habitat.status === 'pending' ? 'En attente' : habitat.status }}
                                         </span>
                                     </div>
 
@@ -611,14 +703,20 @@ onMounted(() => {
                                         </button>
                                         <button
                                             @click="navigateUpdateVenduImmobilier(habitat.id)"
-                                            class="flex-1 bg-green-500 hover:bg-green-600 text-white px-3 py-2.5 rounded-lg text-sm font-semibold transition-all hover:scale-105 flex items-center justify-center space-x-1 shadow-md"
+                                            :class="[
+                                                'flex-1 px-3 py-2.5 rounded-lg text-sm font-semibold transition-all hover:scale-105 flex items-center justify-center space-x-1 shadow-md',
+                                                habitat.vendu == 1 || habitat.status === 'Vendu'
+                                                    ? 'bg-orange-500 hover:bg-orange-600 text-white'
+                                                    : 'bg-green-500 hover:bg-green-600 text-white'
+                                            ]"
                                         >
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                                             </svg>
-                                            <span class="hidden sm:inline">Vendu</span>
+                                            <span class="hidden sm:inline">{{ (habitat.vendu == 1 || habitat.status === 'Vendu') ? 'Disponible' : 'Vendu' }}</span>
                                         </button>
                                         <button
+                                            v-if="habitat.status !== 'Vendu' && habitat.vendu != 1"
                                             @click="navigateToBoostImmobillier(habitat.id)"
                                             :disabled="habitat.is_boosting"
                                             :class="[
@@ -650,7 +748,7 @@ onMounted(() => {
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
                                 </svg>
                             </div>
-                            <h3 class="text-2xl font-bold text-gray-900 mb-2">Aucune annonce</h3>
+                            <h3 class="text-2xl font-bold text-gray-900 mb-2">Aucune annonce immobilière</h3>
                             <p class="text-gray-600 mb-8 text-lg">Commencez par créer votre première annonce</p>
                             <Link
                                 href="/publier"
@@ -660,6 +758,141 @@ onMounted(() => {
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                                 </svg>
                                 <span>Créer une annonce</span>
+                            </Link>
+                        </div>
+                    </div>
+                </Transition>
+
+                <!-- Véhicules Tab -->
+                <Transition
+                    enter-active-class="transition ease-out duration-300"
+                    enter-from-class="opacity-0 translate-y-4"
+                    enter-to-class="opacity-100 translate-y-0"
+                    leave-active-class="transition ease-in duration-200"
+                    leave-from-class="opacity-100 translate-y-0"
+                    leave-to-class="opacity-0 translate-y-4"
+                >
+                    <div v-show="activeTab === 'voitures'" class="space-y-6">
+                        <!-- Header -->
+                        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                            <div>
+                                <h2 class="text-3xl font-bold text-gray-900">Mes véhicules</h2>
+                                <p class="text-gray-600 mt-1">{{ totalVoitures || 0 }} véhicule{{ (totalVoitures || 0) > 1 ? 's' : '' }}</p>
+                            </div>
+                            <Link
+                                href="/publier"
+                                class="group flex items-center space-x-2 bg-gradient-to-r from-blue-600 to-blue-500 text-white px-6 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all hover:scale-105"
+                            >
+                                <i class="fas fa-car mr-2"></i>
+                                <span>Nouveau véhicule</span>
+                            </Link>
+                        </div>
+
+                        <!-- Vehicles Grid -->
+                        <div v-if="voitures && voitures.length > 0" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                            <div
+                                v-for="car in voitures"
+                                :key="car.id"
+                                class="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-200 transform hover:-translate-y-2"
+                            >
+                                <!-- Image -->
+                                <div class="relative aspect-video overflow-hidden bg-gray-100">
+                                    <img 
+                                        :src="getImageUrl(car.image1)" 
+                                        :alt="car.nom"
+                                        class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                        @click="navigateToDetailVehi(car.id)"
+                                    >
+                                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                                    
+                                    <!-- Status Badge -->
+                                    <div class="absolute top-3 left-3 flex flex-col gap-2">
+                                        <span 
+                                            v-if="car.vendu == 1 || car.status === 'Vendu'"
+                                            class="px-3 py-1.5 rounded-full text-xs font-bold shadow-lg backdrop-blur-sm bg-red-600 text-white uppercase tracking-wider"
+                                        >
+                                            Vendu
+                                        </span>
+                                        <span 
+                                            v-else
+                                            :class="[
+                                                'px-3 py-1.5 rounded-full text-xs font-bold shadow-lg backdrop-blur-sm',
+                                                car.status === 'accepter' 
+                                                    ? 'bg-green-500/90 text-white' 
+                                                    : car.status === 'pending' 
+                                                        ? 'bg-yellow-500/90 text-white' 
+                                                        : 'bg-gray-500/90 text-white'
+                                            ]"
+                                        >
+                                            {{ car.status === 'accepter' ? 'En vente' : car.status === 'pending' ? 'En attente' : car.status }}
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <!-- Content -->
+                                <div class="p-5">
+                                    <h3 
+                                        @click="navigateToDetailVehi(car.id)"
+                                        class="font-bold text-gray-900 mb-2 line-clamp-1 cursor-pointer hover:text-blue-600 transition-colors text-lg"
+                                    >
+                                        {{ car.nom }}
+                                    </h3>
+                                    <p class="text-blue-600 font-bold text-xl mb-3">
+                                        {{ formatPrice(car.prix) }} <span class="text-sm text-gray-600 font-normal">FCFA</span>
+                                    </p>
+                                    <div class="flex items-center text-sm text-gray-600 mb-4">
+                                        <i class="fas fa-car mr-2 text-blue-500"></i>
+                                        {{ car.marque }} {{ car.model }}
+                                    </div>
+
+                                    <!-- Actions -->
+                                    <div class="flex flex-wrap gap-2 pt-4 border-t border-gray-200">
+                                        <button
+                                            @click="navigateUpdateVehicule(car.id)"
+                                            class="flex-1 bg-blue-500 hover:bg-blue-600 text-white px-3 py-2.5 rounded-lg text-sm font-semibold transition-all hover:scale-105 flex items-center justify-center space-x-1 shadow-md"
+                                        >
+                                            <i class="fas fa-edit"></i>
+                                            <span class="hidden sm:inline">Modif.</span>
+                                        </button>
+                                        <button
+                                            @click="navigateUpdateVenduVehicule(car.id)"
+                                            :class="[
+                                                'flex-1 px-3 py-2.5 rounded-lg text-sm font-semibold transition-all hover:scale-105 flex items-center justify-center space-x-1 shadow-md',
+                                                car.vendu == 1 || car.status === 'Vendu'
+                                                    ? 'bg-orange-500 hover:bg-orange-600 text-white'
+                                                    : 'bg-green-500 hover:bg-green-600 text-white'
+                                            ]"
+                                        >
+                                            <i class="fas fa-check-circle"></i>
+                                            <span class="hidden sm:inline">{{ (car.vendu == 1 || car.status === 'Vendu') ? 'Dispo.' : 'Vendu' }}</span>
+                                        </button>
+                                        <button
+                                            v-if="car.status !== 'Vendu' && car.vendu != 1"
+                                            @click="navigateToBoostVehicule(car.id)"
+                                            :disabled="car.is_boosting"
+                                            class="flex-1 bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-2.5 rounded-lg text-sm font-semibold transition-all hover:scale-105 flex items-center justify-center space-x-1 shadow-md disabled:opacity-50"
+                                        >
+                                            <i class="fas fa-rocket"></i>
+                                            <span class="hidden sm:inline">{{ car.is_boosting ? 'Boosté' : 'Boost' }}</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Empty State Vehicles -->
+                        <div v-else class="text-center py-20">
+                            <div class="w-32 h-32 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-6">
+                                <i class="fas fa-car text-blue-500 text-5xl"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold text-gray-900 mb-2">Aucun véhicule</h3>
+                            <p class="text-gray-600 mb-8 text-lg">Mettez en vente votre véhicule dès maintenant</p>
+                            <Link
+                                href="/publier"
+                                class="inline-flex items-center space-x-3 bg-blue-600 text-white px-8 py-4 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all hover:scale-105"
+                            >
+                                <i class="fas fa-plus"></i>
+                                <span>Publier un véhicule</span>
                             </Link>
                         </div>
                     </div>

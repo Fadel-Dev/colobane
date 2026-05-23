@@ -187,12 +187,14 @@ class DashboardController extends Controller
         
         // Requête de base pour les immobiliers de l'utilisateur
         $baseQuery = Immobiliers::where('user_id', $user_id);
+        $voitureQuery = Voitures::where('user_id', $user_id);
         
         // Récupérer tous les immobiliers pour l'affichage (léger)
         $immobiliers = (clone $baseQuery)->orderBy('created_at', 'desc')->get();
+        $voitures = (clone $voitureQuery)->orderBy('created_at', 'desc')->get();
         
-        // Enrichir avec les infos de boost (transformation côté PHP nécessaire pour la logique complexe)
-        $enrichedImmobiliers = $immobiliers->map(function($item) {
+        // Enrichir avec les infos de boost
+        $enrichItem = function($item) {
             $item->is_boosting = $item->booster == 1 && $item->status === 'accepter';
             $item->boost_remaining_hours = null;
             $item->boost_remaining_text = null;
@@ -205,53 +207,53 @@ class DashboardController extends Controller
                     $diff = $now->diff($endDate);
                     $hours = $diff->days * 24 + $diff->h;
                     $minutes = $diff->i;
-                    $seconds = $diff->s;
-                    
-                    $item->boost_remaining_hours = $hours + ($minutes / 60) + ($seconds / 3600);
-                    
-                    // Format texte: "2j 3h 45min"
-                    $text_parts = [];
-                    if ($diff->days > 0) $text_parts[] = $diff->days . 'j';
-                    if ($diff->h > 0) $text_parts[] = $diff->h . 'h';
-                    if ($diff->i > 0) $text_parts[] = $diff->i . 'min';
-                    
-                    $item->boost_remaining_text = implode(' ', $text_parts) . ' restants';
+                    $item->boost_remaining_text = ($diff->days > 0 ? $diff->days . 'j ' : '') . $diff->h . 'h ' . $diff->i . 'min restants';
                 } else {
                     $item->boost_remaining_text = 'Expiré';
                     $item->is_boosting = false;
                 }
             }
-            
             $item->boost_can_activate = !$item->is_boosting;
-            
             return $item;
-        });
+        };
 
-        // Statistiques performantes via SQL direct
-        $totalCount = (clone $baseQuery)->count();
-        $totalVenduCount = (clone $baseQuery)->where('vendu', 1)->count();
+        $enrichedImmobiliers = $immobiliers->map($enrichItem);
+        $enrichedVoitures = $voitures->map($enrichItem);
+
+        // Statistiques globales
+        $totalImmo = (clone $baseQuery)->count();
+        $totalVoitures = (clone $voitureQuery)->count();
+        $totalCount = $totalImmo + $totalVoitures;
+
+        $totalVenduImmo = (clone $baseQuery)->where('vendu', 1)->count();
+        $totalVenduVoitures = (clone $voitureQuery)->where('vendu', 1)->count();
+        $totalVenduCount = $totalVenduImmo + $totalVenduVoitures;
+
         $totalActuelCount = $totalCount - $totalVenduCount;
-        $totalVenduSomme = (clone $baseQuery)->where('vendu', 1)->sum('prix');
+        
+        $sumVenduImmo = (clone $baseQuery)->where('vendu', 1)->sum('prix');
+        $sumVenduVoitures = (clone $voitureQuery)->where('vendu', 1)->sum('prix');
+        $totalVenduSomme = (float)$sumVenduImmo + (float)$sumVenduVoitures;
 
         // Récupérer les alertes de l'utilisateur
         $alerts = auth()->user()->propertyAlerts()->latest()->get();
 
         return Inertia::render('Dashboard', [
             'habitats' => $enrichedImmobiliers,
+            'voitures' => $enrichedVoitures,
             'total' => $totalCount,
-            'totalImmobilier' => $totalCount,
-            'resultsVendu' => $enrichedImmobiliers->where('vendu', 1)->values(),
-            'totalImmobilierVendu' => $totalVenduCount,
+            'totalImmobilier' => $totalImmo,
+            'totalVoitures' => $totalVoitures,
+            'totalImmobilierVendu' => $totalVenduImmo,
+            'totalVoituresVendu' => $totalVenduVoitures,
             'totalVendu' => $totalVenduCount,
-            'resultsActuel' => $enrichedImmobiliers->where('vendu', 0)->values(),
-            'totalImmobilierActuel' => $totalActuelCount,
-            'totalActuel' => $totalActuelCount,
-            'restantImmobilier' => $totalActuelCount,
             'totalRestant' => $totalActuelCount,
-            'totalVenduSomme' => (float) $totalVenduSomme,
-            'sommeHabitatVendu' => (float) $totalVenduSomme,
+            'totalVenduSomme' => $totalVenduSomme,
+            'sommeHabitatVendu' => (float)$sumVenduImmo,
+            'sommeVoitureVendu' => (float)$sumVenduVoitures,
             'totalArticles' => $totalCount,
             'alerts' => $alerts,
+            'restantImmobilier' => $totalImmo - $totalVenduImmo,
         ]);
     }
 

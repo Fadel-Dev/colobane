@@ -121,6 +121,14 @@ const structuredData = computed(() => {
                         @click="previousImage">
                     </i>
 
+                    <!-- Badge Vendu prominent -->
+                    <div v-if="voiture.status === 'Vendu' || voiture.vendu == 1" class="absolute top-4 left-4 z-20">
+                        <span class="inline-flex items-center px-6 py-3 rounded-full text-lg font-black bg-red-600 text-white shadow-2xl ring-4 ring-white uppercase tracking-widest transform -rotate-3">
+                            <i class="bi bi-check-circle-fill mr-2"></i>
+                            DÉJÀ VENDU
+                        </span>
+                    </div>
+
                     <div class="w-full h-full flex items-center justify-center border">
                         <img class="flex max-w-full max-h-full items-center justify-center object-contain"
                             :src="'/storage/' + currentImage" :alt="voiture.nom">

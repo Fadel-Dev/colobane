@@ -21,6 +21,12 @@ class BoostController extends Controller
 
 
             $immo = Immobiliers::findOrFail($id);
+
+            // Vérifier si l'article est déjà vendu
+            if ($immo->status === 'Vendu' || $immo->vendu == 1) {
+                return redirect()->back()->with('error', 'Cet article est déjà vendu et ne peut plus être boosté.');
+            }
+
             sleep(1);
 
             // Récupérer le type de l'immobilier
@@ -60,6 +66,12 @@ class BoostController extends Controller
 
 
                 $vehi = Voitures::findOrFail($id);
+
+                // Vérifier si l'article est déjà vendu
+                if ($vehi->status === 'Vendu' || $vehi->vendu == 1) {
+                    return redirect()->back()->with('error', 'Cet article est déjà vendu et ne peut plus être boosté.');
+                }
+
                 sleep(1);
 
                 // Récupérer le type de l'immobilier

@@ -394,6 +394,14 @@ const structuredData = computed(() => {
                   Boosté
                 </span>
               </div>
+
+              <!-- Badge Vendu prominent -->
+              <div v-if="maison.status === 'Vendu' || maison.vendu == 1" class="absolute top-4 left-4 z-20">
+                <span class="inline-flex items-center px-6 py-3 rounded-full text-lg font-black bg-red-600 text-white shadow-2xl ring-4 ring-white uppercase tracking-widest transform -rotate-3">
+                  <i class="bi bi-check-circle-fill mr-2"></i>
+                  DÉJÀ VENDU
+                </span>
+              </div>
             </div>
 
             <!-- Enhanced Thumbnails - Affiche toutes les images -->
