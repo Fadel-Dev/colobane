@@ -8,9 +8,11 @@ const props = defineProps({
     immobiliers: Array, // Pending boost requests
     voituresPending: Array,
     immobilliersBoosted: Array,
+    voituresBoosted: Array,
     immobilliersBoosting: Array,
     voituresBoosting: Array,
     immobiliersArretes: Array,
+    voituresArretes: Array,
     allUsers: Object, // Paginated
     allImmobiliers: Object, // Paginated
     allVoitures: Object, // Paginated
@@ -37,6 +39,7 @@ const route = (name, params) => {
 };
 
 const activeTab = ref('overview');
+const boostSubTab = ref('pending'); // 'pending', 'active', 'history'
 const isLoading = ref(false);
 
 // User CRUD State
@@ -94,11 +97,25 @@ const filteredVoitures = computed(() => {
     );
 });
 
-// Pending items for the overview and boosts tab
+// Boost Lists
 const allPendingBoosts = computed(() => {
     const immo = (props.immobiliers || []).map(item => ({ ...item, product_type: 'immobilier' }));
     const vehi = (props.voituresPending || []).map(item => ({ ...item, product_type: 'voiture' }));
     return [...immo, ...vehi].sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
+});
+
+const allActiveBoosts = computed(() => {
+    const immo = (props.immobilliersBoosting || []).map(item => ({ ...item, product_type: 'immobilier' }));
+    const vehi = (props.voituresBoosting || []).map(item => ({ ...item, product_type: 'voiture' }));
+    return [...immo, ...vehi].sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
+});
+
+const allBoostHistory = computed(() => {
+    const immoCompleted = (props.immobilliersBoosted || []).map(item => ({ ...item, product_type: 'immobilier', boost_status: 'Complété' }));
+    const immoStopped = (props.immobiliersArretes || []).map(item => ({ ...item, product_type: 'immobilier', boost_status: 'Arrêté' }));
+    const vehiCompleted = (props.voituresBoosted || []).map(item => ({ ...item, product_type: 'voiture', boost_status: 'Complété' }));
+    const vehiStopped = (props.voituresArretes || []).map(item => ({ ...item, product_type: 'voiture', boost_status: 'Arrêté' }));
+    return [...immoCompleted, ...immoStopped, ...vehiCompleted, ...vehiStopped].sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
 });
 
 // Sync user search with URL
@@ -242,7 +259,7 @@ const mainStats = computed(() => [
     },
     { 
         title: 'Boosts Actifs', 
-        value: (props.immobilliersBoosting?.length || 0) + (props.voituresBoosting?.length || 0), 
+        value: allActiveBoosts.value.length, 
         trend: 'Conversion', 
         trendUp: true,
         icon: 'fas fa-bolt',
@@ -421,10 +438,10 @@ onMounted(() => {
                                                 <p class="text-[10px] text-slate-400 font-bold uppercase">{{ item.product_type }}</p>
                                             </div>
                                         </div>
-                                        <button @click="activeTab = 'boosts'" class="w-full py-2.5 bg-slate-900 text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-principal transition-all">Valider la demande</button>
+                                        <button @click="activeTab = 'boosts'; boostSubTab = 'pending'" class="w-full py-2.5 bg-slate-900 text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-principal transition-all">Valider la demande</button>
                                     </div>
                                     <div v-if="allPendingBoosts.length > 4" class="text-center pt-4">
-                                        <button @click="activeTab = 'boosts'" class="text-xs font-black text-slate-400 hover:text-principal transition-colors">Et {{ allPendingBoosts.length - 4 }} autres demandes...</button>
+                                        <button @click="activeTab = 'boosts'; boostSubTab = 'pending'" class="text-xs font-black text-slate-400 hover:text-principal transition-colors">Et {{ allPendingBoosts.length - 4 }} autres demandes...</button>
                                     </div>
                                 </div>
                                 <div v-else class="flex-1 flex flex-col items-center justify-center text-center py-10 opacity-40 grayscale">
@@ -437,69 +454,158 @@ onMounted(() => {
                     </div>
 
                     <!-- TAB: Boosts -->
-                    <div v-if="activeTab === 'boosts'" class="animate-fadeIn">
+                    <div v-if="activeTab === 'boosts'" class="animate-fadeIn space-y-8">
+                        <!-- Boost Tabs -->
+                        <div class="flex gap-4 p-2 bg-white rounded-[2rem] shadow-sm border border-slate-200/60 w-fit">
+                            <button v-for="tab in [
+                                {id: 'pending', name: 'En attente', icon: 'fas fa-clock', count: allPendingBoosts.length, color: 'text-amber-500'},
+                                {id: 'active', name: 'Boosts Actifs', icon: 'fas fa-bolt', count: allActiveBoosts.length, color: 'text-emerald-500'},
+                                {id: 'history', name: 'Historique', icon: 'fas fa-history', color: 'text-slate-500'}
+                            ]" :key="tab.id"
+                            @click="boostSubTab = tab.id"
+                            :class="boostSubTab === tab.id ? 'bg-slate-900 text-white shadow-lg' : 'hover:bg-slate-50 text-slate-400'"
+                            class="flex items-center gap-3 px-6 py-3 rounded-xl text-xs font-black uppercase tracking-widest transition-all">
+                                <i :class="[tab.icon, boostSubTab === tab.id ? 'text-white' : tab.color]"></i>
+                                {{ tab.name }}
+                                <span v-if="tab.count !== undefined" :class="boostSubTab === tab.id ? 'bg-white/20' : 'bg-slate-100'" class="px-2 py-0.5 rounded-full text-[10px]">{{ tab.count }}</span>
+                            </button>
+                        </div>
+
                         <div class="bg-white rounded-[3rem] shadow-xl border border-slate-200/60 overflow-hidden">
-                            <div class="p-10 border-b border-slate-100 flex items-center justify-between">
-                                <div>
-                                    <h3 class="text-2xl font-black text-slate-900">Demandes de Boost</h3>
-                                    <p class="text-slate-400 font-bold text-sm">Gestion des mises en avant payantes</p>
-                                </div>
-                                <div class="flex items-center gap-3">
-                                    <span class="px-4 py-2 bg-slate-50 text-slate-500 rounded-xl text-xs font-black uppercase tracking-widest border border-slate-100">
-                                        {{ allPendingBoosts.length }} EN ATTENTE
-                                    </span>
-                                </div>
-                            </div>
                             <div class="overflow-x-auto">
                                 <table class="w-full text-left">
                                     <thead>
                                         <tr class="bg-slate-50/50 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">
                                             <th class="px-10 py-6">Informations du Bien</th>
                                             <th class="px-10 py-6">Propriétaire</th>
-                                            <th class="px-10 py-6">Valeur</th>
-                                            <th class="px-10 py-6 text-right">Actions Pro</th>
+                                            <th class="px-10 py-6">Période / Valeur</th>
+                                            <th class="px-10 py-6 text-right">Contrôle</th>
                                         </tr>
                                     </thead>
                                     <tbody class="divide-y divide-slate-100">
-                                        <tr v-for="item in allPendingBoosts" :key="item.id + item.product_type" class="hover:bg-slate-50/30 transition-colors group">
-                                            <td class="px-10 py-8">
-                                                <div class="flex items-center gap-5">
-                                                    <div class="w-16 h-16 rounded-2xl bg-slate-100 overflow-hidden shadow-inner">
-                                                        <img v-if="item.image1" :src="'/storage/' + item.image1" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-                                                        <div v-else class="w-full h-full flex items-center justify-center text-slate-300"><i class="fas fa-image"></i></div>
-                                                    </div>
-                                                    <div>
-                                                        <p class="font-black text-slate-900 text-lg group-hover:text-principal transition-colors">{{ item.nom }}</p>
-                                                        <div class="flex gap-2 mt-1">
-                                                            <span class="text-[9px] font-black bg-slate-900 text-white px-2 py-0.5 rounded uppercase">{{ item.product_type }}</span>
-                                                            <span class="text-[9px] font-black text-slate-400 uppercase">{{ item.region || item.marque }}</span>
+                                        <!-- Sub-tab: PENDING -->
+                                        <template v-if="boostSubTab === 'pending'">
+                                            <tr v-for="item in allPendingBoosts" :key="'pending-' + item.id" class="hover:bg-slate-50/30 transition-colors group">
+                                                <td class="px-10 py-8">
+                                                    <div class="flex items-center gap-5">
+                                                        <div class="w-16 h-16 rounded-2xl bg-slate-100 overflow-hidden shadow-inner">
+                                                            <img v-if="item.image1" :src="'/storage/' + item.image1" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                                                        </div>
+                                                        <div>
+                                                            <p class="font-black text-slate-900 text-lg group-hover:text-principal transition-colors">{{ item.nom }}</p>
+                                                            <div class="flex gap-2 mt-1">
+                                                                <span class="text-[9px] font-black bg-slate-900 text-white px-2 py-0.5 rounded uppercase">{{ item.product_type }}</span>
+                                                                <span class="text-[9px] font-black text-slate-400 uppercase tracking-wider">{{ item.region || item.marque }}</span>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </td>
-                                            <td class="px-10 py-8">
-                                                <p class="font-black text-slate-700">{{ item.user?.name }}</p>
-                                                <p class="text-xs font-bold text-slate-400 font-mono tracking-tighter">{{ item.user?.phone }}</p>
-                                            </td>
-                                            <td class="px-10 py-8">
-                                                <span class="text-xl font-black text-principal">{{ formatPrice(item.prix) }}</span>
-                                            </td>
-                                            <td class="px-10 py-8 text-right">
-                                                <div class="flex justify-end gap-3">
-                                                    <button @click="approveBoost(item.id, item.product_type)" class="px-6 py-3 bg-emerald-500 text-white rounded-2xl font-black text-[11px] hover:bg-emerald-600 hover:shadow-xl hover:shadow-emerald-100 hover:-translate-y-0.5 active:translate-y-0 transition-all uppercase tracking-widest">ACTIVER BOOST</button>
-                                                    <button class="w-12 h-12 bg-slate-50 text-slate-300 rounded-2xl flex items-center justify-center hover:bg-red-50 hover:text-red-500 transition-all shadow-inner"><i class="fas fa-trash-can"></i></button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr v-if="allPendingBoosts.length === 0">
-                                            <td colspan="4" class="px-10 py-24 text-center">
-                                                <div class="w-24 h-24 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-6">
-                                                    <i class="fas fa-box-open text-slate-200 text-3xl"></i>
-                                                </div>
-                                                <p class="font-black text-slate-900 text-xl">Rien à signaler</p>
-                                                <p class="text-slate-400 font-bold">Toutes les demandes ont été traitées.</p>
-                                            </td>
-                                        </tr>
+                                                </td>
+                                                <td class="px-10 py-8">
+                                                    <p class="font-black text-slate-700">{{ item.user?.name }}</p>
+                                                    <p class="text-xs font-bold text-slate-400 font-mono tracking-tighter">{{ item.user?.phone }}</p>
+                                                </td>
+                                                <td class="px-10 py-8">
+                                                    <div class="flex flex-col">
+                                                        <span class="text-xl font-black text-principal">{{ formatPrice(item.prix) }}</span>
+                                                        <span class="text-[10px] font-black text-slate-400 uppercase">DURÉE: {{ item.duration }} MIN</span>
+                                                    </div>
+                                                </td>
+                                                <td class="px-10 py-8 text-right">
+                                                    <div class="flex justify-end gap-3">
+                                                        <button @click="approveBoost(item.id, item.product_type)" class="px-6 py-3 bg-emerald-500 text-white rounded-2xl font-black text-[11px] hover:bg-emerald-600 hover:shadow-xl hover:shadow-emerald-100 hover:-translate-y-0.5 transition-all uppercase tracking-widest">ACTIVER BOOST</button>
+                                                        <button class="w-12 h-12 bg-slate-50 text-slate-300 rounded-2xl flex items-center justify-center hover:bg-red-50 hover:text-red-500 transition-all"><i class="fas fa-trash-can"></i></button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr v-if="allPendingBoosts.length === 0">
+                                                <td colspan="4" class="px-10 py-24 text-center">
+                                                    <div class="w-24 h-24 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-6">
+                                                        <i class="fas fa-box-open text-slate-200 text-3xl"></i>
+                                                    </div>
+                                                    <p class="font-black text-slate-900 text-xl">Aucune demande en attente</p>
+                                                </td>
+                                            </tr>
+                                        </template>
+
+                                        <!-- Sub-tab: ACTIVE -->
+                                        <template v-if="boostSubTab === 'active'">
+                                            <tr v-for="item in allActiveBoosts" :key="'active-' + item.id" class="hover:bg-slate-50/30 transition-colors group">
+                                                <td class="px-10 py-8">
+                                                    <div class="flex items-center gap-5">
+                                                        <div class="w-16 h-16 rounded-2xl bg-slate-100 overflow-hidden shadow-inner border-2 border-emerald-100">
+                                                            <img v-if="item.image1" :src="'/storage/' + item.image1" class="w-full h-full object-cover">
+                                                        </div>
+                                                        <div>
+                                                            <div class="flex items-center gap-3">
+                                                                <p class="font-black text-slate-900 text-lg">{{ item.nom }}</p>
+                                                                <span class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.6)]"></span>
+                                                            </div>
+                                                            <div class="flex gap-2 mt-1">
+                                                                <span class="text-[9px] font-black bg-emerald-500 text-white px-2 py-0.5 rounded uppercase">ACTIF</span>
+                                                                <span class="text-[9px] font-black text-slate-400 uppercase">{{ item.product_type }}</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td class="px-10 py-8">
+                                                    <p class="font-black text-slate-700">{{ item.user?.name }}</p>
+                                                    <p class="text-xs font-bold text-slate-400 font-mono tracking-tighter">{{ item.user?.phone }}</p>
+                                                </td>
+                                                <td class="px-10 py-8">
+                                                    <div class="flex flex-col">
+                                                        <span class="text-xs font-black text-slate-900 uppercase">Expire le:</span>
+                                                        <span class="text-sm font-bold text-emerald-600">{{ formatDate(item.date_fin_booster) }}</span>
+                                                    </div>
+                                                </td>
+                                                <td class="px-10 py-8 text-right">
+                                                    <button @click="stopBoost(item.id, item.product_type)" class="px-6 py-3 bg-slate-100 text-slate-600 rounded-2xl font-black text-[11px] hover:bg-red-500 hover:text-white hover:shadow-xl hover:shadow-red-100 transition-all uppercase tracking-widest">ARRÊTER BOOST</button>
+                                                </td>
+                                            </tr>
+                                            <tr v-if="allActiveBoosts.length === 0">
+                                                <td colspan="4" class="px-10 py-24 text-center">
+                                                    <div class="w-24 h-24 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-6">
+                                                        <i class="fas fa-bolt text-slate-200 text-3xl"></i>
+                                                    </div>
+                                                    <p class="font-black text-slate-900 text-xl">Aucun boost actif actuellement</p>
+                                                </td>
+                                            </tr>
+                                        </template>
+
+                                        <!-- Sub-tab: HISTORY -->
+                                        <template v-if="boostSubTab === 'history'">
+                                            <tr v-for="item in allBoostHistory" :key="'hist-' + item.id + item.product_type + item.updated_at" class="hover:bg-slate-50/30 transition-colors group">
+                                                <td class="px-10 py-8">
+                                                    <div class="flex items-center gap-5">
+                                                        <div class="w-16 h-16 rounded-2xl bg-slate-100 overflow-hidden shadow-inner grayscale opacity-60">
+                                                            <img v-if="item.image1" :src="'/storage/' + item.image1" class="w-full h-full object-cover">
+                                                        </div>
+                                                        <div>
+                                                            <p class="font-black text-slate-500 text-lg">{{ item.nom }}</p>
+                                                            <div class="flex gap-2 mt-1">
+                                                                <span class="text-[9px] font-black text-slate-400 uppercase tracking-widest">{{ item.product_type }}</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td class="px-10 py-8">
+                                                    <p class="font-black text-slate-400">{{ item.user?.name }}</p>
+                                                </td>
+                                                <td class="px-10 py-8">
+                                                    <div class="flex flex-col">
+                                                        <span :class="item.boost_status === 'Complété' ? 'text-blue-500' : 'text-slate-400'" class="text-[10px] font-black uppercase tracking-widest">{{ item.boost_status }}</span>
+                                                        <span class="text-xs font-bold text-slate-400">Le {{ formatDate(item.updated_at) }}</span>
+                                                    </div>
+                                                </td>
+                                                <td class="px-10 py-8 text-right">
+                                                    <button @click="router.visit(`/detail${item.product_type === 'immobilier' ? '' : 'Vehi'}/${item.id}`)" class="w-10 h-10 bg-slate-50 text-slate-400 rounded-xl flex items-center justify-center hover:bg-slate-900 hover:text-white transition-all"><i class="fas fa-eye"></i></button>
+                                                </td>
+                                            </tr>
+                                            <tr v-if="allBoostHistory.length === 0">
+                                                <td colspan="4" class="px-10 py-24 text-center">
+                                                    <p class="font-black text-slate-400">Historique vide</p>
+                                                </td>
+                                            </tr>
+                                        </template>
                                     </tbody>
                                 </table>
                             </div>
@@ -695,8 +801,22 @@ onMounted(() => {
                                             <td class="px-10 py-8 font-black text-slate-900">{{ formatPrice(car.prix) }}</td>
                                             <td class="px-10 py-8 text-right">
                                                 <div class="flex justify-end gap-2">
-                                                    <a :href="`/statusVehicule/${car.id}`" class="w-10 h-10 bg-white border border-slate-200 rounded-xl flex items-center justify-center text-blue-500 hover:bg-blue-50 transition-all"><i class="fas fa-pen"></i></a>
-                                                    <button @click="deleteVehicle(car.id)" class="w-10 h-10 bg-white border border-slate-200 rounded-xl flex items-center justify-center text-rose-500 hover:bg-rose-50 transition-all"><i class="fas fa-trash-can"></i></button>
+                                                    <!-- Boost Status / Action -->
+                                                    <div v-if="car.booster == 1" class="flex flex-col items-end mr-2">
+                                                        <span :class="car.status === 'accepter' ? 'bg-amber-100 text-amber-700' : 'bg-blue-100 text-blue-700'" class="px-3 py-1 rounded-lg text-[10px] font-black uppercase tracking-tighter mb-1">
+                                                            {{ car.status === 'accepter' ? 'BOOST ACTIF' : 'BOOST ATTENTE' }}
+                                                        </span>
+                                                    </div>
+
+                                                    <button @click="router.visit(`/boost/vehi/${car.id}`)" 
+                                                        v-if="!car.vendu && car.status !== 'Vendu' && car.booster != 1"
+                                                        class="w-10 h-10 bg-amber-50 border border-amber-200 rounded-xl flex items-center justify-center text-amber-600 hover:bg-amber-100 transition-all" 
+                                                        title="Booster">
+                                                        <i class="fas fa-rocket"></i>
+                                                    </button>
+
+                                                    <a :href="`/statusVehicule/${car.id}`" class="w-10 h-10 bg-white border border-slate-200 rounded-xl flex items-center justify-center text-blue-500 hover:bg-blue-50 transition-all"><i class="fas fa-edit"></i></a>
+                                                    <button @click="deleteVehicle(car.id)" class="w-10 h-10 bg-white border border-slate-200 rounded-xl flex items-center justify-center text-rose-500 hover:bg-rose-50 hover:border-rose-200 transition-all"><i class="fas fa-trash-can"></i></button>
                                                 </div>
                                             </td>
                                         </tr>

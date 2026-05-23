@@ -93,9 +93,23 @@ class DashboardController extends Controller
             ->with($userSelect)
             ->latest()
             ->get();
+            
+        $voituresArretes = Voitures::where('booster', 0)
+            ->where('status', 'null')
+            ->where('onceBooster', 1)
+            ->whereNotNull('date_fin_booster')
+            ->with($userSelect)
+            ->latest()
+            ->get();
 
         // Récupérer les boosts complétés naturellement
         $immobilliersBoosted = Immobiliers::where('booster', 0)
+            ->where('status', 'completed')
+            ->with($userSelect)
+            ->latest()
+            ->get();
+            
+        $voituresBoosted = Voitures::where('booster', 0)
             ->where('status', 'completed')
             ->with($userSelect)
             ->latest()
@@ -159,9 +173,11 @@ class DashboardController extends Controller
             'immobiliers' => $immobiliers,
             'voituresPending' => $voituresPending,
             'immobilliersBoosted' => $immobilliersBoosted,
+            'voituresBoosted' => $voituresBoosted,
             'immobilliersBoosting' => $immobilliersBoosting,
             'voituresBoosting' => $voituresBoosting,
             'immobiliersArretes' => $immobiliersArretes,
+            'voituresArretes' => $voituresArretes,
             'allUsers' => $userQuery->paginate(20)->withQueryString(),
             'allImmobiliers' => Immobiliers::with('user:id,name')->latest()->paginate(50),
             'allVoitures' => Voitures::with('user:id,name')->latest()->paginate(50),
