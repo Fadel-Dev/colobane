@@ -31,9 +31,15 @@ class Controller extends BaseController
     $now = now(); 
 
     // Mettre à jour le statut des Immobiliers (Maintenance légère)
-    Immobiliers::where('status', 'accepter')
+    // On retire le boost mais on GARDE l'annonce visible (status reste accepter)
+    Immobiliers::where('booster', 1)
+        ->where('status', 'accepter')
+        ->whereNotNull('date_fin_booster')
         ->where('date_fin_booster', '<=', $now)
-        ->update(['status' => 'pending']);
+        ->update([
+            'booster' => 0,
+            'date_fin_booster' => null
+        ]);
 
     // Optimisation : Utiliser with('user') pour éviter le problème N+1
     // Et charger uniquement les champs nécessaires
@@ -235,7 +241,7 @@ public function Category($category)
         $boostQuery->where('region', 'like', '%' . $filters['region'] . '%');
     }
     if (isset($filters['affaire']) && $filters['affaire']) {
-        $boostQuery->where('affaire', $filters['affaire']);
+        $query->where('affaire', $filters['affaire']);
     }
     
     // Trier par date de création (les plus récentes en premier)

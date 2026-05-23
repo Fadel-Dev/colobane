@@ -494,95 +494,51 @@ onMounted(() => {
                             </div>
                         </div>
 
-                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                            <!-- Alertes Card -->
-                            <div 
-                                @click="activeTab = 'alerts'"
-                                class="group relative bg-white rounded-2xl p-8 border-2 border-yellow-400/20 shadow-xl hover:shadow-2xl transition-all duration-500 cursor-pointer overflow-hidden"
-                            >
-                                <div class="absolute inset-0 bg-gradient-to-br from-yellow-400/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                                <div class="relative">
-                                    <div class="flex items-center justify-between mb-6">
-                                        <div>
-                                            <h3 class="text-2xl font-bold text-gray-900 mb-2">Mes Alertes</h3>
-                                            <p class="text-gray-600">Soyez notifié des nouveaux biens</p>
+                        <!-- Quick Actions / Boost Section -->
+                        <div v-if="(habitats && habitats.length > 0) || (voitures && voitures.length > 0)" class="bg-white rounded-2xl p-8 border border-gray-100 shadow-xl mt-8">
+                            <h3 class="text-xl font-black text-gray-900 mb-6 flex items-center gap-2">
+                                <i class="fas fa-rocket text-yellow-500"></i>
+                                Booster mes annonces récentes
+                            </h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                                <template v-for="habitat in habitats.slice(0, 3)" :key="'quick-h-' + habitat.id">
+                                    <div v-if="habitat.vendu != 1 && habitat.status !== 'Vendu'" class="p-4 border rounded-xl flex items-center justify-between group hover:border-principal transition-all">
+                                        <div class="flex items-center gap-3 overflow-hidden">
+                                            <img :src="getImageUrl(habitat.image1)" class="w-12 h-12 rounded-lg object-cover flex-shrink-0" />
+                                            <div class="truncate">
+                                                <p class="text-sm font-bold truncate">{{ habitat.nom }}</p>
+                                                <p class="text-[10px] text-gray-500 uppercase">{{ habitat.is_boosting ? 'Boost Actif' : 'Immobilier' }}</p>
+                                            </div>
                                         </div>
-                                        <div class="w-20 h-20 bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-2xl flex items-center justify-center shadow-xl group-hover:scale-110 group-hover:rotate-6 transition-all duration-500">
-                                            <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-                                            </svg>
-                                        </div>
+                                        <button 
+                                            @click="habitat.can_boost ? navigateToBoostImmobillier(habitat.id) : null"
+                                            :disabled="!habitat.can_boost"
+                                            :class="habitat.can_boost ? 'bg-yellow-400 text-slate-900 hover:bg-yellow-500 shadow-md' : 'bg-gray-100 text-gray-400 cursor-not-allowed'"
+                                            class="px-4 py-2 rounded-lg text-[10px] font-black transition-all"
+                                        >
+                                            {{ habitat.is_boosting ? 'ACTIF' : (habitat.is_pending_boost ? 'ATTENTE' : 'BOOSTER') }}
+                                        </button>
                                     </div>
-                                    <div class="p-4 bg-yellow-50 rounded-xl border border-yellow-200">
-                                        <div class="flex items-center justify-between">
-                                            <span class="text-yellow-800 font-semibold">Gérer vos critères de recherche</span>
-                                            <svg class="w-5 h-5 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                                            </svg>
+                                </template>
+                                <template v-for="car in voitures.slice(0, 3)" :key="'quick-c-' + car.id">
+                                    <div v-if="car.vendu != 1 && car.status !== 'Vendu'" class="p-4 border rounded-xl flex items-center justify-between group hover:border-blue-500 transition-all">
+                                        <div class="flex items-center gap-3 overflow-hidden">
+                                            <img :src="getImageUrl(car.image1)" class="w-12 h-12 rounded-lg object-cover flex-shrink-0" />
+                                            <div class="truncate">
+                                                <p class="text-sm font-bold truncate">{{ car.nom }}</p>
+                                                <p class="text-[10px] text-gray-500 uppercase">{{ car.is_boosting ? 'Boost Actif' : 'Véhicule' }}</p>
+                                            </div>
                                         </div>
+                                        <button 
+                                            @click="car.can_boost ? navigateToBoostVehicule(car.id) : null"
+                                            :disabled="!car.can_boost"
+                                            :class="car.can_boost ? 'bg-blue-500 text-white hover:bg-blue-600 shadow-md' : 'bg-gray-100 text-gray-400 cursor-not-allowed'"
+                                            class="px-4 py-2 rounded-lg text-[10px] font-black transition-all"
+                                        >
+                                            {{ car.is_boosting ? 'ACTIF' : (car.is_pending_boost ? 'ATTENTE' : 'BOOSTER') }}
+                                        </button>
                                     </div>
-                                    <div class="mt-6 pt-6 border-t border-yellow-400/20">
-                                        <span class="text-yellow-600 font-bold flex items-center group-hover:translate-x-2 transition-transform duration-300">
-                                            Configurer mes alertes
-                                            <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                                            </svg>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Overview Card Premium -->
-                            <div class="bg-white rounded-2xl p-8 border border-gray-200 shadow-xl">
-                                <h3 class="text-2xl font-bold text-gray-900 mb-6 flex items-center">
-                                    <svg class="w-6 h-6 text-principal mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                                    </svg>
-                                    Vue d'ensemble
-                                </h3>
-                                <div class="space-y-6">
-                                    <div>
-                                        <div class="flex items-center justify-between mb-3">
-                                            <span class="text-sm font-semibold text-gray-700">Total Articles</span>
-                                            <span class="text-xl font-bold text-gray-900">{{ total || 0 }}</span>
-                                        </div>
-                                        <div class="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
-                                            <div class="bg-gradient-to-r from-blue-500 to-blue-600 h-3 rounded-full transition-all duration-1000" style="width: 100%"></div>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="flex items-center justify-between mb-3">
-                                            <span class="text-sm font-semibold text-gray-700">Vendus</span>
-                                            <span class="text-xl font-bold text-green-600">{{ totalVendu || 0 }} ({{ venduPercentage }}%)</span>
-                                        </div>
-                                        <div class="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
-                                            <div 
-                                                class="bg-gradient-to-r from-green-500 to-green-600 h-3 rounded-full transition-all duration-1000"
-                                                :style="`width: ${venduPercentage}%`"
-                                            ></div>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="flex items-center justify-between mb-3">
-                                            <span class="text-sm font-semibold text-gray-700">En vente</span>
-                                            <span class="text-xl font-bold text-yellow-600">{{ totalRestant || 0 }} ({{ enVentePercentage }}%)</span>
-                                        </div>
-                                        <div class="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
-                                            <div 
-                                                class="bg-gradient-to-r from-yellow-500 to-yellow-600 h-3 rounded-full transition-all duration-1000"
-                                                :style="`width: ${enVentePercentage}%`"
-                                            ></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="mt-8 pt-6 border-t border-gray-200">
-                                    <div class="text-center p-6 bg-gradient-to-br from-principal/10 to-principal/5 rounded-xl border border-principal/20">
-                                        <p class="text-4xl font-bold bg-gradient-to-r from-principal to-principal/80 bg-clip-text text-transparent">
-                                            {{ formatPrice(totalVenduSomme || 0) }} <span class="text-2xl">FCFA</span>
-                                        </p>
-                                        <p class="text-sm text-gray-600 mt-2 font-semibold">Chiffre d'affaire total</p>
-                                    </div>
-                                </div>
+                                </template>
                             </div>
                         </div>
                     </div>
@@ -656,18 +612,22 @@ onMounted(() => {
                                     </div>
 
                                     <!-- Boost Badge with remaining time -->
-                                    <div v-if="habitat.is_boosting && habitat.boost_remaining_text" class="absolute top-3 right-3">
+                                    <div v-if="habitat.is_boosting" class="absolute top-3 right-3">
                                         <div class="flex flex-col items-end gap-1">
-                                            <span class="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-bold bg-gradient-to-r from-yellow-400 to-yellow-500 text-white shadow-lg backdrop-blur-sm animate-pulse">
-                                                <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                                                    <path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd" />
-                                                </svg>
-                                                Boost actif
+                                            <span class="inline-flex items-center px-3 py-1.5 rounded-full text-[10px] font-black bg-gradient-to-r from-yellow-400 to-yellow-500 text-slate-900 shadow-lg backdrop-blur-sm animate-pulse uppercase tracking-tighter">
+                                                <i class="fas fa-bolt mr-1"></i> Boost actif
                                             </span>
-                                            <span class="text-xs font-bold text-white bg-red-500/90 px-2 py-1 rounded-full backdrop-blur-sm">
-                                                ⏱️ {{ habitat.boost_remaining_text }}
+                                            <span v-if="habitat.boost_remaining_text" class="text-[9px] font-black text-white bg-slate-900/80 px-2 py-0.5 rounded-full backdrop-blur-sm uppercase">
+                                                {{ habitat.boost_remaining_text }}
                                             </span>
                                         </div>
+                                    </div>
+
+                                    <!-- Pending Boost Badge -->
+                                    <div v-if="habitat.is_pending_boost" class="absolute top-3 right-3">
+                                        <span class="inline-flex items-center px-3 py-1.5 rounded-full text-[10px] font-black bg-emerald-500 text-white shadow-lg backdrop-blur-sm uppercase tracking-tighter">
+                                            <i class="fas fa-clock mr-1"></i> Boost en attente
+                                        </span>
                                     </div>
                                 </div>
 
@@ -716,24 +676,21 @@ onMounted(() => {
                                             <span class="hidden sm:inline">{{ (habitat.vendu == 1 || habitat.status === 'Vendu') ? 'Disponible' : 'Vendu' }}</span>
                                         </button>
                                         <button
-                                            v-if="habitat.status !== 'Vendu' && habitat.vendu != 1"
-                                            @click="navigateToBoostImmobillier(habitat.id)"
-                                            :disabled="habitat.is_boosting"
+                                            v-if="habitat.vendu != 1 && habitat.status !== 'Vendu'"
+                                            @click="habitat.can_boost ? navigateToBoostImmobillier(habitat.id) : null"
+                                            :disabled="!habitat.can_boost"
                                             :class="[
                                                 'flex-1 px-3 py-2.5 rounded-lg text-sm font-semibold transition-all flex items-center justify-center space-x-1 shadow-md',
                                                 habitat.is_boosting
-                                                    ? 'bg-gray-400 text-gray-600 cursor-not-allowed opacity-60'
-                                                    : habitat.status === 'accepter'
-                                                        ? 'bg-yellow-500 hover:bg-yellow-600 text-white hover:scale-105'
-                                                        : 'bg-gray-500 hover:bg-gray-600 text-white hover:scale-105'
+                                                    ? 'bg-gray-100 text-gray-400 cursor-not-allowed border border-gray-200'
+                                                    : habitat.is_pending_boost
+                                                        ? 'bg-blue-50 text-blue-600 cursor-not-allowed border border-blue-100'
+                                                        : 'bg-yellow-400 text-slate-900 hover:bg-yellow-500 hover:scale-105'
                                             ]"
-                                            :title="habitat.is_boosting ? 'Boost déjà actif' : 'Activer un boost'"
                                         >
-                                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                                <path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd" />
-                                            </svg>
+                                            <i :class="habitat.is_pending_boost ? 'fas fa-clock' : 'fas fa-bolt'"></i>
                                             <span class="hidden sm:inline">
-                                                {{ habitat.is_boosting ? 'Boost actif' : (habitat.status === 'accepter' ? 'Boost' : 'Booster') }}
+                                                {{ habitat.is_boosting ? 'Boosté' : (habitat.is_pending_boost ? 'En attente' : 'Booster') }}
                                             </span>
                                         </button>
                                     </div>
@@ -827,6 +784,25 @@ onMounted(() => {
                                             {{ car.status === 'accepter' ? 'En vente' : car.status === 'pending' ? 'En attente' : car.status }}
                                         </span>
                                     </div>
+
+                                    <!-- Boost Badge with remaining time -->
+                                    <div v-if="car.is_boosting" class="absolute top-3 right-3">
+                                        <div class="flex flex-col items-end gap-1">
+                                            <span class="inline-flex items-center px-3 py-1.5 rounded-full text-[10px] font-black bg-gradient-to-r from-yellow-400 to-yellow-500 text-slate-900 shadow-lg backdrop-blur-sm animate-pulse uppercase tracking-tighter">
+                                                <i class="fas fa-bolt mr-1"></i> Boost actif
+                                            </span>
+                                            <span v-if="car.boost_remaining_text" class="text-[9px] font-black text-white bg-slate-900/80 px-2 py-0.5 rounded-full backdrop-blur-sm uppercase">
+                                                {{ car.boost_remaining_text }}
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Pending Boost Badge -->
+                                    <div v-if="car.is_pending_boost" class="absolute top-3 right-3">
+                                        <span class="inline-flex items-center px-3 py-1.5 rounded-full text-[10px] font-black bg-emerald-500 text-white shadow-lg backdrop-blur-sm uppercase tracking-tighter">
+                                            <i class="fas fa-clock mr-1"></i> Boost en attente
+                                        </span>
+                                    </div>
                                 </div>
 
                                 <!-- Content -->
@@ -867,13 +843,22 @@ onMounted(() => {
                                             <span class="hidden sm:inline">{{ (car.vendu == 1 || car.status === 'Vendu') ? 'Dispo.' : 'Vendu' }}</span>
                                         </button>
                                         <button
-                                            v-if="car.status !== 'Vendu' && car.vendu != 1"
-                                            @click="navigateToBoostVehicule(car.id)"
-                                            :disabled="car.is_boosting"
-                                            class="flex-1 bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-2.5 rounded-lg text-sm font-semibold transition-all hover:scale-105 flex items-center justify-center space-x-1 shadow-md disabled:opacity-50"
+                                            v-if="car.vendu != 1 && car.status !== 'Vendu'"
+                                            @click="car.can_boost ? navigateToBoostVehicule(car.id) : null"
+                                            :disabled="!car.can_boost"
+                                            :class="[
+                                                'flex-1 px-3 py-2.5 rounded-lg text-sm font-semibold transition-all flex items-center justify-center space-x-1 shadow-md',
+                                                car.is_boosting
+                                                    ? 'bg-gray-100 text-gray-400 cursor-not-allowed border border-gray-200'
+                                                    : car.is_pending_boost
+                                                        ? 'bg-blue-50 text-blue-600 cursor-not-allowed border border-blue-100'
+                                                        : 'bg-yellow-400 text-slate-900 hover:bg-yellow-500 hover:scale-105'
+                                            ]"
                                         >
-                                            <i class="fas fa-rocket"></i>
-                                            <span class="hidden sm:inline">{{ car.is_boosting ? 'Boosté' : 'Boost' }}</span>
+                                            <i :class="car.is_pending_boost ? 'fas fa-clock' : 'fas fa-bolt'"></i>
+                                            <span class="hidden sm:inline">
+                                                {{ car.is_boosting ? 'Boosté' : (car.is_pending_boost ? 'En attente' : 'Booster') }}
+                                            </span>
                                         </button>
                                     </div>
                                 </div>

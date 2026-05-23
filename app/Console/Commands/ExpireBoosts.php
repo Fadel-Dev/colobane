@@ -42,8 +42,9 @@ class ExpireBoosts extends Command
         // Arrêter chaque boost expiré
         foreach ($expiredBoosts as $property) {
             $property->update([
-                'booster' => false,
-                'status' => 'null',
+                'booster' => 0,
+                'status' => 'accepter', // Garder l'annonce visible mais non boostée
+                'date_fin_booster' => null,
             ]);
 
             $this->line("✓ Boost arrêté: #{$property->id} - {$property->nom}");

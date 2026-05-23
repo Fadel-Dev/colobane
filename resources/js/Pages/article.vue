@@ -54,13 +54,27 @@ const formatPrice = (price) => {
                             </p>
                         </div>
                         <div class="flex space-x-2">
+                            <!-- Case Boosted -->
+                            <div v-if="result.booster == 1 && result.status === 'accepter'"
+                                class="bg-amber-100 text-amber-700 px-4 py-2 rounded-lg text-xs font-black flex items-center gap-1 border border-amber-200">
+                                <i class="fas fa-bolt animate-pulse"></i>
+                                Boost Actif
+                            </div>
+                            <!-- Case Pending Boost -->
+                            <div v-else-if="result.booster == 1 && result.status === 'pending'"
+                                class="bg-blue-50 text-blue-600 px-4 py-2 rounded-lg text-xs font-black flex items-center gap-1 border border-blue-100">
+                                <i class="fas fa-clock"></i>
+                                En attente
+                            </div>
+                            <!-- Case Can Boost -->
                             <button
-                                v-if="result.status !== 'Vendu' && result.vendu != 1"
+                                v-else-if="result.vendu != 1 && result.status !== 'Vendu'"
                                 @click="navigateToBoost(result.id)"
                                 class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg text-xs font-bold transition-all shadow-md active:scale-95 flex items-center gap-1">
                                 <i class="bi bi-rocket-takeoff-fill"></i>
                                 Booster
                             </button>
+                            <!-- Case Sold -->
                             <div
                                 v-else
                                 class="bg-gray-100 text-gray-500 px-4 py-2 rounded-lg text-xs font-bold flex items-center gap-1 border border-gray-200">

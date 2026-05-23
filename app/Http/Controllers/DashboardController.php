@@ -195,8 +195,14 @@ class DashboardController extends Controller
         
         // Enrichir avec les infos de boost
         $enrichItem = function($item) {
+            $item->vendu = (int)$item->vendu;
+            
+            // Un boost est ACTIF si booster=1 et status=accepter
             $item->is_boosting = $item->booster == 1 && $item->status === 'accepter';
-            $item->boost_remaining_hours = null;
+            
+            // Un boost est EN ATTENTE si booster=1 et status=pending
+            $item->is_pending_boost = $item->booster == 1 && $item->status === 'pending';
+            
             $item->boost_remaining_text = null;
             
             if ($item->is_boosting && $item->date_fin_booster) {
@@ -205,15 +211,16 @@ class DashboardController extends Controller
                 
                 if ($endDate > $now) {
                     $diff = $now->diff($endDate);
-                    $hours = $diff->days * 24 + $diff->h;
-                    $minutes = $diff->i;
                     $item->boost_remaining_text = ($diff->days > 0 ? $diff->days . 'j ' : '') . $diff->h . 'h ' . $diff->i . 'min restants';
                 } else {
                     $item->boost_remaining_text = 'Expiré';
                     $item->is_boosting = false;
                 }
             }
-            $item->boost_can_activate = !$item->is_boosting;
+            
+            // On peut activer un boost si l'article est 'accepter' ET n'est pas déjà en train de booster
+            $item->can_boost = $item->status === 'accepter' && !$item->is_boosting && !$item->is_pending_boost;
+            
             return $item;
         };
 
@@ -264,4 +271,3 @@ class DashboardController extends Controller
 
 
 }
-

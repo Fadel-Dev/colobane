@@ -632,6 +632,21 @@ onMounted(() => {
                                             </td>
                                             <td class="px-10 py-8 text-right">
                                                 <div class="flex justify-end gap-2">
+                                                    <!-- Boost Status / Action -->
+                                                    <div v-if="immo.booster == 1" class="flex flex-col items-end mr-2">
+                                                        <span :class="immo.status === 'accepter' ? 'bg-amber-100 text-amber-700' : 'bg-blue-100 text-blue-700'" class="px-3 py-1 rounded-lg text-[10px] font-black uppercase tracking-tighter mb-1">
+                                                            {{ immo.status === 'accepter' ? 'BOOST ACTIF' : 'BOOST ATTENTE' }}
+                                                        </span>
+                                                        <span v-if="immo.date_fin_booster" class="text-[9px] font-bold text-slate-400">Jusqu'au {{ formatDate(immo.date_fin_booster) }}</span>
+                                                    </div>
+                                                    
+                                                    <button @click="router.visit(`/boost/immo/${immo.id}`)" 
+                                                        v-if="!immo.vendu && immo.status !== 'Vendu' && immo.booster != 1"
+                                                        class="w-10 h-10 bg-amber-400 border border-amber-500 rounded-xl flex items-center justify-center text-slate-900 hover:bg-amber-500 transition-all shadow-sm" 
+                                                        title="Booster cette annonce">
+                                                        <i class="fas fa-rocket"></i>
+                                                    </button>
+                                                    
                                                     <a :href="`/statusImmobilier/${immo.id}`" class="w-10 h-10 bg-white border border-slate-200 rounded-xl flex items-center justify-center text-blue-500 hover:bg-blue-50 hover:border-blue-200 transition-all"><i class="fas fa-edit"></i></a>
                                                     <button @click="deleteProperty(immo.id)" class="w-10 h-10 bg-white border border-slate-200 rounded-xl flex items-center justify-center text-rose-500 hover:bg-rose-50 hover:border-rose-200 transition-all"><i class="fas fa-trash-can"></i></button>
                                                 </div>
