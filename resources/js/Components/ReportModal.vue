@@ -5,7 +5,7 @@ import Modal from '@/Components/Modal.vue';
 import SecondaryButton from '@/Components/SecondaryButton.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import InputLabel from '@/Components/InputLabel.vue';
-import TextArea from '@/Components/TextArea.vue'; // Supposant qu'il existe ou j'utiliserai une balise textarea
+import TextArea from '@/Components/TextArea.vue';
 
 const props = defineProps({
     show: Boolean,

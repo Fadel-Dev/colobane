@@ -1,18 +1,3 @@
-<script setup>
-const props = defineProps({
-    voitures: Object,
-    voituresBoost: Object,
-    immobilliersBoost: Object,
-    maisons: Object,
-    canLogin: Boolean,
-    canRegister: Boolean,
-    laravelVersion: String,
-    phpVersion: String,
-    chambres: Object,
-    chambresBoost: Object,
-});
-</script>
-
 <template>
     <div class="swiper">
         <!-- Section des voitures boostées -->
@@ -174,58 +159,6 @@ const props = defineProps({
         </section>
     </div>
 </template>
-
-<script>
-export default {
-    data() {
-        return {
-
-            selectedRegion: 'tous', // Par défaut, "tous"
-            selectedMarque: 'tous', // Nouvelle propriété pour la marque sélectionnée
-            marquesPopulaires: [ // Liste des marques populaires
-                "tous",
-                "volvo",
-                "renault",
-                "peugeot",
-                "citroen",
-                "mitsubishi",
-                "bmw",
-                "audi",
-                "nissan",
-                "mercedes-benz",
-                "volkswagen",
-                "toyota",
-                "ford",
-                "Jeep",
-                "Fiat",
-            ],
-        };
-    },
-    props: {
-        voituresBoost: {
-            type: Object,
-            required: true,
-        },
-        voitures: {
-            type: Object,
-            required: true,
-        },
-    },
-    computed: {
-        filteredVoitures() {
-            if (this.selectedMarque === 'tous') {
-                return this.voitures.data; // Retourne toutes les voitures si "tous" est sélectionné
-            }
-            return this.voitures.data.filter(voiture => voiture.marque === this.selectedMarque);
-        },
-    },
-    methods: {
-        navigateToDetailVehi(id) {
-            this.$inertia.visit(`/detailVehi/${id}`);
-        },
-    },
-};
-</script>
 
 <script>
 export default {
